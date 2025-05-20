@@ -15,8 +15,9 @@ dummy(.self, adlb)
 \code{.self} with added subject level Albumin grouping at baseline
 }
 \description{
-Based on the baseline readings (\code{ABLFL == "Y"}) for Albumin (\code{PARAMCD == "ALB"})
-a new grouping variable (\code{ALBBLGRP}) is added with the following intervals:
+Based on the baseline readings (\code{ABLFL == "Y"}) for Albumin
+(\code{PARAMCD == "ALB"}) a new grouping variable (\code{ALBBLGRP}) is
+added with the following intervals:
 \itemize{
 \item Albumin levels at least 40 g/L: ">= 40 g/L"
 \item Albumin levels below 40 g/L: "< 40 g/L"
@@ -33,7 +34,7 @@ pharmaverseadam::adsl |>
 
 \subsection{Type}{
 
-deriviation
+derivation
 
 }
 

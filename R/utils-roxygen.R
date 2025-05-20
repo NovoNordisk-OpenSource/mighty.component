@@ -41,7 +41,7 @@ merge.rd_section_mighty <- function(x, y, ...) {
   roxygen2::rd_section(x$type, value)
 }
 
-itemize <- function(x){
+itemize <- function(x) {
   c(
     "\\itemize{",
     paste("\\item", x),
@@ -53,11 +53,11 @@ itemize <- function(x){
 format.rd_section_mighty <- function(x, ...) {
   value <- x$value
   nm <- names(value)
-  
-  depends <- value[nm %in% "depends"] |> 
+
+  depends <- value[nm %in% "depends"] |>
     vapply(FUN = paste, FUN.VALUE = character(1), collapse = ".")
 
-  outputs <- value[nm %in% "outputs"] |> 
+  outputs <- value[nm %in% "outputs"] |>
     unlist()
 
   c(
@@ -72,6 +72,6 @@ format.rd_section_mighty <- function(x, ...) {
     itemize(outputs),
     "}",
     "}"
-  ) |> 
+  ) |>
     paste(collapse = "\n\n")
 }
