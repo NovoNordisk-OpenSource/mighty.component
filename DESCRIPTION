@@ -18,9 +18,13 @@ Imports:
     rlang,
     roxygen2
 Suggests: 
+    knitr,
     pharmaverseadam,
-    testthat (>= 3.0.0)
+    rmarkdown,
+    testthat (>= 3.0.0),
+    withr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr
