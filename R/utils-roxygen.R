@@ -73,5 +73,5 @@ format.rd_section_mighty <- function(x, ...) {
     "}",
     "}"
   ) |>
-    paste(collapse = "\n\n")
+    paste(collapse = "\n")
 }
