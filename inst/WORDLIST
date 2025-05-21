@@ -16,6 +16,7 @@ pharmaverseadam
 pkgdown
 Pkgdown
 rlang
+roclet
 roxygen
 Roxygen
 Rtemplate
@@ -23,3 +24,4 @@ testthat
 Thomsen
 useatmos
 USUBJID
+withr
