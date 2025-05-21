@@ -10,7 +10,8 @@ test_that("Documentation is created with custom tags", {
     expect_no_condition()
 
   tmp <- withr::local_tempdir()
-  dir.create(file.path(tmp, "man"))
+  dir.create(file.path(tmp, "man")) |> 
+    expect_true()
 
   roxygen2::roclet_output(
     x = roxygen2::rd_roclet(), 
