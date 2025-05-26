@@ -40,19 +40,16 @@ predecessor <- function(.self, source, variable, by = "USUBJID") {
 #' @param variable `character` Name of variable to create or modify
 #' @param value Value to assign to the variable
 #' @type derivation
+#' @depends nothing not
 #' @outputs {variable}
 #' @returns `.self` with added or modified variable
 #' @examples
 #' pharmaverseadam::adsl |>
 #'   dplyr::select(USUBJID) |>
-#'   assign(variable = "STUDYID", value = "STUDY001")
-#'
-#' pharmaverseadam::advs |>
-#'   dplyr::select(USUBJID, PARAMCD, AVAL) |>
-#'   assign(variable = "DATACUT", value = as.Date("2023-12-31"))
+#'   assigned(variable = "STUDYID", value = "STUDY001")
 #'
 #' @export
-assign <- function(.self, variable, value) {
+assigned <- function(.self, variable, value) {
   .self <- .self |>
     dplyr::mutate({{ variable }} := value)
 
