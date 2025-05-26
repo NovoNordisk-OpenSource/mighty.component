@@ -1,9 +1,9 @@
 # Helper function to always show inline code using backticks
-# ensures concistenct in unit tests.
+# ensures consistent in unit tests.
 md_transform <- function(x) {
   gsub(
-    pattern = "\\\\code\\{([^}]+)\\}", 
-    replacement = "`\\1`", 
+    pattern = "\\\\code\\{([^}]+)\\}",
+    replacement = "`\\1`",
     x = x
   )
 }
@@ -28,7 +28,7 @@ test_that("Documentation is created with custom tags", {
     results = results,
     base_path = tmp
   ) |>
-    expect_no_error() |> 
+    expect_no_error() |>
     suppressMessages()
 
   expect_snapshot_file(path = rd_file, transform = md_transform)
