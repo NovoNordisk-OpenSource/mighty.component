@@ -9,7 +9,6 @@ md_transform <- function(x) {
 }
 
 test_that("Documentation is created with custom tags", {
-
   withr::local_options(
     list(lifecycle_verbosity = "quiet")
   )
@@ -36,10 +35,10 @@ test_that("Documentation is created with custom tags", {
     expect_no_error() |>
     suppressMessages()
 
-  rd_file |> 
-    readLines() |> 
-    unlist() |> 
-    md_transform() |> 
-    cat(sep = "\n") |> 
+  rd_file |>
+    readLines() |>
+    unlist() |>
+    md_transform() |>
+    cat(sep = "\n") |>
     expect_snapshot()
 })
