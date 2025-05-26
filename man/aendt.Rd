@@ -40,7 +40,8 @@ derivation
 }
 \subsection{Outputs}{
 \itemize{
-\item AENDT AENDTF
+\item AENDT
+\item AENDTF
 }
 }
 }

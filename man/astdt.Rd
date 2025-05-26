@@ -40,7 +40,8 @@ derivation
 }
 \subsection{Outputs}{
 \itemize{
-\item ASTDT ASTDTF
+\item ASTDT
+\item ASTDTF
 }
 }
 }

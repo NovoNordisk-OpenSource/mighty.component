@@ -7,7 +7,8 @@
 #' @param dtc `character` Name of date variable
 #' @type derivation
 #' @depends .self {dtc}
-#' @outputs ASTDT ASTDTF
+#' @outputs ASTDT
+#' @outputs ASTDTF
 #' @returns `.self` with added analysis start date variables
 #' @examples
 #' x <- pharmaversesdtm::ae |> 
@@ -46,7 +47,8 @@ astdt <- function(.self, dtc) {
 #' @param dtc `character` Name of date variable
 #' @type derivation
 #' @depends .self {dtc}
-#' @outputs AENDT AENDTF
+#' @outputs AENDT
+#' @outputs AENDTF
 #' @returns `.self` with added analysis end date variables
 #' @examples
 #' x <- pharmaversesdtm::ae |> 
@@ -93,7 +95,7 @@ aendt <- function(.self, dtc) {
 #' 
 #' @export
 ady <- function(.self, date) {
-  dy <- stringr::str_replace(string = "ASTDT", pattern = "T$", replacement = "Y")
+  dy <- stringr::str_replace(string = date, pattern = "T$", replacement = "Y")
 
   .self <- .self |> 
     dplyr::mutate(
