@@ -1,3 +1,13 @@
+# Helper function to always show inline code using backticks
+# ensures concistenct in unit tests.
+md_transform <- function(x) {
+  gsub(
+    pattern = "\\\\code\\{([^}]+)\\}", 
+    replacement = "`\\1`", 
+    x = x
+  )
+}
+
 test_that("Documentation is created with custom tags", {
   blocks <- test_path("cases", "good.R") |>
     roxygen2::parse_file() |>
@@ -21,5 +31,5 @@ test_that("Documentation is created with custom tags", {
     expect_no_error() |> 
     suppressMessages()
 
-  expect_snapshot_file(rd_file)
+  expect_snapshot_file(path = rd_file, transform = md_transform)
 })

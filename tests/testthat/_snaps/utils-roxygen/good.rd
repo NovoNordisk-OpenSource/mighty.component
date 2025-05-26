@@ -7,12 +7,12 @@
 good(.self, x)
 }
 \arguments{
-\item{.self}{\code{data.frame} Input}
+\item{.self}{`data.frame` Input}
 
 \item{x}{Another input to the function}
 }
 \value{
-\code{.self} with added X and Y
+`.self` with added X and Y
 }
 \description{
 Documentation of fake function for unit testing roxygen2 methods.
