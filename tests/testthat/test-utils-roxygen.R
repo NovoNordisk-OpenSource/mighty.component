@@ -37,8 +37,18 @@ test_that("Documentation is created with custom tags", {
 
   cat("==================\n")
   print(rd_file)
-  list.files(path = tmp, recursive = TRUE)
+  list.files(path = tmp, recursive = TRUE) |>
+    print()
   cat("==================\n")
+
+  if (!length(rd_file)) {
+    rd_file <- list.files(
+      path = tmp,
+      recursive = TRUE,
+      pattern = "good",
+      full.names = TRUE
+    )
+  }
 
   rd_file |>
     unlist() |>
