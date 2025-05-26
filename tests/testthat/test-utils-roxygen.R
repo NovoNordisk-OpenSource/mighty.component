@@ -9,6 +9,11 @@ md_transform <- function(x) {
 }
 
 test_that("Documentation is created with custom tags", {
+
+  withr::local_options(
+    list(lifecycle_verbosity = "quiet")
+  )
+
   blocks <- test_path("cases", "good.R") |>
     roxygen2::parse_file() |>
     expect_no_condition()
