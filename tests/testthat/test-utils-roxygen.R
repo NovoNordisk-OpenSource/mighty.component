@@ -36,5 +36,10 @@ test_that("Documentation is created with custom tags", {
     expect_no_error() |>
     suppressMessages()
 
-  expect_snapshot_file(path = rd_file, transform = md_transform)
+  rd_file |> 
+    readLines() |> 
+    unlist() |> 
+    md_transform() |> 
+    cat(sep = "\n") |> 
+    expect_snapshot()
 })
