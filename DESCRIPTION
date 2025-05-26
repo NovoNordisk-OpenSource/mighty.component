@@ -5,7 +5,7 @@ Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Standard node library to be used inside the {mighty}
+Description: Standard node library to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
 URL: https://nn-opensource.github.io/mighty.standards,
