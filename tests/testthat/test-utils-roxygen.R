@@ -37,6 +37,7 @@ test_that("Documentation is created with custom tags", {
 
   cat("==================\n")
   print(rd_file)
+  list.files(path = tmp, recursive = TRUE)
   cat("==================\n")
 
   rd_file |>
