@@ -13,13 +13,13 @@ test_that("Documentation is created with custom tags", {
 
   blocks <- test_path("cases", "good.R") |>
     roxygen2::parse_file() |>
-    expect_no_condition()
+    expect_no_error()
 
   results <- roxygen2::roclet_process(
     x = roxygen2::rd_roclet(),
     blocks = blocks
   ) |>
-    expect_no_condition()
+    expect_no_error()
 
   tmp <- withr::local_tempdir()
   dir.create(file.path(tmp, "man")) |>
