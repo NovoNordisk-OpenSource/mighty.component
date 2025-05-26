@@ -40,7 +40,7 @@ test_that("Documentation is created with custom tags", {
   cat("==================\n")
 
   rd_file |>
-    unlist() |> 
+    unlist() |>
     readLines() |>
     md_transform() |>
     cat(sep = "\n") |>
