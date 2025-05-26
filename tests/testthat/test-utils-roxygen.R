@@ -9,9 +9,7 @@ md_transform <- function(x) {
 }
 
 test_that("Documentation is created with custom tags", {
-  withr::local_options(
-    list(lifecycle_verbosity = "quiet")
-  )
+  withr::local_options(lifecycle_verbosity = "quiet")
 
   blocks <- test_path("cases", "good.R") |>
     roxygen2::parse_file() |>
@@ -35,25 +33,13 @@ test_that("Documentation is created with custom tags", {
     expect_no_error() |>
     suppressMessages()
 
-  cat("==================\n")
-  print(rd_file)
-  list.files(path = tmp, recursive = TRUE) |>
-    print()
-  cat("==================\n")
-
-  if (!length(rd_file)) {
-    rd_file <- list.files(
-      path = tmp,
-      recursive = TRUE,
-      pattern = "good",
-      full.names = TRUE
-    )
-  }
+  skip_if(!length(rd_file), "rd file not created")
 
   rd_file |>
-    unlist() |>
     readLines() |>
     md_transform() |>
     cat(sep = "\n") |>
     expect_snapshot()
+
+  expect_snapshot_file(path = rd_file, transform = md_transform)
 })
