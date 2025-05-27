@@ -80,7 +80,7 @@ Every node should follow this basic structure:
 #' Node title
 #' @description
 #' A short description of what the node does...
-#' 
+#'
 #' @param .self `data.frame` Input dataset
 #' @param param1 Other parameters as needed
 #' @param param2 Other parameters as needed
@@ -91,7 +91,7 @@ Every node should follow this basic structure:
 #'
 #' @returns `.self` with added/modified variables
 #' @export
-your_new_node <- function(.self, param1, param1) {
+your_new_node <- function(.self, param1, param2) {
   # Implementation that transforms .self
   # ...
   return(.self)
