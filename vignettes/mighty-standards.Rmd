@@ -41,7 +41,7 @@ By following these conventions and using our custom roxygen2 tags, you will crea
 
 ## What is a Standard Node?
 
-In our framework, a "node" is a function that processes input data and returns a modified version with new columns or rows. 
+In the {mighty} framework, a "node" is a function that processes input data and returns a modified version with new columns or rows. 
 Standard nodes share a common structure and documentation pattern, facilitating their use inside {mighty}.
 
 ## Custom Roxygen Tags
@@ -69,7 +69,7 @@ Standard nodes follow these conventions:
 1. The function returns the modified `.self` dataset with new variables
 1. The function is documented using standard {roxygen2} tags and the custom tags mentioned above
 1. Documentation includes specific information about type, dependencies, and outputs
-1. Include an example using appropiate data from {pharmaversesdtm} and {pharmaverseadam}
+1. Include an example using appropriate data from {pharmaversesdtm} and {pharmaverseadam}
 1. Any new node will have a corresponding unit test
 
 ## Creating a New Node
