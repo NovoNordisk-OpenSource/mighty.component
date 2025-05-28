@@ -7,7 +7,7 @@
       % Please edit documentation in cases/good.R
       \name{good}
       \alias{good}
-      \title{Well documented node for unit testing}
+      \title{Well documented componenet for unit testing}
       \usage{
       good(.self, x)
       }

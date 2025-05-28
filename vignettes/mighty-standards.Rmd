@@ -1,8 +1,8 @@
 ---
-title: "mighty standard nodes"
+title: "mighty standard component"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{mighty standard nodes}
+  %\VignetteIndexEntry{mighty standard component}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,13 +36,13 @@ render_rd <- function(file) {
 
 ## Introduction
 
-This vignette provides a step-by-step guide for creating standard nodes for they {mighty} framework. 
-By following these conventions and using our custom roxygen2 tags, you will create nodes that are consistent, well-documented, and easily integrated into the existing ecosystem.
+This vignette provides a step-by-step guide for creating standard components for they {mighty} framework. 
+By following these conventions and using our custom roxygen2 tags, you will create components that are consistent, well-documented, and easily integrated into the existing ecosystem.
 
-## What is a Standard Node?
+## What is a Standard Component?
 
-In the {mighty} framework, a "node" is a function that processes input data and returns a modified version with new columns or rows. 
-Standard nodes share a common structure and documentation pattern, facilitating their use inside {mighty}.
+In the {mighty} framework, a "component" is a function that processes input data and returns a modified version with new columns or rows. 
+Standard components share a common structure and documentation pattern, facilitating their use inside {mighty}.
 
 ## Custom Roxygen Tags
 
@@ -60,9 +60,9 @@ The available tags are always required and are:
 | `@depends` | Lists required input variables                       | `@depends .self USUBJID` |
 | `@outputs` | Declares variables created                           | `@outputs NEWVAR`        |
 
-## Node Conventions
+## Component Conventions
 
-Standard nodes follow these conventions:
+Standard components follow these conventions:
 
 1. The first parameter is always named `.self` (the input dataset)
 1. Additional parameters represent other datasets or configuration options
@@ -70,28 +70,28 @@ Standard nodes follow these conventions:
 1. The function is documented using standard {roxygen2} tags and the custom tags mentioned above
 1. Documentation includes specific information about type, dependencies, and outputs
 1. Include an example using appropriate data from {pharmaversesdtm} and {pharmaverseadam}
-1. Any new node will have a corresponding unit test
+1. Any new component will have a corresponding unit test
 
-## Creating a New Node
+## Creating a New Component
 
-Every node should follow this basic structure:
+Every component should follow this basic structure:
 
 ```{r eval=FALSE}
-#' Node title
+#' Component title
 #' @description
-#' A short description of what the node does...
+#' A short description of what the component does...
 #'
 #' @param .self `data.frame` Input dataset
 #' @param param1 Other parameters as needed
 #' @param param2 Other parameters as needed
 #'
-#' @type [node type]
+#' @type [component type]
 #' @depends [input dependencies: {data} {variable}]
 #' @outputs [output variables: One entry per new variable]
 #'
 #' @returns `.self` with added/modified variables
 #' @export
-your_new_node <- function(.self, param1, param2) {
+your_new_component <- function(.self, param1, param2) {
   # Implementation that transforms .self
   # ...
   return(.self)

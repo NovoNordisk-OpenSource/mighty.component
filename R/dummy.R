@@ -1,4 +1,4 @@
-#' Dummy node creating a Albumin grouping variable
+#' Dummy component creating a Albumin grouping variable
 #' @description
 #' Based on the baseline readings (`ABLFL == "Y"`) for Albumin
 #' (`PARAMCD == "ALB"`) a new grouping variable (`ALBBLGRP`) is
