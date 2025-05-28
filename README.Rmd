@@ -19,28 +19,19 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/NN-OpenSource/mighty.standards/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/mighty.standards/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
 
-This package is a template for future R packages developed by the ATMOS team.
+mighty.standards serve as a repository of generic compute components used to produce ADaM scripts in the {mighty} framework.
 
-The template sets package development standards, and GitHub action workflows.
-For details see below.
+## Installation
 
-The repository is meant to be used via the [useatmos](https://github.com/NN-OpenSource/useatmos) package, but can also be applied manually by pressing the "Use this template" button.
+You can install the development version of `mighty.standards` from GitHub with:
 
-Note, that when the new repository is first created an initial workflow starts which updates package specific files, and creates a PR for your review and approval.
+```{r, eval=FALSE}
+pak::pak("NN-OpenSource/mighty.standards")
+```
 
-## Standards
+## Usage
 
-- Set license to Apache license version 2.0 with Novo Nordisk A/S as the copyright holder.
-- Use a README.Rmd
-- Use `testthat` for testing
-- Use `pkgdown` to create a documentation webpage
-- Setup `lintr` with default style
+Functions inside `mighty.standards` are not meant to be called directly, 
+but instead used as input to the `mighty` framework for automatic generation of ADaM programs.
 
-## GitHub actions
-
-workflows using here are defined in the [`NovoNordisk-OpenSource/r.workflows`](https://github.com/NovoNordisk-OpenSource/r.workflows) repository.
-
-- Styling using [MegaLinter](https://megalinter.io/) (calls `lintr` for R scripts)
-- R CMD Check. Both for CRAN version requirements, and for internal versions.
-- Test coverage.
-- Pkgdown webpage hosted on GitHub pages. Pages for pull requests are also hosted under "{base-url}/dev/{PR-number}".
+See `vignette("mighty-standards")` on how to create new standard components.

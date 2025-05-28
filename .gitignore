@@ -8,6 +8,7 @@
 
 # User-specific files
 .Ruserdata
+.DS_Store
 
 # Example code in package build process
 *-Ex.R
@@ -52,3 +53,4 @@ po/*~
 rsconnect/
 
 /.quarto/
+inst/doc
