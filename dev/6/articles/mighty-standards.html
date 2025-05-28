@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>mighty standard nodes • mighty.standards</title>
+<title>mighty standard component • mighty.standards</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="mighty standard nodes">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="mighty standard component">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -50,7 +50,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>mighty standard nodes</h1>
+      <h1>mighty standard component</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/NN-OpenSource/mighty.standards/blob/feat/initial-structure/vignettes/mighty-standards.Rmd" class="external-link"><code>vignettes/mighty-standards.Rmd</code></a></small>
@@ -63,17 +63,17 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>This vignette provides a step-by-step guide for creating standard
-nodes for they {mighty} framework. By following these conventions and
-using our custom roxygen2 tags, you will create nodes that are
+components for they {mighty} framework. By following these conventions
+and using our custom roxygen2 tags, you will create components that are
 consistent, well-documented, and easily integrated into the existing
 ecosystem.</p>
 </div>
 <div class="section level2">
-<h2 id="what-is-a-standard-node">What is a Standard Node?<a class="anchor" aria-label="anchor" href="#what-is-a-standard-node"></a>
+<h2 id="what-is-a-standard-component">What is a Standard Component?<a class="anchor" aria-label="anchor" href="#what-is-a-standard-component"></a>
 </h2>
-<p>In the {mighty} framework, a “node” is a function that processes
+<p>In the {mighty} framework, a “component” is a function that processes
 input data and returns a modified version with new columns or rows.
-Standard nodes share a common structure and documentation pattern,
+Standard components share a common structure and documentation pattern,
 facilitating their use inside {mighty}.</p>
 </div>
 <div class="section level2">
@@ -118,9 +118,9 @@ tags that help document specialized functions. These tags enable:</p>
 </table>
 </div>
 <div class="section level2">
-<h2 id="node-conventions">Node Conventions<a class="anchor" aria-label="anchor" href="#node-conventions"></a>
+<h2 id="component-conventions">Component Conventions<a class="anchor" aria-label="anchor" href="#component-conventions"></a>
 </h2>
-<p>Standard nodes follow these conventions:</p>
+<p>Standard components follow these conventions:</p>
 <ol style="list-style-type: decimal">
 <li>The first parameter is always named <code>.self</code> (the input
 dataset)</li>
@@ -134,29 +134,29 @@ custom tags mentioned above</li>
 dependencies, and outputs</li>
 <li>Include an example using appropriate data from {pharmaversesdtm} and
 {pharmaverseadam}</li>
-<li>Any new node will have a corresponding unit test</li>
+<li>Any new component will have a corresponding unit test</li>
 </ol>
 </div>
 <div class="section level2">
-<h2 id="creating-a-new-node">Creating a New Node<a class="anchor" aria-label="anchor" href="#creating-a-new-node"></a>
+<h2 id="creating-a-new-component">Creating a New Component<a class="anchor" aria-label="anchor" href="#creating-a-new-component"></a>
 </h2>
-<p>Every node should follow this basic structure:</p>
+<p>Every component should follow this basic structure:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Node title</span></span>
+<code class="sourceCode R"><span><span class="co">#' Component title</span></span>
 <span><span class="co">#' @description</span></span>
-<span><span class="co">#' A short description of what the node does...</span></span>
+<span><span class="co">#' A short description of what the component does...</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param .self `data.frame` Input dataset</span></span>
 <span><span class="co">#' @param param1 Other parameters as needed</span></span>
 <span><span class="co">#' @param param2 Other parameters as needed</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#' @type [node type]</span></span>
+<span><span class="co">#' @type [component type]</span></span>
 <span><span class="co">#' @depends [input dependencies: {data} {variable}]</span></span>
 <span><span class="co">#' @outputs [output variables: One entry per new variable]</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @returns `.self` with added/modified variables</span></span>
 <span><span class="co">#' @export</span></span>
-<span><span class="va">your_new_node</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.self</span>, <span class="va">param1</span>, <span class="va">param2</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">your_new_component</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.self</span>, <span class="va">param1</span>, <span class="va">param2</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Implementation that transforms .self</span></span>
 <span>  <span class="co"># ...</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">.self</span><span class="op">)</span></span>
@@ -167,7 +167,7 @@ dependencies, and outputs</li>
 </h2>
 <p>Let’s examine a more real example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Dummy node creating a Albumin grouping variable</span></span>
+<code class="sourceCode R"><span><span class="co">#' Dummy component creating a Albumin grouping variable</span></span>
 <span><span class="co">#' @description</span></span>
 <span><span class="co">#' Based on the baseline readings (`ABLFL == "Y"`) for Albumin</span></span>
 <span><span class="co">#' (`PARAMCD == "ALB"`) a new grouping variable (`ALBBLGRP`) is</span></span>
@@ -216,7 +216,7 @@ dependencies, and outputs</li>
 % Please edit documentation in mighty.standards/dummy.R
 \name{dummy}
 \alias{dummy}
-\title{Dummy node creating a Albumin grouping variable}
+\title{Dummy component creating a Albumin grouping variable}
 \usage{
 dummy(.self, adlb)
 }
