@@ -7,3 +7,24 @@
 
 [![R-CMD-check](https://github.com/NN-OpenSource/mighty.standards/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/mighty.standards/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
+
+mighty.standards serve as a repository of generic compute components
+used to produce ADaM scripts in the {mighty} framework.
+
+## Installation
+
+You can install the development version of `mighty.standards` from
+GitHub with:
+
+``` r
+pak::pak("NN-OpenSource/mighty.standards")
+```
+
+## Usage
+
+Functions inside `mighty.standards` are not meant to be called directly,
+but instead used as input to the `mighty` framework for automatic
+generation of ADaM programs.
+
+See `vignette("mighty-standards")` on how to create new standard
+components.

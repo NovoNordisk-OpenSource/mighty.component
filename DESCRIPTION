@@ -1,11 +1,11 @@
 Package: mighty.standards
 Title: Standard derivations for ADaM generation
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Standard node library to be used inside the {mighty}
+Description: Standard components library to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
 URL: https://nn-opensource.github.io/mighty.standards,
@@ -23,7 +23,7 @@ Imports:
 Suggests: 
     knitr,
     pharmaverseadam,
-    pharmaversesdtm,
+    pharmaversesdtm
     rmarkdown,
     testthat (>= 3.0.0),
     withr

@@ -2,7 +2,7 @@
 % Please edit documentation in R/dummy.R
 \name{dummy}
 \alias{dummy}
-\title{Dummy node creating a Albumin grouping variable}
+\title{Dummy component creating a Albumin grouping variable}
 \usage{
 dummy(.self, adlb)
 }

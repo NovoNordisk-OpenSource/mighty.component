@@ -10,12 +10,13 @@ CRAN
 dplyr
 knitr
 lintr
+NEWVAR
 Nordisk
 PARAMCD
 pharmaverseadam
-pkgdown
-Pkgdown
+pharmaversesdtm
 rlang
+rmarkdown
 roclet
 roxygen
 Roxygen

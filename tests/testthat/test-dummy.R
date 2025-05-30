@@ -3,7 +3,7 @@ test_that("dummy works", {
     dummy(adlb = pharmaverseadam::adlb) |>
     expect_no_error() |>
     expect_named(c(names(pharmaverseadam::adsl), "ALBBLGRP")) |>
-    with(any(is.null(ALBBLGRP))) |> 
+    with(any(is.null(ALBBLGRP))) |>
     expect_false()
 
   mtcars |>

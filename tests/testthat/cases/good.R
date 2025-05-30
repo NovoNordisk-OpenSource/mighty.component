@@ -1,4 +1,4 @@
-#' Well documented node for unit testing
+#' Well documented componenet for unit testing
 #' @description
 #' Documentation of fake function for unit testing roxygen2 methods.
 #' This function is supposed to give no errors and a consistent rd documentation.
