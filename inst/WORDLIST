@@ -2,12 +2,17 @@ ABLFL
 ADaM
 adlb
 ADLB
+AENDT
+AENDTF
 Aksel
 ALBBLGRP
+ASTDT
+ASTDTF
 AVAL
 CMD
 CRAN
 dplyr
+dtc
 knitr
 lintr
 NEWVAR
@@ -23,6 +28,9 @@ Roxygen
 Rtemplate
 testthat
 Thomsen
+TRTEDT
+TRTEMFL
+TRTSDT
 useatmos
 USUBJID
 withr

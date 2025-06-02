@@ -35,7 +35,7 @@ derivation
 }
 \subsection{Depends}{
 \itemize{
-\item .self.{dtc}
+\item .self.\{dtc\}
 }
 }
 \subsection{Outputs}{

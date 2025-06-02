@@ -36,7 +36,7 @@ derivation
 }
 \subsection{Outputs}{
 \itemize{
-\item {variable}
+\item \{variable\}
 }
 }
 }

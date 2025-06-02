@@ -80,10 +80,11 @@ aendt <- function(.self, dtc) {
 
 #' Analysis relative day
 #' @description
-#' Derives the relative day compated to the treatment start date.
+#' Derives the relative day compared to the treatment start date.
 #' 
 #' @param .self `data.frame` Input data set
 #' @param date `character` Name of date variable to use
+#' @type derivation
 #' @depends .self {date}
 #' @depends .self TRTSDT
 #' @outputs {date}Y

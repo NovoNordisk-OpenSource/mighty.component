@@ -39,12 +39,12 @@ predecessor
 \itemize{
 \item .self.USUBJID
 \item source.USUBJID
-\item source.{variable}
+\item source.\{variable\}
 }
 }
 \subsection{Outputs}{
 \itemize{
-\item {variable}
+\item \{variable\}
 }
 }
 }

@@ -15,7 +15,7 @@ ady(.self, date)
 \code{.self} with added analysis relative day
 }
 \description{
-Derives the relative day compated to the treatment start date.
+Derives the relative day compared to the treatment start date.
 }
 \examples{
 pharmaverseadam::adae |> 
@@ -25,16 +25,17 @@ pharmaverseadam::adae |>
 }
 \section{Mighty}{
 \subsection{Type}{
+derivation
 }
 \subsection{Depends}{
 \itemize{
-\item .self.{date}
+\item .self.\{date\}
 \item .self.TRTSDT
 }
 }
 \subsection{Outputs}{
 \itemize{
-\item {date}Y
+\item \{date\}Y
 }
 }
 }
