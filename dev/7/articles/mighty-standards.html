@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>mighty-standards • mighty.standards</title>
+<title>mighty standard component • mighty.standards</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="mighty-standards">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="mighty standard component">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>mighty-standards</h1>
+      <h1>mighty standard component</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/NN-OpenSource/mighty.standards/blob/feat/generic-adae-nodes/vignettes/mighty-standards.Rmd" class="external-link"><code>vignettes/mighty-standards.Rmd</code></a></small>
@@ -59,9 +59,211 @@
 
     
     
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This vignette provides a step-by-step guide for creating standard
+components for they {mighty} framework. By following these conventions
+and using our custom roxygen2 tags, you will create components that are
+consistent, well-documented, and easily integrated into the existing
+ecosystem.</p>
+</div>
+<div class="section level2">
+<h2 id="what-is-a-standard-component">What is a Standard Component?<a class="anchor" aria-label="anchor" href="#what-is-a-standard-component"></a>
+</h2>
+<p>In the {mighty} framework, a “component” is a function that processes
+input data and returns a modified version with new columns or rows.
+Standard components share a common structure and documentation pattern,
+facilitating their use inside {mighty}.</p>
+</div>
+<div class="section level2">
+<h2 id="custom-roxygen-tags">Custom Roxygen Tags<a class="anchor" aria-label="anchor" href="#custom-roxygen-tags"></a>
+</h2>
+<p>Our package extends the standard {roxygen2} with special “Mighty”
+tags that help document specialized functions. These tags enable:</p>
+<ol style="list-style-type: decimal">
+<li>Clear identification of function types</li>
+<li>Explicit declaration of data dependencies</li>
+<li>Documentation of output variables</li>
+</ol>
+<p>The available tags are always required and are:</p>
+<table class="table">
+<colgroup>
+<col width="13%">
+<col width="58%">
+<col width="28%">
+</colgroup>
+<thead><tr class="header">
+<th>Tag</th>
+<th>Description</th>
+<th>Example</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>@type</code></td>
+<td>Specifies type: predecessor, derivation, row</td>
+<td><code>@type derivation</code></td>
+</tr>
+<tr class="even">
+<td><code>@depends</code></td>
+<td>Lists required input variables</td>
+<td><code>@depends .self USUBJID</code></td>
+</tr>
+<tr class="odd">
+<td><code>@outputs</code></td>
+<td>Declares variables created</td>
+<td><code>@outputs NEWVAR</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="component-conventions">Component Conventions<a class="anchor" aria-label="anchor" href="#component-conventions"></a>
+</h2>
+<p>Standard components follow these conventions:</p>
+<ol style="list-style-type: decimal">
+<li>The first parameter is always named <code>.self</code> (the input
+dataset)</li>
+<li>Additional parameters represent other datasets or configuration
+options</li>
+<li>The function returns the modified <code>.self</code> dataset with
+new variables</li>
+<li>The function is documented using standard {roxygen2} tags and the
+custom tags mentioned above</li>
+<li>Documentation includes specific information about type,
+dependencies, and outputs</li>
+<li>Include an example using appropriate data from {pharmaversesdtm} and
+{pharmaverseadam}</li>
+<li>Any new component will have a corresponding unit test</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="creating-a-new-component">Creating a New Component<a class="anchor" aria-label="anchor" href="#creating-a-new-component"></a>
+</h2>
+<p>Every component should follow this basic structure:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nn-opensource.github.io/mighty.standards">mighty.standards</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<code class="sourceCode R"><span><span class="co">#' Component title</span></span>
+<span><span class="co">#' @description</span></span>
+<span><span class="co">#' A short description of what the component does...</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param .self `data.frame` Input dataset</span></span>
+<span><span class="co">#' @param param1 Other parameters as needed</span></span>
+<span><span class="co">#' @param param2 Other parameters as needed</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @type [component type]</span></span>
+<span><span class="co">#' @depends [input dependencies: {data} {variable}]</span></span>
+<span><span class="co">#' @outputs [output variables: One entry per new variable]</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @returns `.self` with added/modified variables</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">your_new_component</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.self</span>, <span class="va">param1</span>, <span class="va">param2</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Implementation that transforms .self</span></span>
+<span>  <span class="co"># ...</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">.self</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>Let’s examine a more real example:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Dummy component creating a Albumin grouping variable</span></span>
+<span><span class="co">#' @description</span></span>
+<span><span class="co">#' Based on the baseline readings (`ABLFL == "Y"`) for Albumin</span></span>
+<span><span class="co">#' (`PARAMCD == "ALB"`) a new grouping variable (`ALBBLGRP`) is</span></span>
+<span><span class="co">#' added with the following intervals:</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' * Albumin levels at least 40 g/L: "&gt;= 40 g/L"</span></span>
+<span><span class="co">#' * Albumin levels below 40 g/L: "&lt; 40 g/L"</span></span>
+<span><span class="co">#' * Missing or no baseline levels: "Missing"</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param .self `data.frame` Input</span></span>
+<span><span class="co">#' @param adlb `data.frame` ADLB data set</span></span>
+<span><span class="co">#' @type derivation</span></span>
+<span><span class="co">#' @depends .self USUBJID</span></span>
+<span><span class="co">#' @depends adlb USUBJID</span></span>
+<span><span class="co">#' @depends adlb PARAMCD</span></span>
+<span><span class="co">#' @depends adlb AVAL</span></span>
+<span><span class="co">#' @outputs ALBBLGRP</span></span>
+<span><span class="co">#' @returns `.self` with added subject level Albumin grouping at baseline</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' pharmaverseadam::adsl |&gt;</span></span>
+<span><span class="co">#'   dplyr::select(USUBJID) |&gt;</span></span>
+<span><span class="co">#'   dummy(adlb = pharmaverseadam::adlb)</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">dummy</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.self</span>, <span class="va">adlb</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">adlb</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">PARAMCD</span> <span class="op">==</span> <span class="st">"ALB"</span>, <span class="va">.data</span><span class="op">$</span><span class="va">ABLFL</span> <span class="op">==</span> <span class="st">"Y"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span></span>
+<span>      <span class="va">.data</span><span class="op">$</span><span class="va">USUBJID</span>,</span>
+<span>      ALBBLGRP <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>        <span class="va">.data</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">40</span> <span class="op">~</span> <span class="st">"&gt;= 40 g/L"</span>,</span>
+<span>        <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">AVAL</span><span class="op">)</span> <span class="op">~</span> <span class="st">"&lt; 40 g/L"</span>,</span>
+<span>        <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Missing"</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">x</span>, by <span class="op">=</span> <span class="st">"USUBJID"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ALBBLGRP <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/coalesce.html" class="external-link">coalesce</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">ALBBLGRP</span>, <span class="st">"Missing"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">.self</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>This generates the following roxygen documentation with a custom
+“Mighty” that appears below the standard roxygen sections:</p>
+<pre class="rd"><code>% Generated by roxygen2: do not edit by hand
+% Please edit documentation in mighty.standards/dummy.R
+\name{dummy}
+\alias{dummy}
+\title{Dummy component creating a Albumin grouping variable}
+\usage{
+dummy(.self, adlb)
+}
+\arguments{
+\item{.self}{`data.frame` Input}
+
+\item{adlb}{`data.frame` ADLB data set}
+}
+\value{
+`.self` with added subject level Albumin grouping at baseline
+}
+\description{
+Based on the baseline readings (`ABLFL == "Y"`) for Albumin
+(`PARAMCD == "ALB"`) a new grouping variable (`ALBBLGRP`) is
+added with the following intervals:
+
+* Albumin levels at least 40 g/L: "&gt;= 40 g/L"
+* Albumin levels below 40 g/L: "&lt; 40 g/L"
+* Missing or no baseline levels: "Missing"
+}
+\examples{
+pharmaverseadam::adsl |&gt;
+  dplyr::select(USUBJID) |&gt;
+  dummy(adlb = pharmaverseadam::adlb)
+
+}
+\section{Mighty}{
+\subsection{Type}{
+derivation
+}
+\subsection{Depends}{
+\itemize{
+\item .self.USUBJID
+\item adlb.USUBJID
+\item adlb.PARAMCD
+\item adlb.AVAL
+}
+}
+\subsection{Outputs}{
+\itemize{
+\item ALBBLGRP
+}
+}
+}</code></pre>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
