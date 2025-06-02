@@ -1,9 +1,15 @@
 ABLFL
+ACTARM
+adae
 ADaM
 adlb
 ADLB
+advs
+AEENDTC
 AENDT
 AENDTF
+AESTDTC
+AGEU
 Aksel
 ALBBLGRP
 ASTDT
@@ -17,6 +23,8 @@ knitr
 lintr
 NEWVAR
 Nordisk
+OLDF
+OLDV
 PARAMCD
 pharmaverseadam
 pharmaversesdtm
@@ -26,8 +34,11 @@ roclet
 roxygen
 Roxygen
 Rtemplate
+stringr
+STUDYID
 testthat
 Thomsen
+tidyselect
 TRTEDT
 TRTEMFL
 TRTSDT
