@@ -16,8 +16,8 @@ trtemfl(.self)
 Derives treatment emergent analysis flag.
 }
 \examples{
-pharmaverseadam::adae |> 
-  dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |> 
+pharmaverseadam::adae |>
+  dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |>
   trtemfl()
 
 }

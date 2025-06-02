@@ -19,14 +19,14 @@ Derives analysis start date based on (incomplete) dates given as
 character
 }
 \examples{
-x <- pharmaversesdtm::ae |> 
-  dplyr::select(USUBJID, AESTDTC) |> 
+x <- pharmaversesdtm::ae |>
+  dplyr::select(USUBJID, AESTDTC) |>
   astdt("AESTDTC")
 
 print(x)
 
-x |> 
-  dplyr::filter(!is.na(ASTDTF)) |> 
+x |>
+  dplyr::filter(!is.na(ASTDTF)) |>
   print()
 }
 \section{Mighty}{

@@ -10,13 +10,13 @@
 #' @outputs TRTEMFL
 #' @returns `.self` with added treatment emergent analysis flag.
 #' @examples
-#' pharmaverseadam::adae |> 
-#'   dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |> 
+#' pharmaverseadam::adae |>
+#'   dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |>
 #'   trtemfl()
 #'
 #' @export
 trtemfl <- function(.self) {
-  .self <- .self |> 
+  .self <- .self |>
     dplyr::mutate(
       TRTEMFL = dplyr::case_when(
         .data$ASTDT < .data$TRTSDT ~ NA_character_,
@@ -24,6 +24,6 @@ trtemfl <- function(.self) {
         TRUE ~ "Y"
       )
     )
-  
+
   return(.self)
 }

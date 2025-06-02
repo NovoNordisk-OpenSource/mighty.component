@@ -19,14 +19,14 @@ Derives analysis end date based on (incomplete) dates given as
 character
 }
 \examples{
-x <- pharmaversesdtm::ae |> 
-  dplyr::select(USUBJID, AEENDTC) |> 
+x <- pharmaversesdtm::ae |>
+  dplyr::select(USUBJID, AEENDTC) |>
   aendt("AEENDTC")
 
 print(x)
 
-x |> 
-  dplyr::filter(!is.na(AENDTF)) |> 
+x |>
+  dplyr::filter(!is.na(AENDTF)) |>
   print()
 }
 \section{Mighty}{

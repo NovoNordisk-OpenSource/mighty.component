@@ -16,7 +16,7 @@
 #' pharmaverseadam::advs |>
 #'   dplyr::select(USUBJID, PARAMCD, AVAL) |>
 #'   predecessor(source = pharmaverseadam::adsl, variable = "ACTARM")
-#' 
+#'
 #' pharmaverseadam::advs |>
 #'   dplyr::select(USUBJID, PARAMCD, AVAL) |>
 #'   predecessor(source = pharmaverseadam::adsl, variable = c("AGE", "AGEU"))
@@ -25,7 +25,11 @@
 predecessor <- function(.self, source, variable, by = "USUBJID") {
   .self <- .self |>
     dplyr::left_join(
-      y = dplyr::select(source, tidyselect::all_of(by), tidyselect::all_of(variable)),
+      y = dplyr::select(
+        source,
+        tidyselect::all_of(by),
+        tidyselect::all_of(variable)
+      ),
       by = by
     )
 

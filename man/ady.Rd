@@ -18,8 +18,8 @@ ady(.self, date)
 Derives the relative day compared to the treatment start date.
 }
 \examples{
-pharmaverseadam::adae |> 
-  dplyr::select(USUBJID, TRTSDT, ASTDT) |> 
+pharmaverseadam::adae |>
+  dplyr::select(USUBJID, TRTSDT, ASTDT) |>
   ady("ASTDT")
 
 }

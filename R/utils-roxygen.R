@@ -50,9 +50,15 @@ itemize <- function(x) {
 }
 
 escape_brackets <- function(x) {
-  x |> 
-    stringr::str_replace_all(pattern = stringr::fixed("{"), replacement = stringr::fixed('\\{')) |> 
-    stringr::str_replace_all(pattern = stringr::fixed("}"), replacement = stringr::fixed('\\}'))
+  x |>
+    stringr::str_replace_all(
+      pattern = stringr::fixed("{"),
+      replacement = stringr::fixed("\\{")
+    ) |>
+    stringr::str_replace_all(
+      pattern = stringr::fixed("}"),
+      replacement = stringr::fixed("\\}")
+    )
 }
 
 #' @export
@@ -61,11 +67,11 @@ format.rd_section_mighty <- function(x, ...) {
   nm <- names(value)
 
   depends <- value[nm %in% "depends"] |>
-    vapply(FUN = paste, FUN.VALUE = character(1), collapse = ".") |> 
+    vapply(FUN = paste, FUN.VALUE = character(1), collapse = ".") |>
     escape_brackets()
 
   outputs <- value[nm %in% "outputs"] |>
-    unlist() |> 
+    unlist() |>
     escape_brackets()
 
   c(
