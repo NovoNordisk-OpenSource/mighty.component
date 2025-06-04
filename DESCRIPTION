@@ -16,7 +16,8 @@ Imports:
     cli,
     dplyr,
     rlang,
-    roxygen2
+    roxygen2,
+    mighty
 Suggests: 
     knitr,
     pharmaverseadam,
