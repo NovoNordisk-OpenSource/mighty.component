@@ -30,21 +30,3 @@ pharmaverseadam::adsl |>
   dummy(adlb = pharmaverseadam::adlb)
 
 }
-\section{Mighty}{
-\subsection{Type}{
-derivation
-}
-\subsection{Depends}{
-\itemize{
-\item .self.USUBJID
-\item adlb.USUBJID
-\item adlb.PARAMCD
-\item adlb.AVAL
-}
-}
-\subsection{Outputs}{
-\itemize{
-\item ALBBLGRP
-}
-}
-}
