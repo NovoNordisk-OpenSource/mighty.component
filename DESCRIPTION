@@ -15,10 +15,9 @@ Depends:
 Imports: 
     cli,
     dplyr,
-    rlang,
-    roxygen2,
-    mighty
-Suggests: 
+    rlang
+Suggests:
+    mighty,
     knitr,
     pharmaverseadam,
     rmarkdown,
