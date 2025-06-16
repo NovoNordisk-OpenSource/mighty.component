@@ -1,7 +1,8 @@
 #' Well documented componenet for unit testing
 #' @description
 #' Documentation of fake function for unit testing roxygen2 methods.
-#' This function is supposed to give no errors and a consistent rd documentation.
+#' This function is supposed to give no errors and a consistent rd
+#' documentation.
 #'
 #' @param .self `data.frame` Input
 #' @param x Another input to the function
