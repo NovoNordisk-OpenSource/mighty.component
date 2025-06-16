@@ -22,6 +22,7 @@ dplyr
 dtc
 knitr
 lintr
+multiarch
 NEWVAR
 Nordisk
 OLDF
@@ -34,9 +35,11 @@ rmarkdown
 roclet
 roxygen
 Roxygen
+Roxygenize
 Rtemplate
 stringr
 STUDYID
+Sweave
 testthat
 Thomsen
 tidyselect
