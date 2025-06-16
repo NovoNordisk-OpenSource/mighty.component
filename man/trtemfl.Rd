@@ -4,7 +4,7 @@
 \alias{trtemfl}
 \title{Treatment-emergent flag}
 \usage{
-trtemfl(.self)
+trtemfl(.self, end_window)
 }
 \arguments{
 \item{.self}{\code{data.frame} Input data set}
@@ -20,7 +20,7 @@ Derives treatment emergent analysis flag.
 \examples{
 pharmaverseadam::adae |>
   dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |>
-  trtemfl()
+  trtemfl(end_window = 30)
 
 }
 \section{Mighty}{

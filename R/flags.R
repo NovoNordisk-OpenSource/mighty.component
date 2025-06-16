@@ -14,17 +14,17 @@
 #' @examples
 #' pharmaverseadam::adae |>
 #'   dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT) |>
-#'   trtemfl()
+#'   trtemfl(end_window = 30)
 #'
 #' @export
-trtemfl <- function(.self) {
+trtemfl <- function(.self, end_window) {
   .self <- .self |>
     admiral::derive_var_trtemfl(
       start_date = ASTDT, 
       end_date = AENDT,
       trt_start_date = TRTSDT,
       trt_end_date = TRTEDT,
-      end_window = 30
+      end_window = end_window
     )
 
   return(.self)
