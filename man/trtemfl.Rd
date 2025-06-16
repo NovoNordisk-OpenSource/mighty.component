@@ -8,6 +8,8 @@ trtemfl(.self)
 }
 \arguments{
 \item{.self}{\code{data.frame} Input data set}
+
+\item{end_window}{Passed along to \code{admiral::end_window()}}
 }
 \value{
 \code{.self} with added treatment emergent analysis flag.
@@ -28,6 +30,7 @@ derivation
 \subsection{Depends}{
 \itemize{
 \item .self.ASTDT
+\item .self.AENDT
 \item .self.TRTSDT
 \item .self.TRTEDT
 }

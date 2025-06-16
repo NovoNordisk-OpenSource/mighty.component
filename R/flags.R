@@ -3,8 +3,10 @@
 #' Derives treatment emergent analysis flag.
 #'
 #' @param .self `data.frame` Input data set
+#' @param end_window Passed along to `admiral::end_window()`
 #' @type derivation
 #' @depends .self ASTDT
+#' @depends .self AENDT
 #' @depends .self TRTSDT
 #' @depends .self TRTEDT
 #' @outputs TRTEMFL
@@ -17,12 +19,12 @@
 #' @export
 trtemfl <- function(.self) {
   .self <- .self |>
-    dplyr::mutate(
-      TRTEMFL = dplyr::case_when(
-        .data$ASTDT < .data$TRTSDT ~ NA_character_,
-        .data$TRTEDT < .data$ASTDT ~ NA_character_,
-        TRUE ~ "Y"
-      )
+    admiral::derive_var_trtemfl(
+      start_date = ASTDT, 
+      end_date = AENDT,
+      trt_start_date = TRTSDT,
+      trt_end_date = TRTEDT,
+      end_window = 30
     )
 
   return(.self)
