@@ -20,7 +20,7 @@
 trtemfl <- function(.self, end_window) {
   .self <- .self |>
     admiral::derive_var_trtemfl(
-      start_date = ASTDT, 
+      start_date = ASTDT,
       end_date = AENDT,
       trt_start_date = TRTSDT,
       trt_end_date = TRTEDT,
