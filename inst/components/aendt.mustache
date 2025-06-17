@@ -1,0 +1,14 @@
+# Analysis end date
+
+.self <- .self |>
+  dplyr::mutate(
+    AENDT = admiral::convert_dtc_to_dt(
+      dtc = {{ dtc }},
+      highest_imputation = "M",
+      date_imputation = "last"
+    ),
+    AENDTF = admiral::compute_dtf(
+      dtc = {{ dtc }},
+      dt = AENDT
+    )
+  )

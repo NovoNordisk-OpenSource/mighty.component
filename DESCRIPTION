@@ -16,6 +16,7 @@ Imports:
     admiral,
     cli,
     dplyr,
+    R6,
     rlang,
     roxygen2,
     stringr,

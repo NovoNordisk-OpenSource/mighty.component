@@ -1,0 +1,12 @@
+# Analysis relative day
+
+.self <- .self |>
+  dplyr::mutate(
+    {{ variable }} = admiral::compute_duration(
+      start_date = TRTSDT,
+      end_date = {{ date }},
+      in_unit = "days",
+      out_unit = "days",
+      add_one = TRUE
+    )
+  )

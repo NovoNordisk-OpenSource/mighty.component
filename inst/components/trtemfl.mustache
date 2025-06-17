@@ -1,0 +1,10 @@
+# Treatment-emergent flag
+
+.self <- .self |>
+  admiral::derive_var_trtemfl(
+    start_date = ASTDT,
+    end_date = AENDT,
+    trt_start_date = TRTSDT,
+    trt_end_date = TRTEDT,
+    end_window = {{ end_window }}
+  )
