@@ -2,7 +2,7 @@
 #' @export
 
 mighty_standard_rendered <- R6::R6Class(
-  classname = "mighty_standard_rendered", 
+  classname = "mighty_standard_rendered",
   inherit = mighty_standard,
   public = list(
     #' @description

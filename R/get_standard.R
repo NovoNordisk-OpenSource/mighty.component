@@ -2,7 +2,11 @@
 #' @param standard standard
 #' @export
 get_standard <- function(standard) {
-  template <- system.file("components", standard, package = "mighty.standards") |>
+  template <- system.file(
+    "components",
+    standard,
+    package = "mighty.standards"
+  ) |>
     paste0(".mustache")
 
   if (!file.exists(template)) {

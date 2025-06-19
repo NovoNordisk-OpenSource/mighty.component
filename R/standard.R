@@ -1,7 +1,7 @@
 #' Mighty standard component
 #'@export
 mighty_standard <- R6::R6Class(
-  classname = "mighty_standard", 
+  classname = "mighty_standard",
   public = list(
     #' @description
     #' Create standard component from template
@@ -14,7 +14,10 @@ mighty_standard <- R6::R6Class(
     #' @param ... params used to render the template
     render = function(...) {
       data <- rlang::list2(...)
-      template <- whisker::whisker.render(template = private$.template, data = data)
+      template <- whisker::whisker.render(
+        template = private$.template,
+        data = data
+      )
       mighty_standard_rendered$new(template = template)
     },
     #' @description
@@ -22,7 +25,7 @@ mighty_standard <- R6::R6Class(
     document = function() {
       "documentation" # TODO: roxygen like documentation
     }
-  ), 
+  ),
   active = list(
     #' @field code code
     code = \() private$.template[-grepl("^#", private$.template)],
@@ -46,7 +49,6 @@ mighty_standard <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, self, private) {
-
   private$.template <- template
 
   invisible(self)
