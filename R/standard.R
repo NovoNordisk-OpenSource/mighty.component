@@ -1,41 +1,42 @@
-
-#' Retrieve mighty standard component
-#' @export
-get_standard <- function(standard) {
-  mighty_standard$new(standard)
-}
-
 #' Mighty standard component
 #'@export
 mighty_standard <- R6::R6Class(
   classname = "mighty_standard", 
   public = list(
-    initialize = function(standard) {
-      ms_initialize(standard, self, private)
+    #' @description
+    #' Create standard component from template
+    #' @param template moustache template
+    initialize = function(template) {
+      ms_initialize(template, self, private)
     },
+    #' @description
+    #' Render component
+    #' @param ... params used to render the template
     render = function(...) {
       data <- rlang::list2(...)
-      whisker::whisker.render(template = private$.template, data = data)
+      template <- whisker::whisker.render(template = private$.template, data = data)
+      mighty_standard_rendered$new(template = template)
     },
-    eval = function(..., envir = parent.frame()) {
-      code <- self$render(...)
-      eval(expr = parse(text = code), envir = envir)
-    },
-    test = function() {
-
-    },
-    coverage = function() {
-
+    #' @description
+    #' Create standard documentation
+    document = function() {
+      "documentation" # TODO: roxygen like documentation
     }
   ), 
   active = list(
+    #' @field code code
+    code = \() private$.template[-grepl("^#", private$.template)],
+    #' @field template template
+    template = \() private$.template,
+    #' @field type type
     type = \() private$.type,
+    #' @field depends depends
     depends = \() private$.depends,
+    #' @field outputs outputs
     outputs = \() private$.outputs
   ),
   private = list(
     .version = as.character(packageVersion("mighty.standards")),
-    .component = character(1),
     .type = character(1),
     .depends = list(),
     .outputs = character(),
@@ -44,51 +45,9 @@ mighty_standard <- R6::R6Class(
 )
 
 #' @noRd
-ms_initialize <- function(standard, self, private) {
-  private$.component <- standard
+ms_initialize <- function(template, self, private) {
 
-  private$.template <- file.path("inst", "components", standard) |> # TODO: Use system.file() and add check
-    paste0(".mustache") |> 
-    readLines() 
+  private$.template <- template
 
-  invisible(standard)
+  invisible(self)
 }
-
-
-x <- get_standard("astdt")
-
-x
-
-.self <- pharmaverseadam::adcm |> 
-  dplyr::select(CMSTDTC) |> 
-  print()
-
-x$render(dtc = "CMSTDTC") |> 
-  cat()
-
-.self
-x
-
-x$eval(dtc = "CMSTDTC")
-
-
-.self
-
-x$outputs
-
-x$render(dtc = "AENDTC") |> 
-  cat()
-
-f <- c(
-  "dummy <- function(.self) {",
-  x$render(dtc = "CMSTDTC"),
-  "return(.self)",
-  "}"
-) |> 
-  paste(collapse = "\n")
-
-t <- "dummy(dplyr::select(pharmaverseadam::adcm, CMSTDTC))"
-
-covr::code_coverage(f, t)
-
-
