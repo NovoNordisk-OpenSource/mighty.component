@@ -1,55 +1,41 @@
-#' Mighty standard component
-#'@export
-mighty_standard <- R6::R6Class(
-  classname = "mighty_standard",
-  public = list(
-    #' @description
-    #' Create standard component from template
-    #' @param template moustache template
-    initialize = function(template) {
-      ms_initialize(template, self, private)
-    },
-    #' @description
-    #' Render component
-    #' @param ... params used to render the template
-    render = function(...) {
-      data <- rlang::list2(...)
-      template <- whisker::whisker.render(
-        template = private$.template,
-        data = data
-      )
-      mighty_standard_rendered$new(template = template)
-    },
-    #' @description
-    #' Create standard documentation
-    document = function() {
-      "documentation" # TODO: roxygen like documentation
-    }
-  ),
-  active = list(
-    #' @field code code
-    code = \() private$.template[-grepl("^#", private$.template)],
-    #' @field template template
-    template = \() private$.template,
-    #' @field type type
-    type = \() private$.type,
-    #' @field depends depends
-    depends = \() private$.depends,
-    #' @field outputs outputs
-    outputs = \() private$.outputs
-  ),
-  private = list(
-    .version = as.character(packageVersion("mighty.standards")),
-    .type = character(1),
-    .depends = list(),
-    .outputs = character(),
-    .template = character()
-  )
-)
+#' Retrieve mighty standard component
+#' @param standard standard
+#' @export
+get_standard <- function(standard) {
+  template <- find_standard(standard)
+  mighty_standard$new(template = readLines(template))
+}
+
+#' Retrieve rendered mighty standard component
+#' @param standard standard
+#' @param params list of input parameters
+#' @export
+get_rendered_standard <- function(standard, params) {
+  x <- get_standard(standard)
+  do.call(what = x$render, args = params)
+}
+
+#' List all available standards
+#' @export
+list_standards <- function() {
+  templates <- system.file(
+    "components",
+    package = "mighty.standards"
+  ) |> 
+    list.files()
+
+  gsub(pattern = "\\.mustache$", replacement = "", x = templates)
+}
 
 #' @noRd
-ms_initialize <- function(template, self, private) {
-  private$.template <- template
+find_standard <- function(standard) {
+  if (!standard %in% list_standards()) {
+    cli::cli_abort("Component {template} not found")
+  }
 
-  invisible(self)
+  system.file(
+    "components",
+    paste0(standard, ".mustache"),
+    package = "mighty.standards"
+  )
 }

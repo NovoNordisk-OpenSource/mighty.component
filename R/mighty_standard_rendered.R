@@ -1,6 +1,5 @@
 #' Rendered mighty standard component
 #' @export
-
 mighty_standard_rendered <- R6::R6Class(
   classname = "mighty_standard_rendered",
   inherit = mighty_standard,
@@ -15,12 +14,17 @@ mighty_standard_rendered <- R6::R6Class(
     #' Evaluate code
     #' @param envir Environment to evaluate in. Parsed to `eval()`.
     eval = function(envir = parent.frame()) {
-      eval(expr = parse(text = private$.template), envir = envir)
+      eval(
+        expr = parse(text = self$code),
+        envir = envir
+      )
     },
     #' @description
     #' Test component
-    test = function() {
-      TRUE # TODO: Testthat like functionality
+    #' @param input The input to use as `.self` for the code chunk
+    #' @param expected The expected output in `.self` after evaluation
+    test = function(input, expected) {
+      ms_test(input, expected, self)
     },
     #' @description
     #' Test coverage
@@ -29,3 +33,15 @@ mighty_standard_rendered <- R6::R6Class(
     }
   )
 )
+
+#' @noRd
+ms_test <- function(input, expected, self) {
+  env <- new.env(parent = baseenv())
+  env$.self <- input
+  self$eval(envir = env)
+  testthat::expect_equal(
+    object = env$.self, 
+    expected = expected, 
+    ignore_attr = TRUE
+  )
+}
