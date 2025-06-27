@@ -1,8 +1,8 @@
 #' Retrieve mighty standard component
 #' @param standard standard
 #' @export
-get_standard <- function(standard) {
-  template <- find_standard(standard)
+get_standard <- function(standard, package) {
+  template <- find_standard(standard, package)
   mighty_standard$new(template = readLines(template))
 }
 
@@ -10,17 +10,17 @@ get_standard <- function(standard) {
 #' @param standard standard
 #' @param params list of input parameters
 #' @export
-get_rendered_standard <- function(standard, params) {
-  x <- get_standard(standard)
+get_rendered_standard <- function(standard, params, package) {
+  x <- get_standard(standard, package)
   do.call(what = x$render, args = params)
 }
 
 #' List all available standards
 #' @export
-list_standards <- function() {
+list_standards <- function(package) {
   templates <- system.file(
     "components",
-    package = "mighty.standards"
+    package = package
   ) |> 
     list.files()
 
@@ -28,8 +28,8 @@ list_standards <- function() {
 }
 
 #' @noRd
-find_standard <- function(standard) {
-  if (!standard %in% list_standards()) {
+find_standard <- function(standard, package) {
+  if (!standard %in% list_standards(package)) {
     cli::cli_abort("Component {template} not found")
   }
 
