@@ -10,7 +10,7 @@ get_standard <- function(standard, library) {
 #' @param standard standard
 #' @param params list of input parameters
 #' @export
-get_rendered_standard <- function(standard, params, library) {
+get_rendered_standard <- function(standard, library, params ) {
   x <- get_standard(standard, library)
   do.call(what = x$render, args = params)
 }
@@ -23,10 +23,9 @@ list_standards <- function(library) {
     "templates" = list_all_templates(library),
     "dir" = list_all_R_functions_in_dir(library),
     "file" = list_all_R_functions_in_file(library),
-    cli::cli_abort( 
+    cli::cli_abort(
       "Unsupported source type for library: {.path {library}}"
     )
-
   )
 }
 
@@ -53,18 +52,27 @@ get_source_type <- function(library) {
   return("templates")
 }
 
-
+#' List all templates in a library
+#' @noRd
 list_all_templates <- function(library) {
-  templates <- system.file(
-    "components",
-    package = library
-  ) |>
-    list.files()
+  
 
-  templates <- gsub(pattern = "\\.mustache$", replacement = "", x = templates) |> 
-    setNames(rep(library, length(templates)))
 }
 
+#' Read in tepmlate files and return code component id
+get_id <- function(path_templates) {
+  path_templates |>
+    vapply(
+      function(i) {
+        x <- readLines(i, warn = FALSE)
+        get_tag(x, "id") |> trimws()
+      },
+      FUN.VALUE = character(1L)
+    )
+}
+
+#' List all R functions in a directory or file
+#' @noRd
 list_all_R_functions_in_dir <- function(path_dir) {
   r_files <- list.files(path_dir, pattern = "\\.[Rr]$", full.names = TRUE)
   if (length(r_files) == 0) {
@@ -74,6 +82,8 @@ list_all_R_functions_in_dir <- function(path_dir) {
     unlist(use.names = TRUE)
 }
 
+#' List all R functions in a file
+#' @noRd
 list_all_R_functions_in_file <- function(path_file) {
   if (!file.exists(path_file)) {
     cli::cli_abort(c(
