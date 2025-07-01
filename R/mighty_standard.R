@@ -28,8 +28,6 @@ mighty_standard <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field id id
-    id = \() private$.id,
     #' @field code code
     code = \() private$.code,
     #' @field template template
@@ -42,7 +40,6 @@ mighty_standard <- R6::R6Class(
     outputs = \() private$.outputs
   ),
   private = list(
-    .id = character(),
     .type = character(1),
     .depends = list(),
     .outputs = character(),
@@ -53,7 +50,7 @@ mighty_standard <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, self, private) {
-  private$.id <- get_tag(template, "id")
+  browser()
   private$.type <- get_tag(template, "type")
   private$.depends <- get_tags(template, "depends")
   private$.outputs <- get_tags(template, "outputs")
@@ -79,3 +76,4 @@ get_tag <- function(template, tag) {
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
 }
+
