@@ -1,4 +1,4 @@
-test_that("get_rendered_standard returns rendered standard with valid inputs", {
+test_that("get_rendered_component returns rendered custom code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------
   tmp_file <- withr::local_tempdir() |>
     file.path("ady.R")
@@ -9,9 +9,6 @@ test_that("get_rendered_standard returns rendered standard with valid inputs", {
 #' @id ady
 #' @description
 #' Derives the relative day compared to the treatment start date.
-#'
-#' @param .self `data.frame` Input data set
-#' @param date `character` Name of date variable to use
 #' @type derivation
 #' @depends .self A
 #' @outputs B
@@ -26,11 +23,33 @@ test_that("get_rendered_standard returns rendered standard with valid inputs", {
   }"
   ) |>
     writeLines(con = tmp_file)
-# ACT ---------------------------
+  # ACT ---------------------------
   x <- get_rendered_component(tmp_file)
 
   # ASSERT
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
+  expect_equal(x$type, "derivation")
+  expect_equal(x$depends, ".self A")
+  expect_equal(x$outputs, "B")
 })
 
+test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
+  # ARRANGE -------------------------------------------------------------------
+  # ACT ---------------------------
+  x <- get_rendered_component(
+    "ady",
+    library = "mighty.standards",
+    params = list(
+      date = "date_var",
+      variable = "out_var"
+    )
+  )
+
+  # ASSERT ---------------------------
+  expect_s3_class(x, "mighty_standard_rendered")
+  expect_snapshot_value(x$code, style = "json2")
+  expect_equal(x$type, "derivation")
+  expect_equal(x$depends, c(".self date_var", ".self TRTSDT"))
+  expect_equal(x$outputs, "out_var")
+})

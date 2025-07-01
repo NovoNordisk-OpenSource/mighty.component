@@ -63,7 +63,8 @@ ms_initialize <- function(template, self, private) {
 get_tags <- function(template, tag) {
   pattern <- paste0("^#' @", tag)
   tags <- grep(pattern = pattern, x = template, value = TRUE)
-  gsub(pattern = pattern, replacement = "", x = tags)
+  gsub(pattern = pattern, replacement = "", x = tags) |> 
+    trimws()
 }
 
 #' @noRd
@@ -71,7 +72,7 @@ get_tag <- function(template, tag) {
   tags <- get_tags(template, tag)
 
   if (length(tags) == 1L) {
-    return(tags)
+    return(trimws(tags))
   }
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
