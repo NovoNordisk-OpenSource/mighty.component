@@ -50,7 +50,7 @@ mighty_standard <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, self, private) {
-  browser()
+
   private$.type <- get_tag(template, "type")
   private$.depends <- get_tags(template, "depends")
   private$.outputs <- get_tags(template, "outputs")
