@@ -8,6 +8,9 @@ Mighty standard component
 
 Mighty standard component
 }
+\seealso{
+\code{\link[=get_standard]{get_standard()}}, \link{mighty_standard_rendered}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{

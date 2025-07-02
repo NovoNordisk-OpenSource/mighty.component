@@ -1,4 +1,8 @@
 #' Rendered mighty standard component
+#' @description
+#' Class for a rendered mighty standard component.
+#' 
+#' @seealso [get_rendered_standard()]
 #' @export
 mighty_standard_rendered <- R6::R6Class(
   classname = "mighty_standard_rendered",
@@ -9,6 +13,12 @@ mighty_standard_rendered <- R6::R6Class(
     #' @param template rendered template
     initialize = function(template) {
       super$initialize(template)
+    },
+    #' @description
+    #' Stream R code into a script (appended)
+    #' @param path `character` path to the R script to stream code into.
+    stream = function(path) {
+      msr_stream(path, self)
     },
     #' @description
     #' Evaluate code
@@ -24,7 +34,7 @@ mighty_standard_rendered <- R6::R6Class(
     #' @param input The input to use as `.self` for the code chunk
     #' @param expected The expected output in `.self` after evaluation
     test = function(input, expected) {
-      ms_test(input, expected, self)
+      msr_test(input, expected, self)
     },
     #' @description
     #' Test coverage
@@ -35,7 +45,7 @@ mighty_standard_rendered <- R6::R6Class(
 )
 
 #' @noRd
-ms_test <- function(input, expected, self) {
+msr_test <- function(input, expected, self) {
   env <- new.env(parent = baseenv())
   env$.self <- input
   self$eval(envir = env)
@@ -44,4 +54,12 @@ ms_test <- function(input, expected, self) {
     expected = expected, 
     ignore_attr = TRUE
   )
+}
+
+#' @noRd
+msr_stream <- function(path, self) {
+  f <- file(description = path, open = "a")
+  writeLines(text = self$code, con = f)
+  close(f)
+  invisible(self)
 }

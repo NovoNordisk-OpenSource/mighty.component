@@ -1,5 +1,6 @@
 #' Mighty standard component
-#'@export
+#' @seealso [get_standard()], [mighty_standard_rendered]
+#' @export
 mighty_standard <- R6::R6Class(
   classname = "mighty_standard",
   public = list(

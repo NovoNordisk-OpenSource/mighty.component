@@ -4,9 +4,10 @@
 \alias{mighty_standard_rendered}
 \title{Rendered mighty standard component}
 \description{
-Rendered mighty standard component
-
-Rendered mighty standard component
+Class for a rendered mighty standard component.
+}
+\seealso{
+\code{\link[=get_rendered_standard]{get_rendered_standard()}}
 }
 \section{Super class}{
 \code{\link[mighty.standards:mighty_standard]{mighty.standards::mighty_standard}} -> \code{mighty_standard_rendered}
@@ -15,6 +16,7 @@ Rendered mighty standard component
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-mighty_standard_rendered-new}{\code{mighty_standard_rendered$new()}}
+\item \href{#method-mighty_standard_rendered-stream}{\code{mighty_standard_rendered$stream()}}
 \item \href{#method-mighty_standard_rendered-eval}{\code{mighty_standard_rendered$eval()}}
 \item \href{#method-mighty_standard_rendered-test}{\code{mighty_standard_rendered$test()}}
 \item \href{#method-mighty_standard_rendered-coverage}{\code{mighty_standard_rendered$coverage()}}
@@ -42,6 +44,23 @@ Create standard component from rendered template
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{template}}{rendered template}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_standard_rendered-stream"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_standard_rendered-stream}{}}}
+\subsection{Method \code{stream()}}{
+Stream R code into a script (appended)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$stream(path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{\code{character} path to the R script to stream code into.}
 }
 \if{html}{\out{</div>}}
 }
