@@ -6,6 +6,14 @@
 \usage{
 list_standards()
 }
+\value{
+\code{character} vector of standard names
+}
 \description{
-List all available standards
+List all available mighty standard components.
+}
+\examples{
+available_standards <- list_standards()
+cat(available_standards, sep = "\n")
+
 }

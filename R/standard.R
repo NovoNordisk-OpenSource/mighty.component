@@ -1,14 +1,29 @@
 #' Retrieve mighty standard component
-#' @param standard standard
+#' @description
+#' Retrieve either the generalised standard component (template) or
+#' the rendered standard component with code that is ready to use.
+#'
+#' * `get_standard()`: Returns an object of class `mighty_standard`
+#' * `get_rendered_standard()`: Returns an object of class `mighty_standard_rendered`
+#' 
+#' When rendering the standard the required list of parameters depends on the standard.
+#' Check the documentation of the specific standard for details.
+#' 
+#' @param standard `character` name of the standard component to retrieve.
+#' @param params named `list` of input parameters. Passed along to `mighty_standard$render()`.
+#' @seealso [list_standards()], [mighty_standard], [mighty_standard_rendered]
+#' @examples
+#' get_standard("ady")
+#' 
+#' get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' @rdname get_standard
 #' @export
 get_standard <- function(standard) {
   template <- find_standard(standard)
   mighty_standard$new(template = readLines(template))
 }
 
-#' Retrieve rendered mighty standard component
-#' @param standard standard
-#' @param params list of input parameters
+#' @rdname get_standard
 #' @export
 get_rendered_standard <- function(standard, params) {
   x <- get_standard(standard)
@@ -16,6 +31,14 @@ get_rendered_standard <- function(standard, params) {
 }
 
 #' List all available standards
+#' @description
+#' List all available mighty standard components.
+#' 
+#' @returns `character` vector of standard names
+#' @examples
+#' available_standards <- list_standards()
+#' cat(available_standards, sep = "\n")
+#'
 #' @export
 list_standards <- function() {
   templates <- system.file(
