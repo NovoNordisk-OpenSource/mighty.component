@@ -29,13 +29,15 @@ list_standards <- function() {
 
 #' @noRd
 find_standard <- function(standard) {
-  if (!standard %in% list_standards()) {
-    cli::cli_abort("Component {template} not found")
-  }
-
-  system.file(
+  path <- system.file(
     "components",
     paste0(standard, ".mustache"),
     package = "mighty.standards"
   )
+
+  if (path == "") {
+    cli::cli_abort("Component {standard} not found")
+  }
+
+  path
 }
