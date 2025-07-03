@@ -2,6 +2,7 @@
 #' @param standard standard
 #' @export
 get_standard <- function(standard, library) {
+   
   template <- find_standard(standard, library)
   mighty_standard$new(template = readLines(template))
 }
@@ -27,9 +28,18 @@ get_rendered_standard <- function(standard, library, params) {
 }
 
 get_rendered_custom <- function(path) {
-
   code_string <- readLines(path) |>
     paste0(collapse = "\n")
+
+  mighty_standard$new(
+    template = c(
+      extract_function_metadata(code_string),
+      extract_function_body(code_string)
+    )
+  )$render()
+}
+
+extract_function_body <- function(code_string) {
   fn_body_string <- parse(text = code_string) |>
     eval() |>
     body() |>
@@ -37,11 +47,11 @@ get_rendered_custom <- function(path) {
 
   # Remove opening and closing brackets
   fn_body <- fn_body_string[-c(1, length(fn_body_string))]
+}
 
-  # metadata
+extract_function_metadata <- function(code_string) {
   metadata <- code_string |> strsplit(split = "\\n") |> unlist()
   metadata <- grep(pattern = "^#\\'", x = trimws(metadata), value = TRUE)
-  mighty_standard$new(template = c(metadata, fn_body))$render()
 }
 
 #' List all available standards
@@ -51,21 +61,20 @@ list_standards <- function(library) {
     "components",
     package = library
   ) |>
-    list.files(full.names = TRUE) |>
-    get_id()
+    list.files()
   setNames(templates, rep(library, length(templates)))
 }
 
 
 #' @noRd
 find_standard <- function(standard, library) {
-  if (!standard %in% list_standards(library)) {
-    cli::cli_abort("Component {template} not found")
-  }
-
-  system.file(
+  out <- system.file(
     "components",
     paste0(standard, ".mustache"),
-    package = "mighty.standards"
+    package = library
   )
+  if (out == "") {
+    cli::cli_abort("Component {standard} not found in {library}")
+  }
+  out
 }
