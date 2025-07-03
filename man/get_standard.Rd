@@ -4,7 +4,7 @@
 \alias{get_standard}
 \title{Retrieve mighty standard component}
 \usage{
-get_standard(standard)
+get_standard(standard, library)
 }
 \arguments{
 \item{standard}{standard}

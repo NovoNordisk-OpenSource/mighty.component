@@ -4,7 +4,7 @@
 \alias{list_standards}
 \title{List all available standards}
 \usage{
-list_standards()
+list_standards(library)
 }
 \description{
 List all available standards

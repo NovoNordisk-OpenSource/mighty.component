@@ -6,6 +6,8 @@ get_standard <- function(standard, library) {
   mighty_standard$new(template = readLines(template))
 }
 
+#' Retrieve rendered mighty standard component
+#' @export
 get_rendered_component <- function(standard, ...) {
   is_r_file <- grepl(pattern = "\\.[Rr]$", x = standard)
   if (is_r_file) {
@@ -54,17 +56,6 @@ list_standards <- function(library) {
   setNames(templates, rep(library, length(templates)))
 }
 
-#' Read in tepmlate files and return code component id
-get_id <- function(path_templates) {
-  path_templates |>
-    vapply(
-      function(i) {
-        x <- readLines(i, warn = FALSE)
-        get_tag(x, "id") |> trimws()
-      },
-      FUN.VALUE = character(1L)
-    )
-}
 
 #' @noRd
 find_standard <- function(standard, library) {
