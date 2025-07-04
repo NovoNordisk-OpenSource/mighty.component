@@ -62,7 +62,7 @@ msr_stream <- function(path, self) {
 }
 
 #' @noRd
-msr_test <- function(input, expected, self) {
+msr_test <- function(input, expected, self, private) {
   env <- new.env(parent = baseenv())
   env$.self <- input
   self$eval(envir = env)

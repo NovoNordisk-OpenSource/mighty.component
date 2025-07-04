@@ -2,10 +2,10 @@
 #' @description
 #' Class for a generic mighty standard component.
 #'
-#' In the {mighty} framework, a "component" is a code template that processes
+#' In the mighty framework, a "component" is a code template that processes
 #' input data and returns a modified version with new columns or rows.
 #' Standard components share a common structure and roxygen-like documentation pattern,
-#' facilitating their use inside {mighty}.
+#' facilitating their use inside mighty.
 #'
 #' @details
 #' Templates are `character` vectors of R code that are interpreted.
@@ -15,7 +15,7 @@
 #' ### Documentation
 #'
 #' A template is required to be documented with the following tags similar to when
-#' documenting functions using {roxygen2}:
+#' documenting functions using roxygen2:
 #'
 #' | Tag            | Description                                          | Example                  |
 #' |----------------|------------------------------------------------------|--------------------------|

@@ -6,10 +6,10 @@
 \description{
 Class for a generic mighty standard component.
 
-In the {mighty} framework, a "component" is a code template that processes
+In the mighty framework, a "component" is a code template that processes
 input data and returns a modified version with new columns or rows.
 Standard components share a common structure and roxygen-like documentation pattern,
-facilitating their use inside {mighty}.
+facilitating their use inside mighty.
 }
 \details{
 Templates are \code{character} vectors of R code that are interpreted.
@@ -18,7 +18,7 @@ framework. Dynamic parameters are specified using \code{{{ variable_name }}}.
 \subsection{Documentation}{
 
 A template is required to be documented with the following tags similar to when
-documenting functions using {roxygen2}:\tabular{lll}{
+documenting functions using roxygen2:\tabular{lll}{
    Tag \tab Description \tab Example \cr
    \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
    \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
