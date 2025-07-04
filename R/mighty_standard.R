@@ -52,7 +52,7 @@ mighty_standard <- R6::R6Class(
 ms_initialize <- function(template, self, private) {
 
   private$.type <- get_tag(template, "type")
-  private$.depends <- get_tags(template, "depends")
+  private$.depends <- get_tags(template, "depends") |> format_depends()
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- grep(pattern = "^#", x = template, value = TRUE, invert = TRUE)
   private$.template <- template
@@ -78,3 +78,9 @@ get_tag <- function(template, tag) {
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
 }
 
+format_depends <- function(x){
+# The .self nomenclature is used by mighty.standards to force the user
+  # to be explicit about the provenance and make automating on top easier,
+  # however, this is not use by mighty, so needs to be removed
+  gsub("\\.self\\s*", "", x)
+}

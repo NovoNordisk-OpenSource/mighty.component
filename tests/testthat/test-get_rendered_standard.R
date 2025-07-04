@@ -30,7 +30,7 @@ test_that("get_rendered_component returns rendered custom code component with va
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
-  expect_equal(x$depends, ".self A")
+  expect_equal(x$depends, "A")
   expect_equal(x$outputs, "B")
 })
 
@@ -50,7 +50,7 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
-  expect_equal(x$depends, c(".self date_var", ".self TRTSDT"))
+  expect_equal(x$depends, c("date_var", "TRTSDT"))
   expect_equal(x$outputs, "out_var")
 })
 
