@@ -85,7 +85,8 @@ Evaluate code in a specified environment.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}. Defaults to using the current environment with \code{parent.frame()}.}
+\item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}.
+Defaults to using the current environment with \code{parent.frame()}.}
 }
 \if{html}{\out{</div>}}
 }

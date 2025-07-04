@@ -3,7 +3,7 @@ test_that("ady", {
 
   cat(ady$code, sep = "\n")
 
-  adae <- pharmaverseadam::adae |> 
+  adae <- pharmaverseadam::adae |>
     dplyr::select(USUBJID, ASTDT, TRTSDT, ASTDY)
 
   ady$test(

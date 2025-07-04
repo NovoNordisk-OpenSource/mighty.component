@@ -29,7 +29,8 @@ mighty_standard_rendered <- R6::R6Class(
     },
     #' @description
     #' Evaluate code in a specified environment.
-    #' @param envir Environment to evaluate in. Parsed to `eval()`. Defaults to using the current environment with `parent.frame()`.
+    #' @param envir Environment to evaluate in. Parsed to `eval()`.
+    #' Defaults to using the current environment with `parent.frame()`.
     eval = function(envir = parent.frame()) {
       eval(
         expr = parse(text = self$code),

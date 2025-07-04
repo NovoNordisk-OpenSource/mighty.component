@@ -49,7 +49,7 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{#' Title for my component
 #' @description
-#' A more in depth desciption of what is being done
+#' A more in depth description of what is being done
 #'
 #' @param variable dynamic output if applicable
 #' @param x some other input to the component

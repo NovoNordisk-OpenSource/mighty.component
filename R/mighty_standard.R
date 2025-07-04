@@ -44,7 +44,7 @@
 #' ```r
 #' #' Title for my component
 #' #' @description
-#' #' A more in depth desciption of what is being done
+#' #' A more in depth description of what is being done
 #' #'
 #' #' @param variable dynamic output if applicable
 #' #' @param x some other input to the component
@@ -124,7 +124,7 @@ mighty_standard <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, self, private) {
-  # TODO: Input valdiation of template
+  # TODO: Input validation of template
   private$.type <- get_tag(template, "type")
   private$.depends <- get_tags(template, "depends")
   private$.outputs <- get_tags(template, "outputs")
