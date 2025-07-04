@@ -5,16 +5,16 @@
 #'
 #' * `get_standard()`: Returns an object of class `mighty_standard`
 #' * `get_rendered_standard()`: Returns an object of class `mighty_standard_rendered`
-#' 
+#'
 #' When rendering the standard the required list of parameters depends on the standard.
 #' Check the documentation of the specific standard for details.
-#' 
+#'
 #' @param standard `character` name of the standard component to retrieve.
 #' @param params named `list` of input parameters. Passed along to `mighty_standard$render()`.
 #' @seealso [list_standards()], [mighty_standard], [mighty_standard_rendered]
 #' @examples
 #' get_standard("ady")
-#' 
+#'
 #' get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
 #' @rdname get_standard
 #' @export
@@ -33,7 +33,7 @@ get_rendered_standard <- function(standard, params) {
 #' List all available standards
 #' @description
 #' List all available mighty standard components.
-#' 
+#'
 #' @returns `character` vector of standard names
 #' @examples
 #' available_standards <- list_standards()
@@ -44,7 +44,7 @@ list_standards <- function() {
   templates <- system.file(
     "components",
     package = "mighty.standards"
-  ) |> 
+  ) |>
     list.files()
 
   gsub(pattern = "\\.mustache$", replacement = "", x = templates)

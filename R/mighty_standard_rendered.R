@@ -1,14 +1,14 @@
 #' Rendered mighty standard component
 #' @description
 #' Class for a rendered mighty standard component.
-#' 
+#'
 #' Once rendered a component can be used to:
-#' 
+#'
 #' * Stream into an R script
 #' * Evaluate the generated code in an environment
 #' * Test code against expected output
 #' * Calculate test coverage
-#' 
+#'
 #' @seealso [get_rendered_standard()]
 #' @export
 mighty_standard_rendered <- R6::R6Class(
@@ -67,8 +67,8 @@ msr_test <- function(input, expected, self) {
   env$.self <- input
   self$eval(envir = env)
   testthat::expect_equal(
-    object = env$.self, 
-    expected = expected, 
+    object = env$.self,
+    expected = expected,
     ignore_attr = TRUE
   )
   # TODO: Implement coverage calculation and return inside self/private

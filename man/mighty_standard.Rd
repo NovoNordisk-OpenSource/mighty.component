@@ -4,9 +4,27 @@
 \alias{mighty_standard}
 \title{Mighty standard component}
 \description{
-Mighty standard component
+Class for a generic mighty standard component.
+Contains all metadata and code, and has methods
+to document and render the component.
+}
+\details{
+How to specify a standard!!!
 
-Mighty standard component
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' Title for my component
+#' @description
+#' A more in depth desciption of what is being done
+#'
+#' @param variable dynamic output if applicable
+#' @param x some other input to the component
+#' @type derivation
+#' @depends .self \{\{ x \}\}
+#' @outputs \{\{ variable \}\}
+.self <- .self |>
+  dplyr::mutate(
+    \{\{ variable \}\} = 2 * \{\{ x \}\}
+  )
+}\if{html}{\out{</div>}}
 }
 \seealso{
 \code{\link[=get_standard]{get_standard()}}, \link{mighty_standard_rendered}
@@ -14,15 +32,15 @@ Mighty standard component
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{code}}{code}
+\item{\code{code}}{The code block of the component.}
 
-\item{\code{template}}{template}
+\item{\code{template}}{The complete template.}
 
-\item{\code{type}}{type}
+\item{\code{type}}{The type of the component. Can be one of predecessor, derivation, row.}
 
-\item{\code{depends}}{depends}
+\item{\code{depends}}{List of the components dependencies.}
 
-\item{\code{outputs}}{outputs}
+\item{\code{outputs}}{List of the new columns created by the component.}
 }
 \if{html}{\out{</div>}}
 }
@@ -39,7 +57,7 @@ Mighty standard component
 \if{html}{\out{<a id="method-mighty_standard-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from template
+Create standard component from template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard$new(template)}\if{html}{\out{</div>}}
 }
@@ -47,7 +65,7 @@ Create standard component from template
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{template}}{moustache template}
+\item{\code{template}}{\code{character} template code. See details for how to format.}
 }
 \if{html}{\out{</div>}}
 }
@@ -56,7 +74,8 @@ Create standard component from template
 \if{html}{\out{<a id="method-mighty_standard-render"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard-render}{}}}
 \subsection{Method \code{render()}}{
-Render component
+Render component with supplied values.
+Supports mustache templates and uses \code{whisker::whisker.render()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard$render(...)}\if{html}{\out{</div>}}
 }
@@ -64,16 +83,21 @@ Render component
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{params used to render the template}
+\item{\code{...}}{Parameters used to render the template.
+Must be named, and depends on the template.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Object of class \link{mighty_standard_rendered}
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_standard-document"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard-document}{}}}
 \subsection{Method \code{document()}}{
-Create standard documentation
+Create standard documentation.
+\strong{TODO: Implement in #18}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard$document()}\if{html}{\out{</div>}}
 }
