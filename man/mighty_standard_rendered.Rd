@@ -5,6 +5,14 @@
 \title{Rendered mighty standard component}
 \description{
 Class for a rendered mighty standard component.
+
+Once rendered a component can be used to:
+\itemize{
+\item Stream into an R script
+\item Evaluate the generated code in an environment
+\item Test code against expected output
+\item Calculate test coverage
+}
 }
 \seealso{
 \code{\link[=get_rendered_standard]{get_rendered_standard()}}
@@ -19,7 +27,7 @@ Class for a rendered mighty standard component.
 \item \href{#method-mighty_standard_rendered-stream}{\code{mighty_standard_rendered$stream()}}
 \item \href{#method-mighty_standard_rendered-eval}{\code{mighty_standard_rendered$eval()}}
 \item \href{#method-mighty_standard_rendered-test}{\code{mighty_standard_rendered$test()}}
-\item \href{#method-mighty_standard_rendered-coverage}{\code{mighty_standard_rendered$coverage()}}
+\item \href{#method-mighty_standard_rendered-test_coverage}{\code{mighty_standard_rendered$test_coverage()}}
 \item \href{#method-mighty_standard_rendered-clone}{\code{mighty_standard_rendered$clone()}}
 }
 }
@@ -35,7 +43,7 @@ Class for a rendered mighty standard component.
 \if{html}{\out{<a id="method-mighty_standard_rendered-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard_rendered-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from rendered template
+Create standard component from rendered template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$new(template)}\if{html}{\out{</div>}}
 }
@@ -43,7 +51,7 @@ Create standard component from rendered template
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{template}}{rendered template}
+\item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_standard$render()}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -52,7 +60,7 @@ Create standard component from rendered template
 \if{html}{\out{<a id="method-mighty_standard_rendered-stream"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard_rendered-stream}{}}}
 \subsection{Method \code{stream()}}{
-Stream R code into a script (appended)
+Stream rendered code into a script (appended)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$stream(path)}\if{html}{\out{</div>}}
 }
@@ -60,7 +68,7 @@ Stream R code into a script (appended)
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{path}}{\code{character} path to the R script to stream code into.}
+\item{\code{path}}{\code{character(1)} path to the R script to stream code into.}
 }
 \if{html}{\out{</div>}}
 }
@@ -69,7 +77,7 @@ Stream R code into a script (appended)
 \if{html}{\out{<a id="method-mighty_standard_rendered-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard_rendered-eval}{}}}
 \subsection{Method \code{eval()}}{
-Evaluate code
+Evaluate code in a specified environment.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$eval(envir = parent.frame())}\if{html}{\out{</div>}}
 }
@@ -77,7 +85,7 @@ Evaluate code
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}.}
+\item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}. Defaults to using the current environment with \code{parent.frame()}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -86,7 +94,8 @@ Evaluate code
 \if{html}{\out{<a id="method-mighty_standard_rendered-test"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_standard_rendered-test}{}}}
 \subsection{Method \code{test()}}{
-Test component
+Test component against expected output.
+\strong{TODO: Implement in #17}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$test(input, expected)}\if{html}{\out{</div>}}
 }
@@ -102,12 +111,13 @@ Test component
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_standard_rendered-coverage"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_standard_rendered-coverage}{}}}
-\subsection{Method \code{coverage()}}{
-Test coverage
+\if{html}{\out{<a id="method-mighty_standard_rendered-test_coverage"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_standard_rendered-test_coverage}{}}}
+\subsection{Method \code{test_coverage()}}{
+Calculate test coverage for already run tests
+\strong{TODO: Implement in #17}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$coverage()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_standard_rendered$test_coverage()}\if{html}{\out{</div>}}
 }
 
 }
