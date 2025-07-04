@@ -67,10 +67,10 @@
 #'   )
 #' ```
 #'
-#' @seealso [get_standard()], [mighty_standard_rendered]
+#' @seealso [get_standard()], [mighty_component_rendered]
 #' @export
-mighty_standard <- R6::R6Class(
-  classname = "mighty_standard",
+mighty_component <- R6::R6Class(
+  classname = "mighty_component",
   public = list(
     #' @description
     #' Create standard component from template.
@@ -83,14 +83,14 @@ mighty_standard <- R6::R6Class(
     #' Supports mustache templates and uses `whisker::whisker.render()`.
     #' @param ... Parameters used to render the template.
     #' Must be named, and depends on the template.
-    #' @return Object of class [mighty_standard_rendered]
+    #' @return Object of class [mighty_component_rendered]
     render = function(...) {
       # TODO: Check that ... are all named and contains all relevant parameters
       template <- whisker::whisker.render(
         template = self$template,
         data = rlang::list2(...)
       )
-      mighty_standard_rendered$new(
+      mighty_component_rendered$new(
         template = strsplit(x = template, split = "\n")[[1]]
       )
     },

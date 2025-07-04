@@ -11,13 +11,13 @@
 #'
 #' @seealso [get_rendered_standard()]
 #' @export
-mighty_standard_rendered <- R6::R6Class(
-  classname = "mighty_standard_rendered",
-  inherit = mighty_standard,
+mighty_component_rendered <- R6::R6Class(
+  classname = "mighty_component_rendered",
+  inherit = mighty_component,
   public = list(
     #' @description
     #' Create standard component from rendered template.
-    #' @param template  `character` Rendered template such as output from `mighty_standard$render()`.
+    #' @param template `character` Rendered template such as output from `mighty_component$render()`.
     initialize = function(template) {
       super$initialize(template)
     },

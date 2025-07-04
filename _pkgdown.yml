@@ -6,8 +6,8 @@ reference:
     contents:
       - get_standard
       - list_standards
-  - title: Mighty standard classes
+  - title: Mighty standard component classes
     contents:
-      - mighty_standard
-      - mighty_standard_rendered
+      - mighty_component
+      - mighty_component_rendered
 

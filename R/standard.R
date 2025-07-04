@@ -3,15 +3,15 @@
 #' Retrieve either the generalized standard component (template) or
 #' the rendered standard component with code that is ready to use.
 #'
-#' * `get_standard()`: Returns an object of class `mighty_standard`
-#' * `get_rendered_standard()`: Returns an object of class `mighty_standard_rendered`
+#' * `get_standard()`: Returns an object of class `mighty_component`
+#' * `get_rendered_standard()`: Returns an object of class `mighty_component_rendered`
 #'
 #' When rendering the standard the required list of parameters depends on the standard.
 #' Check the documentation of the specific standard for details.
 #'
 #' @param standard `character` name of the standard component to retrieve.
-#' @param params named `list` of input parameters. Passed along to `mighty_standard$render()`.
-#' @seealso [list_standards()], [mighty_standard], [mighty_standard_rendered]
+#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
+#' @seealso [list_standards()], [mighty_component], [mighty_component_rendered]
 #' @examples
 #' get_standard("ady")
 #'
@@ -20,7 +20,7 @@
 #' @export
 get_standard <- function(standard) {
   template <- find_standard(standard)
-  mighty_standard$new(template = readLines(template))
+  mighty_component$new(template = readLines(template))
 }
 
 #' @rdname get_standard
