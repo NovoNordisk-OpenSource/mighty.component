@@ -1,6 +1,6 @@
 #' Retrieve mighty standard component
 #' @description
-#' Retrieve either the generalised standard component (template) or
+#' Retrieve either the generalized standard component (template) or
 #' the rendered standard component with code that is ready to use.
 #'
 #' * `get_standard()`: Returns an object of class `mighty_standard`

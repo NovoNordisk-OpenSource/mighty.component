@@ -20,6 +20,7 @@ CMD
 CRAN
 dplyr
 dtc
+envir
 knitr
 lintr
 multiarch
@@ -30,6 +31,7 @@ OLDV
 PARAMCD
 pharmaverseadam
 pharmaversesdtm
+rdname
 rlang
 rmarkdown
 roclet
@@ -37,6 +39,7 @@ roxygen
 Roxygen
 Roxygenize
 Rtemplate
+seealso
 stringr
 STUDYID
 Sweave

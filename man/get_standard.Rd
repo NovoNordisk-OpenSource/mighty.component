@@ -15,7 +15,7 @@ get_rendered_standard(standard, params)
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_standard$render()}.}
 }
 \description{
-Retrieve either the generalised standard component (template) or
+Retrieve either the generalized standard component (template) or
 the rendered standard component with code that is ready to use.
 \itemize{
 \item \code{get_standard()}: Returns an object of class \code{mighty_standard}
