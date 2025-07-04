@@ -41,24 +41,23 @@ get_rendered_standard <- function(standard, params) {
 #'
 #' @export
 list_standards <- function() {
-  templates <- system.file(
-    "components",
-    package = "mighty.standards"
-  ) |>
+  templates <- standard_path() |>
     list.files()
 
   gsub(pattern = "\\.mustache$", replacement = "", x = templates)
 }
 
 #' @noRd
-find_standard <- function(standard) {
-  path <- system.file(
-    "components",
-    paste0(standard, ".mustache"),
-    package = "mighty.standards"
-  )
+standard_path <- function() {
+  # TODO: Point to new path when implemented
+  system.file("components", package = "mighty.standards")
+}
 
-  if (path == "") {
+#' @noRd
+find_standard <- function(standard) {
+  path <- paste0(standard_path(), "/", standard, ".mustache")
+
+  if (!file.exists(path)) {
     cli::cli_abort("Component {standard} not found")
   }
 
