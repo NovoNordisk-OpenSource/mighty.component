@@ -5,11 +5,47 @@
 \title{Mighty standard component}
 \description{
 Class for a generic mighty standard component.
-Contains all metadata and code, and has methods
-to document and render the component.
+
+In the {mighty} framework, a "component" is a code template that processes
+input data and returns a modified version with new columns or rows.
+Standard components share a common structure and roxygen-like documentation pattern,
+facilitating their use inside {mighty}.
 }
 \details{
-How to specify a standard!!!
+Templates are \code{character} vectors of R code that are interpreted.
+Dynamic use of variables etc. are supported using the \href{https://mustache.github.io}{mustache}
+framework. Dynamic parameters are specified using \code{{{ variable_name }}}.
+\subsection{Documentation}{
+
+A template is required to be documented with the following tags similar to when
+documenting functions using {roxygen2}:\tabular{lll}{
+   Tag \tab Description \tab Example \cr
+   \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
+   \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
+   \code{param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
+   \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
+   \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
+   \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
+}
+
+}
+
+\subsection{Conventions}{
+
+A template for a standard components follow these conventions:
+\enumerate{
+\item The input data set is always called \code{.self}.
+\item Additional parameters used to render the template into R code are documented with the \verb{@param} tag.
+\item The template ends with creating a modified version of \code{.self}.
+\item Template documented with the roxygen-like tags above
+}
+}
+
+\subsection{Example}{
+
+Below is an example of a mighty component template that
+creates a new dynamic variable \code{variable} as twice the value
+of the dynamic input \code{x}, that should already by in the input data set \code{.self}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{#' Title for my component
 #' @description
@@ -25,6 +61,16 @@ How to specify a standard!!!
     \{\{ variable \}\} = 2 * \{\{ x \}\}
   )
 }\if{html}{\out{</div>}}
+
+When rendered with parameters \code{variable = "A"} and \code{x = "B"}
+the rendered code used in mighty becomes:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{.self <- .self |>
+  dplyr::mutate(
+    A = 2 * B
+  )
+}\if{html}{\out{</div>}}
+}
 }
 \seealso{
 \code{\link[=get_standard]{get_standard()}}, \link{mighty_standard_rendered}

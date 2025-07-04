@@ -1,11 +1,46 @@
 #' Mighty standard component
 #' @description
 #' Class for a generic mighty standard component.
-#' Contains all metadata and code, and has methods
-#' to document and render the component.
+#'
+#' In the {mighty} framework, a "component" is a code template that processes
+#' input data and returns a modified version with new columns or rows.
+#' Standard components share a common structure and roxygen-like documentation pattern,
+#' facilitating their use inside {mighty}.
 #'
 #' @details
-#' How to specify a standard!!!
+#' Templates are `character` vectors of R code that are interpreted.
+#' Dynamic use of variables etc. are supported using the [mustache](https://mustache.github.io)
+#' framework. Dynamic parameters are specified using `{{ variable_name }}`.
+#'
+#' ### Documentation
+#'
+#' A template is required to be documented with the following tags similar to when
+#' documenting functions using {roxygen2}:
+#'
+#' | Tag            | Description                                          | Example                  |
+#' |----------------|------------------------------------------------------|--------------------------|
+#' | `@title`       | Title of the component                               | `@title My component`    |
+#' | `@description` | Description of the component                         | `@description text text` |
+#' | `param`        | Specifies input used to render the component         | `@param variable new var`|
+#' | `@type`        | Specifies type: `r mighty.standards:::valid_types()` | `@type derivation`       |
+#' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
+#' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
+#'
+#' ### Conventions
+#'
+#' A template for a standard components follow these conventions:
+#'
+#' 1. The input data set is always called `.self`.
+#' 1. Additional parameters used to render the template into R code are documented with the `@param` tag.
+#' 1. The template ends with creating a modified version of `.self`.
+#' 1. Template documented with the roxygen-like tags above
+#'
+#' ### Example
+#'
+#' Below is an example of a mighty component template that
+#' creates a new dynamic variable `variable` as twice the value
+#' of the dynamic input `x`, that should already by in the input data set `.self`.
+#'
 #' ```r
 #' #' Title for my component
 #' #' @description
@@ -21,6 +56,17 @@
 #'     {{ variable }} = 2 * {{ x }}
 #'   )
 #' ```
+#'
+#' When rendered with parameters `variable = "A"` and `x = "B"`
+#' the rendered code used in mighty becomes:
+#'
+#' ```r
+#' .self <- .self |>
+#'   dplyr::mutate(
+#'     A = 2 * B
+#'   )
+#' ```
+#'
 #' @seealso [get_standard()], [mighty_standard_rendered]
 #' @export
 mighty_standard <- R6::R6Class(
