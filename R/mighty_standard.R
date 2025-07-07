@@ -82,5 +82,8 @@ format_depends <- function(x){
 # The .self nomenclature is used by mighty.standards to force the user
   # to be explicit about the provenance and make automating on top easier,
   # however, this is not use by mighty, so needs to be removed
-  gsub("\\.self\\s*", "", x)
+ 
+  x <- gsub("\\.self\\s*", "", x)
+  gsub(" ", ".", x)
+  
 }

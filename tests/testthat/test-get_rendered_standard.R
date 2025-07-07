@@ -1,4 +1,4 @@
-test_that("get_rendered_component returns rendered custom code component with valid inputs", {
+test_that("get_rendered_component, custom code component multiple depends", {
   # ARRANGE -------------------------------------------------------------------
   tmp_file <- withr::local_tempdir() |>
     file.path("ady.R")
@@ -11,6 +11,7 @@ test_that("get_rendered_component returns rendered custom code component with va
 #' Derives the relative day compared to the treatment start date.
 #' @type derivation
 #' @depends .self A
+#' @depends lb A
 #' @outputs B
     hello <- function(a){
     print('hello')
@@ -27,12 +28,15 @@ test_that("get_rendered_component returns rendered custom code component with va
   x <- get_rendered_component(tmp_file)
 
   # ASSERT
+  
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
-  expect_equal(x$depends, "A")
+  expect_equal(x$depends, c("A", "lb.A"))
   expect_equal(x$outputs, "B")
 })
+
+
 
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------

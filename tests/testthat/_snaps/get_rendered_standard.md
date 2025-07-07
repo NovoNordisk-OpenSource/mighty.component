@@ -1,4 +1,4 @@
-# get_rendered_component returns rendered custom code component with valid inputs
+# get_rendered_component, custom code component multiple depends
 
     {
       "type": "character",
