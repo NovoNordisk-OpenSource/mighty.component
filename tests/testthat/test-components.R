@@ -46,15 +46,15 @@ test_that("astdt", {
 })
 
 test_that("aendt", {
-  astdt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
+  aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
 
-  cat(astdt$template, sep = "\n") |>
+  cat(aendt$template, sep = "\n") |>
     expect_snapshot()
 
   adae <- pharmaverseadam::adae |>
     dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF)
 
-  astdt$test(
+  aendt$test(
     input = adae |> dplyr::select(-AENDT, -AENDTF),
     expected = adae
   )
