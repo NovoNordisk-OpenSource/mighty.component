@@ -21,7 +21,7 @@
 #' |----------------|------------------------------------------------------|--------------------------|
 #' | `@title`       | Title of the component                               | `@title My component`    |
 #' | `@description` | Description of the component                         | `@description text text` |
-#' | `param`        | Specifies input used to render the component         | `@param variable new var`|
+#' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
 #' | `@type`        | Specifies type: `r mighty.standards:::valid_types()` | `@type derivation`       |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
