@@ -1,0 +1,23 @@
+#' Analysis start date
+#' @description
+#' Derives analysis start date based on (incomplete) dates given as
+#' character
+#'
+#' @param dtc `character` Name of date variable
+#' @type derivation
+#' @depends .self {{ dtc }}
+#' @outputs ASTDT
+#' @outputs ASTDTF
+
+.self <- .self |>
+  dplyr::mutate(
+    ASTDT = admiral::convert_dtc_to_dt(
+      dtc = {{ dtc }},
+      highest_imputation = "M",
+      date_imputation = "first"
+    ),
+    ASTDTF = admiral::compute_dtf(
+      dtc = {{ dtc }},
+      dt = ASTDT
+    )
+  )

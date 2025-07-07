@@ -1,0 +1,23 @@
+#' Analysis end date
+#' @description
+#' Derives analysis end date based on (incomplete) dates given as
+#' character
+#'
+#' @param dtc `character` Name of date variable
+#' @type derivation
+#' @depends .self {{ dtc }}
+#' @outputs AENDT
+#' @outputs AENDTF
+
+.self <- .self |>
+  dplyr::mutate(
+    AENDT = admiral::convert_dtc_to_dt(
+      dtc = {{ dtc }},
+      highest_imputation = "M",
+      date_imputation = "last"
+    ),
+    AENDTF = admiral::compute_dtf(
+      dtc = {{ dtc }},
+      dt = AENDT
+    )
+  )

@@ -13,14 +13,15 @@ URL: https://nn-opensource.github.io/mighty.standards,
 Depends: 
     R (>= 4.1)
 Imports: 
-    admiral,
     cli,
-    dplyr,
+    R6,
     rlang,
     roxygen2,
     stringr,
-    tidyselect
+    whisker
 Suggests: 
+    admiral,
+    dplyr,
     knitr,
     pharmaverseadam,
     pharmaversesdtm,
