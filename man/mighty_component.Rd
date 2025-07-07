@@ -22,7 +22,7 @@ documenting functions using roxygen2:\tabular{lll}{
    Tag \tab Description \tab Example \cr
    \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
    \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
-   \code{param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
+   \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
    \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
