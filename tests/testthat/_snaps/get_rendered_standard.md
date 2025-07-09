@@ -3,7 +3,7 @@
     {
       "type": "character",
       "attributes": {},
-      "value": ["    print(\"hello\")", "    if (a) {", "        return(NULL)", "    }", "    else {", "        return(1)", "    }"]
+      "value": ["    print(\"hello\")", "    if (a) {", "        NULL", "    }", "    else {", "        a <- 1", "    }"]
     }
 
 # get_rendered_component returns rendered STANDARD code component with valid inputs

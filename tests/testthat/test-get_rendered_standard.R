@@ -16,10 +16,11 @@ test_that("get_rendered_component, custom code component multiple depends", {
     hello <- function(a){
     print('hello')
     if(a){
-    return(NULL)
+    NULL
     } else{
-      return(1)
+      a <- 1
       }
+      return(.self)
 
   }"
   ) |>
@@ -28,7 +29,7 @@ test_that("get_rendered_component, custom code component multiple depends", {
   x <- get_rendered_component(tmp_file)
 
   # ASSERT
-  
+
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")

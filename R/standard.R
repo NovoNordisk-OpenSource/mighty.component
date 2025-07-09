@@ -2,7 +2,6 @@
 #' @param standard standard
 #' @export
 get_standard <- function(standard, library) {
-   
   template <- find_standard(standard, library)
   mighty_standard$new(template = readLines(template))
 }
@@ -40,13 +39,18 @@ get_rendered_custom <- function(path) {
 }
 
 extract_function_body <- function(code_string) {
-  fn_body_string <- parse(text = code_string) |>
+  fn_as_script <- parse(text = code_string) |>
     eval() |>
     body() |>
-    deparse()
+    deparse() |>
+    {
+      \(x) x[!grepl("^\\s*return\\(", x)]
+    }()
+  # TODO: proper validation checks of custom components - e.g. cannot have multiple return statements, must end with return(.self), etc
+  fn_as_script[-c(1, length(fn_as_script))] # Reconstruct the body
 
-  # Remove opening and closing brackets
-  fn_body <- fn_body_string[-c(1, length(fn_body_string))]
+
+
 }
 
 extract_function_metadata <- function(code_string) {
