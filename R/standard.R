@@ -39,17 +39,21 @@ get_rendered_custom <- function(path) {
 }
 
 extract_function_body <- function(code_string) {
-  fn_as_script <- parse(text = code_string) |>
-    eval() |>
-    body() |>
-    deparse() |>
-    {
-      \(x) x[!grepl("^\\s*return\\(", x)]
-    }()
+  # We can't just use body() to extract the fn's body, becaus for if-else blocks it produces strings that are not formatted properly as R code
+  fn_nm <- code_string |> parse(text = _) |> _[[1]][[2]]
+
+  # Get into envir
+  parse(text = code_string) |>
+    eval()
+
+  fn_nm |> 
+    get() |>
+    attr("srcref") |> 
+    paste(collapse = "\n") |>
+    remove_function_header() |>
+    remove_function_return()
+  
   # TODO: proper validation checks of custom components - e.g. cannot have multiple return statements, must end with return(.self), etc
-  fn_as_script[-c(1, length(fn_as_script))] # Reconstruct the body
-
-
 
 }
 
@@ -81,4 +85,28 @@ find_standard <- function(standard, library) {
     cli::cli_abort("Component {standard} not found in {library}")
   }
   out
+}
+
+remove_function_header <- function(f_string) {
+  # grep_pattern <- "function\\(\\s*\\.self\\s*(,\\s*\\w+)*\\s*\\)\\s*\\{"
+  grep_pattern <- "function\\(\\s*(.*?)\\)\\s*?\\{"
+
+  # When there are function definitions embedded in a node, we need to allow
+  # those to remain
+  gsub(pattern = grep_pattern,
+       replacement = "",
+       x = f_string)
+
+}
+
+remove_function_return <- function(f_string) {
+  # TODO: check for when the return statement is broken up by linebreaks
+  grep_pattern <- "return\\(.*?\\)(?s:.*)\\}"
+  gsub(
+    pattern = grep_pattern,
+    replacement = "",
+    x = f_string,
+    perl = TRUE
+  )
+
 }
