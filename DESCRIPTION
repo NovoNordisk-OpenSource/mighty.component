@@ -1,6 +1,6 @@
 Package: mighty.standards
 Title: Standard derivations for ADaM generation
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph")
