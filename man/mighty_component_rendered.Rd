@@ -24,6 +24,7 @@ Once rendered a component can be used to:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-mighty_component_rendered-new}{\code{mighty_component_rendered$new()}}
+\item \href{#method-mighty_component_rendered-print}{\code{mighty_component_rendered$print()}}
 \item \href{#method-mighty_component_rendered-stream}{\code{mighty_component_rendered$stream()}}
 \item \href{#method-mighty_component_rendered-eval}{\code{mighty_component_rendered$eval()}}
 \item \href{#method-mighty_component_rendered-test}{\code{mighty_component_rendered$test()}}
@@ -55,6 +56,16 @@ Create standard component from rendered template.
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component_rendered-print"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_rendered-print}{}}}
+\subsection{Method \code{print()}}{
+Print rendered component
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-stream"></a>}}

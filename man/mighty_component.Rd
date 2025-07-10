@@ -87,6 +87,8 @@ the rendered code used in mighty becomes:
 \item{\code{depends}}{List of the components dependencies.}
 
 \item{\code{outputs}}{List of the new columns created by the component.}
+
+\item{\code{params}}{List of parameters that need to be supplied when rendering the component.}
 }
 \if{html}{\out{</div>}}
 }
@@ -94,6 +96,7 @@ the rendered code used in mighty becomes:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-mighty_component-new}{\code{mighty_component$new()}}
+\item \href{#method-mighty_component-print}{\code{mighty_component$print()}}
 \item \href{#method-mighty_component-render}{\code{mighty_component$render()}}
 \item \href{#method-mighty_component-document}{\code{mighty_component$document()}}
 \item \href{#method-mighty_component-clone}{\code{mighty_component$clone()}}
@@ -115,6 +118,16 @@ Create standard component from template.
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component-print"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component-print}{}}}
+\subsection{Method \code{print()}}{
+Print method displaying the component information.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component$print()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-render"></a>}}

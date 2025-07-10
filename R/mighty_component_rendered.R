@@ -20,6 +20,12 @@ mighty_component_rendered <- R6::R6Class(
     #' @param template `character` Rendered template such as output from `mighty_component$render()`.
     initialize = function(template) {
       super$initialize(template)
+      private$.params <- character()
+    },
+    #' @description
+    #' Print rendered component
+    print = function() {
+      msr_print(self, super)
     },
     #' @description
     #' Stream rendered code into a script (appended)
@@ -53,6 +59,15 @@ mighty_component_rendered <- R6::R6Class(
     }
   )
 )
+
+#' @noRd
+msr_print <- function(self, super) {
+  cli::cli({
+    super$print()
+    cli::cli_text("Code:")
+    cli::cli_code(self$code)
+  })
+}
 
 #' @noRd
 msr_stream <- function(path, self) {
