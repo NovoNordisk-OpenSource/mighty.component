@@ -204,15 +204,10 @@ create_bullets <- function(header, bullets) {
     return(invisible())
   }
 
-  cli::cli(
-    cli::cli_bullets(
-      c(
-        header,
-        setNames(
-          object = bullets,
-          nm = rep("*", times = length(bullets))
-        )
-      )
-    )
-  )
+  cli::cli({
+    cli::cli_text("{header}")
+    for (i in seq_along(bullets)) {
+      cli::cli_li("{bullets[[i]]}")
+    }
+  })
 }
