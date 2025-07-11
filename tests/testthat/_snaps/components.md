@@ -6,9 +6,9 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: predecessor
       Depends:
-      * .self USUBJID
-      * pharmaverseadam::adsl USUBJID
-      * pharmaverseadam::adsl ACTARM
+      * .self.USUBJID
+      * pharmaverseadam::adsl.USUBJID
+      * pharmaverseadam::adsl.ACTARM
       Outputs:
       * ACTARM
       Code:
@@ -41,7 +41,8 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self AESTDTC
+      * .self
+      * AESTDTC
       Outputs:
       * ASTDT
       * ASTDTF
@@ -67,7 +68,8 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self AEENDTC
+      * .self
+      * AEENDTC
       Outputs:
       * AENDT
       * AENDTF
@@ -93,8 +95,8 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self ASTDT
-      * .self TRTSDT
+      * .self.ASTDT
+      * .self.TRTSDT
       Outputs:
       * ASTDY
       Code:
@@ -117,10 +119,10 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self ASTDT
-      * .self AENDT
-      * .self TRTSDT
-      * .self TRTEDT
+      * .self.ASTDT
+      * .self.AENDT
+      * .self.TRTSDT
+      * .self.TRTEDT
       Outputs:
       * TRTEMFL
       Code:
