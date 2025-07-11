@@ -128,6 +128,9 @@ Print method displaying the component information.
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$print()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+(\code{invisible}) self
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-render"></a>}}

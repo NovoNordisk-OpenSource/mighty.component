@@ -80,6 +80,7 @@ mighty_component <- R6::R6Class(
     },
     #' @description
     #' Print method displaying the component information.
+    #' @return (`invisible`) self
     print = function() {
       ms_print(self)
     },
