@@ -90,14 +90,8 @@ mighty_component <- R6::R6Class(
     #' Must be named, and depends on the template.
     #' @return Object of class [mighty_component_rendered]
     render = function(...) {
-      # TODO: Check that ... are all named and contains all relevant parameters
-      template <- whisker::whisker.render(
-        template = self$template,
-        data = rlang::list2(...)
-      )
-      mighty_component_rendered$new(
-        template = strsplit(x = template, split = "\n")[[1]]
-      )
+      params <- rlang::list2(...)
+      ms_render(params, self)
     },
     #' @description
     #' Create standard documentation.
@@ -136,7 +130,7 @@ ms_initialize <- function(template, self, private) {
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
     tags_to_named()
-  private$.depends <- get_tags(template, "depends") |> 
+  private$.depends <- get_tags(template, "depends") |>
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- grep(
@@ -189,6 +183,7 @@ tags_to_depends <- function(tags) {
     as.data.frame()
 }
 
+#' @noRd
 ms_print <- function(self) {
   cli::cli({
     cli::cli_text("{.cls {class(self)}}")
@@ -211,6 +206,7 @@ ms_print <- function(self) {
   invisible(self)
 }
 
+#' @noRd
 create_bullets <- function(header, bullets) {
   if (!length(bullets)) {
     return(invisible())
@@ -222,4 +218,37 @@ create_bullets <- function(header, bullets) {
       cli::cli_li("{bullets[[i]]}")
     }
   })
+}
+
+#' @noRd
+ms_render <- function(params, self) {
+  if (!rlang::is_named2(params)) {
+    cli::cli_abort(
+      c(
+        "All parameters must be named",
+        "i" = "Expected parameters: {.field {names(self$params)}}"
+      )
+    )
+  }
+
+  if (
+    any(!names(params) %in% names(self$params)) ||
+      any(!names(self$params) %in% names(params))
+  ) {
+    cli::cli_abort(
+      c(
+        "Parameter names not matching component requirements",
+        "x" = "Provided parameters: {.emph {names(params)}}",
+        "i" = "Expected parameters: {.field {names(self$params)}}"
+      )
+    )
+  }
+
+  template <- whisker::whisker.render(
+    template = self$template,
+    data = params
+  )
+  mighty_component_rendered$new(
+    template = strsplit(x = template, split = "\n")[[1]]
+  )
 }
