@@ -14,7 +14,8 @@ test_that("get_rendered_component, custom code component multiple depends", {
 #' @depends lb A
 #' @outputs B
     hello <- function(a){
-    print('hello')
+    'hello' |> 
+      print()
     if(a){
     NULL
     } else{
@@ -29,7 +30,7 @@ test_that("get_rendered_component, custom code component multiple depends", {
   x <- get_rendered_component(tmp_file)
 
   # ASSERT
-
+browser()
   expect_s3_class(x, "mighty_standard_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
