@@ -84,7 +84,7 @@ the rendered code used in mighty becomes:
 
 \item{\code{type}}{The type of the component. Can be one of predecessor, derivation, row.}
 
-\item{\code{depends}}{List of the components dependencies.}
+\item{\code{depends}}{Data.frame listing all the components dependencies.}
 
 \item{\code{outputs}}{List of the new columns created by the component.}
 

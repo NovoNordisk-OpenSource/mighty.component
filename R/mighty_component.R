@@ -113,7 +113,7 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
-    #' @field depends List of the components dependencies.
+    #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
     outputs = \() private$.outputs,
@@ -136,7 +136,8 @@ ms_initialize <- function(template, self, private) {
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
     tags_to_named()
-  private$.depends <- get_tags(template, "depends")
+  private$.depends <- get_tags(template, "depends") |> 
+    tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- grep(
     pattern = "^#",
@@ -169,12 +170,23 @@ get_tag <- function(template, tag) {
 
 #' @noRd
 tags_to_named <- function(tags) {
-  i <- gregexpr(pattern = " ", text = tags) |>
-    vapply(FUN = \(x) x[[1]], FUN.VALUE = numeric(1))
+  i <- regexpr(pattern = " ", text = tags)
 
   names(tags) <- substr(x = tags, start = 1, stop = i - 1)
   tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
   gsub(pattern = "^ +| +$", replacement = "", x = tags)
+}
+
+#' @noRd
+tags_to_depends <- function(tags) {
+  i <- regexpr(pattern = " +", text = tags)
+
+  data.frame(
+    domain = substr(x = tags, start = 1, stop = i - 1),
+    column = substr(x = tags, start = i + 1, stop = nchar(tags))
+  ) |>
+    apply(MARGIN = 2, FUN = gsub, pattern = "^ +| +$", replacement = "") |>
+    as.data.frame()
 }
 
 ms_print <- function(self) {
@@ -188,7 +200,7 @@ ms_print <- function(self) {
     )
     create_bullets(
       header = "Depends:",
-      bullets = self$depends
+      bullets = apply(X = self$depends, MARGIN = 1, FUN = paste, collapse = ".")
     )
     create_bullets(
       header = "Outputs:",
