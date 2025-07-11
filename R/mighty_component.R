@@ -187,7 +187,7 @@ tags_to_depends <- function(tags) {
 ms_print <- function(self) {
   cli::cli({
     cli::cli_text("{.cls {class(self)}}")
-    cli::cli_text("Type: {self$type}")
+    cli::cli_text("{.emph Type:} {self$type}")
 
     create_bullets(
       header = "Parameters:",
@@ -213,7 +213,7 @@ create_bullets <- function(header, bullets) {
   }
 
   cli::cli({
-    cli::cli_text("{header}")
+    cli::cli_text("{.emph {header}}")
     for (i in seq_along(bullets)) {
       cli::cli_li("{bullets[[i]]}")
     }
