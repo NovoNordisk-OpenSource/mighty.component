@@ -64,7 +64,7 @@ mighty_component_rendered <- R6::R6Class(
 msr_print <- function(self, super) {
   cli::cli({
     super$print()
-    cli::cli_text("Code:")
+    cli::cli_text("{.emph Code:}")
     cli::cli_code(self$code)
   })
 }
