@@ -1,21 +1,17 @@
 # predecessor
 
     Code
-      cat(predecessor$template, sep = "\n")
-    Output
-      #' Predecessor
-      #' @description
-      #' Creates new column(s) based on a predecessor column(s).
-      #'
-      #' @param source `character` Name of the data set the predecessor is from
-      #' @param variable `character` Name of variable(s) to use from `source`
-      #' @param by `character` name(s) of variable(s) to merge by
-      #' @type predecessor
-      #' @depends .self USUBJID
-      #' @depends pharmaverseadam::adsl USUBJID
-      #' @depends pharmaverseadam::adsl ACTARM
-      #' @outputs ACTARM
-      
+      predecessor
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: predecessor
+      Depends:
+      * .self.USUBJID
+      * pharmaverseadam::adsl.USUBJID
+      * pharmaverseadam::adsl.ACTARM
+      Outputs:
+      * ACTARM
+      Code:
       .self <- .self |>
         dplyr::left_join(
           y = dplyr::select(pharmaverseadam::adsl, USUBJID, ACTARM),
@@ -25,17 +21,13 @@
 # assign
 
     Code
-      cat(assign$template, sep = "\n")
-    Output
-      #' Assign
-      #' @description
-      #' Assigns a single value to an entire column.
-      #'
-      #' @param variable `character` Name of variable to create or modify
-      #' @param value Value to assign to the variable
-      #' @type assigned
-      #' @outputs y
-      
+      assign
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: assigned
+      Outputs:
+      * y
+      Code:
       .self <- .self |>
         dplyr::mutate(
           y = 1
@@ -44,19 +36,16 @@
 # astdt
 
     Code
-      cat(astdt$template, sep = "\n")
-    Output
-      #' Analysis start date
-      #' @description
-      #' Derives analysis start date based on (incomplete) dates given as
-      #' character
-      #'
-      #' @param dtc `character` Name of date variable
-      #' @type derivation
-      #' @depends .self AESTDTC
-      #' @outputs ASTDT
-      #' @outputs ASTDTF
-      
+      astdt
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: derivation
+      Depends:
+      * .self.AESTDTC
+      Outputs:
+      * ASTDT
+      * ASTDTF
+      Code:
       .self <- .self |>
         dplyr::mutate(
           ASTDT = admiral::convert_dtc_to_dt(
@@ -73,19 +62,16 @@
 # aendt
 
     Code
-      cat(astdt$template, sep = "\n")
-    Output
-      #' Analysis end date
-      #' @description
-      #' Derives analysis end date based on (incomplete) dates given as
-      #' character
-      #'
-      #' @param dtc `character` Name of date variable
-      #' @type derivation
-      #' @depends .self AEENDTC
-      #' @outputs AENDT
-      #' @outputs AENDTF
-      
+      aendt
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: derivation
+      Depends:
+      * .self.AEENDTC
+      Outputs:
+      * AENDT
+      * AENDTF
+      Code:
       .self <- .self |>
         dplyr::mutate(
           AENDT = admiral::convert_dtc_to_dt(
@@ -102,19 +88,16 @@
 # ady
 
     Code
-      cat(ady$template, sep = "\n")
-    Output
-      #' Analysis relative day
-      #' @description
-      #' Derives the relative day compared to the treatment start date.
-      #'
-      #' @param variable `character` Name of new variable to create
-      #' @param date `character` Name of date variable to use
-      #' @type derivation
-      #' @depends .self ASTDT
-      #' @depends .self TRTSDT
-      #' @outputs ASTDY
-      
+      ady
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: derivation
+      Depends:
+      * .self.ASTDT
+      * .self.TRTSDT
+      Outputs:
+      * ASTDY
+      Code:
       .self <- .self |>
         dplyr::mutate(
           ASTDY = admiral::compute_duration(
@@ -129,20 +112,18 @@
 # trtemfl
 
     Code
-      cat(trtemfl$template, sep = "\n")
-    Output
-      #' Treatment-emergent flag
-      #' @description
-      #' Derives treatment emergent analysis flag.
-      #'
-      #' @param end_window Passed along to `admiral::end_window()`
-      #' @type derivation
-      #' @depends .self ASTDT
-      #' @depends .self AENDT
-      #' @depends .self TRTSDT
-      #' @depends .self TRTEDT
-      #' @outputs TRTEMFL
-      
+      trtemfl
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: derivation
+      Depends:
+      * .self.ASTDT
+      * .self.AENDT
+      * .self.TRTSDT
+      * .self.TRTEDT
+      Outputs:
+      * TRTEMFL
+      Code:
       .self <- .self |>
         admiral::derive_var_trtemfl(
           start_date = ASTDT,

@@ -79,20 +79,20 @@ mighty_component <- R6::R6Class(
       ms_initialize(template, self, private)
     },
     #' @description
+    #' Print method displaying the component information.
+    #' @return (`invisible`) self
+    print = function() {
+      ms_print(self)
+    },
+    #' @description
     #' Render component with supplied values.
     #' Supports mustache templates and uses `whisker::whisker.render()`.
     #' @param ... Parameters used to render the template.
     #' Must be named, and depends on the template.
     #' @return Object of class [mighty_component_rendered]
     render = function(...) {
-      # TODO: Check that ... are all named and contains all relevant parameters
-      template <- whisker::whisker.render(
-        template = self$template,
-        data = rlang::list2(...)
-      )
-      mighty_component_rendered$new(
-        template = strsplit(x = template, split = "\n")[[1]]
-      )
+      params <- rlang::list2(...)
+      ms_render(params, self)
     },
     #' @description
     #' Create standard documentation.
@@ -108,14 +108,17 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
-    #' @field depends List of the components dependencies.
+    #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
-    outputs = \() private$.outputs
+    outputs = \() private$.outputs,
+    #' @field params List of parameters that need to be supplied when rendering the component.
+    params = \() private$.params
   ),
   private = list(
     .type = character(1),
-    .depends = list(),
+    .params = character(),
+    .depends = character(),
     .outputs = character(),
     .code = character(),
     .template = character()
@@ -126,7 +129,10 @@ mighty_component <- R6::R6Class(
 ms_initialize <- function(template, self, private) {
   # TODO: Input validation of template
   private$.type <- get_tag(template, "type")
-  private$.depends <- get_tags(template, "depends")
+  private$.params <- get_tags(template, "param") |>
+    tags_to_named()
+  private$.depends <- get_tags(template, "depends") |>
+    tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- grep(
     pattern = "^#",
@@ -142,7 +148,8 @@ ms_initialize <- function(template, self, private) {
 get_tags <- function(template, tag) {
   pattern <- paste0("^#' @", tag)
   tags <- grep(pattern = pattern, x = template, value = TRUE)
-  gsub(pattern = pattern, replacement = "", x = tags)
+  tags <- gsub(pattern = pattern, replacement = "", x = tags)
+  gsub(pattern = "^ +| +$", replacement = "", x = tags)
 }
 
 #' @noRd
@@ -154,4 +161,97 @@ get_tag <- function(template, tag) {
   }
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
+}
+
+#' @noRd
+tags_to_named <- function(tags) {
+  i <- regexpr(pattern = " ", text = tags)
+
+  names(tags) <- substr(x = tags, start = 1, stop = i - 1)
+  tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
+  gsub(pattern = "^ +| +$", replacement = "", x = tags)
+}
+
+#' @noRd
+tags_to_depends <- function(tags) {
+  i <- regexpr(pattern = " +", text = tags)
+
+  data.frame(
+    domain = tags |>
+      substr(start = 1, stop = i - 1) |>
+      trimws(),
+    column = tags |>
+      substr(start = i + 1, stop = nchar(tags)) |>
+      trimws()
+  )
+}
+
+#' @noRd
+ms_print <- function(self) {
+  cli::cli({
+    cli::cli_text("{.cls {class(self)}}")
+    cli::cli_text("{.emph Type:} {self$type}")
+
+    create_bullets(
+      header = "Parameters:",
+      bullets = paste(names(self$params), self$params, sep = ": ")
+    )
+    create_bullets(
+      header = "Depends:",
+      bullets = apply(X = self$depends, MARGIN = 1, FUN = paste, collapse = ".")
+    )
+    create_bullets(
+      header = "Outputs:",
+      bullets = self$outputs
+    )
+  })
+
+  invisible(self)
+}
+
+#' @noRd
+create_bullets <- function(header, bullets) {
+  if (!length(bullets)) {
+    return(invisible())
+  }
+
+  cli::cli({
+    cli::cli_text("{.emph {header}}")
+    for (i in seq_along(bullets)) {
+      cli::cli_li("{bullets[[i]]}")
+    }
+  })
+}
+
+#' @noRd
+ms_render <- function(params, self) {
+  if (!rlang::is_named2(params)) {
+    cli::cli_abort(
+      c(
+        "All parameters must be named",
+        "i" = "Expected parameters: {.field {names(self$params)}}"
+      )
+    )
+  }
+
+  if (
+    any(!names(params) %in% names(self$params)) ||
+      any(!names(self$params) %in% names(params))
+  ) {
+    cli::cli_abort(
+      c(
+        "Parameter names not matching component requirements",
+        "x" = "Provided parameters: {.emph {names(params)}}",
+        "i" = "Expected parameters: {.field {names(self$params)}}"
+      )
+    )
+  }
+
+  template <- whisker::whisker.render(
+    template = self$template,
+    data = params
+  )
+  mighty_component_rendered$new(
+    template = strsplit(x = template, split = "\n")[[1]]
+  )
 }

@@ -21,6 +21,7 @@ CMD
 CRAN
 dplyr
 dtc
+emph
 envir
 knitr
 lintr
