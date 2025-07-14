@@ -41,8 +41,7 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self
-      * AESTDTC
+      * .self.AESTDTC
       Outputs:
       * ASTDT
       * ASTDTF
@@ -68,8 +67,7 @@
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
       Depends:
-      * .self
-      * AEENDTC
+      * .self.AEENDTC
       Outputs:
       * AENDT
       * AENDTF
