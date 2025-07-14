@@ -21,7 +21,7 @@ Calculate test coverage
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,6 +71,7 @@ Calculate test coverage
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-mighty_component_rendered-new"><code>mighty_component_rendered$new()</code></a></p></li>
+<li><p><a href="#method-mighty_component_rendered-print"><code>mighty_component_rendered$print()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-stream"><code>mighty_component_rendered$stream()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-eval"><code>mighty_component_rendered$eval()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-test"><code>mighty_component_rendered$test()</code></a></p></li>
@@ -94,10 +95,22 @@ Calculate test coverage
 </dl><p></p></div>
 </div>
 
+</div><p></p><hr><a id="method-mighty_component_rendered-print"></a><div class="section">
+<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+<p>Print rendered component</p><div class="section">
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>(<code>invisible</code>) self</p>
+</div>
+
 </div><p></p><hr><a id="method-mighty_component_rendered-stream"></a><div class="section">
 <h3 id="method-stream-">Method <code>stream()</code><a class="anchor" aria-label="anchor" href="#method-stream-"></a></h3>
 <p>Stream rendered code into a script (appended)</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">stream</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -113,7 +126,7 @@ Calculate test coverage
 </div><p></p><hr><a id="method-mighty_component_rendered-eval"></a><div class="section">
 <h3 id="method-eval-">Method <code><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval()</a></code><a class="anchor" aria-label="anchor" href="#method-eval-"></a></h3>
 <p>Evaluate code in a specified environment.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">eval</span><span class="op">(</span>envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -131,7 +144,7 @@ Defaults to using the current environment with <code><a href="https://rdrr.io/r/
 <h3 id="method-test-">Method <code>test()</code><a class="anchor" aria-label="anchor" href="#method-test-"></a></h3>
 <p>Test component against expected output.
 <strong>TODO: Implement in #17</strong></p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">test</span><span class="op">(</span><span class="va">input</span>, <span class="va">expected</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -152,7 +165,7 @@ Defaults to using the current environment with <code><a href="https://rdrr.io/r/
 <h3 id="method-test-coverage-">Method <code>test_coverage()</code><a class="anchor" aria-label="anchor" href="#method-test-coverage-"></a></h3>
 <p>Calculate test coverage for already run tests
 <strong>TODO: Implement in #17</strong></p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">test_coverage</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -160,7 +173,7 @@ Defaults to using the current environment with <code><a href="https://rdrr.io/r/
 </div><p></p><hr><a id="method-mighty_component_rendered-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 

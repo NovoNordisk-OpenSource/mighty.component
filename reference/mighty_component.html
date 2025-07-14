@@ -15,7 +15,7 @@ facilitating their use inside mighty.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,11 +120,15 @@ the rendered code used in mighty becomes:</p>
 
 
 <dt><code>depends</code></dt>
-<dd><p>List of the components dependencies.</p></dd>
+<dd><p>Data.frame listing all the components dependencies.</p></dd>
 
 
 <dt><code>outputs</code></dt>
 <dd><p>List of the new columns created by the component.</p></dd>
+
+
+<dt><code>params</code></dt>
+<dd><p>List of parameters that need to be supplied when rendering the component.</p></dd>
 
 
 </dl><p></p></div>
@@ -136,6 +140,7 @@ the rendered code used in mighty becomes:</p>
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-mighty_component-new"><code>mighty_component$new()</code></a></p></li>
+<li><p><a href="#method-mighty_component-print"><code>mighty_component$print()</code></a></p></li>
 <li><p><a href="#method-mighty_component-render"><code>mighty_component$render()</code></a></p></li>
 <li><p><a href="#method-mighty_component-document"><code>mighty_component$document()</code></a></p></li>
 <li><p><a href="#method-mighty_component-clone"><code>mighty_component$clone()</code></a></p></li>
@@ -155,11 +160,23 @@ the rendered code used in mighty becomes:</p>
 </dl><p></p></div>
 </div>
 
+</div><p></p><hr><a id="method-mighty_component-print"></a><div class="section">
+<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+<p>Print method displaying the component information.</p><div class="section">
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p>(<code>invisible</code>) self</p>
+</div>
+
 </div><p></p><hr><a id="method-mighty_component-render"></a><div class="section">
 <h3 id="method-render-">Method <code>render()</code><a class="anchor" aria-label="anchor" href="#method-render-"></a></h3>
 <p>Render component with supplied values.
 Supports mustache templates and uses <code><a href="https://rdrr.io/pkg/whisker/man/whisker.render.html" class="external-link">whisker::whisker.render()</a></code>.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">render</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -173,7 +190,7 @@ Must be named, and depends on the template.</p></dd>
 </dl><p></p></div>
 </div>
 <div class="section">
-<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>Object of class <a href="mighty_component_rendered.html">mighty_component_rendered</a></p>
 </div>
 
@@ -181,7 +198,7 @@ Must be named, and depends on the template.</p></dd>
 <h3 id="method-document-">Method <code>document()</code><a class="anchor" aria-label="anchor" href="#method-document-"></a></h3>
 <p>Create standard documentation.
 <strong>TODO: Implement in #18</strong></p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -189,7 +206,7 @@ Must be named, and depends on the template.</p></dd>
 </div><p></p><hr><a id="method-mighty_component-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
