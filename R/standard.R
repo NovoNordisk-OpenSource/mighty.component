@@ -68,12 +68,15 @@ find_standard <- function(standard) {
 #' Retrieve rendered mighty standard component
 #' @export
 get_rendered_component <- function(standard, ...) {
-  is_r_file <- grepl(pattern = "\\.[Rr]$", x = standard)
-  if (is_r_file) {
-    return(get_rendered_custom(standard))
-  }
+  file_type <- tolower(tools::file_ext(standard))
+  
+  switch(file_type,
+    "r" = get_rendered_custom(standard),
+    # TODO: add error handling for when the specified local custom mustache is not found
+    "mustache" = mighty_component$new(template = readLines(standard)),
+    get_rendered_standard(standard, ...)
 
-  get_rendered_standard(standard, ...)
+  )
 }
 
 

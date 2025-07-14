@@ -44,7 +44,7 @@ test_that("astdt", {
 
 test_that("aendt", {
   aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
-
+browser()
   expect_snapshot(aendt)
 
   adae <- pharmaverseadam::adae |>
@@ -55,7 +55,7 @@ test_that("aendt", {
     expected = adae
   )
 })
-
+22
 test_that("ady", {
   ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
 

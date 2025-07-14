@@ -58,17 +58,3 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   expect_equal(x$outputs, "out_var")
 })
 
-test_that("get_rendered_component errors in edge case where .mustache is part of the input name", {
-  # ARRANGE -------------------------------------------------------------------
-  # ACT & ASSERT ---------------------------
-  x <- get_rendered_component(
-    "ady.mustache",
-
-    params = list(
-      date = "date_var",
-      variable = "out_var"
-    )
-  ) |> expect_error(
-    regexp = "Component ady.mustache not found"
-  )
-})
