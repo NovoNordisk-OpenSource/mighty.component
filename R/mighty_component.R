@@ -177,12 +177,12 @@ tags_to_depends <- function(tags) {
   i <- regexpr(pattern = " +", text = tags)
 
   data.frame(
-    domain = tags |> 
-      substr(start = 1, stop = i - 1) |> 
+    domain = tags |>
+      substr(start = 1, stop = i - 1) |>
       trimws(),
-    column = tags |> 
-      substr(start = i + 1, stop = nchar(tags) |> 
-      trimws())
+    column = tags |>
+      substr(start = i + 1, stop = nchar(tags)) |>
+      trimws()
   )
 }
 
