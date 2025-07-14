@@ -43,7 +43,7 @@ test_that("get_rendered_component, custom code component multiple depends", {
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------
   # ACT ---------------------------
-  x <- get_rendered_component(
+  x <- get_rendered_standard(
     "ady",
     params = list(
       date = "date_var",
