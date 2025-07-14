@@ -176,13 +176,14 @@ tags_to_named <- function(tags) {
 tags_to_depends <- function(tags) {
   i <- regexpr(pattern = " +", text = tags)
 
-  df <- data.frame(
-        domain = substr(x = tags, start = 1, stop = i - 1),
-        column = substr(x = tags, start = i + 1, stop = nchar(tags))
-    )
-   df$domain <- trimws(df$domain)
-    df$column <- trimws(df$column)
-  df
+  data.frame(
+    domain = tags |>
+      substr(start = 1, stop = i - 1) |>
+      trimws(),
+    column = tags |>
+      substr(start = i + 1, stop = nchar(tags)) |>
+      trimws()
+  )
 }
 
 #' @noRd
