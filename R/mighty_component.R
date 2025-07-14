@@ -169,7 +169,7 @@ tags_to_named <- function(tags) {
 
   names(tags) <- substr(x = tags, start = 1, stop = i - 1)
   tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
-  gsub(pattern = "^ +| +$", replacement = "", x = tags)
+  trimws(tags)
 }
 
 #' @noRd

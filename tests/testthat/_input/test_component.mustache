@@ -1,0 +1,10 @@
+#' My test component
+#' @description
+#' This is a test component used for unit testing
+#' @param x1 First input
+#' @param x2 Second input
+#' @type derivation
+#' @depends .self A
+#' @depends Y B
+#' @outputs NEWVAR
+.self$NEWWAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
