@@ -5,14 +5,12 @@
 \alias{get_rendered_standard}
 \title{Retrieve mighty standard component}
 \usage{
-get_standard(standard, library)
+get_standard(standard)
 
-get_rendered_standard(standard, library, params)
-
-get_standard(standard, library)
+get_rendered_standard(standard, params)
 }
 \arguments{
-\item{standard}{standard}
+\item{standard}{\code{character} name of the standard component to retrieve.}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }

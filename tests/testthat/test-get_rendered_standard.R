@@ -6,9 +6,9 @@ test_that("get_rendered_component, custom code component multiple depends", {
   c(
     "
     #' Analysis relative day
-#' @id ady
 #' @description
 #' Derives the relative day compared to the treatment start date.
+#' @param a text about a
 #' @type derivation
 #' @depends .self A
 #' @depends lb A
@@ -30,11 +30,10 @@ test_that("get_rendered_component, custom code component multiple depends", {
   x <- get_rendered_component(tmp_file)
 
   # ASSERT
-
-  expect_s3_class(x, "mighty_standard_rendered")
+  expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
-  expect_equal(x$depends, c("A", "lb.A"))
+  expect_equal(x$depends, data.frame(domain = c(".self", "lb"), column = c("A", "A")))
   expect_equal(x$outputs, "B")
 })
 
@@ -52,10 +51,10 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   )
 
   # ASSERT ---------------------------
-  expect_s3_class(x, "mighty_standard_rendered")
+  expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot_value(x$code, style = "json2")
   expect_equal(x$type, "derivation")
-  expect_equal(x$depends, c("date_var", "TRTSDT"))
+  expect_equal(x$depends, data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT")))
   expect_equal(x$outputs, "out_var")
 })
 
@@ -64,12 +63,12 @@ test_that("get_rendered_component errors in edge case where .mustache is part of
   # ACT & ASSERT ---------------------------
   x <- get_rendered_component(
     "ady.mustache",
-    library = "mighty.standards",
+
     params = list(
       date = "date_var",
       variable = "out_var"
     )
   ) |> expect_error(
-    regexp = "Component ady.mustache not found in mighty.standards"
+    regexp = "Component ady.mustache not found"
   )
 })

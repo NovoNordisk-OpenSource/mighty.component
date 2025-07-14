@@ -81,7 +81,7 @@ get_rendered_custom <- function(path) {
   code_string <- readLines(path) |>
     paste0(collapse = "\n")
 
-  mighty_standard$new(
+  mighty_component$new(
     template = c(
       extract_function_metadata(code_string),
       extract_function_body(code_string)
