@@ -119,6 +119,16 @@ test_that("tags_to_depends", {
     expect_equal(0)
 })
 
+test_that("ms_print", {
+  test_path("_input", "test_component.mustache") |>
+    readLines() |>
+    mighty_component$new() |>
+    print() |>
+    expect_invisible() |>
+    expect_s3_class("mighty_component") |>
+    expect_snapshot()
+})
+
 test_that("create_bullets", {
   create_bullets(
     header = "nothing to list",
@@ -131,4 +141,32 @@ test_that("create_bullets", {
     bullets = c("first item", "second item")
   ) |>
     expect_snapshot()
+})
+
+test_that("ms_render", {
+  test_component <- test_path("_input", "test_component.mustache") |>
+    readLines() |>
+    mighty_component$new()
+
+  ms_render(
+    params = list(x1 = 5, 2),
+    self = test_component
+  ) |>
+    expect_error(
+      regexp = "All parameters must be named"
+    )
+
+  ms_render(
+    params = list(x1 = 5),
+    self = test_component
+  ) |> 
+    expect_error(
+      regexp = "Parameter names not matching component requirements"
+    )
+  
+  test_component_rendered <- ms_render(
+    params = list(x1 = 5, x2 = 4),
+    self = test_component
+  ) |> 
+    expect_no_condition()
 })
