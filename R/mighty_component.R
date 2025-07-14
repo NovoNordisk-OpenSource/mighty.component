@@ -80,6 +80,7 @@ mighty_component <- R6::R6Class(
     },
     #' @description
     #' Print method displaying the component information.
+    #' @return (`invisible`) self
     print = function() {
       ms_print(self)
     },
@@ -176,11 +177,13 @@ tags_to_depends <- function(tags) {
   i <- regexpr(pattern = " +", text = tags)
 
   data.frame(
-    domain = substr(x = tags, start = 1, stop = i - 1),
-    column = substr(x = tags, start = i + 1, stop = nchar(tags))
-  ) |>
-    apply(MARGIN = 2, FUN = gsub, pattern = "^ +| +$", replacement = "") |>
-    as.data.frame()
+    domain = tags |>
+      substr(start = 1, stop = i - 1) |>
+      trimws(),
+    column = tags |>
+      substr(start = i + 1, stop = nchar(tags)) |>
+      trimws()
+  )
 }
 
 #' @noRd

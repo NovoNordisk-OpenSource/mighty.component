@@ -24,6 +24,7 @@ mighty_component_rendered <- R6::R6Class(
     },
     #' @description
     #' Print rendered component
+    #' @return (`invisible`) self
     print = function() {
       msr_print(self, super)
     },
@@ -67,6 +68,8 @@ msr_print <- function(self, super) {
     cli::cli_text("{.emph Code:}")
     cli::cli_code(self$code)
   })
+
+  invisible(self)
 }
 
 #' @noRd
