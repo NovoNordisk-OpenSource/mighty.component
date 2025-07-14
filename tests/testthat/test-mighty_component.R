@@ -38,10 +38,41 @@ test_that("mighty_component", {
       )
     )
 
-  test_component$render(x1 = 1, 2) |>
-    expect_error(regexp = "All parameters must be named")
+  test_component_rendered <- test_component$render(x1 = 1, x2 = 2) |>
+    expect_no_condition() |>
+    expect_s3_class("mighty_component_rendered")
 
-  #test_component_rendered <- test_component$render()
+  expect_snapshot(test_component_rendered)
+
+  test_component_rendered$code |>
+    expect_equal(
+      ".self$NEWWAR <- 1 * Y$B + .self$A - 2"
+    )
+
+  grepl(pattern = "\\{\\{|\\}\\}", x = test_component_rendered$template) |>
+    any() |>
+    expect_false()
+
+  test_component_rendered$type |>
+    expect_equal("derivation")
+
+  test_component_rendered$depends |>
+    expect_s3_class("data.frame") |>
+    expect_equal(
+      data.frame(
+        domain = c(".self", "Y"),
+        column = c("A", "B")
+      )
+    )
+
+  test_component_rendered$outputs |>
+    expect_equal("NEWVAR")
+
+  test_component_rendered$params |>
+    expect_equal(character(0))
+
+  test_component_rendered$render() |>
+    expect_equal(test_component_rendered)
 })
 
 test_that("get_tags", {
@@ -159,14 +190,14 @@ test_that("ms_render", {
   ms_render(
     params = list(x1 = 5),
     self = test_component
-  ) |> 
+  ) |>
     expect_error(
       regexp = "Parameter names not matching component requirements"
     )
-  
+
   test_component_rendered <- ms_render(
     params = list(x1 = 5, x2 = 4),
     self = test_component
-  ) |> 
+  ) |>
     expect_no_condition()
 })

@@ -14,6 +14,21 @@
       Outputs:
       * NEWVAR
 
+---
+
+    Code
+      test_component_rendered
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: derivation
+      Depends:
+      * .self.A
+      * Y.B
+      Outputs:
+      * NEWVAR
+      Code:
+      .self$NEWWAR <- 1 * Y$B + .self$A - 2
+
 # ms_print
 
     Code
