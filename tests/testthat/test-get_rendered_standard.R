@@ -45,7 +45,6 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   # ACT ---------------------------
   x <- get_rendered_component(
     "ady",
-    library = "mighty.standards",
     params = list(
       date = "date_var",
       variable = "out_var"

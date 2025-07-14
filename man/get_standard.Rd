@@ -2,13 +2,36 @@
 % Please edit documentation in R/standard.R
 \name{get_standard}
 \alias{get_standard}
+\alias{get_rendered_standard}
 \title{Retrieve mighty standard component}
 \usage{
+get_standard(standard, library)
+
+get_rendered_standard(standard, library, params)
+
 get_standard(standard, library)
 }
 \arguments{
 \item{standard}{standard}
+
+\item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }
 \description{
-Retrieve mighty standard component
+Retrieve either the generalized standard component (template) or
+the rendered standard component with code that is ready to use.
+\itemize{
+\item \code{get_standard()}: Returns an object of class \code{mighty_component}
+\item \code{get_rendered_standard()}: Returns an object of class \code{mighty_component_rendered}
+}
+
+When rendering the standard the required list of parameters depends on the standard.
+Check the documentation of the specific standard for details.
+}
+\examples{
+get_standard("ady")
+
+get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
+}
+\seealso{
+\code{\link[=list_standards]{list_standards()}}, \link{mighty_component}, \link{mighty_component_rendered}
 }

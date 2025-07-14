@@ -1,5 +1,13 @@
-# Analysis start date
-#' @id astdt
+#' Analysis start date
+#' @description
+#' Derives analysis start date based on (incomplete) dates given as
+#' character
+#'
+#' @param dtc `character` Name of date variable
+#' @type derivation
+#' @depends .self {{ dtc }}
+#' @outputs ASTDT
+#' @outputs ASTDTF
 
 .self <- .self |>
   dplyr::mutate(

@@ -1,8 +1,15 @@
-test_that("list_standards works", {
-  actual <- list_standards(library = "mighty.standards") 
+test_that("list standards", {
+  list_standards() |>
+    expect_no_condition() |>
+    expect_type("character")
+})
 
-  # ASSERT -------------------------------------------------------------------
-  expect_type(actual, "character")
-  expect_contains(actual, "ady")
+test_that("find standard", {
+  find_standard("ady") |>
+    expect_no_condition() |>
+    expect_type("character") |>
+    expect_length(1)
 
+  find_standard("does_not_exist") |>
+    expect_error("Component does_not_exist not found")
 })

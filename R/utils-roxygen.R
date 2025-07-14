@@ -1,3 +1,4 @@
+# TODO: Delete this script. Only kept in case any code is relevant for #18
 #' @importFrom roxygen2 roxy_tag_parse roxy_tag_rd
 NULL
 

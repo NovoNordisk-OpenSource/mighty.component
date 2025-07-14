@@ -1,10 +1,69 @@
 #' Retrieve mighty standard component
-#' @param standard standard
+#' @description
+#' Retrieve either the generalized standard component (template) or
+#' the rendered standard component with code that is ready to use.
+#'
+#' * `get_standard()`: Returns an object of class `mighty_component`
+#' * `get_rendered_standard()`: Returns an object of class `mighty_component_rendered`
+#'
+#' When rendering the standard the required list of parameters depends on the standard.
+#' Check the documentation of the specific standard for details.
+#'
+#' @param standard `character` name of the standard component to retrieve.
+#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
+#' @seealso [list_standards()], [mighty_component], [mighty_component_rendered]
+#' @examples
+#' get_standard("ady")
+#'
+#' get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' @rdname get_standard
 #' @export
-get_standard <- function(standard, library) {
-  template <- find_standard(standard, library)
-  mighty_standard$new(template = readLines(template))
+get_standard <- function(standard) {
+  template <- find_standard(standard)
+  mighty_component$new(template = readLines(template))
 }
+
+#' @rdname get_standard
+#' @export
+get_rendered_standard <- function(standard, params) {
+  x <- get_standard(standard)
+  do.call(what = x$render, args = params)
+}
+
+#' List all available standards
+#' @description
+#' List all available mighty standard components.
+#'
+#' @returns `character` vector of standard names
+#' @examples
+#' available_standards <- list_standards()
+#' cat(available_standards, sep = "\n")
+#'
+#' @export
+list_standards <- function() {
+  templates <- standard_path() |>
+    list.files()
+
+  gsub(pattern = "\\.mustache$", replacement = "", x = templates)
+}
+
+#' @noRd
+standard_path <- function() {
+  # TODO: Point to new path when implemented
+  system.file("components", package = "mighty.standards")
+}
+
+#' @noRd
+find_standard <- function(standard) {
+  path <- paste0(standard_path(), "/", standard, ".mustache")
+
+  if (!file.exists(path)) {
+    cli::cli_abort("Component {standard} not found")
+  }
+
+  path
+}
+
 
 #' Retrieve rendered mighty standard component
 #' @export
@@ -17,14 +76,6 @@ get_rendered_component <- function(standard, ...) {
   get_rendered_standard(standard, ...)
 }
 
-#' Retrieve rendered mighty standard component
-#' @param standard standard
-#' @param params list of input parameters
-#' @export
-get_rendered_standard <- function(standard, library, params) {
-  x <- get_standard(standard, library)
-  do.call(what = x$render, args = params)
-}
 
 get_rendered_custom <- function(path) {
   code_string <- readLines(path) |>
@@ -62,30 +113,6 @@ extract_function_metadata <- function(code_string) {
   metadata <- grep(pattern = "^#\\'", x = trimws(metadata), value = TRUE)
 }
 
-#' List all available standards
-#' @export
-list_standards <- function(library) {
-  templates <- system.file(
-    "components",
-    package = library
-  ) |>
-    list.files()
-  setNames(templates, rep(library, length(templates)))
-}
-
-
-#' @noRd
-find_standard <- function(standard, library) {
-  out <- system.file(
-    "components",
-    paste0(standard, ".mustache"),
-    package = library
-  )
-  if (out == "") {
-    cli::cli_abort("Component {standard} not found in {library}")
-  }
-  out
-}
 
 remove_function_header <- function(f_string) {
   # grep_pattern <- "function\\(\\s*\\.self\\s*(,\\s*\\w+)*\\s*\\)\\s*\\{"

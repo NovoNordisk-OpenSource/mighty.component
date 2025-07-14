@@ -16,10 +16,13 @@ ASTDT
 ASTDTF
 ASTDY
 AVAL
+CDISC
 CMD
 CRAN
 dplyr
 dtc
+emph
+envir
 knitr
 lintr
 multiarch
@@ -30,6 +33,7 @@ OLDV
 PARAMCD
 pharmaverseadam
 pharmaversesdtm
+rdname
 rlang
 rmarkdown
 roclet
@@ -37,12 +41,12 @@ roxygen
 Roxygen
 Roxygenize
 Rtemplate
+seealso
 stringr
 STUDYID
 Sweave
 testthat
 Thomsen
-tidyselect
 TRTEDT
 TRTEMFL
 TRTSDT
