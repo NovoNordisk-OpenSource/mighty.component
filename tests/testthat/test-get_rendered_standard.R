@@ -8,7 +8,6 @@ test_that("get_rendered_component, custom code component multiple depends", {
     #' Analysis relative day
 #' @description
 #' Derives the relative day compared to the treatment start date.
-#' @param a text about a
 #' @type derivation
 #' @depends .self A
 #' @depends lb A
