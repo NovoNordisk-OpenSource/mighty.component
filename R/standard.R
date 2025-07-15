@@ -16,7 +16,7 @@
 #' @examples
 #' get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
 #' @export
-get_rendered_component <- function(code_component, params) {
+get_rendered_component <- function(code_component, params = NULL) {
   file_type <- tolower(tools::file_ext(code_component))
 
   switch(
