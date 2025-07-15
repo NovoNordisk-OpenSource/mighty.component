@@ -1,4 +1,4 @@
-#' Retrieve rendered mighty code component
+#' Retrieve mighty code component
 #' @description Retrieves and renders a mighty code component, supporting
 #' both built-in standards and custom components from local files.
 #'
@@ -10,7 +10,7 @@
 #' @param component Character string specifying either a standard component name
 #'   or path to a custom component file (R or Mustache template).
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
-#' @seealso [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
+#' @seealso [get_standard()], [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
 #' @returns An object of class `mighty_component_rendered` containing the
 #'   rendered code template
 #' @examples
@@ -19,11 +19,14 @@
 #' @export
 get_component <- function(component) {
   file_type <- tolower(tools::file_ext(component))
-  
+
+  if (file_type != "" && !file.exists(component)) {
+    cli::cli_abort("Component {.file {component}} not found")
+  }
+
   switch(
     file_type,
     "r" = get_custom(component),
-    # TODO: add error handling for when the specified local custom mustache is not found
     "mustache" = mighty_component$new(template = readLines(component)),
     get_standard(component)
   )

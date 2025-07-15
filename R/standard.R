@@ -57,7 +57,7 @@ find_standard <- function(standard) {
   path <- paste0(standard_path(), "/", standard, ".mustache")
 
   if (!file.exists(path)) {
-    cli::cli_abort("Component {standard} not found")
+    cli::cli_abort("Component {.field {standard}} not found")
   }
 
   path

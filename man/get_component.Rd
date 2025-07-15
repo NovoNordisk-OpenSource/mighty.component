@@ -3,7 +3,7 @@
 \name{get_component}
 \alias{get_component}
 \alias{get_rendered_component}
-\title{Retrieve rendered mighty code component}
+\title{Retrieve mighty code component}
 \usage{
 get_component(component)
 
@@ -33,5 +33,5 @@ names, retrieves and renders built-in standard components.
 get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
 }
 \seealso{
-\code{\link[=get_rendered_standard]{get_rendered_standard()}}, \link{mighty_component}, \link{mighty_component_rendered}
+\code{\link[=get_standard]{get_standard()}}, \code{\link[=get_rendered_standard]{get_rendered_standard()}}, \link{mighty_component}, \link{mighty_component_rendered}
 }
