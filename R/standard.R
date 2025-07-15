@@ -114,7 +114,7 @@ get_rendered_custom <- function(path) {
 extract_function_body <- function(code_string) {
   # We can't just use body() to extract the fn's body, because for if-else
   # blocks it produces strings that are not formatted properly as R code
-  fn_nm <- code_string |> parse(text = _) |> _[[1]][[2]]
+  fn_nm <- parse(text = code_string)[[1]][[2]]
 
   # This function relies on extracting source code from function objects using
   # their 'srcref' attribute (source reference). However, srcref attributes are

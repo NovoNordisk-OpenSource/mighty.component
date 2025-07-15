@@ -54,7 +54,7 @@ test_that("aendt", {
     expected = adae
   )
 })
-22
+
 test_that("ady", {
   ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
 
