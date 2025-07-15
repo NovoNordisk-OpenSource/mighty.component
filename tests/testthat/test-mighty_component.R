@@ -1,5 +1,5 @@
 test_that("mighty_component", {
-  component <- test_path("_input", "test_component.mustache")
+  component <- test_path("_components", "test_component.mustache")
 
   test_component <- mighty_component$new(template = readLines(component)) |>
     expect_no_condition() |>
@@ -151,7 +151,7 @@ test_that("tags_to_depends", {
 })
 
 test_that("ms_print", {
-  test_path("_input", "test_component.mustache") |>
+  test_path("_components", "test_component.mustache") |>
     readLines() |>
     mighty_component$new() |>
     print() |>
@@ -175,7 +175,7 @@ test_that("create_bullets", {
 })
 
 test_that("ms_render", {
-  test_component <- test_path("_input", "test_component.mustache") |>
+  test_component <- test_path("_components", "test_component.mustache") |>
     readLines() |>
     mighty_component$new()
 

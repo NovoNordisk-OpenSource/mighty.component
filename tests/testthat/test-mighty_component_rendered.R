@@ -1,7 +1,7 @@
 rendered_test_component <- function() {
   # TODO: Replace with get_rendered_component when
   # available in entire script
-  test_path("_input", "test_component.mustache") |>
+  test_path("_components", "test_component.mustache") |>
     readLines() |>
     whisker.render(data = list(x1 = 5, x2 = 3)) |>
     {
@@ -12,7 +12,7 @@ rendered_test_component <- function() {
 
 test_that("msr_print", {
   rendered_test_component() |>
-    print() |>  
+    print() |>
     expect_snapshot()
 })
 
