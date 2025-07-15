@@ -4,7 +4,8 @@ test_that("predecessor", {
     list(source = "pharmaverseadam::adsl", by = "USUBJID", variable = "ACTARM")
   )
 
-  expect_snapshot(predecessor)
+  cat(predecessor$template, sep = "\n") |>
+    expect_snapshot()
 
   advs <- pharmaverseadam::advs |>
     dplyr::select(USUBJID, PARAMCD, AVAL, ACTARM)
@@ -18,7 +19,8 @@ test_that("predecessor", {
 test_that("assign", {
   assign <- get_rendered_standard("assign", list(variable = "y", value = 1))
 
-  expect_snapshot(assign)
+  cat(assign$template, sep = "\n") |>
+    expect_snapshot()
 
   df <- data.frame(x = "a", y = 1)
 
@@ -31,7 +33,8 @@ test_that("assign", {
 test_that("astdt", {
   astdt <- get_rendered_standard("astdt", list(dtc = "AESTDTC"))
 
-  expect_snapshot(astdt)
+  cat(astdt$template, sep = "\n") |>
+    expect_snapshot()
 
   adae <- pharmaverseadam::adae |>
     dplyr::select(USUBJID, AESTDTC, ASTDT, ASTDTF)
@@ -44,7 +47,9 @@ test_that("astdt", {
 
 test_that("aendt", {
   aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
-  expect_snapshot(aendt)
+
+  cat(aendt$template, sep = "\n") |>
+    expect_snapshot()
 
   adae <- pharmaverseadam::adae |>
     dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF)
