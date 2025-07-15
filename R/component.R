@@ -7,32 +7,37 @@
 #' Mustache templates, creates components from template files. For standard
 #' names, retrieves and renders built-in standard components.
 #'
-#' @param code_component Character string specifying either a standard component name
-#'   or path to a custom component file (R or Mustache template)
-#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`
+#' @param component Character string specifying either a standard component name
+#'   or path to a custom component file (R or Mustache template).
+#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
 #' @returns An object of class `mighty_component_rendered` containing the
 #'   rendered code template
 #' @examples
 #' get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' @rdname get_component
 #' @export
-get_rendered_component <- function(code_component, params = NULL) {
-  file_type <- tolower(tools::file_ext(code_component))
-
+get_component <- function(component) {
+  file_type <- tolower(tools::file_ext(component))
+  
   switch(
     file_type,
-    "r" = get_rendered_custom(code_component),
+    "r" = get_custom(component),
     # TODO: add error handling for when the specified local custom mustache is not found
-    "mustache" = {
-      component <- mighty_component$new(template = readLines(code_component))
-      do.call(what = component$render, args = params)
-    },
-    get_rendered_standard(code_component, params)
+    "mustache" = mighty_component$new(template = readLines(component)),
+    get_standard(component)
   )
 }
 
+#' @rdname get_component
+#' @export
+get_rendered_component <- function(component, params = list()) {
+  x <- get_component(component)
+  do.call(what = x$render, args = params)
+}
 
-get_rendered_custom <- function(path) {
+#' @noRd
+get_custom <- function(path) {
   code_string <- readLines(path) |>
     paste0(collapse = "\n")
 
@@ -41,9 +46,10 @@ get_rendered_custom <- function(path) {
       extract_function_metadata(code_string),
       extract_function_body(code_string)
     )
-  )$render()
+  )
 }
 
+#' @noRd
 extract_function_body <- function(code_string) {
   # We can't just use body() to extract the fn's body, because for if-else
   # blocks it produces strings that are not formatted properly as R code
@@ -85,12 +91,13 @@ extract_function_body <- function(code_string) {
     remove_function_return()
 }
 
+#' @noRd
 extract_function_metadata <- function(code_string) {
   metadata <- code_string |> strsplit(split = "\\n") |> unlist()
   metadata <- grep(pattern = "^#\\'", x = trimws(metadata), value = TRUE)
 }
 
-
+#' @noRd
 remove_function_header <- function(f_string) {
   # grep_pattern <- "function\\(\\s*\\.self\\s*(,\\s*\\w+)*\\s*\\)\\s*\\{"
   grep_pattern <- "function\\(\\s*(.*?)\\)\\s*?\\{"
@@ -100,6 +107,7 @@ remove_function_header <- function(f_string) {
   gsub(pattern = grep_pattern, replacement = "", x = f_string)
 }
 
+#' @noRd
 remove_function_return <- function(f_string) {
   # TODO: check for when the return statement is broken up by linebreaks
   grep_pattern <- "return\\(.*?\\)(?s:.*)\\}"

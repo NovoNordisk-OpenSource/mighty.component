@@ -10,7 +10,7 @@
 #' Check the documentation of the specific standard for details.
 #'
 #' @param standard `character` name of the standard component to retrieve.
-#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
+#' @inheritParams get_component
 #' @seealso [list_standards()], [mighty_component], [mighty_component_rendered]
 #' @examples
 #' get_standard("ady")
@@ -25,9 +25,8 @@ get_standard <- function(standard) {
 
 #' @rdname get_standard
 #' @export
-get_rendered_standard <- function(standard, params) {
-  x <- get_standard(standard)
-  do.call(what = x$render, args = params)
+get_rendered_standard <- function(standard, params = list()) {
+  get_rendered_component(component = standard, params = params)
 }
 
 #' List all available standards
