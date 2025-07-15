@@ -1,3 +1,36 @@
+#' Retrieve rendered mighty code component
+#' @description Retrieves and renders a mighty code component, supporting
+#' both built-in standards and custom components from local files.
+#'
+#' @details Processes different component types based on file extension or
+#' component name. For R files, extracts and renders custom functions. For
+#' Mustache templates, creates components from template files. For standard
+#' names, retrieves and renders built-in standard components.
+#'
+#' @param code_component Character string specifying either a standard component name
+#'   or path to a custom component file (R or Mustache template)
+#' @param ... Additional arguments passed to the rendering function, typically a
+#'   named `list` of input parameters. Passed along to `mighty_component$render()`
+#' @seealso [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
+#' @returns An object of class `mighty_component_rendered` containing the
+#'   rendered code template
+#' @export
+get_rendered_component <- function(code_component, ...) {
+  file_type <- tolower(tools::file_ext(code_component))
+
+  switch(
+    file_type,
+    "r" = get_rendered_custom(code_component),
+    # TODO: add error handling for when the specified local custom mustache is not found
+    "mustache" = {
+      component <- mighty_component$new(template = readLines(code_component))
+      do.call(what = component$render, args = ...)
+    },
+    get_rendered_standard(code_component, ...)
+  )
+}
+
+
 #' Retrieve mighty standard component
 #' @description
 #' Retrieve either the generalized standard component (template) or
@@ -62,21 +95,6 @@ find_standard <- function(standard) {
   }
 
   path
-}
-
-
-#' Retrieve rendered mighty standard component
-#' @export
-get_rendered_component <- function(standard, ...) {
-  file_type <- tolower(tools::file_ext(standard))
-
-  switch(
-    file_type,
-    "r" = get_rendered_custom(standard),
-    # TODO: add error handling for when the specified local custom mustache is not found
-    "mustache" = mighty_component$new(template = readLines(standard)),
-    get_rendered_standard(standard, ...)
-  )
 }
 
 
