@@ -9,13 +9,14 @@
 #'
 #' @param code_component Character string specifying either a standard component name
 #'   or path to a custom component file (R or Mustache template)
-#' @param ... Additional arguments passed to the rendering function, typically a
-#'   named `list` of input parameters. Passed along to `mighty_component$render()`
+#' @param params named `list` of input parameters. Passed along to `mighty_component$render()`
 #' @seealso [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
 #' @returns An object of class `mighty_component_rendered` containing the
 #'   rendered code template
+#' @examples
+#' get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
 #' @export
-get_rendered_component <- function(code_component, ...) {
+get_rendered_component <- function(code_component, params) {
   file_type <- tolower(tools::file_ext(code_component))
 
   switch(
@@ -24,9 +25,9 @@ get_rendered_component <- function(code_component, ...) {
     # TODO: add error handling for when the specified local custom mustache is not found
     "mustache" = {
       component <- mighty_component$new(template = readLines(code_component))
-      do.call(what = component$render, args = ...)
+      do.call(what = component$render, args = params)
     },
-    get_rendered_standard(code_component, ...)
+    get_rendered_standard(code_component, params)
   )
 }
 

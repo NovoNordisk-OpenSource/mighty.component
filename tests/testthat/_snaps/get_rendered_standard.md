@@ -6,6 +6,14 @@
       "value": ["", "    'hello' |> ", "      print()", "    if(a){", "    NULL", "    } else{", "      a <- 1", "      }", "      "]
     }
 
+# get_rendered_component custom local mustache template with params
+
+    {
+      "type": "character",
+      "attributes": {},
+      "value": ["", "    #' Analysis relative day", "", ".self <- .self |>", "  dplyr::mutate(", "    out_var = admiral::compute_duration(", "      start_date = TRTSDT,", "      end_date = date_var,", "      in_unit = '", "  days", "  ',", "      out_unit = '", "  days", "  ',", "      add_one = TRUE", "    )", "  )"]
+    }
+
 # get_rendered_component returns rendered STANDARD code component with valid inputs
 
     {
