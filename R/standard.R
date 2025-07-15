@@ -26,7 +26,8 @@ get_standard <- function(standard) {
 #' @rdname get_standard
 #' @export
 get_rendered_standard <- function(standard, params = list()) {
-  get_rendered_component(component = standard, params = params)
+  x <- get_standard(standard)
+  do.call(what = x$render, args = params)
 }
 
 #' List all available standards
