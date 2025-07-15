@@ -4,7 +4,7 @@ template:
 reference:
   - title: Use components
     contents:
-      - get_rendered_component
+      - get_component
       - get_standard
       - list_standards
   - title: Mighty standard component classes
