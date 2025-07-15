@@ -4,7 +4,7 @@
 \alias{get_rendered_component}
 \title{Retrieve rendered mighty code component}
 \usage{
-get_rendered_component(code_component, params)
+get_rendered_component(code_component, params = NULL)
 }
 \arguments{
 \item{code_component}{Character string specifying either a standard component name
