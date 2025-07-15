@@ -91,9 +91,7 @@ extract_function_body <- function(code_string) {
 
   # TODO: proper validation checks of custom components - e.g. cannot have
   # multiple return statements, must end with return(.self), etc
-  old_keep_source <- getOption("keep.source")
-  options(keep.source = TRUE)
-  withr::defer(options(keep.source = old_keep_source))
+  withr::local_options(.new = list(keep.source = TRUE))
 
   parse(text = code_string) |>
     eval()
