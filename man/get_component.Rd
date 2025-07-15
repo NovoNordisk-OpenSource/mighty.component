@@ -10,27 +10,38 @@ get_component(component)
 get_rendered_component(component, params = list())
 }
 \arguments{
-\item{component}{Character string specifying either a standard component name
+\item{component}{\code{character} specifying either a standard component name
 or path to a custom component file (R or Mustache template).}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }
-\value{
-An object of class \code{mighty_component_rendered} containing the
-rendered code template
-}
 \description{
-Retrieves and renders a mighty code component, supporting
+Retrieve a mighty code component, supporting
 both built-in standards and custom components from local files.
+\itemize{
+\item \code{get_component()}: Returns an object of class \code{mighty_component}
+containing the standard or custom component.
+\item \code{get_rendered_component()}: Returns an object of class \code{mighty_component_rendered}
+containing the rendered code component
+}
+
+When rendering a component the required list of parameters depends on the individual component.
+Check the documentation of the specific standard, or the local component, for details.
 }
 \details{
 Processes different component types based on file extension or
-component name. For R files, extracts and renders custom functions. For
-Mustache templates, creates components from template files. For standard
-names, retrieves and renders built-in standard components.
+component name:
+\itemize{
+\item \emph{No extension}: Looks for built-in standard components with that name.
+\item \code{.R}: Extracts and renders custom functions.
+\item \code{.mustache}: Creates components from the template files.
+}
 }
 \examples{
+get_component("ady")
+
 get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
+
 }
 \seealso{
 \code{\link[=get_standard]{get_standard()}}, \code{\link[=get_rendered_standard]{get_rendered_standard()}}, \link{mighty_component}, \link{mighty_component_rendered}

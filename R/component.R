@@ -1,20 +1,32 @@
 #' Retrieve mighty code component
-#' @description Retrieves and renders a mighty code component, supporting
+#' @description
+#' Retrieve a mighty code component, supporting
 #' both built-in standards and custom components from local files.
-#'
+#' 
+#' * `get_component()`: Returns an object of class `mighty_component`
+#' containing the standard or custom component.
+#' * `get_rendered_component()`: Returns an object of class `mighty_component_rendered`
+#' containing the rendered code component
+#' 
+#' When rendering a component the required list of parameters depends on the individual component.
+#' Check the documentation of the specific standard, or the local component, for details.
+#' 
 #' @details Processes different component types based on file extension or
-#' component name. For R files, extracts and renders custom functions. For
-#' Mustache templates, creates components from template files. For standard
-#' names, retrieves and renders built-in standard components.
+#' component name:
+#' 
+#' * *No extension*: Looks for built-in standard components with that name.
+#' * `.R`: Extracts and renders custom functions.
+#' * `.mustache`: Creates components from the template files.
 #'
-#' @param component Character string specifying either a standard component name
-#'   or path to a custom component file (R or Mustache template).
+#' @param component `character` specifying either a standard component name
+#' or path to a custom component file (R or Mustache template).
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [get_standard()], [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
-#' @returns An object of class `mighty_component_rendered` containing the
-#'   rendered code template
 #' @examples
+#' get_component("ady")
+#' 
 #' get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' 
 #' @rdname get_component
 #' @export
 get_component <- function(component) {
