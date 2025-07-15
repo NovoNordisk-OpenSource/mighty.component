@@ -13,7 +13,7 @@ test_that("get_rendered_component, custom code component multiple depends", {
 #' @depends lb A
 #' @outputs B
     hello <- function(a){
-    'hello' |> 
+    'hello' |>
       print()
     if(a){
     NULL

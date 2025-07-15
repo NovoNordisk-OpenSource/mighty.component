@@ -69,13 +69,13 @@ find_standard <- function(standard) {
 #' @export
 get_rendered_component <- function(standard, ...) {
   file_type <- tolower(tools::file_ext(standard))
-  
-  switch(file_type,
+
+  switch(
+    file_type,
     "r" = get_rendered_custom(standard),
     # TODO: add error handling for when the specified local custom mustache is not found
     "mustache" = mighty_component$new(template = readLines(standard)),
     get_rendered_standard(standard, ...)
-
   )
 }
 
@@ -93,22 +93,44 @@ get_rendered_custom <- function(path) {
 }
 
 extract_function_body <- function(code_string) {
-  # We can't just use body() to extract the fn's body, becaus for if-else blocks it produces strings that are not formatted properly as R code
+  # We can't just use body() to extract the fn's body, because for if-else
+  # blocks it produces strings that are not formatted properly as R code
   fn_nm <- code_string |> parse(text = _) |> _[[1]][[2]]
 
-  # Get into envir
+  # This function relies on extracting source code from function objects using
+  # their 'srcref' attribute (source reference). However, srcref attributes are
+  # fragile and may be lost or unavailable in certain execution contexts,
+  # possibly including the following:
+
+  # 1. R CMD check and package building processes
+  # 2. CI/CD pipelines running R in batch mode
+  # 3. Some testthat execution contexts (particularly IDE test runners)
+  # 4. R sessions started with --vanilla or custom .Rprofile settings
+
+  # Without srcref, the function returns empty strings, causing the function to
+  # fail silently.
+
+  # The keep.source=TRUE option attempts to ensure that when functions are defined,
+  # R preserves the original source code as srcref attributes.
+
+  # TODO:  Refactoring to have a robust
+  # fallback (e.g., using deparse()) when srcref is unavailable
+
+  # TODO: proper validation checks of custom components - e.g. cannot have
+  # multiple return statements, must end with return(.self), etc
+  old_keep_source <- getOption("keep.source")
+  options(keep.source = TRUE)
+  withr::defer(options(keep.source = old_keep_source))
+
   parse(text = code_string) |>
     eval()
 
-  fn_nm |> 
+  fn_nm |>
     get() |>
-    attr("srcref") |> 
+    attr("srcref") |>
     paste(collapse = "\n") |>
     remove_function_header() |>
     remove_function_return()
-  
-  # TODO: proper validation checks of custom components - e.g. cannot have multiple return statements, must end with return(.self), etc
-
 }
 
 extract_function_metadata <- function(code_string) {
@@ -123,10 +145,7 @@ remove_function_header <- function(f_string) {
 
   # When there are function definitions embedded in a node, we need to allow
   # those to remain
-  gsub(pattern = grep_pattern,
-       replacement = "",
-       x = f_string)
-
+  gsub(pattern = grep_pattern, replacement = "", x = f_string)
 }
 
 remove_function_return <- function(f_string) {
@@ -138,5 +157,4 @@ remove_function_return <- function(f_string) {
     x = f_string,
     perl = TRUE
   )
-
 }
