@@ -7,7 +7,7 @@
 \usage{
 get_standard(standard)
 
-get_rendered_standard(standard, params)
+get_rendered_standard(standard, params = list())
 }
 \arguments{
 \item{standard}{\code{character} name of the standard component to retrieve.}
