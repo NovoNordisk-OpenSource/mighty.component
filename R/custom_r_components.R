@@ -59,7 +59,6 @@ extract_function_metadata <- function(code_string) {
 
 #' @noRd
 remove_function_header <- function(f_string) {
-  # grep_pattern <- "function\\(\\s*\\.self\\s*(,\\s*\\w+)*\\s*\\)\\s*\\{"
   grep_pattern <- "function\\(\\s*(.*?)\\)\\s*?\\{"
 
   # When there are function definitions embedded in a node, we need to allow

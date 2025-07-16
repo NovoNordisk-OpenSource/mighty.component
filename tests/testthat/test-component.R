@@ -41,7 +41,7 @@ test_that("get_rendered_component custom local mustache template with params", {
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------
   # ACT ---------------------------
-  x <- get_rendered_component(
+  y <- get_rendered_component(
     component = "ady",
     params = list(
       date = "date_var",
@@ -50,12 +50,12 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   )
 
   # ASSERT ---------------------------
-  expect_s3_class(x, "mighty_component_rendered")
-  expect_snapshot(x)
-  expect_equal(x$type, "derivation")
+  expect_s3_class(y, "mighty_component_rendered")
+  expect_snapshot(y)
+  expect_equal(y$type, "derivation")
   expect_equal(
-    x$depends,
+    y$depends,
     data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
   )
-  expect_equal(x$outputs, "out_var")
+  expect_equal(y$outputs, "out_var")
 })

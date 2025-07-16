@@ -6,7 +6,7 @@
 #' @depends lb A
 #' @outputs B
 hello <- function(a) {
-  'hello' |>
+  "hello" |>
     print()
   if (a) {
     NULL
