@@ -2,8 +2,9 @@ url: https://nn-opensource.github.io/mighty.standards
 template:
   bootstrap: 5
 reference:
-  - title: Use standards
+  - title: Use components
     contents:
+      - get_component
       - get_standard
       - list_standards
   - title: Mighty standard component classes

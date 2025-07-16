@@ -3,6 +3,7 @@ Title: Standard derivations for ADaM generation
 Version: 0.0.0.9005
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
+    person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
     person("Novo Nordisk A/S", role = "cph")
   )
 Description: Standard components library to be used inside the 'mighty'

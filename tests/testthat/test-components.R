@@ -44,7 +44,6 @@ test_that("astdt", {
 
 test_that("aendt", {
   aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
-
   expect_snapshot(aendt)
 
   adae <- pharmaverseadam::adae |>
