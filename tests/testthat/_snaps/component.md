@@ -11,7 +11,7 @@
       Outputs:
       * B
       Code:
-        'hello' |>
+        "hello" |>
           print()
         if (a) {
           NULL
@@ -47,7 +47,7 @@
 # get_rendered_component returns rendered STANDARD code component with valid inputs
 
     Code
-      x
+      y
     Message
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
