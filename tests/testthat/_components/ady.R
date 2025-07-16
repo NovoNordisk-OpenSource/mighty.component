@@ -9,9 +9,15 @@ hello <- function(a) {
   'hello' |>
     print()
   if (a) {
+    if(T){
+      NA
+    }
     NULL
   } else {
     a <- 1
   }
+  lapply(list(1), function(i){
+    NA
+  })
   return(.self)
 }
