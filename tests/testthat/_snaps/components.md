@@ -133,3 +133,36 @@
           end_window = 30
         )
 
+# supp_sdtm
+
+    Code
+      supp_sdtm
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: predecessor
+      Depends:
+      * .self.USUBJID
+      * pharmaversesdtm::suppae.USUBJID
+      * pharmaversesdtm::suppae.IDVAR
+      * pharmaversesdtm::suppae.IDVARVAL
+      * pharmaversesdtm::suppae.QNAM
+      * pharmaversesdtm::suppae.QVAL
+      Outputs:
+      * AETRTEM
+      Code:
+      supp_data <- pharmaversesdtm::suppae |>
+        dplyr::select(USUBJID, IDVAR, IDVARVAL, QNAM, QVAL) |>
+        dplyr::filter(QNAM == "AETRTEM") |>
+        tidyr::pivot_wider(names_from = QNAM, values_from = QVAL)
+      idvar <- unique(supp_data$IDVAR)
+      idclass <- class(.self[[idvar]])
+      supp_data[["IDVARVAL"]] <- do.call(
+        what = get(paste0("as.", idclass)),
+        args = list(supp_data$IDVARVAL)
+      )
+      .self <- .self |>
+        dplyr::left_join(
+          supp_data |> dplyr::select(-IDVAR),
+          by = c("USUBJID", stats::setNames("IDVARVAL", idvar))
+        )
+

@@ -6,8 +6,8 @@
 #' @param variable `character` Name of variable(s) to use from `source`
 #' @param by `character` name(s) of variable(s) to merge by
 #' @type predecessor
-#' @depends .self USUBJID
-#' @depends {{ source }} USUBJID
+#' @depends .self {{ by }}
+#' @depends {{ source }} {{ by }}
 #' @depends {{ source }} {{ variable }}
 #' @outputs {{ variable }}
 

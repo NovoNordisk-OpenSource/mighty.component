@@ -88,3 +88,31 @@ test_that("trtemfl", {
     expected = adae
   )
 })
+
+test_that("supp_sdtm", {
+  supp_sdtm <- get_rendered_standard(
+    standard = "supp_sdtm",
+    params = list(
+      source = "pharmaversesdtm::suppae",
+      qnam = "AETRTEM"
+    )
+  )
+
+  expect_snapshot(supp_sdtm)
+
+  suppae <- pharmaversesdtm::suppae |>
+    dplyr::mutate(
+      AESEQ = as.numeric(IDVARVAL),
+      AETRTEM = QVAL
+    ) |>
+    dplyr::select(USUBJID, AESEQ, AETRTEM)
+
+  adae <- pharmaversesdtm::ae |>
+    dplyr::select(USUBJID, AESEQ, AETERM) |>
+    dplyr::left_join(suppae, by = c("USUBJID", "AESEQ"))
+
+  supp_sdtm$test(
+    input = adae |> dplyr::select(-AETRTEM),
+    expected = adae
+  )
+})
