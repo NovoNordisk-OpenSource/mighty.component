@@ -32,9 +32,3 @@ test_that("get_rendered_standard", {
   get_rendered_standard("ady", list(wrong_input = 5)) |>
     expect_error()
 })
-
-test_that("test", {
-  get_standard("ady") |>
-    eval_method("document") |>
-    expect_snapshot()
-})

@@ -40,10 +40,3 @@
           )
         )
 
-# test
-
-    Code
-      eval_method(get_standard("ady"), "document")
-    Output
-      [1] "documentation"
-

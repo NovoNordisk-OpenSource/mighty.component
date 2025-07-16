@@ -29,7 +29,7 @@
       Code:
       .self$NEWWAR <- 1 * Y$B + .self$A - 2
 
-# ms_print
+# print
 
     Code
       expect_s3_class(expect_invisible(print(mighty_component$new(readLines(test_path(
@@ -54,4 +54,12 @@
       mytest
       * first item
       * second item
+
+# document
+
+    Code
+      eval_method(mighty_component$new(readLines(test_path("_components",
+        "test_component.mustache"))), "document")
+    Output
+      [1] "documentation"
 

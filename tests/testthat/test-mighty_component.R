@@ -150,7 +150,7 @@ test_that("tags_to_depends", {
     expect_equal(0)
 })
 
-test_that("ms_print", {
+test_that("print", {
   test_path("_components", "test_component.mustache") |>
     readLines() |>
     mighty_component$new() |>
@@ -174,30 +174,41 @@ test_that("create_bullets", {
     expect_snapshot()
 })
 
-test_that("ms_render", {
+test_that("render", {
   test_component <- test_path("_components", "test_component.mustache") |>
     readLines() |>
     mighty_component$new()
 
-  ms_render(
-    params = list(x1 = 5, 2),
-    self = test_component
+  eval_method(
+    x = test_component,
+    method = "render",
+    args = list(x1 = 5, 2)
   ) |>
     expect_error(
       regexp = "All parameters must be named"
     )
 
-  ms_render(
-    params = list(x1 = 5),
-    self = test_component
+  eval_method(
+    x = test_component,
+    method = "render",
+    args = list(x1 = 5)
   ) |>
     expect_error(
       regexp = "Parameter names not matching component requirements"
     )
 
-  test_component_rendered <- ms_render(
-    params = list(x1 = 5, x2 = 4),
-    self = test_component
+  eval_method(
+    x = test_component,
+    method = "render",
+    args = list(x1 = 5, x2 = 4)
   ) |>
     expect_no_condition()
+})
+
+test_that("document", {
+  test_path("_components", "test_component.mustache") |>
+    readLines() |>
+    mighty_component$new() |>
+    eval_method("document") |>
+    expect_snapshot()
 })
