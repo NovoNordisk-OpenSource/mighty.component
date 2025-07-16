@@ -32,8 +32,8 @@
 # print
 
     Code
-      expect_s3_class(expect_invisible(print(mighty_component$new(readLines(test_path(
-        "_components", "test_component.mustache"))))), "mighty_component")
+      expect_s3_class(expect_invisible(print(get_component(test_path("_components",
+        "test_component.mustache")))), "mighty_component")
     Message
       <mighty_component/R6>
       Type: derivation
@@ -58,8 +58,8 @@
 # document
 
     Code
-      eval_method(mighty_component$new(readLines(test_path("_components",
-        "test_component.mustache"))), "document")
+      eval_method(get_component(test_path("_components", "test_component.mustache")),
+      "document")
     Output
       [1] "documentation"
 

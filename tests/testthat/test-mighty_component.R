@@ -38,6 +38,9 @@ test_that("mighty_component", {
       )
     )
 
+  test_component$document() |>
+    expect_equal("documentation")
+
   test_component_rendered <- test_component$render(x1 = 1, x2 = 2) |>
     expect_no_condition() |>
     expect_s3_class("mighty_component_rendered")
@@ -152,8 +155,7 @@ test_that("tags_to_depends", {
 
 test_that("print", {
   test_path("_components", "test_component.mustache") |>
-    readLines() |>
-    mighty_component$new() |>
+    get_component() |>
     print() |>
     expect_invisible() |>
     expect_s3_class("mighty_component") |>
@@ -176,8 +178,7 @@ test_that("create_bullets", {
 
 test_that("render", {
   test_component <- test_path("_components", "test_component.mustache") |>
-    readLines() |>
-    mighty_component$new()
+    get_component()
 
   eval_method(
     x = test_component,
@@ -207,8 +208,7 @@ test_that("render", {
 
 test_that("document", {
   test_path("_components", "test_component.mustache") |>
-    readLines() |>
-    mighty_component$new() |>
+    get_component() |>
     eval_method("document") |>
     expect_snapshot()
 })
