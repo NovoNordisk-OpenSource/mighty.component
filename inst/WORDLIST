@@ -10,6 +10,7 @@ AENDT
 AENDTF
 AESEQ
 AESTDTC
+AETERM
 AETRTEM
 AGEU
 Aksel
@@ -54,6 +55,7 @@ suppae
 Sweave
 testthat
 Thomsen
+tidyr
 TRTEDT
 TRTEMFL
 TRTSDT
