@@ -1,7 +1,8 @@
-# msr_print
+# print
 
     Code
-      print(rendered_test_component())
+      print(get_rendered_component(test_path("_components", "test_component.mustache"),
+      params = list(x1 = 5, x2 = 3)))
     Message
       <mighty_component_rendered/mighty_component/R6>
       Type: derivation
