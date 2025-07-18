@@ -52,7 +52,7 @@ Create standard component from rendered template.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+\item{\code{template}}{\code{character} Rendered template such (as Ddone in \code{mighty_component$render()}).}
 }
 \if{html}{\out{</div>}}
 }
@@ -112,7 +112,7 @@ Defaults to using the current environment with \code{parent.frame()}.}
 Test component against expected output.
 \strong{TODO: Implement in #17}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test(input, expected)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test(input, expected, envir = parent.frame())}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -121,6 +121,9 @@ Test component against expected output.
 \item{\code{input}}{The input to use as \code{.self} for the code chunk}
 
 \item{\code{expected}}{The expected output in \code{.self} after evaluation}
+
+\item{\code{envir}}{Parent environment to use for evaluation of test code.
+Defaults to using the current environment with \code{parent.frame()}.}
 }
 \if{html}{\out{</div>}}
 }
