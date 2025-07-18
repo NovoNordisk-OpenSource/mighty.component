@@ -135,7 +135,7 @@ ms_initialize <- function(template, self, private) {
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- grep(
-    pattern = "^#",
+    pattern = "^#'",
     x = template,
     value = TRUE,
     invert = TRUE
