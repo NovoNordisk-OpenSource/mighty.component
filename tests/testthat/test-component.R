@@ -59,3 +59,11 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   )
   expect_equal(y$outputs, "out_var")
 })
+
+test_that("error handling", {
+  get_component("my/fake/file.mustache") |>
+    expect_error("not found")
+
+  get_rendered_component("my/other/fake/file.mustache", list()) |>
+    expect_error("not found")
+})
