@@ -52,7 +52,7 @@ Create standard component from rendered template.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{template}}{\code{character} Rendered template such (as Ddone in \code{mighty_component$render()}).}
+\item{\code{template}}{\code{character} Rendered template such (as done in \code{mighty_component$render()}).}
 }
 \if{html}{\out{</div>}}
 }
