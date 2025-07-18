@@ -15,7 +15,7 @@
       .self <- .self |>
         dplyr::left_join(
           y = dplyr::select(pharmaverseadam::adsl, USUBJID, ACTARM),
-          by = "USUBJID"
+          by = dplyr::join_by(USUBJID)
         )
 
 # assign
@@ -150,19 +150,17 @@
       Outputs:
       * AETRTEM
       Code:
+      idvar <- unique(pharmaversesdtm::suppae[["IDVAR"]])
+      idclass <- class(.self[[idvar]])
+      idfunc <- get(paste0("as.", idclass))
       supp_data <- pharmaversesdtm::suppae |>
         dplyr::select(USUBJID, IDVAR, IDVARVAL, QNAM, QVAL) |>
-        dplyr::filter(QNAM == "AETRTEM") |>
-        tidyr::pivot_wider(names_from = QNAM, values_from = QVAL)
-      idvar <- unique(supp_data$IDVAR)
-      idclass <- class(.self[[idvar]])
-      supp_data[["IDVARVAL"]] <- do.call(
-        what = get(paste0("as.", idclass)),
-        args = list(supp_data$IDVARVAL)
-      )
+        tidyr::pivot_wider(names_from = QNAM, values_from = QVAL) |>
+        dplyr::mutate(IDVARVAL = idfunc(IDVARVAL)) |>
+        dplyr::select(USUBJID, IDVARVAL, AETRTEM)
       .self <- .self |>
         dplyr::left_join(
-          supp_data |> dplyr::select(-IDVAR),
-          by = c("USUBJID", stats::setNames("IDVARVAL", idvar))
+          y = supp_data,
+          by = dplyr::join_by(USUBJID, !!idvar == IDVARVAL)
         )
 
