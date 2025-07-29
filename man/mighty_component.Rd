@@ -78,6 +78,12 @@ the rendered code used in mighty becomes:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{id}}{Component ID}
+
+\item{\code{title}}{Title for the component.}
+
+\item{\code{description}}{Description of the component.}
+
 \item{\code{code}}{The code block of the component.}
 
 \item{\code{template}}{The complete template.}
@@ -108,13 +114,15 @@ the rendered code used in mighty becomes:
 \subsection{Method \code{new()}}{
 Create standard component from template.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$new(template)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component$new(template, id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{template}}{\code{character} template code. See details for how to format.}
+
+\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
 }
 \if{html}{\out{</div>}}
 }

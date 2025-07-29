@@ -20,7 +20,10 @@
 #' @export
 get_standard <- function(standard) {
   template <- find_standard(standard)
-  mighty_component$new(template = readLines(template))
+  mighty_component$new(
+    template = readLines(template),
+    id = standard
+  )
 }
 
 #' @rdname get_standard

@@ -75,8 +75,9 @@ mighty_component <- R6::R6Class(
     #' @description
     #' Create standard component from template.
     #' @param template `character` template code. See details for how to format.
-    initialize = function(template) {
-      ms_initialize(template, self, private)
+    #' @param id `character` ID of the component. Either name of standard or path to local.
+    initialize = function(template, id) {
+      ms_initialize(template, id, self, private)
     },
     #' @description
     #' Print method displaying the component information.
@@ -102,6 +103,12 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
+    #' @field id Component ID
+    id = \() private$.id,
+    #' @field title Title for the component.
+    title = \() private$.title,
+    #' @field description Description of the component.
+    description = \() private$.description,
     #' @field code The code block of the component.
     code = \() private$.code,
     #' @field template The complete template.
@@ -116,6 +123,9 @@ mighty_component <- R6::R6Class(
     params = \() private$.params
   ),
   private = list(
+    .id = character(1),
+    .title = character(1),
+    .description = character(1),
     .type = character(1),
     .params = character(),
     .depends = character(),
@@ -126,8 +136,11 @@ mighty_component <- R6::R6Class(
 )
 
 #' @noRd
-ms_initialize <- function(template, self, private) {
+ms_initialize <- function(template, id, self, private) {
   # TODO: Input validation of template
+  private$.id <- id
+  private$.title <- get_tag(template, "title")
+  private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
     tags_to_named()
@@ -146,8 +159,16 @@ ms_initialize <- function(template, self, private) {
 
 #' @noRd
 get_tags <- function(template, tag) {
-  pattern <- paste0("^#' @", tag)
-  tags <- grep(pattern = pattern, x = template, value = TRUE)
+  pattern <- paste0("^@", tag)
+  tags <- grep(pattern = "^#'", x = template, value = TRUE)
+  tags <- gsub(pattern = "^#' *", replacement = "", x = tags)
+  tags <- split(
+    x = tags,
+    f = cumsum(substr(tags, 1, 1) == "@")
+  ) |>
+    vapply(FUN = paste, collapse = " ", FUN.VALUE = character(1)) |>
+    unname()
+  tags <- grep(pattern = pattern, x = tags, value = TRUE)
   tags <- gsub(pattern = pattern, replacement = "", x = tags)
   gsub(pattern = "^ +| +$", replacement = "", x = tags)
 }
@@ -252,6 +273,7 @@ ms_render <- function(params, self) {
     data = params
   )
   mighty_component_rendered$new(
-    template = strsplit(x = template, split = "\n")[[1]]
+    template = strsplit(x = template, split = "\n")[[1]],
+    id = self$id
   )
 }

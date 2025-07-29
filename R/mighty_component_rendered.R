@@ -18,8 +18,9 @@ mighty_component_rendered <- R6::R6Class(
     #' @description
     #' Create standard component from rendered template.
     #' @param template `character` Rendered template such as output from `mighty_component$render()`.
-    initialize = function(template) {
-      super$initialize(template)
+    #' @param id `character` ID of the component. Either name of standard or path to local.
+    initialize = function(template, id) {
+      super$initialize(template, id)
       private$.params <- character()
     },
     #' @description
