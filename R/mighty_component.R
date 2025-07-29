@@ -211,6 +211,7 @@ tags_to_depends <- function(tags) {
 ms_print <- function(self) {
   cli::cli({
     cli::cli_text("{.cls {class(self)}}")
+    cli::cli_text("{.field {self$id}}: {self$description}")
     cli::cli_text("{.emph Type:} {self$type}")
 
     create_bullets(
