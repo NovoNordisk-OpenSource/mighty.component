@@ -1,6 +1,6 @@
 Package: mighty.standards
 Title: Standard derivations for ADaM generation
-Version: 0.0.0.9007
+Version: 0.0.0.9008
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
@@ -28,6 +28,7 @@ Suggests:
     pharmaversesdtm,
     rmarkdown,
     testthat (>= 3.0.0),
+    tibble,
     tidyr,
     withr
 Config/testthat/edition: 3
