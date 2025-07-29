@@ -6,13 +6,17 @@
 #' @param variable `character` Name of variable(s) to use from `source`
 #' @param by `character` name(s) of variable(s) to merge by
 #' @type predecessor
-#' @depends .self USUBJID
-#' @depends {{ source }} USUBJID
-#' @depends {{ source }} {{ variable }}
-#' @outputs {{ variable }}
+{{#by}}
+#' @depends .self {{.}}
+#' @depends {{ source }} {{.}}
+{{/by}}
+{{#variable}}
+#' @depends {{ source }} {{.}}
+#' @outputs {{.}}
+{{/variable}}
 
 .self <- .self |>
   dplyr::left_join(
     y = dplyr::select({{ source }}, {{ by }}, {{ variable }}),
-    by = "{{ by }}"
+    by = dplyr::join_by({{ by }})
   )

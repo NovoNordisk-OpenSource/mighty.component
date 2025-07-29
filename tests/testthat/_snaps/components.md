@@ -15,7 +15,7 @@
       .self <- .self |>
         dplyr::left_join(
           y = dplyr::select(pharmaverseadam::adsl, USUBJID, ACTARM),
-          by = "USUBJID"
+          by = dplyr::join_by(USUBJID)
         )
 
 # assign
@@ -131,5 +131,36 @@
           trt_start_date = TRTSDT,
           trt_end_date = TRTEDT,
           end_window = 30
+        )
+
+# supp_sdtm
+
+    Code
+      supp_sdtm
+    Message
+      <mighty_component_rendered/mighty_component/R6>
+      Type: predecessor
+      Depends:
+      * .self.USUBJID
+      * pharmaversesdtm::suppae.USUBJID
+      * pharmaversesdtm::suppae.IDVAR
+      * pharmaversesdtm::suppae.IDVARVAL
+      * pharmaversesdtm::suppae.QNAM
+      * pharmaversesdtm::suppae.QVAL
+      Outputs:
+      * AETRTEM
+      Code:
+      idvar <- unique(pharmaversesdtm::suppae[["IDVAR"]])
+      idclass <- class(.self[[idvar]])
+      idfunc <- get(paste0("as.", idclass))
+      supp_data <- pharmaversesdtm::suppae |>
+        dplyr::select(USUBJID, IDVAR, IDVARVAL, QNAM, QVAL) |>
+        tidyr::pivot_wider(names_from = QNAM, values_from = QVAL) |>
+        dplyr::mutate(IDVARVAL = idfunc(IDVARVAL)) |>
+        dplyr::select(USUBJID, IDVARVAL, AETRTEM)
+      .self <- .self |>
+        dplyr::left_join(
+          y = supp_data,
+          by = dplyr::join_by(USUBJID, !!idvar == IDVARVAL)
         )
 

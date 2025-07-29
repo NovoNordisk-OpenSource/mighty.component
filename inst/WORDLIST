@@ -8,7 +8,10 @@ advs
 AEENDTC
 AENDT
 AENDTF
+AESEQ
 AESTDTC
+AETERM
+AETRTEM
 AGEU
 Aksel
 ALBBLGRP
@@ -23,6 +26,7 @@ dplyr
 dtc
 emph
 envir
+IDVARVAL
 knitr
 lintr
 multiarch
@@ -33,6 +37,8 @@ OLDV
 PARAMCD
 pharmaverseadam
 pharmaversesdtm
+qnam
+QVAL
 rdname
 rlang
 rmarkdown
@@ -41,12 +47,15 @@ roxygen
 Roxygen
 Roxygenize
 Rtemplate
+sdtm
 seealso
 stringr
 STUDYID
+suppae
 Sweave
 testthat
 Thomsen
+tidyr
 TRTEDT
 TRTEMFL
 TRTSDT
