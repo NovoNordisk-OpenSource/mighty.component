@@ -23,6 +23,7 @@ Imports:
 Suggests: 
     admiral,
     dplyr,
+    jsonlite,
     knitr,
     pharmaverseadam,
     pharmaversesdtm,
