@@ -119,7 +119,7 @@ mighty_component <- R6::R6Class(
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
     outputs = \() private$.outputs,
-    #' @field params List of parameters that need to be supplied when rendering the component.
+    #' @field params Data.frame listing parameters that need to be supplied when rendering the component.
     params = \() private$.params
   ),
   private = list(
@@ -127,7 +127,10 @@ mighty_component <- R6::R6Class(
     .title = character(1),
     .description = character(1),
     .type = character(1),
-    .params = character(),
+    .params = data.frame(
+      name = character(),
+      description = character()
+    ),
     .depends = character(),
     .outputs = character(),
     .code = character(),
@@ -143,7 +146,7 @@ ms_initialize <- function(template, id, self, private) {
   private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
-    tags_to_named()
+    tags_to_param()
   private$.depends <- get_tags(template, "depends") |>
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
@@ -185,12 +188,17 @@ get_tag <- function(template, tag) {
 }
 
 #' @noRd
-tags_to_named <- function(tags) {
+tags_to_param <- function(tags) {
   i <- regexpr(pattern = " ", text = tags)
 
-  names(tags) <- substr(x = tags, start = 1, stop = i - 1)
-  tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
-  gsub(pattern = "^ +| +$", replacement = "", x = tags)
+  data.frame(
+    name = substr(x = tags, start = 1, stop = i - 1),
+    description = gsub(
+      pattern = "^ +| +$",
+      replacement = "",
+      x = substr(x = tags, start = i + 1, stop = nchar(tags))
+    )
+  )
 }
 
 #' @noRd
@@ -216,7 +224,7 @@ ms_print <- function(self) {
 
     create_bullets(
       header = "Parameters:",
-      bullets = paste(names(self$params), self$params, sep = ": ")
+      bullets = paste(self$params$name, self$params$description, sep = ": ")
     )
     create_bullets(
       header = "Depends:",
@@ -251,20 +259,20 @@ ms_render <- function(params, self) {
     cli::cli_abort(
       c(
         "All parameters must be named",
-        "i" = "Expected parameters: {.field {names(self$params)}}"
+        "i" = "Expected parameters: {.field {self$params$name}}"
       )
     )
   }
 
   if (
-    any(!names(params) %in% names(self$params)) ||
-      any(!names(self$params) %in% names(params))
+    any(!names(params) %in% self$params$name) ||
+      any(!self$params$name %in% names(params))
   ) {
     cli::cli_abort(
       c(
         "Parameter names not matching component requirements",
         "x" = "Provided parameters: {.emph {names(params)}}",
-        "i" = "Expected parameters: {.field {names(self$params)}}"
+        "i" = "Expected parameters: {.field {self$params$name}}"
       )
     )
   }

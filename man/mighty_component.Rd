@@ -94,7 +94,7 @@ the rendered code used in mighty becomes:
 
 \item{\code{outputs}}{List of the new columns created by the component.}
 
-\item{\code{params}}{List of parameters that need to be supplied when rendering the component.}
+\item{\code{params}}{Data.frame listing parameters that need to be supplied when rendering the component.}
 }
 \if{html}{\out{</div>}}
 }
