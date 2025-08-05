@@ -18,7 +18,14 @@ while \code{list} and \code{tibble} show more detailed information.}
 List all available mighty standard components.
 }
 \examples{
+# Simple character list of all standard ids:
 list_standards()
 
+# Tibble for an easy overview
 list_standards(as = "tibble")
+
+# List for tooling purposes (only showing first 2):
+list_standards(as = "list") |>
+  head(2) |>
+  str()
 }

@@ -42,9 +42,16 @@ get_rendered_standard <- function(standard, params = list()) {
 #' while `list` and `tibble` show more detailed information.
 #' @returns `character` vector of standard names
 #' @examples
+#' # Simple character list of all standard ids:
 #' list_standards()
 #'
+#' # Tibble for an easy overview
 #' list_standards(as = "tibble")
+#'
+#' # List for tooling purposes (only showing first 2):
+#' list_standards(as = "list") |>
+#'   head(2) |>
+#'   str()
 #' @export
 list_standards <- function(as = c("character", "list", "tibble")) {
   as <- rlang::arg_match(as)
