@@ -238,11 +238,24 @@ ms_render <- function(params, self) {
     any(!names(params) %in% names(self$params)) ||
       any(!names(self$params) %in% names(params))
   ) {
+    missing_params <- setdiff(names(self$params), names(params))
+    unknown_params <- setdiff(names(params), names(self$params))
+
     cli::cli_abort(
       c(
-        "Parameter names not matching component requirements",
-        "x" = "Provided parameters: {.emph {names(params)}}",
-        "i" = "Expected parameters: {.field {names(self$params)}}"
+        "Parameter names not matching component requirements:",
+        glue::glue(
+          "{.code {{missing_params}}} not specified",
+          .open = "{{",
+          .close = "}}"
+        ) |>
+          rlang::set_names("x"),
+        glue::glue(
+          "{.code {{unknown_params}}} is unknown",
+          .open = "{{",
+          .close = "}}"
+        ) |>
+          rlang::set_names("x")
       )
     )
   }
