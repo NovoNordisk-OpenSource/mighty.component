@@ -4,7 +4,7 @@
 \alias{list_standards}
 \title{List all available standards}
 \usage{
-list_standards(as = c("character", "list", "tibble", "mcp"))
+list_standards(as = c("character", "list", "tibble"))
 }
 \arguments{
 \item{as}{Format to list the standards in.

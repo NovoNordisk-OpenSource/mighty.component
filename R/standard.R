@@ -53,7 +53,7 @@ get_rendered_standard <- function(standard, params = list()) {
 #'   head(2) |>
 #'   str()
 #' @export
-list_standards <- function(as = c("character", "list", "tibble", "mcp")) {
+list_standards <- function(as = c("character", "list", "tibble")) {
   as <- rlang::arg_match(as)
 
   switch(
