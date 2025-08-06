@@ -9,8 +9,7 @@ list_standards(as = c("character", "list", "tibble", "mcp"))
 \arguments{
 \item{as}{Format to list the standards in.
 Default \code{character} just lists the names,
-while \code{list} and \code{tibble} show more detailed information.
-\code{mcp} returns a JSON list suitable for ingesting into LLMs as tools.}
+while \code{list} and \code{tibble} show more detailed information.}
 }
 \value{
 \code{character} vector of standard names
@@ -26,11 +25,6 @@ list_standards()
 list_standards(as = "tibble")
 
 # List (only showing first 2):
-list_standards(as = "list") |>
-  head(2) |>
-  str()
-
-# MCP for tooling purposes (only showing first 2):
 list_standards(as = "list") |>
   head(2) |>
   str()

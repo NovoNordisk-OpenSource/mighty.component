@@ -40,7 +40,6 @@ get_rendered_standard <- function(standard, params = list()) {
 #' @param as Format to list the standards in.
 #' Default `character` just lists the names,
 #' while `list` and `tibble` show more detailed information.
-#' `mcp` returns a JSON list suitable for ingesting into LLMs as tools.
 #' @returns `character` vector of standard names
 #' @examples
 #' # Simple character list of all standard ids:
@@ -50,11 +49,6 @@ get_rendered_standard <- function(standard, params = list()) {
 #' list_standards(as = "tibble")
 #'
 #' # List (only showing first 2):
-#' list_standards(as = "list") |>
-#'   head(2) |>
-#'   str()
-#'
-#' # MCP for tooling purposes (only showing first 2):
 #' list_standards(as = "list") |>
 #'   head(2) |>
 #'   str()
@@ -90,12 +84,6 @@ list_standards <- function(as = c("character", "list", "tibble", "mcp")) {
       list_standards("list") |>
         tibble::enframe(name = NULL) |>
         tidyr::unnest_wider(col = "value")
-    },
-    mcp = {
-      # TODO: Add correct mcp format and test
-      rlang::check_installed("jsonlite")
-      list_standards("list") |>
-        jsonlite::toJSON()
     }
   )
 }
