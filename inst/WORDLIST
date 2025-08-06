@@ -27,6 +27,7 @@ dtc
 emph
 envir
 IDVARVAL
+jsonlite
 knitr
 lintr
 multiarch
