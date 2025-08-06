@@ -130,7 +130,7 @@ ms_initialize <- function(template, self, private) {
   # TODO: Input validation of template
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
-    tags_to_named()
+    tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
@@ -164,10 +164,20 @@ get_tag <- function(template, tag) {
 }
 
 #' @noRd
-tags_to_named <- function(tags) {
+tags_to_params <- function(tags) {
   i <- regexpr(pattern = " ", text = tags)
 
   names(tags) <- substr(x = tags, start = 1, stop = i - 1)
+
+  if (any(!nchar(names(tags)))) {
+    cli::cli_abort(
+      c(
+        "All {.code @params} tags must have both a name and description:",
+        "x" = "Missing description for {.code {tags[!nchar(names(tags))]}}"
+      )
+    )
+  }
+
   tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
   gsub(pattern = "^ +| +$", replacement = "", x = tags)
 }
