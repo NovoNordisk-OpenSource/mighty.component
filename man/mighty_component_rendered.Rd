@@ -37,6 +37,7 @@ Once rendered a component can be used to:
 <ul>
 <li><span class="pkg-link" data-pkg="mighty.standards" data-topic="mighty_component" data-id="document"><a href='../../mighty.standards/html/mighty_component.html#method-mighty_component-document'><code>mighty.standards::mighty_component$document()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mighty.standards" data-topic="mighty_component" data-id="render"><a href='../../mighty.standards/html/mighty_component.html#method-mighty_component-render'><code>mighty.standards::mighty_component$render()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mighty.standards" data-topic="mighty_component" data-id="tool"><a href='../../mighty.standards/html/mighty_component.html#method-mighty_component-tool'><code>mighty.standards::mighty_component$tool()</code></a></span></li>
 </ul>
 </details>
 }}

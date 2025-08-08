@@ -100,6 +100,14 @@ mighty_component <- R6::R6Class(
     #' **TODO: Implement in #18**
     document = function() {
       "documentation" # TODO: roxygen like documentation
+    },
+
+    #' @description
+    #' Tool for ellmer
+    #' @param method description
+    tool = function(method = c("render", "eval")) {
+      method <- rlang::arg_match(method)
+      ms_tool(method, self)
     }
   ),
   active = list(
@@ -284,5 +292,40 @@ ms_render <- function(params, self) {
   mighty_component_rendered$new(
     template = strsplit(x = template, split = "\n")[[1]],
     id = self$id
+  )
+}
+
+#' @noRd
+ms_tool <- function(self) {
+  rlang::check_installed("ellmer")
+
+  args <- self$params$description |>
+    lapply(ellmer::type_string, required = TRUE) |>
+    rlang::set_names(self$params$name)
+
+  ellmer::tool(
+    fun = tool_fn(self),
+    description = self$description,
+    arguments = args,
+    name = self$id,
+    annotations = ellmer::tool_annotations(
+      title = self$title
+    )
+  )
+}
+
+#' @noRd
+tool_fn <- function(standard) {
+  args <- paste(standard$params$name, "=", collapse = ",")
+  args <- paste0("rlang::pairlist2(", args, ")") |>
+    rlang::parse_expr() |>
+    rlang::eval_tidy()
+
+  rlang::new_function(
+    args = args,
+    body = quote({
+      args <- rlang::fn_fmls_syms()
+      do.call(what = standard$render, args = args)
+    })
   )
 }

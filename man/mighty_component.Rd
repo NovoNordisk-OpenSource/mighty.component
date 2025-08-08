@@ -105,6 +105,7 @@ the rendered code used in mighty becomes:
 \item \href{#method-mighty_component-print}{\code{mighty_component$print()}}
 \item \href{#method-mighty_component-render}{\code{mighty_component$render()}}
 \item \href{#method-mighty_component-document}{\code{mighty_component$document()}}
+\item \href{#method-mighty_component-tool}{\code{mighty_component$tool()}}
 \item \href{#method-mighty_component-clone}{\code{mighty_component$clone()}}
 }
 }
@@ -172,6 +173,23 @@ Create standard documentation.
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$document()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component-tool"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component-tool}{}}}
+\subsection{Method \code{tool()}}{
+Tool for ellmer
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component$tool(method = c("render", "eval"))}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{method}}{description}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-clone"></a>}}
