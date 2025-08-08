@@ -4,7 +4,12 @@
 \alias{list_standards}
 \title{List all available standards}
 \usage{
-list_standards()
+list_standards(as = c("character", "list", "tibble"))
+}
+\arguments{
+\item{as}{Format to list the standards in.
+Default \code{character} just lists the names,
+while \code{list} and \code{tibble} show more detailed information.}
 }
 \value{
 \code{character} vector of standard names
@@ -13,7 +18,14 @@ list_standards()
 List all available mighty standard components.
 }
 \examples{
-available_standards <- list_standards()
-cat(available_standards, sep = "\n")
+# Simple character list of all standard ids:
+list_standards()
 
+# Tibble for an easy overview
+list_standards(as = "tibble")
+
+# List (only showing first 2):
+list_standards(as = "list") |>
+  head(2) |>
+  str()
 }

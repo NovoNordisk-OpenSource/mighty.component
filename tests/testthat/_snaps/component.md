@@ -4,6 +4,8 @@
       x
     Message
       <mighty_component_rendered/mighty_component/R6>
+      _components/ady.R: Derives the relative day compared to the treatment start
+      date.
       Type: derivation
       Depends:
       * .self.A
@@ -26,6 +28,8 @@
       x
     Message
       <mighty_component_rendered/mighty_component/R6>
+      _components/ady_local.mustache: Derives the relative day compared to the
+      treatment start date.
       Type: derivation
       Depends:
       * .self.date_var
@@ -50,6 +54,7 @@
       y
     Message
       <mighty_component_rendered/mighty_component/R6>
+      ady: Derives the relative day compared to the treatment start date.
       Type: derivation
       Depends:
       * .self.date_var

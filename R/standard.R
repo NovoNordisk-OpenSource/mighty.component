@@ -20,7 +20,10 @@
 #' @export
 get_standard <- function(standard) {
   template <- find_standard(standard)
-  mighty_component$new(template = readLines(template))
+  mighty_component$new(
+    template = readLines(template),
+    id = standard
+  )
 }
 
 #' @rdname get_standard
@@ -34,23 +37,67 @@ get_rendered_standard <- function(standard, params = list()) {
 #' @description
 #' List all available mighty standard components.
 #'
+#' @param as Format to list the standards in.
+#' Default `character` just lists the names,
+#' while `list` and `tibble` show more detailed information.
 #' @returns `character` vector of standard names
 #' @examples
-#' available_standards <- list_standards()
-#' cat(available_standards, sep = "\n")
+#' # Simple character list of all standard ids:
+#' list_standards()
 #'
+#' # Tibble for an easy overview
+#' list_standards(as = "tibble")
+#'
+#' # List (only showing first 2):
+#' list_standards(as = "list") |>
+#'   head(2) |>
+#'   str()
 #' @export
-list_standards <- function() {
-  templates <- standard_path() |>
-    list.files()
+list_standards <- function(as = c("character", "list", "tibble")) {
+  as <- rlang::arg_match(as)
 
-  gsub(pattern = "\\.mustache$", replacement = "", x = templates)
+  switch(
+    EXPR = as,
+    character = gsub(
+      pattern = "\\.mustache$",
+      replacement = "",
+      x = list.files(standard_path())
+    ),
+    list = list_standards(as = "character") |>
+      lapply(FUN = get_standard) |>
+      lapply(
+        FUN = get_fields,
+        fields = c(
+          "id",
+          "title",
+          "description",
+          "params",
+          "depends",
+          "outputs",
+          "code"
+        )
+      ),
+    tibble = {
+      rlang::check_installed("tibble")
+      rlang::check_installed("tidyr")
+
+      list_standards("list") |>
+        tibble::enframe(name = NULL) |>
+        tidyr::unnest_wider(col = "value")
+    }
+  )
 }
 
 #' @noRd
 standard_path <- function() {
   # TODO: Point to new path when implemented
   system.file("components", package = "mighty.standards")
+}
+
+#' @noRd
+get_fields <- function(x, fields) {
+  lapply(X = fields, FUN = \(field) x[[field]]) |>
+    stats::setNames(fields)
 }
 
 #' @noRd
