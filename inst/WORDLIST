@@ -28,6 +28,7 @@ dtc
 emph
 envir
 IDVARVAL
+jsonlite
 knitr
 lintr
 multiarch
@@ -62,6 +63,7 @@ suppae
 Sweave
 testthat
 Thomsen
+tibble
 tidyr
 TRTEDT
 TRTEMFL

@@ -75,8 +75,9 @@ mighty_component <- R6::R6Class(
     #' @description
     #' Create standard component from template.
     #' @param template `character` template code. See details for how to format.
-    initialize = function(template) {
-      ms_initialize(template, self, private)
+    #' @param id `character` ID of the component. Either name of standard or path to local.
+    initialize = function(template, id) {
+      ms_initialize(template, id, self, private)
     },
     #' @description
     #' Print method displaying the component information.
@@ -102,6 +103,12 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
+    #' @field id Component ID
+    id = \() private$.id,
+    #' @field title Title for the component.
+    title = \() private$.title,
+    #' @field description Description of the component.
+    description = \() private$.description,
     #' @field code The code block of the component.
     code = \() private$.code,
     #' @field template The complete template.
@@ -112,12 +119,18 @@ mighty_component <- R6::R6Class(
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
     outputs = \() private$.outputs,
-    #' @field params List of parameters that need to be supplied when rendering the component.
+    #' @field params Data.frame listing parameters that need to be supplied when rendering the component.
     params = \() private$.params
   ),
   private = list(
+    .id = character(1),
+    .title = character(1),
+    .description = character(1),
     .type = character(1),
-    .params = character(),
+    .params = data.frame(
+      name = character(),
+      description = character()
+    ),
     .depends = character(),
     .outputs = character(),
     .code = character(),
@@ -126,11 +139,14 @@ mighty_component <- R6::R6Class(
 )
 
 #' @noRd
-ms_initialize <- function(template, self, private) {
+ms_initialize <- function(template, id, self, private) {
   # TODO: Input validation of template
+  private$.id <- id
+  private$.title <- get_tag(template, "title")
+  private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
-    tags_to_named()
+    tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
@@ -146,8 +162,16 @@ ms_initialize <- function(template, self, private) {
 
 #' @noRd
 get_tags <- function(template, tag) {
-  pattern <- paste0("^#' @", tag)
-  tags <- grep(pattern = pattern, x = template, value = TRUE)
+  pattern <- paste0("^@", tag)
+  tags <- grep(pattern = "^#'", x = template, value = TRUE)
+  tags <- gsub(pattern = "^#' *", replacement = "", x = tags)
+  tags <- split(
+    x = tags,
+    f = cumsum(substr(tags, 1, 1) == "@")
+  ) |>
+    vapply(FUN = paste, collapse = " ", FUN.VALUE = character(1)) |>
+    unname()
+  tags <- grep(pattern = pattern, x = tags, value = TRUE)
   tags <- gsub(pattern = pattern, replacement = "", x = tags)
   gsub(pattern = "^ +| +$", replacement = "", x = tags)
 }
@@ -164,12 +188,29 @@ get_tag <- function(template, tag) {
 }
 
 #' @noRd
-tags_to_named <- function(tags) {
+tags_to_params <- function(tags) {
   i <- regexpr(pattern = " ", text = tags)
 
-  names(tags) <- substr(x = tags, start = 1, stop = i - 1)
-  tags <- substr(x = tags, start = i + 1, stop = nchar(tags))
-  trimws(tags)
+  params <- data.frame(
+    name = substr(x = tags, start = 1, stop = i - 1),
+    description = gsub(
+      pattern = "^ +| +$",
+      replacement = "",
+      x = substr(x = tags, start = i + 1, stop = nchar(tags))
+    )
+  )
+
+  mistakes <- params$description[!nchar(params$name)]
+  if (length(mistakes)) {
+    cli::cli_abort(
+      c(
+        "All {.code @params} tags must have both a name and description:",
+        "x" = "Missing description for {.code {mistakes}}"
+      )
+    )
+  }
+
+  params
 }
 
 #' @noRd
@@ -190,11 +231,12 @@ tags_to_depends <- function(tags) {
 ms_print <- function(self) {
   cli::cli({
     cli::cli_text("{.cls {class(self)}}")
+    cli::cli_text("{.field {self$id}}: {self$description}")
     cli::cli_text("{.emph Type:} {self$type}")
 
     create_bullets(
       header = "Parameters:",
-      bullets = paste(names(self$params), self$params, sep = ": ")
+      bullets = paste(self$params$name, self$params$description, sep = ": ")
     )
     create_bullets(
       header = "Depends:",
@@ -229,20 +271,33 @@ ms_render <- function(params, self) {
     cli::cli_abort(
       c(
         "All parameters must be named",
-        "i" = "Expected parameters: {.field {names(self$params)}}"
+        "i" = "Expected parameters: {.field {self$params$name}}"
       )
     )
   }
 
   if (
-    any(!names(params) %in% names(self$params)) ||
-      any(!names(self$params) %in% names(params))
+    any(!names(params) %in% self$params$name) ||
+      any(!self$params$name %in% names(params))
   ) {
+    missing_params <- setdiff(self$params$name, names(params))
+    unknown_params <- setdiff(names(params), self$params$name)
+
     cli::cli_abort(
       c(
-        "Parameter names not matching component requirements",
-        "x" = "Provided parameters: {.emph {names(params)}}",
-        "i" = "Expected parameters: {.field {names(self$params)}}"
+        "Parameter names not matching component requirements:",
+        glue::glue(
+          "{.code {{missing_params}}} not specified",
+          .open = "{{",
+          .close = "}}"
+        ) |>
+          rlang::set_names("x"),
+        glue::glue(
+          "{.code {{unknown_params}}} is unknown",
+          .open = "{{",
+          .close = "}}"
+        ) |>
+          rlang::set_names("x")
       )
     )
   }
@@ -252,6 +307,7 @@ ms_render <- function(params, self) {
     data = params
   )
   mighty_component_rendered$new(
-    template = strsplit(x = template, split = "\n")[[1]]
+    template = strsplit(x = template, split = "\n")[[1]],
+    id = self$id
   )
 }

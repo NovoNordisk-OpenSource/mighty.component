@@ -4,6 +4,7 @@
       predecessor
     Message
       <mighty_component_rendered/mighty_component/R6>
+      predecessor: Creates new column(s) based on a predecessor column(s).
       Type: predecessor
       Depends:
       * .self.USUBJID
@@ -24,6 +25,7 @@
       assign
     Message
       <mighty_component_rendered/mighty_component/R6>
+      assign: Assigns a single value to an entire column.
       Type: assigned
       Outputs:
       * y
@@ -39,6 +41,8 @@
       astdt
     Message
       <mighty_component_rendered/mighty_component/R6>
+      astdt: Derives analysis start date based on (incomplete) dates given as
+      character
       Type: derivation
       Depends:
       * .self.AESTDTC
@@ -65,6 +69,7 @@
       aendt
     Message
       <mighty_component_rendered/mighty_component/R6>
+      aendt: Derives analysis end date based on (incomplete) dates given as character
       Type: derivation
       Depends:
       * .self.AEENDTC
@@ -91,6 +96,7 @@
       ady
     Message
       <mighty_component_rendered/mighty_component/R6>
+      ady: Derives the relative day compared to the treatment start date.
       Type: derivation
       Depends:
       * .self.ASTDT
@@ -115,6 +121,7 @@
       trtemfl
     Message
       <mighty_component_rendered/mighty_component/R6>
+      trtemfl: Derives treatment emergent analysis flag.
       Type: derivation
       Depends:
       * .self.ASTDT
@@ -139,6 +146,7 @@
       supp_sdtm
     Message
       <mighty_component_rendered/mighty_component/R6>
+      supp_sdtm: Add a variable from a supplementary SDTM domain.
       Type: predecessor
       Depends:
       * .self.USUBJID
