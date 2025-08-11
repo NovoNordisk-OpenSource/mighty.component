@@ -7,7 +7,8 @@ get_custom_r_function <- function(path) {
     template = c(
       extract_function_metadata(code_string),
       extract_function_body(code_string)
-    )
+    ),
+    id = path
   )
 }
 

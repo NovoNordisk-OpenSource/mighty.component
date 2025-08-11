@@ -39,7 +39,10 @@ get_component <- function(component) {
   switch(
     file_type,
     "r" = get_custom_r_function(component),
-    "mustache" = mighty_component$new(template = readLines(component)),
+    "mustache" = mighty_component$new(
+      template = readLines(component),
+      id = component
+    ),
     get_standard(component)
   )
 }

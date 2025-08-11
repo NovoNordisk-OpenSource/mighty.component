@@ -46,13 +46,15 @@ Once rendered a component can be used to:
 \subsection{Method \code{new()}}{
 Create standard component from rendered template.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$new(template)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$new(template, id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+
+\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
 }
 \if{html}{\out{</div>}}
 }
