@@ -15,7 +15,7 @@ facilitating their use inside mighty.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,19 +107,7 @@ the rendered code used in mighty becomes:</p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
-    <p></p><div class="r6-active-bindings"><dl><dt><code>id</code></dt>
-<dd><p>Component ID</p></dd>
-
-
-<dt><code>title</code></dt>
-<dd><p>Title for the component.</p></dd>
-
-
-<dt><code>description</code></dt>
-<dd><p>Description of the component.</p></dd>
-
-
-<dt><code>code</code></dt>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>code</code></dt>
 <dd><p>The code block of the component.</p></dd>
 
 
@@ -140,7 +128,7 @@ the rendered code used in mighty becomes:</p>
 
 
 <dt><code>params</code></dt>
-<dd><p>Data.frame listing parameters that need to be supplied when rendering the component.</p></dd>
+<dd><p>List of parameters that need to be supplied when rendering the component.</p></dd>
 
 
 </dl><p></p></div>
@@ -160,17 +148,13 @@ the rendered code used in mighty becomes:</p>
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Create standard component from template.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mighty_component.html">mighty_component</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">template</span>, <span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mighty_component.html">mighty_component</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>template</code></dt>
 <dd><p><code>character</code> template code. See details for how to format.</p></dd>
-
-
-<dt><code>id</code></dt>
-<dd><p><code>character</code> ID of the component. Either name of standard or path to local.</p></dd>
 
 
 </dl><p></p></div>
