@@ -66,6 +66,8 @@ test_that("error handling", {
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
     expect_error("not found")
+})
+
 test_that("Error when any parameter insufficiently parameterized", {
   template <- c(
     "#' @title Mistake in parameters",

@@ -4,6 +4,7 @@
       test_component
     Message
       <mighty_component/R6>
+      test: This is a test component used for unit testing
       Type: derivation
       Parameters:
       * x1: First input
@@ -20,6 +21,7 @@
       test_component_rendered
     Message
       <mighty_component_rendered/mighty_component/R6>
+      test: This is a test component used for unit testing
       Type: derivation
       Depends:
       * .self.A
@@ -36,6 +38,8 @@
         "test_component.mustache")))), "mighty_component")
     Message
       <mighty_component/R6>
+      _components/test_component.mustache: This is a test component used for unit
+      testing
       Type: derivation
       Parameters:
       * x1: First input

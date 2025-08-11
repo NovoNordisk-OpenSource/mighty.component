@@ -1,7 +1,10 @@
 test_that("mighty_component", {
   component <- test_path("_components", "test_component.mustache")
 
-  test_component <- mighty_component$new(template = readLines(component)) |>
+  test_component <- mighty_component$new(
+    template = readLines(component),
+    id = "test"
+  ) |>
     expect_no_condition() |>
     expect_s3_class("mighty_component")
 
@@ -32,9 +35,9 @@ test_that("mighty_component", {
 
   test_component$params |>
     expect_equal(
-      c(
-        x1 = "First input",
-        x2 = "Second input"
+      data.frame(
+        name = c("x1", "x2"),
+        description = c("First input", "Second input")
       )
     )
 
@@ -72,7 +75,12 @@ test_that("mighty_component", {
     expect_equal("NEWVAR")
 
   test_component_rendered$params |>
-    expect_equal(character(0))
+    expect_equal(
+      data.frame(
+        name = character(0),
+        description = character(0)
+      )
+    )
 
   test_component_rendered$render() |>
     expect_equal(test_component_rendered)
@@ -124,12 +132,22 @@ test_that("get_tag", {
     expect_error(regexp = "Multiple or no matches found for tag")
 })
 
-test_that("tags_to_named", {
-  tags_to_named("mytag myvalue") |>
-    expect_equal(c(mytag = "myvalue"))
+test_that("tags_to_params", {
+  tags_to_params("myparam myvalue") |>
+    expect_equal(
+      data.frame(
+        name = "myparam",
+        description = "myvalue"
+      )
+    )
 
-  tags_to_named(c("tag1 value1", "tag2 value2")) |>
-    expect_equal(c(tag1 = "value1", tag2 = "value2"))
+  tags_to_params(c("tag1 value1", "tag2 value2")) |>
+    expect_equal(
+      data.frame(
+        name = c("tag1", "tag2"),
+        description = c("value1", "value2")
+      )
+    )
 })
 
 test_that("tags_to_depends", {
