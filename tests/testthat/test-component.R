@@ -62,7 +62,7 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
 
 test_that("Error when any parameter insufficiently parameterized" , {
   template <- c(
-  "#' @param variable ",
+  "#' @param variable",
   "#' @param date ",
   "#' @type derivation",
   "#' @depends .self {{ date }}",
