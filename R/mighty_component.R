@@ -208,9 +208,10 @@ tags_to_params <- function(tags) {
         "x" = "Missing description for {.code {mistakes}}"
       )
     )
+  }
 
   params
-  }
+}
 
 #' @noRd
 tags_to_depends <- function(tags) {

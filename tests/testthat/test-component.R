@@ -60,16 +60,24 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   expect_equal(y$outputs, "out_var")
 })
 
-test_that("Error when any parameter insufficiently parameterized" , {
+test_that("Error when any parameter insufficiently parameterized", {
   template <- c(
-  "#' @param variable",
-  "#' @param date ",
-  "#' @type derivation",
-  "#' @depends .self {{ date }}",
-  "#' @depends .self TRTSDT",
-  "#' @outputs {{ variable }}",
-  "print('hello')"
-)
+    "#' @title Mistake in parameters",
+    "#' @description This is a test component with missing parameters.",
+    "#' @param variable",
+    "#' @param date ",
+    "#' @type derivation",
+    "#' @depends .self {{ date }}",
+    "#' @depends .self TRTSDT",
+    "#' @outputs {{ variable }}",
+    "print('hello')"
+  )
 
-expect_error(mighty.standards::mighty_component$new(template), "Missing description for `variable` and `date`")
+  expect_error(
+    object = mighty.standards::mighty_component$new(
+      template = template,
+      id = "test_error"
+    ),
+    regexp = "Missing description for `variable` and `date`"
+  )
 })
