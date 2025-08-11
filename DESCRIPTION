@@ -1,6 +1,6 @@
 Package: mighty.standards
 Title: Standard derivations for ADaM generation
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
@@ -15,6 +15,7 @@ Depends:
     R (>= 4.1)
 Imports: 
     cli,
+    glue,
     R6,
     rlang,
     roxygen2,
