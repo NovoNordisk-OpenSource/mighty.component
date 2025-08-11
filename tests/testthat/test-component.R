@@ -71,5 +71,5 @@ test_that("Error when any parameter insufficiently parameterized" , {
   "print('hello')"
 )
 
-expect_error(mighty.standards::mighty_component$new(template), "All `@params` tags must have both a name and description")
+expect_error(mighty.standards::mighty_component$new(template), "Missing description for `variable` and `date`")
 })
