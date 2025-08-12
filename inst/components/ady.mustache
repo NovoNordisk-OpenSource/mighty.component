@@ -5,15 +5,15 @@
 #' @param variable `character` Name of new variable to create
 #' @param date `character` Name of date variable to use
 #' @type derivation
-#' @depends .self {{ date }}
+#' @depends .self {{date}}
 #' @depends .self TRTSDT
-#' @outputs {{ variable }}
+#' @outputs {{variable}}
 
 .self <- .self |>
   dplyr::mutate(
-    {{ variable }} = admiral::compute_duration(
+    {{variable}} = admiral::compute_duration(
       start_date = TRTSDT,
-      end_date = {{ date }},
+      end_date = {{date}},
       in_unit = "days",
       out_unit = "days",
       add_one = TRUE

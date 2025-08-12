@@ -5,19 +5,19 @@
 #'
 #' @param dtc `character` Name of date variable
 #' @type derivation
-#' @depends .self {{ dtc }}
+#' @depends .self {{dtc}}
 #' @outputs AENDT
 #' @outputs AENDTF
 
 .self <- .self |>
   dplyr::mutate(
     AENDT = admiral::convert_dtc_to_dt(
-      dtc = {{ dtc }},
+      dtc = {{dtc}},
       highest_imputation = "M",
       date_imputation = "last"
     ),
     AENDTF = admiral::compute_dtf(
-      dtc = {{ dtc }},
+      dtc = {{dtc}},
       dt = AENDT
     )
   )

@@ -5,9 +5,9 @@
 #' @param variable `character` Name of variable to create or modify
 #' @param value Value to assign to the variable
 #' @type assigned
-#' @outputs {{ variable }}
+#' @outputs {{variable}}
 
 .self <- .self |>
   dplyr::mutate(
-    {{ variable }} = {{{ value }}}
+    {{variable}} = {{{value}}}
   )

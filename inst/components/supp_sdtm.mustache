@@ -6,24 +6,24 @@
 #' @param qnam `character` Name of qualifier(s) to add from `source`
 #' @type predecessor
 #' @depends .self USUBJID
-#' @depends {{ source }} USUBJID
-#' @depends {{ source }} IDVAR
-#' @depends {{ source }} IDVARVAL
-#' @depends {{ source }} QNAM
-#' @depends {{ source }} QVAL
+#' @depends {{source}} USUBJID
+#' @depends {{source}} IDVAR
+#' @depends {{source}} IDVARVAL
+#' @depends {{source}} QNAM
+#' @depends {{source}} QVAL
 {{#qnam}}
 #' @outputs {{.}}
 {{/qnam}}
 
-idvar <- unique({{ source }}[["IDVAR"]])
+idvar <- unique({{source}}[["IDVAR"]])
 idclass <- class(.self[[idvar]])
 idfunc <- get(paste0("as.", idclass))
 
-supp_data <- {{ source }} |>
+supp_data <- {{source}} |>
   dplyr::select(USUBJID, IDVAR, IDVARVAL, QNAM, QVAL) |>
   tidyr::pivot_wider(names_from = QNAM, values_from = QVAL) |>
   dplyr::mutate(IDVARVAL = idfunc(IDVARVAL)) |>
-  dplyr::select(USUBJID, IDVARVAL, {{ qnam }})
+  dplyr::select(USUBJID, IDVARVAL, {{qnam}})
 
 .self <- .self |>
   dplyr::left_join(
