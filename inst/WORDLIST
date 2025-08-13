@@ -21,6 +21,7 @@ ASTDY
 AVAL
 CDISC
 CMD
+covr
 CRAN
 dplyr
 dtc
@@ -31,7 +32,14 @@ jsonlite
 knitr
 lintr
 multiarch
+myothertag
+myothervalue
+myparam
+mytag
+mytest
+myvalue
 NEWVAR
+NEWWAR
 Nordisk
 OLDF
 OLDV
