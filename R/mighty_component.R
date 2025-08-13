@@ -296,7 +296,7 @@ ms_render <- function(params, self) {
 }
 
 #' @noRd
-ms_tool <- function(self) {
+ms_tool <- function(method, self) {
   rlang::check_installed("ellmer")
 
   args <- self$params$description |>
@@ -309,7 +309,10 @@ ms_tool <- function(self) {
     arguments = args,
     name = self$id,
     annotations = ellmer::tool_annotations(
-      title = self$title
+      title = self$title,
+      dynamic_output = any(grepl(pattern = "\\{\\{", x = self$outputs)),
+      outputs = self$outputs,
+      code = self$code
     )
   )
 }
