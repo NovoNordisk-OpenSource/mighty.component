@@ -103,9 +103,17 @@ mighty_component <- R6::R6Class(
     },
 
     #' @description
-    #' Tool for ellmer
-    #' @param method description
-    tool = function(method = c("render", "eval")) {
+    #' `ellmer::tool()` representation of the component that can easily be used with LLMs.
+    #'
+    #' What the tool returns depends on the chosen method:
+    #'
+    #' * `call`: A nested `list` with **id** and **params**.
+    #' * `render`: The rendered standard component. output from `mighty_component$render()`.
+    #' * `eval`: The result of evaluating the rendered standard component. Output from `mighty_component_rendered$eval()`.
+    #'
+    #' @param method What should the created tool return? See Description for details.
+    #' @return Object created with `ellmer::tool()`
+    tool = function(method = c("call", "render", "eval")) {
       method <- rlang::arg_match(method)
       ms_tool(method, self)
     }
@@ -303,8 +311,15 @@ ms_tool <- function(method, self) {
     lapply(ellmer::type_string, required = TRUE) |>
     rlang::set_names(self$params$name)
 
+  tool_fn <- switch(
+    EXPR = method,
+    call = tool_call(self),
+    render = tool_render(self),
+    eval = tool_render(self)
+  )
+
   ellmer::tool(
-    fun = tool_fn(self),
+    fun = tool_fn,
     description = self$description,
     arguments = args,
     name = self$id,
@@ -318,17 +333,51 @@ ms_tool <- function(method, self) {
 }
 
 #' @noRd
-tool_fn <- function(standard) {
+tool_args <- function(standard) {
   args <- paste(standard$params$name, "=", collapse = ",")
-  args <- paste0("rlang::pairlist2(", args, ")") |>
+  paste0("rlang::pairlist2(", args, ")") |>
     rlang::parse_expr() |>
     rlang::eval_tidy()
+}
+
+#' @noRd
+tool_call <- function(standard) {
+  args <- tool_args(standard)
 
   rlang::new_function(
     args = args,
     body = quote({
+      env <- rlang::current_env()
+      params <- lapply(X = names(args), FUN = get, envir = env)
+      names(params) <- names(args)
+
+      list(
+        id = standard$id,
+        params = params
+      )
+    })
+  )
+}
+
+#' @noRd
+tool_render <- function(standard) {
+  rlang::new_function(
+    args = tool_args(standard),
+    body = quote({
       args <- rlang::fn_fmls_syms()
       do.call(what = standard$render, args = args)
+    })
+  )
+}
+
+#' @noRd
+tool_eval <- function(standard) {
+  rlang::new_function(
+    args = tool_args(standard),
+    body = quote({
+      args <- rlang::fn_fmls_syms()
+      rendered <- do.call(what = standard$render, args = args)
+      rendered$eval()
     })
   )
 }

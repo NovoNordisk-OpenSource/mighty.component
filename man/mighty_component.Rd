@@ -178,17 +178,27 @@ Create standard documentation.
 \if{html}{\out{<a id="method-mighty_component-tool"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-tool}{}}}
 \subsection{Method \code{tool()}}{
-Tool for ellmer
+\code{ellmer::tool()} representation of the component that can easily be used with LLMs.
+
+What the tool returns depends on the chosen method:
+\itemize{
+\item \code{call}: A nested \code{list} with \strong{id} and \strong{params}.
+\item \code{render}: The rendered standard component. output from \code{mighty_component$render()}.
+\item \code{eval}: The result of evaluating the rendered standard component. Output from \code{mighty_component_rendered$eval()}.
+}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$tool(method = c("render", "eval"))}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component$tool(method = c("call", "render", "eval"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{method}}{description}
+\item{\code{method}}{What should the created tool return? See Description for details.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Object created with \code{ellmer::tool()}
 }
 }
 \if{html}{\out{<hr>}}
