@@ -15,7 +15,7 @@ facilitating their use inside mighty.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -223,9 +223,12 @@ Must be named, and depends on the template.</p></dd>
 </div><p></p><hr><a id="method-mighty_component-tool"></a><div class="section">
 <h3 id="method-tool-">Method <code>tool()</code><a class="anchor" aria-label="anchor" href="#method-tool-"></a></h3>
 <p><code><a href="https://ellmer.tidyverse.org/reference/tool.html" class="external-link">ellmer::tool()</a></code> representation of the component that can easily be used with LLMs.</p>
-<p>What the tool returns depends on the chosen method:</p><ul><li><p><code>params</code>: A nested <code>list</code> with <strong>id</strong> and <strong>params</strong> used to call the tool. Suitable for use in metadata for mighty.</p></li>
-<li><p><code>render</code>: The rendered template of the component. Result from <code>mighty_component$render()$template</code>.</p></li>
-<li><p><code>eval</code>: The result of evaluating the rendered standard component. Output from <code>mighty_component_rendered$eval()</code>.</p></li>
+<p>What the tool returns depends on the chosen method:</p><ul><li><p><code>params</code>: A nested <code>list</code> with <strong>id</strong> and <strong>params</strong> used to call the tool.
+Suitable for use in metadata for mighty.</p></li>
+<li><p><code>render</code>: The rendered template of the component.
+Result from <code>mighty_component$render()$template</code>.</p></li>
+<li><p><code>eval</code>: The result of evaluating the rendered standard component.
+Output from <code>mighty_component_rendered$eval()</code>.</p></li>
 </ul><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">tool</span><span class="op">(</span>method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"params"</span>, <span class="st">"render"</span>, <span class="st">"eval"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
