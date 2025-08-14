@@ -8,16 +8,21 @@ ms_tool <- function(method, self) {
 
   tool_fn <- switch(
     EXPR = method,
-    call = tool_call(self),
+    params = tool_params(self),
     render = tool_render(self),
-    eval = tool_render(self)
+    eval = tool_eval(self)
   )
 
   ellmer::tool(
     fun = tool_fn,
     description = self$description,
     arguments = args,
-    name = self$id,
+    name = gsub(
+      # For custom component use only filename due to ellmer restrictions
+      pattern = "\\..*$",
+      replacement = "",
+      x = basename(self$id)
+    ),
     annotations = ellmer::tool_annotations(
       title = self$title,
       dynamic_output = any(grepl(pattern = "\\{\\{", x = self$outputs)),
@@ -36,7 +41,7 @@ tool_args <- function(standard) {
 }
 
 #' @noRd
-tool_call <- function(standard) {
+tool_params <- function(standard) {
   args <- tool_args(standard)
 
   rlang::new_function(

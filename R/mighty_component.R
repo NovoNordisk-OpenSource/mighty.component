@@ -107,13 +107,13 @@ mighty_component <- R6::R6Class(
     #'
     #' What the tool returns depends on the chosen method:
     #'
-    #' * `call`: A nested `list` with **id** and **params**.
-    #' * `render`: The rendered standard component. output from `mighty_component$render()`.
+    #' * `params`: A nested `list` with **id** and **params** used to call the tool. Suitable for use in metadata for mighty.
+    #' * `render`: The rendered template of the component. Result from `mighty_component$render()$template`.
     #' * `eval`: The result of evaluating the rendered standard component. Output from `mighty_component_rendered$eval()`.
     #'
     #' @param method What should the created tool return? See Description for details.
     #' @return Object created with `ellmer::tool()`
-    tool = function(method = c("call", "render", "eval")) {
+    tool = function(method = c("params", "render", "eval")) {
       method <- rlang::arg_match(method)
       ms_tool(method, self)
     }
