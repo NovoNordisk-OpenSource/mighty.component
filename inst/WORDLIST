@@ -25,8 +25,11 @@ covr
 CRAN
 dplyr
 dtc
+ellmer
 emph
 envir
+evaltool
+fmls
 IDVARVAL
 jsonlite
 knitr
@@ -62,6 +65,7 @@ stringr
 STUDYID
 suppae
 Sweave
+syms
 testthat
 Thomsen
 tibble

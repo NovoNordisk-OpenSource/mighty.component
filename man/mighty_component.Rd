@@ -182,9 +182,12 @@ Create standard documentation.
 
 What the tool returns depends on the chosen method:
 \itemize{
-\item \code{params}: A nested \code{list} with \strong{id} and \strong{params} used to call the tool. Suitable for use in metadata for mighty.
-\item \code{render}: The rendered template of the component. Result from \code{mighty_component$render()$template}.
-\item \code{eval}: The result of evaluating the rendered standard component. Output from \code{mighty_component_rendered$eval()}.
+\item \code{params}: A nested \code{list} with \strong{id} and \strong{params} used to call the tool.
+Suitable for use in metadata for mighty.
+\item \code{render}: The rendered template of the component.
+Result from \code{mighty_component$render()$template}.
+\item \code{eval}: The result of evaluating the rendered standard component.
+Output from \code{mighty_component_rendered$eval()}.
 }
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$tool(method = c("params", "render", "eval"))}\if{html}{\out{</div>}}
