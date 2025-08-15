@@ -15,6 +15,7 @@ AETRTEM
 AGEU
 Aksel
 ALBBLGRP
+asis
 ASTDT
 ASTDTF
 ASTDY
@@ -29,6 +30,7 @@ emph
 envir
 IDVARVAL
 jsonlite
+kable
 knitr
 lintr
 multiarch

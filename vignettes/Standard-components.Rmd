@@ -20,7 +20,7 @@ inside {mighty.standards}.
 ```{r list-standards, echo=FALSE, results='asis'}
 library(mighty.standards)
 
-standards <- list_standards() |> 
+standards <- list_standards() |>
   sort()
 
 for (i in seq_along(standards)) {
