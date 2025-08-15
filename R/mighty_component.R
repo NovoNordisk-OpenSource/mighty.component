@@ -326,8 +326,8 @@ ms_document <- function(self) {
       title = self$title,
       description = self$description,
       type = self$type,
-      params = as.character(knitr::kable(x$params)),
-      depends = as.character(knitr::kable(x$depends)),
+      params = as.character(knitr::kable(self$params)),
+      depends = as.character(knitr::kable(self$depends)),
       outputs = self$outputs,
       code = self$code
     )

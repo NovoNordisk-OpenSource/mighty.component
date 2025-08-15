@@ -11,10 +11,10 @@
       * variable: `character` Name of new variable to create
       * date: `character` Name of date variable to use
       Depends:
-      * .self.{{ date }}
+      * .self.{{date}}
       * .self.TRTSDT
       Outputs:
-      * {{ variable }}
+      * {{variable}}
 
 # get_rendered_standard
 

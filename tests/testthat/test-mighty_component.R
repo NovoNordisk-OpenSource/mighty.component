@@ -42,7 +42,7 @@ test_that("mighty_component", {
     )
 
   test_component$document() |>
-    expect_equal("documentation")
+    expect_snapshot()
 
   test_component_rendered <- test_component$render(x1 = 1, x2 = 2) |>
     expect_no_condition() |>
