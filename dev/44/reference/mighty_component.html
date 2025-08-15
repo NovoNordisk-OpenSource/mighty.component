@@ -15,7 +15,7 @@ facilitating their use inside mighty.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@ framework. Dynamic parameters are specified using <code>{{ variable_name }}</cod
 
 
 <p>A template is required to be documented with the following tags similar to when
-documenting functions using roxygen2:</p><table class="table table"><tr><td>Tag</td><td>Description</td><td>Example</td></tr><tr><td><code>@title</code></td><td>Title of the component</td><td><code>@title My component</code></td></tr><tr><td><code>@description</code></td><td>Description of the component</td><td><code>@description text text</code></td></tr><tr><td><code>@param</code></td><td>Specifies input used to render the component</td><td><code>@param variable new var</code></td></tr><tr><td><code>@type</code></td><td>Specifies type: predecessor, derivation, row</td><td><code>@type derivation</code></td></tr><tr><td><code>@depends</code></td><td>Required input variable (repeat if several)</td><td><code>@depends .self USUBJID</code></td></tr><tr><td><code>@outputs</code></td><td>Variables created (repeat if several)</td><td><code>@outputs NEWVAR</code></td></tr></table></div>
+documenting functions using roxygen2:</p><table class="table table"><tr><td>Tag</td><td>Description</td><td>Example</td></tr><tr><td><code>@title</code></td><td>Title of the component</td><td><code>@title My component</code></td></tr><tr><td><code>@description</code></td><td>Description of the component</td><td><code>@description text text</code></td></tr><tr><td><code>@param</code></td><td>Specifies input used to render the component</td><td><code>@param variable new var</code></td></tr><tr><td><code>@type</code></td><td>Specifies type: predecessor, derivation, row</td><td><code>@type derivation</code></td></tr><tr><td><code>@depends</code></td><td>Required input variable (repeat if several)</td><td><code>@depends .self USUBJID</code></td></tr><tr><td><code>@outputs</code></td><td>Variables created (repeat if several)</td><td><code>@outputs NEWVAR</code></td></tr><tr><td><code>@code</code></td><td>Everything under this tag defines the component code</td><td><code>@code</code></td></tr></table></div>
 
 <div class="section">
 <h3 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a></h3>
@@ -91,6 +91,7 @@ of the dynamic input <code>x</code>, that should already by in the input data se
 #' @type derivation
 #' @depends .self {{ x }}
 #' @outputs {{ variable }}
+#' @code
 .self &lt;- .self |&gt;
   dplyr::mutate(
     {{ variable }} = 2 * {{ x }}
