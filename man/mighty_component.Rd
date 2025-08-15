@@ -26,6 +26,7 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
+   \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
 }
 
 }
@@ -56,6 +57,7 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 #' @type derivation
 #' @depends .self \{\{ x \}\}
 #' @outputs \{\{ variable \}\}
+#' @code
 .self <- .self |>
   dplyr::mutate(
     \{\{ variable \}\} = 2 * \{\{ x \}\}

@@ -14,7 +14,7 @@
 {{#qnam}}
 #' @outputs {{.}}
 {{/qnam}}
-
+#' @code
 idvar <- unique({{source}}[["IDVAR"]])
 idclass <- class(.self[[idvar]])
 idfunc <- get(paste0("as.", idclass))

@@ -8,7 +8,7 @@
 #' @depends .self {{dtc}}
 #' @outputs ASTDT
 #' @outputs ASTDTF
-
+#' @code
 .self <- .self |>
   dplyr::mutate(
     ASTDT = admiral::convert_dtc_to_dt(

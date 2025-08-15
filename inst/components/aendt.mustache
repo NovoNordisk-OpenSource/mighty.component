@@ -8,7 +8,7 @@
 #' @depends .self {{dtc}}
 #' @outputs AENDT
 #' @outputs AENDTF
-
+#' @code
 .self <- .self |>
   dplyr::mutate(
     AENDT = admiral::convert_dtc_to_dt(

@@ -14,7 +14,7 @@
 #' @depends {{source}} {{.}}
 #' @outputs {{.}}
 {{/variable}}
-
+#' @code
 .self <- .self |>
   dplyr::left_join(
     y = dplyr::select({{source}}, {{by}}, {{variable}}),

@@ -6,7 +6,7 @@
 #' @param value Value to assign to the variable
 #' @type assigned
 #' @outputs {{variable}}
-
+#' @code
 .self <- .self |>
   dplyr::mutate(
     {{variable}} = {{{value}}}

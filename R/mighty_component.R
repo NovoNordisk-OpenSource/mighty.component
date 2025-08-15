@@ -25,6 +25,7 @@
 #' | `@type`        | Specifies type: `r mighty.standards:::valid_types()` | `@type derivation`       |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
+#' | `@code`        | Everything under this tag defines the component code | `@code`                  |
 #'
 #' ### Conventions
 #'
@@ -51,6 +52,7 @@
 #' #' @type derivation
 #' #' @depends .self {{ x }}
 #' #' @outputs {{ variable }}
+#' #' @code
 #' .self <- .self |>
 #'   dplyr::mutate(
 #'     {{ variable }} = 2 * {{ x }}
@@ -151,7 +153,7 @@ ms_initialize <- function(template, id, self, private) {
   private$.outputs <- get_tags(template, "outputs")
   private$.code <- utils::tail(
     x = template,
-    n = -grep(pattern = "^ *$", template)[[1]]
+    n = -grep(pattern = "^#' @code", template)[[1]]
   )
   private$.template <- template
   invisible(self)
