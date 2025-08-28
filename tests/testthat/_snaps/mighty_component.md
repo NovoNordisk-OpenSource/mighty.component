@@ -46,7 +46,7 @@
       ### Code
       
       ```r
-      .self$NEWWAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
       ``` 
       
 
@@ -64,7 +64,7 @@
       Outputs:
       * NEWVAR
       Code:
-      .self$NEWWAR <- 1 * Y$B + .self$A - 2
+      .self$NEWVAR <- 1 * Y$B + .self$A - 2
 
 # print
 
@@ -126,7 +126,7 @@
       ### Code
       
       ```r
-      .self$NEWWAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
       ``` 
       
 

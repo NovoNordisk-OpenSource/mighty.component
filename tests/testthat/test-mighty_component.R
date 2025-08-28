@@ -12,7 +12,7 @@ test_that("mighty_component", {
 
   test_component$code |>
     expect_equal(
-      ".self$NEWWAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}"
+      ".self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}"
     )
 
   test_component$template |>
@@ -52,7 +52,7 @@ test_that("mighty_component", {
 
   test_component_rendered$code |>
     expect_equal(
-      ".self$NEWWAR <- 1 * Y$B + .self$A - 2"
+      ".self$NEWVAR <- 1 * Y$B + .self$A - 2"
     )
 
   grepl(pattern = "\\{\\{|\\}\\}", x = test_component_rendered$template) |>

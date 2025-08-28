@@ -14,5 +14,5 @@
       Outputs:
       * NEWVAR
       Code:
-      .self$NEWWAR <- 5 * Y$B + .self$A - 3
+      .self$NEWVAR <- 5 * Y$B + .self$A - 3
 

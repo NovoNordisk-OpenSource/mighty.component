@@ -48,7 +48,7 @@ test_that("test", {
     get_rendered_component(params = list(x1 = 15, x2 = 35))
 
   component$code |>
-    expect_equal(".self$NEWWAR <- 15 * Y$B + .self$A - 35")
+    expect_equal(".self$NEWVAR <- 15 * Y$B + .self$A - 35")
 
   env <- new.env(parent = baseenv())
 
@@ -65,7 +65,7 @@ test_that("test", {
       input = data.frame(A = c(1, 5, 6)),
       expected = data.frame(
         A = c(1, 5, 6),
-        NEWWAR = c(11, 0, 121)
+        NEWVAR = c(11, 0, 121)
       ),
       envir = env
     )
