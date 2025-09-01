@@ -26,6 +26,7 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
+   \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
 }
 
 }
@@ -47,7 +48,7 @@ Below is an example of a mighty component template that
 creates a new dynamic variable \code{variable} as twice the value
 of the dynamic input \code{x}, that should already by in the input data set \code{.self}.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' Title for my component
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @title Title for my component
 #' @description
 #' A more in depth description of what is being done
 #'
@@ -56,6 +57,7 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 #' @type derivation
 #' @depends .self \{\{ x \}\}
 #' @outputs \{\{ variable \}\}
+#' @code
 .self <- .self |>
   dplyr::mutate(
     \{\{ variable \}\} = 2 * \{\{ x \}\}
@@ -166,8 +168,7 @@ Object of class \link{mighty_component_rendered}
 \if{html}{\out{<a id="method-mighty_component-document"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-document}{}}}
 \subsection{Method \code{document()}}{
-Create standard documentation.
-\strong{TODO: Implement in #18}
+Create standard documentation in markdown format.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$document()}\if{html}{\out{</div>}}
 }

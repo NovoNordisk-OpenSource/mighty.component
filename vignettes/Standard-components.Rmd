@@ -1,0 +1,30 @@
+---
+title: "Standard components"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Standard components}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette serves as a temporary repository of the currently available standard components
+inside {mighty.standards}.
+
+```{r list-standards, echo=FALSE, results='asis'}
+library(mighty.standards)
+
+standards <- list_standards() |>
+  sort()
+
+for (i in seq_along(standards)) {
+  x <- get_standard(standard = standards[[i]])
+  x$document()
+}
+```

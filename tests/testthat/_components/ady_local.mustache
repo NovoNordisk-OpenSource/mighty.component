@@ -8,7 +8,7 @@
 #' @depends .self {{ date }}
 #' @depends .self TRTSDT
 #' @outputs {{ variable }}
-
+#' @code
 .self <- .self |>
   dplyr::mutate(
     {{ variable }} = admiral::compute_duration(

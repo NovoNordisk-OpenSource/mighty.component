@@ -25,6 +25,7 @@
 #' | `@type`        | Specifies type: `r mighty.standards:::valid_types()` | `@type derivation`       |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
+#' | `@code`        | Everything under this tag defines the component code | `@code`                  |
 #'
 #' ### Conventions
 #'
@@ -42,7 +43,7 @@
 #' of the dynamic input `x`, that should already by in the input data set `.self`.
 #'
 #' ```r
-#' #' Title for my component
+#' #' @title Title for my component
 #' #' @description
 #' #' A more in depth description of what is being done
 #' #'
@@ -51,6 +52,7 @@
 #' #' @type derivation
 #' #' @depends .self {{ x }}
 #' #' @outputs {{ variable }}
+#' #' @code
 #' .self <- .self |>
 #'   dplyr::mutate(
 #'     {{ variable }} = 2 * {{ x }}
@@ -96,10 +98,9 @@ mighty_component <- R6::R6Class(
       ms_render(params, self)
     },
     #' @description
-    #' Create standard documentation.
-    #' **TODO: Implement in #18**
+    #' Create standard documentation in markdown format.
     document = function() {
-      "documentation" # TODO: roxygen like documentation
+      ms_document(self)
     }
   ),
   active = list(
@@ -150,11 +151,9 @@ ms_initialize <- function(template, id, self, private) {
   private$.depends <- get_tags(template, "depends") |>
     tags_to_depends()
   private$.outputs <- get_tags(template, "outputs")
-  private$.code <- grep(
-    pattern = "^#'",
+  private$.code <- utils::tail(
     x = template,
-    value = TRUE,
-    invert = TRUE
+    n = -grep(pattern = "^#' @code", template)[[1]]
   )
   private$.template <- template
   invisible(self)
@@ -310,4 +309,31 @@ ms_render <- function(params, self) {
     template = strsplit(x = template, split = "\n")[[1]],
     id = self$id
   )
+}
+
+#' @noRd
+ms_document <- function(self) {
+  template <- system.file(
+    "ms_document.mustache",
+    package = "mighty.standards"
+  ) |>
+    readLines()
+
+  docs <- whisker::whisker.render(
+    template = template,
+    data = list(
+      id = self$id,
+      title = self$title,
+      description = self$description,
+      type = self$type,
+      params = as.character(knitr::kable(self$params)),
+      depends = as.character(knitr::kable(self$depends)),
+      outputs = self$outputs,
+      code = self$code
+    )
+  )
+
+  cat(docs, "\n\n")
+
+  invisible(docs)
 }

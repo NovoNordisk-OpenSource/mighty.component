@@ -18,6 +18,41 @@
 ---
 
     Code
+      test_component$document()
+    Output
+      ## test: My test component
+      *type: derivation*
+      
+      This is a test component used for unit testing
+      
+      ### Parameters
+      
+      |name |description  |
+      |:----|:------------|
+      |x1   |First input  |
+      |x2   |Second input |
+      
+      ### Depends
+      
+      |domain |column |
+      |:------|:------|
+      |.self  |A      |
+      |Y      |B      |
+      
+      ### Outputs
+      
+      * NEWVAR
+      
+      ### Code
+      
+      ```r
+      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      ``` 
+      
+
+---
+
+    Code
       test_component_rendered
     Message
       <mighty_component_rendered/mighty_component/R6>
@@ -29,7 +64,7 @@
       Outputs:
       * NEWVAR
       Code:
-      .self$NEWWAR <- 1 * Y$B + .self$A - 2
+      .self$NEWVAR <- 1 * Y$B + .self$A - 2
 
 # print
 
@@ -65,5 +100,33 @@
       eval_method(get_component(test_path("_components", "test_component.mustache")),
       "document")
     Output
-      [1] "documentation"
+      ## _components/test_component.mustache: My test component
+      *type: derivation*
+      
+      This is a test component used for unit testing
+      
+      ### Parameters
+      
+      |name |description  |
+      |:----|:------------|
+      |x1   |First input  |
+      |x2   |Second input |
+      
+      ### Depends
+      
+      |domain |column |
+      |:------|:------|
+      |.self  |A      |
+      |Y      |B      |
+      
+      ### Outputs
+      
+      * NEWVAR
+      
+      ### Code
+      
+      ```r
+      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      ``` 
+      
 

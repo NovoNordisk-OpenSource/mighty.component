@@ -5,6 +5,7 @@
 #' @depends .self A
 #' @depends lb A
 #' @outputs B
+#' @code
 hello <- function(a) {
   "hello" |>
     print()

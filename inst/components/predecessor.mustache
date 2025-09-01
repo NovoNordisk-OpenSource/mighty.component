@@ -8,15 +8,15 @@
 #' @type predecessor
 {{#by}}
 #' @depends .self {{.}}
-#' @depends {{ source }} {{.}}
+#' @depends {{source}} {{.}}
 {{/by}}
 {{#variable}}
-#' @depends {{ source }} {{.}}
+#' @depends {{source}} {{.}}
 #' @outputs {{.}}
 {{/variable}}
-
+#' @code
 .self <- .self |>
   dplyr::left_join(
-    y = dplyr::select({{ source }}, {{ by }}, {{ variable }}),
-    by = dplyr::join_by({{ by }})
+    y = dplyr::select({{source}}, {{by}}, {{variable}}),
+    by = dplyr::join_by({{by}})
   )
