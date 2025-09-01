@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.standards</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/mighty-standards.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Standard-components.html">Standard components</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NN-OpenSource/mighty.standards/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -91,9 +95,9 @@ while <code>list</code> and <code>tibble</code> show more detailed information.<
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ description: chr [1:2] "`character` Name of new variable to create" "`character` Name of date variable to use"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ depends    :'data.frame':	2 obs. of  2 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ domain: chr [1:2] ".self" ".self"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ column: chr [1:2] "{{ date }}" "TRTSDT"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ outputs    : chr "{{ variable }}"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ code       : chr [1:11] "" ".self &lt;- .self |&gt;" "  dplyr::mutate(" "    {{ variable }} = admiral::compute_duration(" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ column: chr [1:2] "{{date}}" "TRTSDT"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ outputs    : chr "{{variable}}"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ code       : chr [1:10] ".self &lt;- .self |&gt;" "  dplyr::mutate(" "    {{variable}} = admiral::compute_duration(" "      start_date = TRTSDT," ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ :List of 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ id         : chr "aendt"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ title      : chr "Analysis end date"</span>
@@ -103,9 +107,9 @@ while <code>list</code> and <code>tibble</code> show more detailed information.<
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ description: chr "`character` Name of date variable"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ depends    :'data.frame':	1 obs. of  2 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ domain: chr ".self"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ column: chr "{{ dtc }}"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ column: chr "{{dtc}}"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ outputs    : chr [1:2] "AENDT" "AENDTF"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ code       : chr [1:13] "" ".self &lt;- .self |&gt;" "  dplyr::mutate(" "    AENDT = admiral::convert_dtc_to_dt(" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ code       : chr [1:12] ".self &lt;- .self |&gt;" "  dplyr::mutate(" "    AENDT = admiral::convert_dtc_to_dt(" "      dtc = {{dtc}}," ...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
