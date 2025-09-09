@@ -2,7 +2,7 @@
 get_custom_r_function <- function(path) {
   code_string <- readLines(path) |>
     paste0(collapse = "\n")
-
+validate_r(code_string, path)
   mighty_component$new(
     template = c(
       extract_function_metadata(code_string),
@@ -40,7 +40,7 @@ extract_function_body <- function(code_string) {
   # TODO: proper validation checks of custom components - e.g. cannot have
   # multiple return statements, must end with return(.self), etc
   withr::local_options(.new = list(keep.source = TRUE))
-
+browser()
   parse(text = code_string) |>
     eval()
 

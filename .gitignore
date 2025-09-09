@@ -54,3 +54,6 @@ rsconnect/
 
 /.quarto/
 inst/doc
+
+# Claude
+CLAUDE.md

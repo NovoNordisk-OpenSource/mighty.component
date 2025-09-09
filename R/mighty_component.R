@@ -141,7 +141,7 @@ mighty_component <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, id, self, private) {
-  # TODO: Input validation of template
+  validate_template(template, id)
   private$.id <- id
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
@@ -183,14 +183,14 @@ get_tag <- function(template, tag) {
     return(tags)
   }
 
-  cli::cli_abort("Multiple or no matches found for tag: {tag}")
+  cli::cli_abort("Multiple or no matches found for tag: '@{tag}'")
 }
 
 #' @noRd
 tags_to_params <- function(tags) {
   i <- regexpr(pattern = " ", text = tags)
 
-  params <- data.frame(
+  data.frame(
     name = substr(x = tags, start = 1, stop = i - 1),
     description = gsub(
       pattern = "^ +| +$",
@@ -198,18 +198,7 @@ tags_to_params <- function(tags) {
       x = substr(x = tags, start = i + 1, stop = nchar(tags))
     )
   )
-
-  mistakes <- params$description[!nchar(params$name)]
-  if (length(mistakes)) {
-    cli::cli_abort(
-      c(
-        "All {.code @params} tags must have both a name and description:",
-        "x" = "Missing description for {.code {mistakes}}"
-      )
-    )
-  }
-
-  params
+  
 }
 
 #' @noRd
