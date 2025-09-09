@@ -1,4 +1,5 @@
 validate_r <- function(x, path) {
+  
   exprs <- tryCatch(
     parse(text = x, keep.source = TRUE),
     error = function(e) {
@@ -15,9 +16,9 @@ validate_r <- function(x, path) {
     cli::cli_abort(
       "Only one function definition per file allowed. There are {length(funs)} functions defined in {path}: {names(funs)}."
     )
-  }
- 
+  } 
   assert_only_1_return(body_expr = funs[[1]][[3]], fn_name = names(funs), path)
+  assert_no_params(x, path)
 }
 
 
@@ -82,5 +83,11 @@ assert_only_1_return <- function(body_expr, fn_name, path) {
     cli::cli_abort(
       "Multiple {.code return()} statments found in function `{fn_name}` defined in file {path}. Only one {.code return()} is allowed in the top-level function"
     )
+  }
+}
+
+assert_no_params <- function(code_string, path){
+  if(grepl("#'\\s*@param", code_string)){
+    cli::cli_abort("Custom R components cannot be parameterized. Check function metadata for `@param` tags in file {path}")
   }
 }

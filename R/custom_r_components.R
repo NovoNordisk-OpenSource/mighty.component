@@ -40,7 +40,7 @@ extract_function_body <- function(code_string) {
   # TODO: proper validation checks of custom components - e.g. cannot have
   # multiple return statements, must end with return(.self), etc
   withr::local_options(.new = list(keep.source = TRUE))
-browser()
+
   parse(text = code_string) |>
     eval()
 
