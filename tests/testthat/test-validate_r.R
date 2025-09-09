@@ -77,7 +77,7 @@ hello <- function() {
 
 path <- withr::local_tempfile(fileext = ".R")
   writeLines(r, con=path)
-  
+
   # ACT ---------------------------
   expect_error(validate_r(r, path), "Custom R components cannot be parameterized")
 })
