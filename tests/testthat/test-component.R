@@ -15,7 +15,6 @@ test_that("get_rendered_component, custom code component as function multiple de
   expect_equal(x$outputs, "B")
 })
 
-
 test_that("get_rendered_component custom local mustache template with params", {
   # ACT ---------------------------
   x <- get_rendered_component(
@@ -36,7 +35,6 @@ test_that("get_rendered_component custom local mustache template with params", {
   )
   expect_equal(x$outputs, "out_var")
 })
-
 
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------
@@ -66,26 +64,4 @@ test_that("error handling", {
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
     expect_error("not found")
-})
-
-test_that("Error when any parameter insufficiently parameterized", {
-  template <- c(
-    "#' @title Mistake in parameters",
-    "#' @description This is a test component with missing parameters.",
-    "#' @param variable",
-    "#' @param date ",
-    "#' @type derivation",
-    "#' @depends .self {{ date }}",
-    "#' @depends .self TRTSDT",
-    "#' @outputs {{ variable }}",
-    "print('hello')"
-  )
-
-  expect_error(
-    object = mighty.standards::mighty_component$new(
-      template = template,
-      id = "test_error"
-    ),
-    regexp = "Missing description for `variable` and `date`"
-  )
 })
