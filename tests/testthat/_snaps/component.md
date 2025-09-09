@@ -22,6 +22,15 @@
         }
         
 
+# Custom R file with multiple function definitions fails 
+
+    Code
+      actual$code
+    Output
+      [1] ""                            "  # code comments"          
+      [3] "  ADLB <- ADLB |> "          "    dplyr::filter(AGE > 60)"
+      [5] "  "                         
+
 # get_rendered_component custom local mustache template with params
 
     Code

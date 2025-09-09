@@ -54,3 +54,30 @@ path <- withr::local_tempfile(fileext = ".R")
   expect_error(validate_r(
     r, path), "Only one function definition per file allowed")
 })
+
+test_that("Custom R file with multiple function definitions fails ", {
+  
+# ARRANG -----------------------------------------------------------------
+r <- "
+#' @title TITLES
+#' @description
+#' short desc.
+#' @type derivation
+#' @param A Dummy 
+#' @depends ADLB AGE
+#' @outputs C
+#' @code
+hello <- function() {
+  # code comments
+  ADLB <- ADLB |> 
+    dplyr::filter(AGE > 60)
+  return(ADLB)
+}
+"
+
+path <- withr::local_tempfile(fileext = ".R")
+  writeLines(r, con=path)
+  
+  # ACT ---------------------------
+  expect_error(validate_r(r, path), "Custom R components cannot be parameterized")
+})
