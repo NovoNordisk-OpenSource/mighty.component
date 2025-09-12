@@ -87,7 +87,7 @@ TRUE
 })
 
 test_that("Custom R file with multiple function definitions fails ", {
-  # ARRANG -----------------------------------------------------------------
+  # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
 #' @description
