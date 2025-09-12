@@ -1,4 +1,4 @@
-test_that("Custom R compotnent with multiple return()s fails ", {
+test_that("Custom R component with multiple return()s fails ", {
   # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
