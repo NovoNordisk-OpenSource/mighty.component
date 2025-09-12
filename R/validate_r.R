@@ -1,51 +1,57 @@
 validate_r <- function(x, path) {
-  
+  ex_form <- "name <- function(...) { ... }"
   exprs <- tryCatch(
     parse(text = x, keep.source = TRUE),
     error = function(e) {
-      cli::cli_abort(
-        "Failed to parse code from {path} with the following error message : {e$message}"
-      )
+      cli::cli_abort(c(
+        "x Failed to parse R code in {.path {path}}.",
+        "i {e$message}",
+        "i Expected one top-level function: {.code {ex_form}}."
+      ))
     }
   )
-  funs <- extract_functions(exprs)
-  if (length(funs) == 0L) {
-    cli::cli_abort("No function definitions found in {path}.")
+
+  if (length(exprs) == 0L) {
+    cli::cli_abort(c(
+      "x No top-level function definition found in {.path {path}}.",
+      "i Each file must contain exactly one function of the form {.code {ex_form}}."
+    ))
   }
-  if (length(funs) > 1) {
-    cli::cli_abort(
-      "Only one function definition per file allowed. There are {length(funs)} functions defined in {path}: {names(funs)}."
-    )
-  } 
+  if (length(exprs) > 1) {
+    cli::cli_abort(c(
+      "x Multiple top-level expressions found in {.path {path}}.",
+      "i Each file must contain exactly one function definition: {.code {ex_form}}.",
+      "i Remove extra statements or move helpers inside the function body."
+    ))
+  }
+  funs <- extract_functions(exprs, path, ex_form)
   assert_only_1_return(body_expr = funs[[1]][[3]], fn_name = names(funs), path)
   assert_no_params(x, path)
 }
 
 
-# Extract function definitions from parsed expressions: returns a named list of function ASTs.
-extract_functions <- function(exprs) {
-  funs <- list()
-  for (expr in exprs) {
-    if (!is.call(expr)) {
-      next
-    }
-    is_assignment_operator <- rlang::is_call(expr, c("<-", "="))
-    is_function_definition_call <- rlang::is_call(expr, "function")
-    if (is_assignment_operator) {
-      lhs <- expr[[2]]
-      rhs <- expr[[3]]
-      if (is.symbol(lhs) && rlang::is_call(rhs, "function")) {
-        funs[[as.character(lhs)]] <- rhs
-        next
-      }
-    }
+# Extract function definitions from parsed expression
+extract_functions <- function(exprs, path, ex_form) {
+  stopifnot(length(exprs) == 1)
+  call <- exprs[[1]]
 
-    # Also support anonymous top-level: function(...) { ... }
-    if (is_function_definition_call) {
-      funs[["<anonymous>"]] <- expr
-    }
+  # Expect: <name> <-  function(...) { ... }
+  is_named_function_definition <- rlang::is_call(call, c("<-", "=")) &&
+    rlang::is_symbol(call[[2]]) &&
+    rlang::is_call(call[[3]], "function")
+  if (!is_named_function_definition) {
+    # Catch actual code when not a function def
+    cli::cli_abort(c(
+      "x Expected a single top-level function definition in {.path {path}}.",
+      "i Use {.code {ex_form}} (with {.code <-} or {.code =}).",
+      "i Found top-level expression: {.code {rlang::expr_deparse(call, width = 60)}}"
+    ))
   }
-  funs
+
+  name <- rlang::as_string(call[[2]])
+  fun <- call[[3]]
+
+  setNames(list(fun), name)
 }
 
 
@@ -56,7 +62,7 @@ assert_only_1_return <- function(body_expr, fn_name, path) {
     if (count > 1) {
       invisible(NULL)
     }
-    
+
     # Skip nested function definitions altogether
     if (rlang::is_call(x, "function")) {
       return(invisible(NULL))
@@ -80,14 +86,19 @@ assert_only_1_return <- function(body_expr, fn_name, path) {
 
   walk(body_expr)
   if (count > 1) {
-    cli::cli_abort(
-      "Multiple {.code return()} statments found in function `{fn_name}` defined in file {path}. Only one {.code return()} is allowed in the top-level function"
-    )
+    cli::cli_abort(c(
+      "x Multiple {.code return()} statements found in function {.fn {fn_name}} in {.path {path}}.",
+      "i Only one {.code return()} is allowed in the top-level function body.",
+      "i Found {count} {.code return()} calls."
+    ))
   }
 }
 
-assert_no_params <- function(code_string, path){
-  if(grepl("#'\\s*@param", code_string)){
-    cli::cli_abort("Custom R components cannot be parameterized. Check function metadata for `@param` tags in file {path}")
+assert_no_params <- function(code_string, path) {
+  if (grepl("#'\\s*@param", code_string)) {
+    cli::cli_abort(c(
+      "x Parameters are not supported for custom R components.",
+      "i Remove any roxygen2 {.code @param} tags and the corresponding function arguments from {.path {path}}."
+    ))
   }
 }

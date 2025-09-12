@@ -297,3 +297,26 @@ test_that("validate_template handles complex valid template", {
   
   expect_no_error(validate_template(complex_template))
 })
+
+test_that("validate_template rejects empty outputs tag", {
+  empty_outputs <- c(
+    "#' @title empyt code",
+    "#' @description",
+    "#' decs",
+    "#'", 
+    "#' @type derivation",
+    "#' @depends .self USUBJID",
+    "#' @outputs ",
+    "#' @code",
+    ".self <- .self |>",
+    "  dplyr::mutate(",
+    "    {{variable}} = case_when(",
+    "      {{input_var}} > 0 ~ 'positive',",
+    "      {{input_var}} < 0 ~ 'negative',", 
+    "      TRUE ~ 'zero'",
+    "    )",
+    "  )"
+  )
+  
+  expect_error(validate_template(empty_outputs), "outputs` tag cannot be empty")
+})
