@@ -200,7 +200,7 @@ test_that("Custom R file with no function defined fails", {
 })
 
 test_that("Invalid R code fails", {
-  # ARRANG -----------------------------------------------------------------
+  # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
 #' @description
