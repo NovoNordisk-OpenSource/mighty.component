@@ -245,7 +245,7 @@ test_that("@depends tags needs both domain and column", {
 test_that("validate_template validates @outputs tags", {
   template_valid_output <- c(
     "#' @title Test Component",
-    "#' @description Test multile",
+    "#' @description Test multiple",
     "#' description",
     "#' @outputs NEWVAR",
     "#' @type derivation",
