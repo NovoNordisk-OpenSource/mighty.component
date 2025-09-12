@@ -302,7 +302,7 @@ test_that("validate_template rejects empty outputs tag", {
   empty_outputs <- c(
     "#' @title empyt code",
     "#' @description",
-    "#' decs",
+    "#' description",
     "#'", 
     "#' @type derivation",
     "#' @depends .self USUBJID",
