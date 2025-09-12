@@ -300,7 +300,7 @@ test_that("validate_template handles complex valid template", {
 
 test_that("validate_template rejects empty outputs tag", {
   empty_outputs <- c(
-    "#' @title empyt code",
+    "#' @title empty code",
     "#' @description",
     "#' description",
     "#'", 
