@@ -52,6 +52,7 @@ mighty_component_test <- R6::R6Class(
 
 #' @noRd
 mst_initialize <- function(component, self, private) {
+  rlang::check_installed("callr")
   rlang::check_installed("covr")
 
   private$.component <- component
@@ -63,9 +64,17 @@ mst_initialize <- function(component, self, private) {
     "}"
   )
 
-  private$.coverage <- covr::code_coverage(
-    source_code = paste(private$.test_fn, collapse = "\n"),
-    test_code = ""
+  private$.coverage <- callr::r(
+    func = \(test_fn) {
+      covr::code_coverage(
+        source_code = paste(test_fn, collapse = "\n"),
+        test_code = "",
+        parent_env = rlang::current_env()
+      )
+    },
+    args = list(
+      test_fn = private$.test_fn
+    )
   ) |>
     covr::tally_coverage(by = "line") |>
     format_coverage()
@@ -83,20 +92,35 @@ mst_print <- function(self) {
 
 #' @noRd
 mst_eval <- function(input, self, private) {
-  output <- NULL
+  result <- callr::r(
+    func = \(input, test_fn) {
+      output <- NULL
 
-  coverage <- covr::code_coverage(
-    source_code = paste(private$.test_fn, collapse = "\n"),
-    test_code = "output <<- test_fn(.self = input)",
-    parent_env = rlang::current_env()
-  ) |>
+      coverage <- covr::code_coverage(
+        source_code = paste(test_fn, collapse = "\n"),
+        test_code = "output <<- test_fn(.self = input)",
+        parent_env = rlang::current_env()
+      )
+
+      list(
+        output = output,
+        coverage = coverage
+      )
+    },
+    args = list(
+      input = input,
+      test_fn = private$.test_fn
+    )
+  )
+
+  coverage <- result$coverage |>
     covr::tally_coverage(by = "line") |>
     format_coverage()
 
   private$.coverage$covered <- private$.coverage$covered |
     as.logical(coverage$covered)
 
-  output
+  result$output
 }
 
 #' @noRd

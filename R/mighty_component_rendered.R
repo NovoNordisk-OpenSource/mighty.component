@@ -52,7 +52,7 @@ mighty_component_rendered <- R6::R6Class(
 )
 
 #' @noRd
-msr_initialize = function(template, id, self, private, super) {
+msr_initialize <- function(template, id, self, private, super) {
   super$initialize(template, id)
 
   private$.params <- data.frame(
