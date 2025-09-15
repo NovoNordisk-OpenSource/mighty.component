@@ -75,12 +75,12 @@ the rendered code used in mighty becomes:
 }
 }
 \seealso{
-\code{\link[=get_standard]{get_standard()}}, \link{mighty_component_rendered}
+\code{\link[=get_standard]{get_standard()}}, \code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{id}}{Component ID}
+\item{\code{id}}{Component ID.}
 
 \item{\code{title}}{Title for the component.}
 

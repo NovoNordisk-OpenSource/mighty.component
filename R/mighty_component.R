@@ -69,7 +69,7 @@
 #'   )
 #' ```
 #'
-#' @seealso [get_standard()], [mighty_component_rendered]
+#' @seealso [get_standard()], [get_component()], [mighty_component_rendered]
 #' @export
 mighty_component <- R6::R6Class(
   classname = "mighty_component",
@@ -104,7 +104,7 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field id Component ID
+    #' @field id Component ID.
     id = \() private$.id,
     #' @field title Title for the component.
     title = \() private$.title,

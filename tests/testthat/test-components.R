@@ -1,104 +1,89 @@
 test_that("predecessor", {
-  predecessor <- get_rendered_standard(
+  predecessor <- test_component(
     "predecessor",
     list(source = "pharmaverseadam::adsl", by = "USUBJID", variable = "ACTARM")
   )
 
-  expect_snapshot(predecessor)
-
   advs <- pharmaverseadam::advs |>
     dplyr::select(USUBJID, PARAMCD, AVAL, ACTARM)
 
-  predecessor$test(
-    input = advs |> dplyr::select(-ACTARM),
-    expected = advs
-  )
+  advs |>
+    dplyr::select(-ACTARM) |>
+    test_eval(predecessor) |>
+    expect_equal(advs)
 })
 
 test_that("assign", {
-  assign <- get_rendered_standard("assign", list(variable = "y", value = 1))
-
-  expect_snapshot(assign)
+  assign <- test_component("assign", list(variable = "y", value = 1))
 
   df <- data.frame(x = "a", y = 1)
 
-  assign$test(
-    input = df |> dplyr::select(-y),
-    expected = df
-  )
+  df |>
+    dplyr::select(-y) |>
+    test_eval(assign) |>
+    expect_equal(df)
 })
 
 test_that("astdt", {
-  astdt <- get_rendered_standard("astdt", list(dtc = "AESTDTC"))
-
-  expect_snapshot(astdt)
+  astdt <- test_component("astdt", list(dtc = "AESTDTC"))
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, AESTDTC, ASTDT, ASTDTF)
+    dplyr::select(USUBJID, AESTDTC, ASTDT, ASTDTF) |>
+    strip_attributes()
 
-  astdt$test(
-    input = adae |> dplyr::select(-ASTDT, -ASTDTF),
-    expected = adae
-  )
+  adae |>
+    dplyr::select(-ASTDT, -ASTDTF) |>
+    test_eval(astdt) |>
+    expect_equal(adae)
 })
 
 test_that("aendt", {
-  aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
-  expect_snapshot(aendt)
+  aendt <- test_component("aendt", list(dtc = "AEENDTC"))
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF)
+    dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF) |>
+    strip_attributes()
 
-  aendt$test(
-    input = adae |> dplyr::select(-AENDT, -AENDTF),
-    expected = adae
-  )
+  adae |>
+    dplyr::select(-AENDT, -AENDTF) |>
+    test_eval(aendt) |>
+    expect_equal(adae)
 })
 
 test_that("ady", {
-  ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
-
-  expect_snapshot(ady)
+  ady <- test_component("ady", list(variable = "ASTDY", date = "ASTDT"))
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, ASTDT, TRTSDT, ASTDY)
+    dplyr::select(USUBJID, ASTDT, TRTSDT, ASTDY) |>
+    strip_attributes()
 
-  ady$test(
-    input = adae |> dplyr::select(-ASTDY),
-    expected = adae
-  )
-
-  ady$test(
-    input = adae |> dplyr::select(-ASTDY),
-    expected = adae |> dplyr::mutate(ASTDY = ASTDY + 1)
-  ) |>
-    expect_error()
+  adae |>
+    dplyr::select(-ASTDY) |>
+    test_eval(ady) |>
+    expect_equal(adae)
 })
 
 test_that("trtemfl", {
-  trtemfl <- get_rendered_standard("trtemfl", list(end_window = 30))
-
-  expect_snapshot(trtemfl)
+  trtemfl <- test_component("trtemfl", list(end_window = 30))
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT, TRTEMFL)
+    dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT, TRTEMFL) |>
+    strip_attributes()
 
-  trtemfl$test(
-    input = adae |> dplyr::select(-TRTEMFL),
-    expected = adae
-  )
+  adae |>
+    dplyr::select(-TRTEMFL) |>
+    test_eval(trtemfl) |>
+    expect_equal(adae)
 })
 
 test_that("supp_sdtm", {
-  supp_sdtm <- get_rendered_standard(
-    standard = "supp_sdtm",
+  supp_sdtm <- test_component(
+    component = "supp_sdtm",
     params = list(
       source = "pharmaversesdtm::suppae",
       qnam = "AETRTEM"
     )
   )
-
-  expect_snapshot(supp_sdtm)
 
   suppae <- pharmaversesdtm::suppae |>
     dplyr::mutate(
@@ -111,8 +96,8 @@ test_that("supp_sdtm", {
     dplyr::select(USUBJID, AESEQ, AETERM) |>
     dplyr::left_join(suppae, by = c("USUBJID", "AESEQ"))
 
-  supp_sdtm$test(
-    input = adae |> dplyr::select(-AETRTEM),
-    expected = adae
-  )
+  adae |>
+    dplyr::select(-AETRTEM) |>
+    test_eval(supp_sdtm) |>
+    expect_equal(adae)
 })

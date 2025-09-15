@@ -21,6 +21,7 @@ Imports:
     whisker
 Suggests: 
     admiral,
+    covr,
     dplyr,
     jsonlite,
     knitr,
