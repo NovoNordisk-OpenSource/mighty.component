@@ -15,10 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 This vignette serves as a temporary repository of the currently available standard components
-inside {mighty.standards}.
+inside {mighty.component}.
 
 ```{r list-standards, echo=FALSE, results='asis'}
-library(mighty.standards)
+library(mighty.component)
 
 standards <- list_standards() |>
   sort()

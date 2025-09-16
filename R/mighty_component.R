@@ -22,7 +22,7 @@
 #' | `@title`       | Title of the component                               | `@title My component`    |
 #' | `@description` | Description of the component                         | `@description text text` |
 #' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
-#' | `@type`        | Specifies type: `r mighty.standards:::valid_types()` | `@type derivation`       |
+#' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type derivation`       |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
 #' | `@code`        | Everything under this tag defines the component code | `@code`                  |
@@ -315,7 +315,7 @@ ms_render <- function(params, self) {
 ms_document <- function(self) {
   template <- system.file(
     "ms_document.mustache",
-    package = "mighty.standards"
+    package = "mighty.component"
   ) |>
     readLines()
 

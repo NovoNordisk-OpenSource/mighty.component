@@ -18,7 +18,7 @@ Once rendered a component can be used to:
 \code{\link[=get_rendered_standard]{get_rendered_standard()}}
 }
 \section{Super class}{
-\code{\link[mighty.standards:mighty_component]{mighty.standards::mighty_component}} -> \code{mighty_component_rendered}
+\code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{mighty_component_rendered}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -35,8 +35,8 @@ Once rendered a component can be used to:
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mighty.standards" data-topic="mighty_component" data-id="document"><a href='../../mighty.standards/html/mighty_component.html#method-mighty_component-document'><code>mighty.standards::mighty_component$document()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.standards" data-topic="mighty_component" data-id="render"><a href='../../mighty.standards/html/mighty_component.html#method-mighty_component-render'><code>mighty.standards::mighty_component$render()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty.component::mighty_component$document()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty.component::mighty_component$render()</code></a></span></li>
 </ul>
 </details>
 }}
