@@ -112,7 +112,6 @@ Defaults to using the current environment with \code{parent.frame()}.}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-test}{}}}
 \subsection{Method \code{test()}}{
 Test component against expected output.
-\strong{TODO: Implement in #17}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test(input, expected, envir = parent.frame())}\if{html}{\out{</div>}}
 }
@@ -135,7 +134,6 @@ Defaults to using the current environment with \code{parent.frame()}.}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-test_coverage}{}}}
 \subsection{Method \code{test_coverage()}}{
 Calculate test coverage for already run tests
-\strong{TODO: Implement in #17}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test_coverage()}\if{html}{\out{</div>}}
 }

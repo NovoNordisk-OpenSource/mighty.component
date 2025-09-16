@@ -141,7 +141,6 @@ mighty_component <- R6::R6Class(
 
 #' @noRd
 ms_initialize <- function(template, id, self, private) {
-  # TODO: Input validation of template
   private$.id <- id
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
