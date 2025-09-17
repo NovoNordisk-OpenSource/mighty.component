@@ -33,12 +33,6 @@ extract_function_body <- function(code_string) {
 
   # The keep.source=TRUE option attempts to ensure that when functions are defined,
   # R preserves the original source code as srcref attributes.
-
-  # TODO:  Refactoring to have a robust
-  # fallback (e.g., using deparse()) when srcref is unavailable
-
-  # TODO: proper validation checks of custom components - e.g. cannot have
-  # multiple return statements, must end with return(.self), etc
   withr::local_options(.new = list(keep.source = TRUE))
 
   parse(text = code_string) |>
@@ -69,7 +63,6 @@ remove_function_header <- function(f_string) {
 
 #' @noRd
 remove_function_return <- function(f_string) {
-  # TODO: check for when the return statement is broken up by linebreaks
   grep_pattern <- "return\\(.*?\\)(?s:.*)\\}"
   gsub(
     pattern = grep_pattern,

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(mighty.standards)
+library(mighty.component)
 
-test_check("mighty.standards")
+test_check("mighty.component")

@@ -1,5 +1,5 @@
-Package: mighty.standards
-Title: Standard derivations for ADaM generation
+Package: mighty.component
+Title: Standard components for ADaM generation
 Version: 0.0.0.9011
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
@@ -9,8 +9,8 @@ Authors@R: c(
 Description: Standard components library to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
-URL: https://nn-opensource.github.io/mighty.standards,
-    https://github.com/NN-OpenSource/mighty.standards
+URL: https://nn-opensource.github.io/mighty.component,
+    https://github.com/NN-OpenSource/mighty.component
 Depends: 
     R (>= 4.1)
 Imports: 
