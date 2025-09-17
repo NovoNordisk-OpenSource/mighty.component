@@ -27,6 +27,7 @@ validate_r <- function(x, path) {
   funs <- extract_functions(exprs, path, ex_form)
   assert_only_1_return(body_expr = funs[[1]][[3]], fn_name = names(funs), path)
   assert_no_params(x, path)
+  invisible(NULL)
 }
 
 

@@ -63,14 +63,16 @@ validate_template <- function(template, id = NULL) {
 
   description <- tryCatch(
     get_tag(template, "description"),
-    error = function(e) ""
+    error = function(e) {
+      abort_with_context(conditionMessage(e))
+    }
   )
   if (nchar(trimws(description)) == 0) {
     abort_with_context("{.code @description} cannot be empty")
   }
 
   # Validate @type
-  type <- get_tag(template, "type") |> 
+  get_tag(template, "type") |> 
     assert_type()
 
   # Check for empty @code section using simple logic

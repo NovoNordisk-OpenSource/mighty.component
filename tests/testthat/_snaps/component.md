@@ -22,7 +22,7 @@
         }
         
 
-# Custom R file with multiple function definitions fails 
+# Custom R file with single function definition succeeds
 
     Code
       actual$code

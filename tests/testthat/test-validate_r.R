@@ -119,7 +119,7 @@ hello_2 <- function(a) {
 })
 
 test_that("Custom R file trying to use parameters fails ", {
-  # ARRANG -----------------------------------------------------------------
+  # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
 #' @description
@@ -148,7 +148,7 @@ hello <- function() {
 })
 
 test_that("Custom R file with no function defined fails", {
-  # ARRANG -----------------------------------------------------------------
+  # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
 #' @description
@@ -175,7 +175,7 @@ ADLB <- ADLB |>
 })
 
 test_that("Custom R file with no function defined fails", {
-  # ARRANG -----------------------------------------------------------------
+  # ARRANGE -----------------------------------------------------------------
   r <- "
 #' @title TITLES
 #' @description

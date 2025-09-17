@@ -15,9 +15,9 @@ test_that("get_rendered_component, custom code component as function multiple de
   expect_equal(x$outputs, "B")
 })
 
-test_that("Custom R file with multiple function definitions fails ", {
+test_that("Custom R file with single function definition succeeds", {
   
-# ARRANG -----------------------------------------------------------------
+# ARRANGE -----------------------------------------------------------------
 r <- "
 #' @title TITLES
 #' @description

@@ -320,3 +320,23 @@ test_that("validate_template rejects empty outputs tag", {
   
   expect_error(validate_template(empty_outputs), "outputs` tag cannot be empty")
 })
+
+test_that("validate_template gives specific error for duplicate @description tags", {
+  # This test demonstrates the error handling consistency issue
+  template_duplicate_description <- c(
+    "#' @title Test Component",
+    "#' @description First description",
+    "#' @description Second description",  # Duplicate description
+    "#' @type derivation",
+    "#' @depends .self USUBJID",
+    "#' @outputs NEWVAR",
+    "#' @code",
+    ".self"
+  )
+
+  # Should get specific error about duplicate tags, not generic "cannot be empty" error
+  expect_error(
+    validate_template(template_duplicate_description),
+    "Multiple or no matches found for tag: '@description'"
+  )
+})
