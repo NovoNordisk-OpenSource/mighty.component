@@ -71,6 +71,8 @@ list_standards <- function(as = c("character", "list", "tibble")) {
           "id",
           "title",
           "description",
+          "type",
+          "origin",
           "params",
           "depends",
           "outputs",
