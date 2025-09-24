@@ -16,9 +16,8 @@ test_that("get_rendered_component, custom code component as function multiple de
 })
 
 test_that("Custom R file with single function definition succeeds", {
-  
-# ARRANGE -----------------------------------------------------------------
-r <- "
+  # ARRANGE -----------------------------------------------------------------
+  r <- "
 #' @title TITLES
 #' @description
 #' short desc.
@@ -34,14 +33,13 @@ hello <- function() {
 }
 "
 
-path <- withr::local_tempfile(fileext = ".R")
-  writeLines(r, con=path)
-  
+  path <- withr::local_tempfile(fileext = ".R")
+  writeLines(r, con = path)
+
   # ACT ---------------------------
   actual <- expect_no_error(get_rendered_component(path))
 
-
-# ASSERT -----------------------------------------------------------------
+  # ASSERT -----------------------------------------------------------------
   expect_snapshot(actual$code)
 })
 
