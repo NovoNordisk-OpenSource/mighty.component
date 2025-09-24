@@ -70,26 +70,28 @@ while <code>list</code> and <code>tibble</code> show more detailed information.<
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Tibble for an easy overview</span></span></span>
 <span class="r-in"><span><span class="fu">list_standards</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id          title                     description params depends outputs code </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ady         Analysis relative day     Derives th… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> aendt       Analysis end date         Derives an… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> assign      Assign                    Assigns a … <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;NULL&gt;</span>  <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> astdt       Analysis start date       Derives an… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> predecessor Predecessor               Creates ne… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> supp_sdtm   Add Supplementary Variab… Add a vari… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> trtemfl     Treatment-emergent flag   Derives tr… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id          title        description type  origin params depends outputs code </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ady         Analysis re… Derives th… colu… Deriv… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> aendt       Analysis en… Derives an… colu… Deriv… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> assign      Assign       Assigns a … colu… Assig… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;NULL&gt;</span>  <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> astdt       Analysis st… Derives an… colu… Deriv… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> predecessor Predecessor  Creates ne… colu… Prede… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> supp_sdtm   Add Supplem… Add a vari… colu… Prede… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> trtemfl     Treatment-e… Derives tr… colu… Deriv… <span style="color: #949494;">&lt;df&gt;</span>   <span style="color: #949494;">&lt;df&gt;</span>    <span style="color: #949494;">&lt;chr&gt;</span>   <span style="color: #949494;">&lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># List (only showing first 2):</span></span></span>
 <span class="r-in"><span><span class="fu">list_standards</span><span class="op">(</span>as <span class="op">=</span> <span class="st">"list"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ :List of 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ :List of 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ id         : chr "ady"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ title      : chr "Analysis relative day"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ description: chr "Derives the relative day compared to the treatment start date."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ type       : chr "column"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ origin     : chr "Derived"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ params     :'data.frame':	2 obs. of  2 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ name       : chr [1:2] "variable" "date"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ description: chr [1:2] "`character` Name of new variable to create" "`character` Name of date variable to use"</span>
@@ -98,10 +100,12 @@ while <code>list</code> and <code>tibble</code> show more detailed information.<
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ column: chr [1:2] "{{date}}" "TRTSDT"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ outputs    : chr "{{variable}}"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ code       : chr [1:10] ".self &lt;- .self |&gt;" "  dplyr::mutate(" "    {{variable}} = admiral::compute_duration(" "      start_date = TRTSDT," ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ :List of 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ :List of 9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ id         : chr "aendt"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ title      : chr "Analysis end date"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ description: chr "Derives analysis end date based on (incomplete) dates given as character"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ type       : chr "column"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ origin     : chr "Derived"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ params     :'data.frame':	1 obs. of  2 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ name       : chr "dtc"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ description: chr "`character` Name of date variable"</span>
