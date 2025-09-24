@@ -7,7 +7,7 @@ test_that("get_rendered_component, custom code component as function multiple de
   # ASSERT
   expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot(x)
-  expect_equal(x$type, "derivation")
+  expect_equal(x$type, "column")
   expect_equal(
     x$depends,
     data.frame(domain = c(".self", "lb"), column = c("A", "A"))
@@ -29,7 +29,7 @@ test_that("get_rendered_component custom local mustache template with params", {
   # ASSERT
   expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot(x)
-  expect_equal(x$type, "derivation")
+  expect_equal(x$type, "column")
   expect_equal(
     x$depends,
     data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
@@ -52,7 +52,7 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   # ASSERT ---------------------------
   expect_s3_class(y, "mighty_component_rendered")
   expect_snapshot(y)
-  expect_equal(y$type, "derivation")
+  expect_equal(y$type, "column")
   expect_equal(
     y$depends,
     data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
@@ -74,7 +74,8 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @description This is a test component with missing parameters.",
     "#' @param variable",
     "#' @param date ",
-    "#' @type derivation",
+    "#' @type column",
+    "#' @origin Other",
     "#' @depends .self {{ date }}",
     "#' @depends .self TRTSDT",
     "#' @outputs {{ variable }}",

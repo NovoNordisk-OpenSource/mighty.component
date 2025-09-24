@@ -5,7 +5,7 @@
     Message
       <mighty_component/R6>
       test: This is a test component used for unit testing
-      Type: derivation
+      Type: column
       Parameters:
       * x1: First input
       * x2: Second input
@@ -21,7 +21,7 @@
       test_component$document()
     Output
       ## test: My test component
-      *type: derivation*
+      *type: column*
       
       This is a test component used for unit testing
       
@@ -57,7 +57,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       test: This is a test component used for unit testing
-      Type: derivation
+      Type: column
       Depends:
       * .self.A
       * Y.B
@@ -75,7 +75,7 @@
       <mighty_component/R6>
       _components/test_component.mustache: This is a test component used for unit
       testing
-      Type: derivation
+      Type: column
       Parameters:
       * x1: First input
       * x2: Second input
@@ -101,7 +101,7 @@
       "document")
     Output
       ## _components/test_component.mustache: My test component
-      *type: derivation*
+      *type: column*
       
       This is a test component used for unit testing
       

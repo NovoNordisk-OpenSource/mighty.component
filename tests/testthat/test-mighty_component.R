@@ -19,7 +19,7 @@ test_that("mighty_component", {
     expect_equal(readLines(component))
 
   test_component$type |>
-    expect_equal("derivation")
+    expect_equal("column")
 
   test_component$depends |>
     expect_s3_class("data.frame") |>
@@ -60,7 +60,7 @@ test_that("mighty_component", {
     expect_false()
 
   test_component_rendered$type |>
-    expect_equal("derivation")
+    expect_equal("column")
 
   test_component_rendered$depends |>
     expect_s3_class("data.frame") |>
