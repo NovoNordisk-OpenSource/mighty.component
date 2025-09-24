@@ -1,6 +1,6 @@
-#' Validate mustache template for mighty component
+#' Validate component templates for mighty component
 #' @description
-#' Validates that a mustache template follows the required structure and
+#' Validates that a component template follows the required structure and
 #' conventions for mighty components.
 #'
 #' @param template `character` vector containing the template lines

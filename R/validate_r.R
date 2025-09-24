@@ -52,7 +52,7 @@ extract_functions <- function(exprs, path, ex_form) {
   name <- rlang::as_string(call[[2]])
   fun <- call[[3]]
 
-  setNames(list(fun), name)
+  stats::setNames(list(fun), name)
 }
 
 
