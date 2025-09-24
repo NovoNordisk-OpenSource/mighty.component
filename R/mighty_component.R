@@ -17,15 +17,16 @@
 #' A template is required to be documented with the following tags similar to when
 #' documenting functions using roxygen2:
 #'
-#' | Tag            | Description                                          | Example                  |
-#' |----------------|------------------------------------------------------|--------------------------|
-#' | `@title`       | Title of the component                               | `@title My component`    |
-#' | `@description` | Description of the component                         | `@description text text` |
-#' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
-#' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type derivation`       |
-#' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
-#' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
-#' | `@code`        | Everything under this tag defines the component code | `@code`                  |
+#' | Tag            | Description                                                    | Example                  |
+#' |----------------|----------------------------------------------------------------|--------------------------|
+#' | `@title`       | Title of the component                                         | `@title My component`    |
+#' | `@description` | Description of the component                                   | `@description text text` |
+#' | `@param`       | Specifies input used to render the component                   | `@param variable new var`|
+#' | `@type`        | Specifies type: `r mighty.component:::valid_types()`           | `@type column`           |
+#' | `@origin`      | Specifies CDISC origin: `r mighty.component:::valid_origins()` | `@origin Derived`        |
+#' | `@depends`     | Required input variable (repeat if several)                    | `@depends .self USUBJID` |
+#' | `@outputs`     | Variables created (repeat if several)                          | `@outputs NEWVAR`        |
+#' | `@code`        | Everything under this tag defines the component code           | `@code`                  |
 #'
 #' ### Conventions
 #'
@@ -114,8 +115,10 @@ mighty_component <- R6::R6Class(
     code = \() private$.code,
     #' @field template The complete template.
     template = \() private$.template,
-    #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
+    #' @field type The mighty deriviation type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
+    #' @field origin The (CDISC) origin of the component. Can be one of `r paste0(valid_origins(), collapse = ", ")`.
+    origin = \() private$.origin,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
@@ -128,6 +131,7 @@ mighty_component <- R6::R6Class(
     .title = character(1),
     .description = character(1),
     .type = character(1),
+    .origin = character(1),
     .params = data.frame(
       name = character(),
       description = character()
@@ -144,6 +148,7 @@ ms_initialize <- function(template, id, self, private) {
   private$.id <- id
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
+  private$.origin <- get_tag(template, "origin")
   private$.type <- get_tag(template, "type")
   private$.params <- get_tags(template, "param") |>
     tags_to_params()

@@ -6,7 +6,7 @@
     Message
       <mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
-      Type: derivation
+      Type: column
       Parameters:
       * variable: `character` Name of new variable to create
       * date: `character` Name of date variable to use
@@ -24,7 +24,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
-      Type: derivation
+      Type: column
       Depends:
       * .self.ASTDT
       * .self.TRTSDT

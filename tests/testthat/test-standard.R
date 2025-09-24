@@ -15,6 +15,8 @@ test_that("list standards", {
       "id",
       "title",
       "description",
+      "type",
+      "origin",
       "params",
       "depends",
       "outputs",
