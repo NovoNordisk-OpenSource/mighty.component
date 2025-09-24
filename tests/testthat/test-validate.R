@@ -367,3 +367,21 @@ test_that("Error when parameters required by @code, @depends, or @outputs is not
   ) |>
     expect_error("\"date\" is missing from")
 })
+
+test_that("validate_template works component contains no parameters", {
+  valid_template <- c(
+    "#' @title Test Component",
+    "#' @description",
+    "#' Test description for component",
+    "#' @type derivation",
+    "#' @depends .self USUBJID",
+    "#' @outputs A",
+    "#' @code",
+    ".self <- .self |>",
+    "  dplyr::mutate(",
+    "    A = 'test'",
+    "  )"
+  )
+
+  expect_no_error(validate_template(valid_template))
+})

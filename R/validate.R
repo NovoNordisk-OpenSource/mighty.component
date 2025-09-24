@@ -38,10 +38,13 @@ validate_template <- function(template, id = NULL) {
 #' @noRd
 abort_with_context <- function(msg, id = NULL) {
   if (!is.null(id)) {
-    cli::cli_abort(c(
-      "\nTemplate validation failed for {.field {id}}:",
-      "x" = msg
-    ), .envir = parent.frame())
+    cli::cli_abort(
+      c(
+        "\nTemplate validation failed for {.field {id}}:",
+        "x" = msg
+      ),
+      .envir = parent.frame()
+    )
   } else {
     cli::cli_abort(msg, .envir = parent.frame())
   }
@@ -83,11 +86,14 @@ validate_required_tags <- function(template, id = NULL) {
   validate_tag_content(template, "description", id)
 
   # Validate @type
-  tryCatch({
-    get_tag(template, "type") |> assert_type()
-  }, error = function(e) {
-    abort_with_context(conditionMessage(e), id)
-  })
+  tryCatch(
+    {
+      get_tag(template, "type") |> assert_type()
+    },
+    error = function(e) {
+      abort_with_context(conditionMessage(e), id)
+    }
+  )
 
   # Validate @code section
   validate_code_section(template, id)
@@ -172,25 +178,18 @@ validate_tag_formats <- function(template, id = NULL) {
 #' @noRd
 validate_parameter_consistency <- function(template, id = NULL) {
   code_line <- grep("^#'\\s*@code", template)
-  code_content <- if (length(code_line) > 0) {
-    utils::tail(template, n = -code_line[[1]])
-  } else {
-    character(0)
-  }
+  code_content <- utils::tail(template, n = -code_line[[1]])
 
   # Get lines with potential parameters
   depends_lines <- grep("#'\\s*@depends", template, value = TRUE)
   outputs_lines <- grep("#'\\s*@outputs", template, value = TRUE)
 
   lines_with_potential_params <- c(code_content, depends_lines, outputs_lines)
-  
+
   required_params <- extract_mustache_params(lines_with_potential_params)
 
-  supplied_params <- tryCatch({
+  supplied_params <-
     template |> get_tags("param") |> tags_to_params() |> getElement("name")
-  }, error = function(e) {
-    character(0)
-  })
 
   missing <- setdiff(required_params, supplied_params)
   if (length(missing) > 0) {
@@ -207,10 +206,7 @@ validate_parameter_consistency <- function(template, id = NULL) {
 #' @return character vector of parameter names
 #' @noRd
 extract_mustache_params <- function(lines) {
-  if (length(lines) == 0) {
-    return(character(0))
-  }
-
+  
   pattern_full <- "\\{\\{\\s*[A-Za-z0-9_.]+\\s*\\}\\}"
   full_matches <- regmatches(
     lines,
