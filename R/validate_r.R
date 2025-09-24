@@ -59,7 +59,7 @@ extract_functions <- function(exprs, path, ex_form) {
 assert_only_1_return <- function(body_expr, fn_name, path) {
   count <- 0L
 
-  walk <- function(x) {
+  walk_code <- function(x) {
     if (count > 1) {
       invisible(NULL)
     }
@@ -74,18 +74,17 @@ assert_only_1_return <- function(body_expr, fn_name, path) {
       if (rlang::is_call(x, "return")) {
         count <<- count + 1L
       }
-      # Recurse into all arguments (skips the head automatically)
+      # Recurse into all arguments 
       args <- rlang::call_args(x)
-      lapply(args, walk)
+      lapply(args, walk_code)
     } else if (is.pairlist(x) || is.list(x) || is.expression(x)) {
-      # Also handle pairlists/lists/expression vectors
-      lapply(x, walk)
+      lapply(x, walk_code)
     }
 
     invisible(NULL)
   }
 
-  walk(body_expr)
+  walk_code(body_expr)
   if (count > 1) {
     cli::cli_abort(c(
       "x Multiple {.code return()} statements found in function {.fn {fn_name}} in {.path {path}}.",
