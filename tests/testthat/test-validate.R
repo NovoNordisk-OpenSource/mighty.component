@@ -14,7 +14,7 @@ test_that("validate_template accepts valid templates", {
     "    {{variable}} = 'test'",
     "  )"
   )
-  
+
   expect_no_error(validate_template(valid_template))
 })
 
@@ -23,7 +23,7 @@ test_that("validate_template rejects non-character input", {
     validate_template(123),
     "must be a character vector"
   )
-  
+
   expect_error(
     validate_template(list("test")),
     "must be a character vector"
@@ -54,11 +54,11 @@ test_that("validate_template requires @title tag", {
 test_that("validate_template requires @description tag", {
   template_no_desc <- c(
     "#' @title Test Component",
-    "#' @type derivation", 
+    "#' @type derivation",
     "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_no_desc),
     "Missing required tag.*@description"
@@ -72,7 +72,7 @@ test_that("validate_template requires @type tag", {
     "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_no_type),
     "Missing required tag.*@type"
@@ -81,11 +81,11 @@ test_that("validate_template requires @type tag", {
 
 test_that("validate_template requires @code tag", {
   template_no_code <- c(
-    "#' @title Test Component", 
+    "#' @title Test Component",
     "#' @description Test description",
     "#' @type derivation"
   )
-  
+
   expect_error(
     validate_template(template_no_code),
     "Missing required tag.*@code"
@@ -100,7 +100,7 @@ test_that("validate_template rejects empty @title", {
     "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_empty_title),
     "@title.*cannot be empty"
@@ -111,11 +111,11 @@ test_that("validate_template rejects empty @description", {
   template_empty_desc <- c(
     "#' @title Test Component",
     "#' @description",
-    "#' @type derivation", 
+    "#' @type derivation",
     "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_empty_desc),
     "@description.*cannot be empty"
@@ -125,12 +125,12 @@ test_that("validate_template rejects empty @description", {
 test_that("validate_template validates @type against valid types", {
   template_invalid_type <- c(
     "#' @title Test Component",
-    "#' @description Test description", 
+    "#' @description Test description",
     "#' @type invalid_type",
     "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_invalid_type),
     "@type must be one of"
@@ -139,16 +139,16 @@ test_that("validate_template validates @type against valid types", {
 
 test_that("validate_template accepts valid @type values", {
   valid_types <- c("predecessor", "derivation", "row")
-  
+
   for (type in valid_types) {
     template <- c(
       "#' @title Test Component",
       "#' @description Test description",
       paste("#' @type", type),
-      "#' @code", 
+      "#' @code",
       ".self"
     )
-    
+
     expect_no_error(validate_template(template))
   }
 })
@@ -160,21 +160,21 @@ test_that("validate_template requires non-empty @code section", {
     "#' @type derivation",
     "#' @code"
   )
-  
+
   expect_error(
     validate_template(template_empty_code),
     "@code.*section cannot be empty"
   )
-  
+
   template_whitespace_code <- c(
-    "#' @title Test Component", 
+    "#' @title Test Component",
     "#' @description Test description",
     "#' @type derivation",
     "#' @code",
     "   ",
     "  "
   )
-  
+
   expect_error(
     validate_template(template_whitespace_code),
     "@code.*section cannot be empty"
@@ -185,7 +185,7 @@ test_that("@param missing description", {
   # Missing description
   template_bad_param <- c(
     "#' @title Test Component",
-    "#' @description Test description", 
+    "#' @description Test description",
     "#' @param variable",
     "#' @type derivation",
     "#' @code",
@@ -201,7 +201,7 @@ test_that("multi-line @param description works", {
   # Missing description
   template_bad_param <- c(
     "#' @title Test Component",
-    "#' @description Test description", 
+    "#' @description Test description",
     "#' @param variable long multi line description that
     #' goes",
     "#' @type derivation",
@@ -210,7 +210,8 @@ test_that("multi-line @param description works", {
   )
 
   expect_no_error(
-    mighty_component$new(template_bad_param, "A"))
+    mighty_component$new(template_bad_param, "A")
+  )
 })
 
 test_that("@depends tags needs both domain and column", {
@@ -220,15 +221,15 @@ test_that("@depends tags needs both domain and column", {
     "#' @description Test description",
     "#' @depends .self",
     "#' @type derivation",
-    "#' @code", 
+    "#' @code",
     ".self"
   )
-  
+
   expect_error(
     validate_template(template_bad_depends),
     "Invalid.*@depends.*Must have both domain and column"
   )
-  
+
   # Valid depends format
   template_valid_depends <- c(
     "#' @title Test Component",
@@ -238,7 +239,7 @@ test_that("@depends tags needs both domain and column", {
     "#' @code",
     ".self"
   )
-  
+
   expect_no_error(validate_template(template_valid_depends))
 })
 
@@ -252,7 +253,7 @@ test_that("validate_template validates @outputs tags", {
     "#' @code",
     ".self"
   )
-  
+
   expect_no_error(validate_template(template_valid_output))
 })
 
@@ -266,8 +267,11 @@ test_that("duplicate tags", {
     "#' @code",
     ".self"
   )
-  
-  expect_error(validate_template(template_valid_output), "Multiple or no matches found for tag: '@title'")
+
+  expect_error(
+    validate_template(template_valid_output),
+    "Multiple or no matches found for tag: '@title'"
+  )
 })
 
 test_that("validate_template handles complex valid template", {
@@ -276,7 +280,7 @@ test_that("validate_template handles complex valid template", {
     "#' @description",
     "#' This is a complex component that does multiple things",
     "#' across multiple lines of description.",
-    "#'", 
+    "#'",
     "#' @param variable Name of output variable",
     "#' @param input_var Name of input variable",
     "#' @type derivation",
@@ -289,12 +293,12 @@ test_that("validate_template handles complex valid template", {
     "  dplyr::mutate(",
     "    {{variable}} = case_when(",
     "      {{input_var}} > 0 ~ 'positive',",
-    "      {{input_var}} < 0 ~ 'negative',", 
+    "      {{input_var}} < 0 ~ 'negative',",
     "      TRUE ~ 'zero'",
     "    )",
     "  )"
   )
-  
+
   expect_no_error(validate_template(complex_template))
 })
 
@@ -303,7 +307,7 @@ test_that("validate_template rejects empty outputs tag", {
     "#' @title empty code",
     "#' @description",
     "#' description",
-    "#'", 
+    "#'",
     "#' @type derivation",
     "#' @depends .self USUBJID",
     "#' @outputs ",
@@ -312,12 +316,12 @@ test_that("validate_template rejects empty outputs tag", {
     "  dplyr::mutate(",
     "    {{variable}} = case_when(",
     "      {{input_var}} > 0 ~ 'positive',",
-    "      {{input_var}} < 0 ~ 'negative',", 
+    "      {{input_var}} < 0 ~ 'negative',",
     "      TRUE ~ 'zero'",
     "    )",
     "  )"
   )
-  
+
   expect_error(validate_template(empty_outputs), "outputs` tag cannot be empty")
 })
 
@@ -326,7 +330,7 @@ test_that("validate_template gives specific error for duplicate @description tag
   template_duplicate_description <- c(
     "#' @title Test Component",
     "#' @description First description",
-    "#' @description Second description",  # Duplicate description
+    "#' @description Second description", # Duplicate description
     "#' @type derivation",
     "#' @depends .self USUBJID",
     "#' @outputs NEWVAR",
@@ -339,4 +343,43 @@ test_that("validate_template gives specific error for duplicate @description tag
     validate_template(template_duplicate_description),
     "Multiple or no matches found for tag: '@description'"
   )
+})
+
+test_that("Error when parameters in template do not match parameters in header metadata", {
+  template <- c(
+    "#' @title Mistake in parameters",
+    "#' @description This is a test component with missing parameters.",
+    "#' @param variable name",
+    "#' @type derivation",
+    "#' @depends .self {{ date }}",
+    "#' @depends .self TRTSDT",
+    "#' @outputs {{ variable }}",
+    "#' @code",
+    "print('hello')"
+  )
+
+  path <- withr::local_tempfile(fileext = ".mustache")
+  writeLines(template, path)
+  browser()
+  get_rendered_component(component = path, params = list(variable = "out_var"))
+})
+
+test_that("get_rendered_component custom local mustache template with params", {
+  # ACT ---------------------------
+  x <- get_rendered_component(
+    component = test_path("_components", "ady_local.mustache"),
+    params = list(
+      variable = "out_var"
+    )
+  )
+
+  # ASSERT
+  expect_s3_class(x, "mighty_component_rendered")
+  expect_snapshot(x)
+  expect_equal(x$type, "derivation")
+  expect_equal(
+    x$depends,
+    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
+  )
+  expect_equal(x$outputs, "out_var")
 })
