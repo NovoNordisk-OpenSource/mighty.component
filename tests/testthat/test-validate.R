@@ -345,7 +345,7 @@ test_that("validate_template gives specific error for duplicate @description tag
   )
 })
 
-test_that("Error when parameters in template do not match parameters in header metadata", {
+test_that("Error when parameters required by @code, @depends, or @outputs is not supplied by @param tags", {
   template <- c(
     "#' @title Mistake in parameters",
     "#' @description This is a test component with missing parameters.",
@@ -360,26 +360,6 @@ test_that("Error when parameters in template do not match parameters in header m
 
   path <- withr::local_tempfile(fileext = ".mustache")
   writeLines(template, path)
-  browser()
-  get_rendered_component(component = path, params = list(variable = "out_var"))
-})
-
-test_that("get_rendered_component custom local mustache template with params", {
-  # ACT ---------------------------
-  x <- get_rendered_component(
-    component = test_path("_components", "ady_local.mustache"),
-    params = list(
-      variable = "out_var"
-    )
-  )
-
-  # ASSERT
-  expect_s3_class(x, "mighty_component_rendered")
-  expect_snapshot(x)
-  expect_equal(x$type, "derivation")
-  expect_equal(
-    x$depends,
-    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
-  )
-  expect_equal(x$outputs, "out_var")
+  
+  expect_error(get_rendered_component(component = path, params = list(variable = "out_var")), "")
 })

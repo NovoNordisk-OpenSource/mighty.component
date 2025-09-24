@@ -72,7 +72,7 @@ validate_template <- function(template, id = NULL) {
   }
 
   # Validate @type
-  get_tag(template, "type") |> 
+  get_tag(template, "type") |>
     assert_type()
 
   # Check for empty @code section using simple logic
@@ -81,19 +81,6 @@ validate_template <- function(template, id = NULL) {
     code_content <- utils::tail(template, n = -code_line[[1]])
     if (length(code_content) == 0 || all(nchar(trimws(code_content)) == 0)) {
       abort_with_context("{.code @code} section cannot be empty")
-    }
-  }
-
-
-  # Check @param format (must have both name and description)
-  param_lines <- grep("#'\\s*@param", template, value = TRUE)
-  for (line in param_lines) {
-    clean_line <- gsub("#'\\s*@param\\s*", "", line)
-    parts <- trimws(strsplit(clean_line, "\\s+")[[1]])
-    if (length(parts) < 2 || any(nchar(parts[1:2]) == 0)) {
-      abort_with_context(
-        "Invalid {.code @param} tag: {.val {clean_line}}. Must have both name and description"
-      )
     }
   }
 
@@ -116,6 +103,44 @@ validate_template <- function(template, id = NULL) {
     if (nchar(trimws(clean_line)) == 0) {
       abort_with_context("{.code @outputs} tag cannot be empty")
     }
+  }
+
+  # Check @param format (must have both name and description)
+  param_lines <- grep("#'\\s*@param", template, value = TRUE)
+  for (line in param_lines) {
+    clean_line <- gsub("#'\\s*@param\\s*", "", line)
+    parts <- trimws(strsplit(clean_line, "\\s+")[[1]])
+    if (length(parts) < 2 || any(nchar(parts[1:2]) == 0)) {
+      abort_with_context(
+        "Invalid {.code @param} tag: {.val {clean_line}}. Must have both name and description"
+      )
+    }
+  }
+
+  # Check that parameters required by code, depends and outputs are specefied as param tags
+  # This check must be done after validation of code, depends and output tags
+
+  lines_with_potential_params <- c(code_content, depends_lines, outputs_lines)
+  pattern_full <- "\\{\\{\\s*[A-Za-z0-9_.]+\\s*\\}\\}"
+  full_matches <- regmatches(
+    lines_with_potential_params,
+    gregexpr(pattern_full, lines_with_potential_params, perl = TRUE)
+  )
+  # Strip the braces + whitespaces
+  required_params <- unlist(lapply(full_matches, function(m) {
+    gsub("^\\{\\{\\s*|\\s*\\}\\}$", "", m)
+  })) |>
+    unique()
+  # "." values are special placeholders for mustache templates and cannot be known before runtime, so we ignore
+  required_params <- required_params[required_params != "."]
+
+  supplied_params <- template |> get_tags("param") |> tags_to_params() |> _$name
+
+  missing <- setdiff(required_params, supplied_params)
+  if (length(missing) > 0) {
+    abort_with_context(
+      "{cli::qty(missing)}{.val {missing}} {?is/are} missing from {.code @param}, but {?it/they} {?is/are} referenced in {.code @depends}, {.code @outputs}, or {.code @code}}"
+    )
   }
 
   invisible(NULL)
