@@ -23,7 +23,8 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
    \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
    \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
-   \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
+   \verb{@type} \tab Specifies type: column, row, bds \tab \verb{@type column} \cr
+   \verb{@origin} \tab Specifies CDISC origin: Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol \tab \verb{@origin Derived} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
    \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
@@ -90,7 +91,9 @@ the rendered code used in mighty becomes:
 
 \item{\code{template}}{The complete template.}
 
-\item{\code{type}}{The type of the component. Can be one of predecessor, derivation, row.}
+\item{\code{type}}{The mighty deriviation type of the component. Can be one of column, row, bds.}
+
+\item{\code{origin}}{The (CDISC) origin of the component. Can be one of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol.}
 
 \item{\code{depends}}{Data.frame listing all the components dependencies.}
 
