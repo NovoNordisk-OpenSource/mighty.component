@@ -1,7 +1,7 @@
 #' Validate mustache template for mighty component
 #' @description
 #' Validates that a mustache template follows the required structure and
-#' conventions for mighty standard components.
+#' conventions for mighty components.
 #'
 #' @param template `character` vector containing the template lines
 #' @param id `character` optional component ID for better error messages

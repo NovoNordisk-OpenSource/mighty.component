@@ -90,8 +90,7 @@ list_standards <- function(as = c("character", "list", "tibble")) {
 
 #' @noRd
 standard_path <- function() {
-  # TODO: Point to new path when implemented
-  system.file("components", package = "mighty.standards")
+  system.file("components", package = "mighty.component")
 }
 
 #' @noRd

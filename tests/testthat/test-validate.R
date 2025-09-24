@@ -360,7 +360,10 @@ test_that("Error when parameters required by @code, @depends, or @outputs is not
 
   path <- withr::local_tempfile(fileext = ".mustache")
   writeLines(template, path)
-browser()  
-  get_rendered_component(component = path, params = list(variable = "out_var")) |> 
+
+  get_rendered_component(
+    component = path,
+    params = list(variable = "out_var")
+  ) |>
     expect_error("\"date\" is missing from")
 })

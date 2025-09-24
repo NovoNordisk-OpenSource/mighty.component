@@ -1,13 +1,15 @@
+# Pull request
+
 ## Summary
 (Summary of made changes with explanation of what and why)
 
 ## Changes Made
-- Existing standard component updated
-- Created new standard component
+- I changed this
 - ...
 
 ## Testing
-- Unit test new standard components
+- Added this new test
+- These old tests have been improved
 - ...
 
 ## Checklist

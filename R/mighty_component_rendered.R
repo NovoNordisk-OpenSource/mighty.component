@@ -50,7 +50,6 @@ mighty_component_rendered <- R6::R6Class(
     },
     #' @description
     #' Test component against expected output.
-    #' **TODO: Implement in #17**
     #' @param input The input to use as `.self` for the code chunk
     #' @param expected The expected output in `.self` after evaluation
     #' @param envir Parent environment to use for evaluation of test code.
@@ -60,7 +59,6 @@ mighty_component_rendered <- R6::R6Class(
     },
     #' @description
     #' Calculate test coverage for already run tests
-    #' **TODO: Implement in #17**
     test_coverage = function() {
       msr_test_coverage(self)
     }
@@ -96,12 +94,10 @@ msr_test <- function(input, expected, envir, self, private) {
     expected = expected,
     ignore_attr = TRUE
   )
-  # TODO: Implement coverage calculation and return inside self/private
   return(invisible(self))
 }
 
 #' @noRd
 msr_test_coverage <- function(self) {
-  # TODO: Implement calculation to measure test coverage based on previous ran tests
   return(numeric(1))
 }
