@@ -5,7 +5,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       predecessor: Creates new column(s) based on a predecessor column(s).
-      Type: predecessor
+      Type: column
       Depends:
       * .self.USUBJID
       * pharmaverseadam::adsl.USUBJID
@@ -26,7 +26,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       assign: Assigns a single value to an entire column.
-      Type: assigned
+      Type: column
       Outputs:
       * y
       Code:
@@ -43,7 +43,7 @@
       <mighty_component_rendered/mighty_component/R6>
       astdt: Derives analysis start date based on (incomplete) dates given as
       character
-      Type: derivation
+      Type: column
       Depends:
       * .self.AESTDTC
       Outputs:
@@ -70,7 +70,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       aendt: Derives analysis end date based on (incomplete) dates given as character
-      Type: derivation
+      Type: column
       Depends:
       * .self.AEENDTC
       Outputs:
@@ -97,7 +97,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
-      Type: derivation
+      Type: column
       Depends:
       * .self.ASTDT
       * .self.TRTSDT
@@ -122,7 +122,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       trtemfl: Derives treatment emergent analysis flag.
-      Type: derivation
+      Type: column
       Depends:
       * .self.ASTDT
       * .self.AENDT
@@ -147,7 +147,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       supp_sdtm: Add a variable from a supplementary SDTM domain.
-      Type: predecessor
+      Type: column
       Depends:
       * .self.USUBJID
       * pharmaversesdtm::suppae.USUBJID

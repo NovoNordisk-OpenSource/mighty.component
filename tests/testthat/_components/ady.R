@@ -1,7 +1,8 @@
 #' @title Analysis relative day
 #' @description
 #' Derives the relative day compared to the treatment start date.
-#' @type derivation
+#' @type column
+#' @origin Other
 #' @depends .self A
 #' @depends lb A
 #' @outputs B
