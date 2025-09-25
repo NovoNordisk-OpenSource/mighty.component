@@ -194,9 +194,9 @@ validate_parameter_consistency <- function(template, id = NULL) {
   missing <- setdiff(required_params, supplied_params)
   if (length(missing) > 0) {
     abort_with_context(
-      "{cli::qty(missing)}{.val {missing}} {?is/are} missing from {.code @param}, 
-      but {?it/they} {?is/are} referenced in {.code @depends}, {.code @outputs}, or {.code @code}. 
-      \nEither add the needed `@param` tags or remove the whisker variable{?s} from the offending section(s)",
+      "{cli::qty(missing)}{.val {missing}} {?is/are} missing from {.code @param}, ",
+      "but {?it/they} {?is/are} referenced in {.code @depends}, {.code @outputs}, or {.code @code}. ",
+      "\nEither add the needed `@param` tags or remove the whisker variable{?s} from the offending section(s)",
       id
     )
   }

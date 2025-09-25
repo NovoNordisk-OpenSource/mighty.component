@@ -198,7 +198,6 @@ tags_to_params <- function(tags) {
       x = substr(x = tags, start = i + 1, stop = nchar(tags))
     )
   )
-  
 }
 
 #' @noRd
