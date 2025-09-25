@@ -1,8 +1,9 @@
 #' @noRd
+#' @noRd
 get_custom_r_function <- function(path) {
   code_string <- readLines(path) |>
     paste0(collapse = "\n")
-
+  validate_r(code_string, path)
   mighty_component$new(
     template = c(
       extract_function_metadata(code_string),

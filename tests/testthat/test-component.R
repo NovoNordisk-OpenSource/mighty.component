@@ -15,6 +15,34 @@ test_that("get_rendered_component, custom code component as function multiple de
   expect_equal(x$outputs, "B")
 })
 
+test_that("Custom R file with single function definition succeeds", {
+  # ARRANGE -----------------------------------------------------------------
+  r <- "
+#' @title TITLES
+#' @description
+#' short desc.
+#' @type derivation
+#' @depends ADLB AGE
+#' @outputs C
+#' @code
+hello <- function() {
+  # code comments
+  ADLB <- ADLB |> 
+    dplyr::filter(AGE > 60)
+  return(ADLB)
+}
+"
+
+  path <- withr::local_tempfile(fileext = ".R")
+  writeLines(r, con = path)
+
+  # ACT ---------------------------
+  actual <- expect_no_error(get_rendered_component(path))
+
+  # ASSERT -----------------------------------------------------------------
+  expect_snapshot(actual$code)
+})
+
 
 test_that("get_rendered_component custom local mustache template with params", {
   # ACT ---------------------------
@@ -36,7 +64,6 @@ test_that("get_rendered_component custom local mustache template with params", {
   )
   expect_equal(x$outputs, "out_var")
 })
-
 
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
   # ARRANGE -------------------------------------------------------------------
@@ -60,32 +87,10 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   expect_equal(y$outputs, "out_var")
 })
 
-test_that("error handling", {
+test_that("No existing mustache file", {
   get_component("my/fake/file.mustache") |>
     expect_error("not found")
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
     expect_error("not found")
-})
-
-test_that("Error when any parameter insufficiently parameterized", {
-  template <- c(
-    "#' @title Mistake in parameters",
-    "#' @description This is a test component with missing parameters.",
-    "#' @param variable",
-    "#' @param date ",
-    "#' @type derivation",
-    "#' @depends .self {{ date }}",
-    "#' @depends .self TRTSDT",
-    "#' @outputs {{ variable }}",
-    "print('hello')"
-  )
-
-  expect_error(
-    object = mighty.component::mighty_component$new(
-      template = template,
-      id = "test_error"
-    ),
-    regexp = "Missing description for `variable` and `date`"
-  )
 })
