@@ -206,8 +206,7 @@ validate_parameter_consistency <- function(template, id = NULL) {
 #' @param lines character vector of lines to search
 #' @return character vector of parameter names
 #' @noRd
-extract_mustache_params <- function(lines) {
-  
+extract_mustache_params <- function(lines) {  
   pattern_full <- "\\{\\{\\s*[A-Za-z0-9_.]+\\s*\\}\\}"
   full_matches <- regmatches(
     lines,

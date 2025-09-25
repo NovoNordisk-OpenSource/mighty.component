@@ -48,10 +48,8 @@ extract_functions <- function(exprs, path, ex_form) {
       "i Found top-level expression: {.code {rlang::expr_deparse(call, width = 60)}}"
     ))
   }
-
   name <- rlang::as_string(call[[2]])
   fun <- call[[3]]
-
   stats::setNames(list(fun), name)
 }
 
