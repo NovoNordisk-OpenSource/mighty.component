@@ -72,7 +72,7 @@ assert_only_1_return <- function(body_expr, fn_name, path) {
       if (rlang::is_call(x, "return")) {
         count <<- count + 1L
       }
-      # Recurse into all arguments 
+      # Recurse into all arguments
       args <- rlang::call_args(x)
       lapply(args, walk_code)
     } else if (is.pairlist(x) || is.list(x) || is.expression(x)) {
