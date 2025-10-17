@@ -1,0 +1,21 @@
+#' @title Analysis relative day
+#' @description
+#' Derives the relative day compared to the treatment start date.
+#'
+#' @param variable `character` Name of new variable to create
+#' @param date `character` Name of date variable to use
+#' @type derivation
+#' @depends .self {{date}}
+#' @depends .self TRTSDT
+#' @outputs {{variable}}
+#' @code
+.self <- .self |>
+  dplyr::mutate(
+    {{variable}} = admiral::compute_duration(
+      start_date = TRTSDT,
+      end_date = {{date}},
+      in_unit = "days",
+      out_unit = "days",
+      add_one = TRUE
+    )
+  )
