@@ -1,0 +1,13 @@
+#' @title My coverage test component
+#' @description
+#' This is a test component used for unit testing the workflow and coverage
+#' @param x First input
+#' @param y Second input
+#' @depends .self z
+#' @outputs z
+#' @type derivation
+#' @code
+.self$z <- .self$z + {{ x }} + {{ y }}
+if (.self$z > 5) {
+    .self$z <- 10
+}

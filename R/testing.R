@@ -14,7 +14,7 @@ test_component <- function(component, params, teardown_env = parent.frame()) {
 
 #' Evaluate a test component
 #' @param input Object to be used as `.self` when testing the component
-#' @inheritParams get_component
+#' @param component Test component
 #' @export
 test_eval <- function(input, component) {
   component$eval(input = input)

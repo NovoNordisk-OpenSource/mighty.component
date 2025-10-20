@@ -9,8 +9,7 @@ test_eval(input, component)
 \arguments{
 \item{input}{Object to be used as \code{.self} when testing the component}
 
-\item{component}{\code{character} specifying either a standard component name
-or path to a custom component file (R or Mustache template).}
+\item{component}{Test component}
 }
 \description{
 Evaluate a test component

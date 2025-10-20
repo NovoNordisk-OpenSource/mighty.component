@@ -64,18 +64,14 @@ mst_initialize <- function(component, self, private) {
     "}"
   )
 
-  private$.coverage <- callr::r(
-    func = \(test_fn) {
-      covr::code_coverage(
-        source_code = paste(test_fn, collapse = "\n"),
-        test_code = "",
-        parent_env = rlang::current_env()
-      )
-    },
+  zero_coverage <- callr::r(
+    func = eval_coverage,
     args = list(
       test_fn = private$.test_fn
     )
-  ) |>
+  )
+
+  private$.coverage <- zero_coverage[["coverage"]] |>
     covr::tally_coverage(by = "line") |>
     format_coverage()
 }
@@ -93,24 +89,13 @@ mst_print <- function(self) {
 #' @noRd
 mst_eval <- function(input, self, private) {
   result <- callr::r(
-    func = \(input, test_fn) {
-      output <- NULL
-
-      coverage <- covr::code_coverage(
-        source_code = paste(test_fn, collapse = "\n"),
-        test_code = "output <<- test_fn(.self = input)",
-        parent_env = rlang::current_env()
-      )
-
-      list(
-        output = output,
-        coverage = coverage
-      )
-    },
+    func = eval_coverage,
     args = list(
       input = input,
-      test_fn = private$.test_fn
-    )
+      test_fn = private$.test_fn,
+      test_code = "output <<- test_fn(.self = input)"
+    ),
+    package = TRUE
   )
 
   coverage <- result$coverage |>
@@ -124,6 +109,22 @@ mst_eval <- function(input, self, private) {
 }
 
 #' @noRd
+eval_coverage <- function(input = data.frame(), test_fn, test_code = "") {
+  output <- NULL
+
+  coverage <- covr::code_coverage(
+    source_code = paste(test_fn, collapse = "\n"),
+    test_code = test_code,
+    parent_env = rlang::current_env()
+  )
+
+  list(
+    output = output,
+    coverage = coverage
+  )
+}
+
+#' @noRd
 format_coverage <- function(tally) {
   data.frame(
     line = tally$line - 1,
@@ -134,7 +135,7 @@ format_coverage <- function(tally) {
 #' @noRd
 mst_check_coverage <- function(self, private) {
   if (length(self$missing_lines)) {
-    cli::cli_abort("ALL LINES MUST BE COVERED")
+    cli::cli_abort("ALL LINES MUST BE COVERED {self$missing_lines}")
   }
 
   invisible(self)
