@@ -1,23 +1,20 @@
-test_that("get_rendered_component, custom code component as function multiple depends", {
-  # ACT ---------------------------
+test_that("get_rendered_component, custom code component from R script", {
   x <- get_rendered_component(
-    component = test_path("_components", "ady.R")
+    component = test_path("_components", "ady_local.R")
   )
 
-  # ASSERT
   expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot(x)
   expect_equal(x$type, "derivation")
   expect_equal(
     x$depends,
-    data.frame(domain = c(".self", "lb"), column = c("A", "A"))
+    data.frame(domain = c(".self", ".self"), column = c("date_var", "TRTSDT"))
   )
-  expect_equal(x$outputs, "B")
+  expect_equal(x$outputs, "out_var")
 })
 
 
 test_that("get_rendered_component custom local mustache template with params", {
-  # ACT ---------------------------
   x <- get_rendered_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(
@@ -26,7 +23,6 @@ test_that("get_rendered_component custom local mustache template with params", {
     )
   )
 
-  # ASSERT
   expect_s3_class(x, "mighty_component_rendered")
   expect_snapshot(x)
   expect_equal(x$type, "derivation")
@@ -39,8 +35,6 @@ test_that("get_rendered_component custom local mustache template with params", {
 
 
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
-  # ARRANGE -------------------------------------------------------------------
-  # ACT ---------------------------
   y <- get_rendered_component(
     component = "ady",
     params = list(
@@ -49,7 +43,6 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
     )
   )
 
-  # ASSERT ---------------------------
   expect_s3_class(y, "mighty_component_rendered")
   expect_snapshot(y)
   expect_equal(y$type, "derivation")
