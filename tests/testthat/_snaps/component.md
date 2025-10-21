@@ -18,8 +18,8 @@
           out_var = admiral::compute_duration(
             start_date = TRTSDT,
             end_date = date_var,
-            in_unit = 'days',
-            out_unit = 'days',
+            in_unit = "days",
+            out_unit = "days",
             add_one = TRUE
           )
         )
