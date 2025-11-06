@@ -2,13 +2,19 @@
 #' @inheritParams get_component
 #' @param teardown_env Environment used
 #' @export
-test_component <- function(component, params, teardown_env = parent.frame()) {
+test_component <- function(
+  component,
+  params,
+  teardown_env = parent.frame()
+) {
   x <- get_rendered_component(component, params)
   test <- x$test()
-  withr::defer(
-    expr = test$check_coverage(),
-    envir = teardown_env
-  )
+  if (!covr::in_covr()) {
+    withr::defer(
+      expr = test$check_coverage(),
+      envir = teardown_env
+    )
+  }
   test
 }
 

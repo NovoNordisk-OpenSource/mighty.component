@@ -1,8 +1,7 @@
 test_that("Testing workflow works", {
   x <- test_component(
     component = test_path("_components", "test_coverage.mustache"),
-    params = list(x = 1, y = 1),
-    teardown_env = rlang::current_env()
+    params = list(x = 1, y = 1)
   )
 
   expect_snapshot(x)
@@ -21,23 +20,24 @@ test_that("Testing workflow works", {
 test_that("Objects are passed along correctly", {
   skip("TODO: Implement in code")
 
-  # x <- test_component(
-  #   component = test_path("_components", "test_component.mustache"),
-  #   params = list(x1 = 1, x2 = 3)
-  # )
+  x <- test_component(
+    component = test_path("_components", "test_component.mustache"),
+    params = list(x1 = 1, x2 = 3)
+  )
 
-  # expect_snapshot(x)
+  expect_snapshot(x)
 
-  # Y <- data.frame(B = 1)
+  Y <- data.frame(B = 1)
 
-  # test_eval(
-  #   input = data.frame(A = 1),
-  #   component = x
-  # ) |>
-  #   expect_equal(-3)
+  test_eval(
+    input = data.frame(A = 1),
+    component = x
+  ) |>
+    expect_equal(-3)
 })
 
 test_that("Error with no test code coverage", {
+  withr::local_envvar(list(R_COVR = "false"))
   local({
     test_component(
       component = test_path("_components", "test_component.mustache"),
