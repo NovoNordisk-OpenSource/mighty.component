@@ -7,8 +7,12 @@ reference:
       - get_component
       - get_standard
       - list_standards
+  - title: Testing components
+    contents:
+      - test_component
+      - test_eval
   - title: Mighty standard component classes
     contents:
       - mighty_component
       - mighty_component_rendered
-
+      - mighty_component_test
