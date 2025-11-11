@@ -1,7 +1,8 @@
 test_that("Testing workflow works", {
   x <- test_component(
     component = test_path("_components", "test_coverage.mustache"),
-    params = list(x = 1, y = 1)
+    params = list(x = 1, y = 1),
+    check_coverage = !covr::in_covr()
   )
 
   expect_snapshot(x)
@@ -37,7 +38,6 @@ test_that("Objects are passed along correctly", {
 })
 
 test_that("Error with no test code coverage", {
-  withr::local_envvar(list(R_COVR = "false"))
   local({
     test_component(
       component = test_path("_components", "test_component.mustache"),

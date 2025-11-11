@@ -4,13 +4,20 @@
 \alias{test_component}
 \title{Create test component}
 \usage{
-test_component(component, params, teardown_env = parent.frame())
+test_component(
+  component,
+  params,
+  check_coverage = TRUE,
+  teardown_env = parent.frame()
+)
 }
 \arguments{
 \item{component}{\code{character} specifying either a standard component name
 or path to a custom component file (R or Mustache template).}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
+
+\item{check_coverage}{\code{logical(1)}}
 
 \item{teardown_env}{Environment used}
 }
