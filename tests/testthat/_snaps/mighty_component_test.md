@@ -9,3 +9,11 @@
           .self$z <- 10
       }
 
+# Objects are passed along correctly
+
+    Code
+      x
+    Message
+      Code:
+      .self$NEWVAR <- 1 * Y$B + .self$A - 3
+

@@ -44,5 +44,5 @@ test_that("Error with no test code coverage", {
       params = list(x1 = 1, x2 = 3)
     )
   }) |>
-    expect_error("ALL LINES MUST BE COVERED")
+    expect_error("All lines in component must be covered by unit tests")
 })

@@ -135,7 +135,12 @@ format_coverage <- function(tally) {
 #' @noRd
 mst_check_coverage <- function(self, private) {
   if (length(self$missing_lines)) {
-    cli::cli_abort("ALL LINES MUST BE COVERED {self$missing_lines}")
+    cli::cli_abort(
+      c(
+        "All lines in component must be covered by unit tests",
+        "i" = "Lines not covered: {self$missing_lines}"
+      )
+    )
   }
 
   invisible(self)
