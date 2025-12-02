@@ -13,7 +13,7 @@ Derives the relative day compared to the treatment start date.
 
 | name     | description                                  |
 |:---------|:---------------------------------------------|
-| domain   | `character` Name of new domain beind created |
+| domain   | `character` Name of new domain being created |
 | variable | `character` Name of new variable to create   |
 | date     | `character` Name of date variable to use     |
 
@@ -53,7 +53,7 @@ Derives analysis end date based on (incomplete) dates given as character
 
 | name   | description                                  |
 |:-------|:---------------------------------------------|
-| domain | `character` Name of new domain beind created |
+| domain | `character` Name of new domain being created |
 | dtc    | `character` Name of date variable            |
 
 ### Depends
@@ -94,7 +94,7 @@ Assigns a single value to an entire column.
 
 | name     | description                                      |
 |:---------|:-------------------------------------------------|
-| domain   | `character` Name of new domain beind created     |
+| domain   | `character` Name of new domain being created     |
 | variable | `character` Name of variable to create or modify |
 | value    | Value to assign to the variable                  |
 
@@ -127,7 +127,7 @@ character
 
 | name   | description                                  |
 |:-------|:---------------------------------------------|
-| domain | `character` Name of new domain beind created |
+| domain | `character` Name of new domain being created |
 | dtc    | `character` Name of date variable            |
 
 ### Depends
@@ -168,7 +168,7 @@ Creates new column(s) based on a predecessor column(s).
 
 | name     | description                                              |
 |:---------|:---------------------------------------------------------|
-| domain   | `character` Name of new domain beind created             |
+| domain   | `character` Name of new domain being created             |
 | source   | `character` Name of the data set the predecessor is from |
 | variable | `character` Name of variable(s) to use from `source`     |
 | by       | `character` name(s) of variable(s) to merge by           |
@@ -205,7 +205,7 @@ Add a variable from a supplementary SDTM domain.
 
 | name   | description                                           |
 |:-------|:------------------------------------------------------|
-| domain | `character` Name of new domain beind created          |
+| domain | `character` Name of new domain being created          |
 | source | `character` Name of the supplementary data set to use |
 | qnam   | `character` Name of qualifier(s) to add from `source` |
 
@@ -254,7 +254,7 @@ Derives treatment emergent analysis flag.
 
 | name       | description                                  |
 |:-----------|:---------------------------------------------|
-| domain     | `character` Name of new domain beind created |
+| domain     | `character` Name of new domain being created |
 | end_window | Passed along to `admiral::end_window()`      |
 
 ### Depends

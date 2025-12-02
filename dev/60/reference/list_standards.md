@@ -51,7 +51,7 @@ list_standards(as = "list") |>
 #>   ..$ description: chr "Derives the relative day compared to the treatment start date."
 #>   ..$ params     :'data.frame':  3 obs. of  2 variables:
 #>   .. ..$ name       : chr [1:3] "domain" "variable" "date"
-#>   .. ..$ description: chr [1:3] "`character` Name of new domain beind created" "`character` Name of new variable to create" "`character` Name of date variable to use"
+#>   .. ..$ description: chr [1:3] "`character` Name of new domain being created" "`character` Name of new variable to create" "`character` Name of date variable to use"
 #>   ..$ depends    :'data.frame':  2 obs. of  2 variables:
 #>   .. ..$ domain: chr [1:2] "{{domain}}" "{{domain}}"
 #>   .. ..$ column: chr [1:2] "{{date}}" "TRTSDT"
@@ -63,7 +63,7 @@ list_standards(as = "list") |>
 #>   ..$ description: chr "Derives analysis end date based on (incomplete) dates given as character"
 #>   ..$ params     :'data.frame':  2 obs. of  2 variables:
 #>   .. ..$ name       : chr [1:2] "domain" "dtc"
-#>   .. ..$ description: chr [1:2] "`character` Name of new domain beind created" "`character` Name of date variable"
+#>   .. ..$ description: chr [1:2] "`character` Name of new domain being created" "`character` Name of date variable"
 #>   ..$ depends    :'data.frame':  1 obs. of  2 variables:
 #>   .. ..$ domain: chr "{{domain}}"
 #>   .. ..$ column: chr "{{dtc}}"

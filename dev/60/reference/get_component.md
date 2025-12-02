@@ -59,7 +59,7 @@ get_component("ady")
 #> ady: Derives the relative day compared to the treatment start date.
 #> Type: derivation
 #> Parameters:
-#> • domain: `character` Name of new domain beind created
+#> • domain: `character` Name of new domain being created
 #> • variable: `character` Name of new variable to create
 #> • date: `character` Name of date variable to use
 #> Depends:
