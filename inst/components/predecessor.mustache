@@ -2,12 +2,13 @@
 #' @description
 #' Creates new column(s) based on a predecessor column(s).
 #'
+#' @param domain `character` Name of new domain beind created
 #' @param source `character` Name of the data set the predecessor is from
 #' @param variable `character` Name of variable(s) to use from `source`
 #' @param by `character` name(s) of variable(s) to merge by
 #' @type predecessor
 {{#by}}
-#' @depends .self {{.}}
+#' @depends {{domain}} {{.}}
 #' @depends {{source}} {{.}}
 {{/by}}
 {{#variable}}
@@ -15,7 +16,7 @@
 #' @outputs {{.}}
 {{/variable}}
 #' @code
-.self <- .self |>
+{{domain}} <- {{domain}} |>
   dplyr::left_join(
     y = dplyr::select({{source}}, {{by}}, {{variable}}),
     by = dplyr::join_by({{by}})

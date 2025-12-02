@@ -3,13 +3,14 @@
 #' Derives analysis end date based on (incomplete) dates given as
 #' character
 #'
+#' @param domain `character` Name of new domain beind created
 #' @param dtc `character` Name of date variable
 #' @type derivation
-#' @depends .self {{dtc}}
+#' @depends {{domain}} {{dtc}}
 #' @outputs AENDT
 #' @outputs AENDTF
 #' @code
-.self <- .self |>
+{{domain}} <- {{domain}} |>
   dplyr::mutate(
     AENDT = admiral::convert_dtc_to_dt(
       dtc = {{dtc}},

@@ -6,7 +6,7 @@
 #' @depends .self TRTSDT
 #' @outputs out_var
 #' @code
-.self <- .self |>
+domain <- domain |>
   dplyr::mutate(
     out_var = admiral::compute_duration(
       start_date = TRTSDT,
