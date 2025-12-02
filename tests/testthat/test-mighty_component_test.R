@@ -19,11 +19,10 @@ test_that("Testing workflow works", {
 })
 
 test_that("Objects are passed along correctly", {
-  skip("TODO: Implement in code")
-
   x <- test_component(
     component = test_path("_components", "test_component.mustache"),
-    params = list(x1 = 1, x2 = 3)
+    params = list(x1 = 1, x2 = 3),
+    check_coverage = FALSE
   )
 
   expect_snapshot(x)
