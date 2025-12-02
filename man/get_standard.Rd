@@ -28,7 +28,7 @@ Check the documentation of the specific standard for details.
 \examples{
 get_standard("ady")
 
-get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
+get_rendered_standard("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
 }
 \seealso{
 \code{\link[=list_standards]{list_standards()}}, \link{mighty_component}, \link{mighty_component_rendered}

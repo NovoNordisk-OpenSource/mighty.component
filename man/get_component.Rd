@@ -40,7 +40,7 @@ component name:
 \examples{
 get_component("ady")
 
-get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
+get_rendered_component("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
 
 }
 \seealso{

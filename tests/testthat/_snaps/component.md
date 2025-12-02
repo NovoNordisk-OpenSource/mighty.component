@@ -8,12 +8,12 @@
       start date.
       Type: derivation
       Depends:
-      * .self.date_var
-      * .self.TRTSDT
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
       * out_var
       Code:
-      .self <- .self |>
+      domain <- domain |>
         dplyr::mutate(
           out_var = admiral::compute_duration(
             start_date = TRTSDT,
@@ -34,12 +34,12 @@
       treatment start date.
       Type: derivation
       Depends:
-      * .self.date_var
-      * .self.TRTSDT
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
       * out_var
       Code:
-      .self <- .self |>
+      domain <- domain |>
         dplyr::mutate(
           out_var = admiral::compute_duration(
             start_date = TRTSDT,
@@ -59,12 +59,12 @@
       ady: Derives the relative day compared to the treatment start date.
       Type: derivation
       Depends:
-      * .self.date_var
-      * .self.TRTSDT
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
       * out_var
       Code:
-      .self <- .self |>
+      domain <- domain |>
         dplyr::mutate(
           out_var = admiral::compute_duration(
             start_date = TRTSDT,

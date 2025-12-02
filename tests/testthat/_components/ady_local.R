@@ -2,8 +2,8 @@
 #' @description
 #' Derives the relative day compared to the treatment start date.
 #' @type derivation
-#' @depends .self date_var
-#' @depends .self TRTSDT
+#' @depends domain date_var
+#' @depends domain TRTSDT
 #' @outputs out_var
 #' @code
 domain <- domain |>

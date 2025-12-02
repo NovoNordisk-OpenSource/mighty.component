@@ -8,7 +8,7 @@ test_that("get_rendered_component, custom code component from R script", {
   expect_equal(x$type, "derivation")
   expect_equal(
     x$depends,
-    data.frame(domain = c(".self", ".self"), column = c("date_var", "TRTSDT"))
+    data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
   )
   expect_equal(x$outputs, "out_var")
 })
@@ -18,6 +18,7 @@ test_that("get_rendered_component custom local mustache template with params", {
   x <- get_rendered_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(
+      domain = "domain",
       date = "date_var",
       variable = "out_var"
     )
@@ -28,7 +29,7 @@ test_that("get_rendered_component custom local mustache template with params", {
   expect_equal(x$type, "derivation")
   expect_equal(
     x$depends,
-    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
+    data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
   )
   expect_equal(x$outputs, "out_var")
 })
@@ -38,6 +39,7 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   y <- get_rendered_component(
     component = "ady",
     params = list(
+      domain = "domain",
       date = "date_var",
       variable = "out_var"
     )
@@ -48,7 +50,7 @@ test_that("get_rendered_component returns rendered STANDARD code component with 
   expect_equal(y$type, "derivation")
   expect_equal(
     y$depends,
-    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
+    data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
   )
   expect_equal(y$outputs, "out_var")
 })

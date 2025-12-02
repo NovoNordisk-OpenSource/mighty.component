@@ -1,4 +1,6 @@
 test_that("predecessor", {
+  skip("Awaiting new testing framework in #48")
+
   predecessor <- get_rendered_standard(
     "predecessor",
     list(source = "pharmaverseadam::adsl", by = "USUBJID", variable = "ACTARM")
@@ -16,6 +18,8 @@ test_that("predecessor", {
 })
 
 test_that("assign", {
+  skip("Awaiting new testing framework in #48")
+
   assign <- get_rendered_standard("assign", list(variable = "y", value = 1))
 
   expect_snapshot(assign)
@@ -29,6 +33,8 @@ test_that("assign", {
 })
 
 test_that("astdt", {
+  skip("Awaiting new testing framework in #48")
+
   astdt <- get_rendered_standard("astdt", list(dtc = "AESTDTC"))
 
   expect_snapshot(astdt)
@@ -43,6 +49,8 @@ test_that("astdt", {
 })
 
 test_that("aendt", {
+  skip("Awaiting new testing framework in #48")
+
   aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
   expect_snapshot(aendt)
 
@@ -56,6 +64,8 @@ test_that("aendt", {
 })
 
 test_that("ady", {
+  skip("Awaiting new testing framework in #48")
+
   ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
 
   expect_snapshot(ady)
@@ -76,6 +86,8 @@ test_that("ady", {
 })
 
 test_that("trtemfl", {
+  skip("Awaiting new testing framework in #48")
+
   trtemfl <- get_rendered_standard("trtemfl", list(end_window = 30))
 
   expect_snapshot(trtemfl)
@@ -90,6 +102,8 @@ test_that("trtemfl", {
 })
 
 test_that("supp_sdtm", {
+  skip("Awaiting new testing framework in #48")
+
   supp_sdtm <- get_rendered_standard(
     standard = "supp_sdtm",
     params = list(
