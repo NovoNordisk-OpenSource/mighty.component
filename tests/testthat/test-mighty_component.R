@@ -42,7 +42,7 @@ test_that("mighty_component", {
           "x2"
         ),
         description = c(
-          "`character` Name of new domain beind created",
+          "`character` Name of new domain being created",
           "First input",
           "Second input"
         )

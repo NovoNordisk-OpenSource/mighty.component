@@ -7,7 +7,7 @@
       test: This is a test component used for unit testing
       Type: derivation
       Parameters:
-      * domain: `character` Name of new domain beind created
+      * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
@@ -30,7 +30,7 @@
       
       |name   |description                                  |
       |:------|:--------------------------------------------|
-      |domain |`character` Name of new domain beind created |
+      |domain |`character` Name of new domain being created |
       |x1     |First input                                  |
       |x2     |Second input                                 |
       
@@ -79,7 +79,7 @@
       testing
       Type: derivation
       Parameters:
-      * domain: `character` Name of new domain beind created
+      * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
@@ -112,7 +112,7 @@
       
       |name   |description                                  |
       |:------|:--------------------------------------------|
-      |domain |`character` Name of new domain beind created |
+      |domain |`character` Name of new domain being created |
       |x1     |First input                                  |
       |x2     |Second input                                 |
       
