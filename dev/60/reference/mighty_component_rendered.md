@@ -123,13 +123,22 @@ Test component against expected output.
 
 #### Usage
 
-    mighty_component_rendered$test(expected, envir = parent.frame())
+    mighty_component_rendered$test(
+      expected,
+      value = "domain",
+      envir = parent.frame()
+    )
 
 #### Arguments
 
 - `expected`:
 
-  The expected output in `.self` after evaluation
+  The expected output in `value` after evaluation
+
+- `value`:
+
+  Name of the object used to compare against after evaluating the
+  component. Defaults to `"domain"`.
 
 - `envir`:
 
