@@ -25,7 +25,7 @@ Check the documentation of the specific standard, or the local component, for de
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,25 +104,26 @@ component name:</p><ul><li><p><em>No extension</em>: Looks for built-in standard
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">ady</span>: Derives the relative day compared to the treatment start date.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Type:</span> derivation</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Parameters:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • domain: `character` Name of new domain being created</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • variable: `character` Name of new variable to create</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • date: `character` Name of date variable to use</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Depends:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • .self.{{date}}</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • .self.TRTSDT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • {{domain}}.{{date}}</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • {{domain}}.TRTSDT</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Outputs:</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • {{variable}}</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">get_rendered_component</span><span class="op">(</span><span class="st">"ady"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="st">"ASTDY"</span>, date <span class="op">=</span> <span class="st">"ASTDT"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_rendered_component</span><span class="op">(</span><span class="st">"ady"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>domain <span class="op">=</span> <span class="st">"advs"</span>, variable <span class="op">=</span> <span class="st">"ASTDY"</span>, date <span class="op">=</span> <span class="st">"ASTDT"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">&lt;mighty_component_rendered/mighty_component/R6&gt;</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">ady</span>: Derives the relative day compared to the treatment start date.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Type:</span> derivation</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Depends:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • .self.ASTDT</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • .self.TRTSDT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • advs.ASTDT</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • advs.TRTSDT</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Outputs:</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> • ASTDY</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Code:</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> .self <span style="color: #D7AF00;">&lt;-</span> .self <span style="color: #D7AF00;">|&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> advs <span style="color: #D7AF00;">&lt;-</span> advs <span style="color: #D7AF00;">|&gt;</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   dplyr::<span style="font-weight: bold;">mutate</span><span style="color: #D7AF00;">(</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     ASTDY = admiral::<span style="font-weight: bold;">compute_duration</span><span style="color: #BBBB00;">(</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>       start_date = TRTSDT,</span>
@@ -144,7 +145,7 @@ component name:</p><ul><li><p><em>No extension</em>: Looks for built-in standard
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

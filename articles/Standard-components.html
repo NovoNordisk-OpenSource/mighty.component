@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,12 +82,18 @@ available standard components inside {mighty.component}.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">variable</td>
 <td align="left">
 <code>character</code> Name of new variable to
 create</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">date</td>
 <td align="left">
 <code>character</code> Name of date variable to
@@ -106,11 +112,11 @@ use</td>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">{{date}}</td>
 </tr>
 <tr class="even">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">TRTSDT</td>
 </tr>
 </tbody>
@@ -126,7 +132,7 @@ use</td>
 <div class="section level3">
 <h3 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>.self <span class="ot">&lt;-</span> .self <span class="sc">|&gt;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>{{domain}} <span class="ot">&lt;-</span> {{domain}} <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    {{variable}} <span class="ot">=</span> admiral<span class="sc">::</span><span class="fu">compute_duration</span>(</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>      <span class="at">start_date =</span> TRTSDT,</span>
@@ -152,11 +158,19 @@ character</p>
 <th align="left">name</th>
 <th align="left">description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">dtc</td>
 <td align="left">
 <code>character</code> Name of date variable</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
@@ -168,7 +182,7 @@ character</p>
 <th align="left">column</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">{{dtc}}</td>
 </tr></tbody>
 </table>
@@ -185,7 +199,7 @@ character</p>
 <h3 id="code-1">Code<a class="anchor" aria-label="anchor" href="#code-1"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    AENDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
@@ -214,12 +228,18 @@ character</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">variable</td>
 <td align="left">
 <code>character</code> Name of variable to create or
 modify</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">value</td>
 <td align="left">Value to assign to the variable</td>
 </tr>
@@ -247,7 +267,7 @@ modify</td>
 <div class="section level3">
 <h3 id="code-2">Code<a class="anchor" aria-label="anchor" href="#code-2"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>.self <span class="ot">&lt;-</span> .self <span class="sc">|&gt;</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>{{domain}} <span class="ot">&lt;-</span> {{domain}} <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    {{variable}} <span class="ot">=</span> {{{value}}}</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  )</span></code></pre></div>
@@ -267,11 +287,19 @@ character</p>
 <th align="left">name</th>
 <th align="left">description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">dtc</td>
 <td align="left">
 <code>character</code> Name of date variable</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
@@ -283,7 +311,7 @@ character</p>
 <th align="left">column</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">{{dtc}}</td>
 </tr></tbody>
 </table>
@@ -300,7 +328,7 @@ character</p>
 <h3 id="code-3">Code<a class="anchor" aria-label="anchor" href="#code-3"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    ASTDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
@@ -329,19 +357,25 @@ character</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">source</td>
 <td align="left">
 <code>character</code> Name of the data set the
 predecessor is from</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">variable</td>
 <td align="left">
 <code>character</code> Name of variable(s) to use from
 <code>source</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">by</td>
 <td align="left">
 <code>character</code> name(s) of variable(s) to merge
@@ -360,7 +394,7 @@ by</td>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">{{.}}</td>
 </tr>
 <tr class="even">
@@ -385,7 +419,7 @@ by</td>
 <h3 id="code-4">Code<a class="anchor" aria-label="anchor" href="#code-4"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
 <span>    y <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span><span class="va">source</span><span class="op">}</span><span class="op">}</span>, <span class="op">{</span><span class="op">{</span><span class="va">by</span><span class="op">}</span><span class="op">}</span>, <span class="op">{</span><span class="op">{</span><span class="va">variable</span><span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span><span class="va">by</span><span class="op">}</span><span class="op">}</span><span class="op">)</span></span>
@@ -407,12 +441,18 @@ by</td>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">source</td>
 <td align="left">
 <code>character</code> Name of the supplementary data
 set to use</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">qnam</td>
 <td align="left">
 <code>character</code> Name of qualifier(s) to add from
@@ -432,7 +472,7 @@ set to use</td>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">USUBJID</td>
 </tr>
 <tr class="even">
@@ -470,7 +510,7 @@ set to use</td>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">idvar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span><span class="va">source</span><span class="op">}</span><span class="op">}</span><span class="op">[[</span><span class="st">"IDVAR"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">idclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">.self</span><span class="op">[[</span><span class="va">idvar</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">idclass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span><span class="op">[[</span><span class="va">idvar</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">idfunc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"as."</span>, <span class="va">idclass</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">supp_data</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">source</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
@@ -479,7 +519,7 @@ set to use</td>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>IDVARVAL <span class="op">=</span> <span class="fu">idfunc</span><span class="op">(</span><span class="va">IDVARVAL</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">USUBJID</span>, <span class="va">IDVARVAL</span>, <span class="op">{</span><span class="op">{</span><span class="va">qnam</span><span class="op">}</span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
 <span>    y <span class="op">=</span> <span class="va">supp_data</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">USUBJID</span>, <span class="op">!</span><span class="op">!</span><span class="va">idvar</span> <span class="op">==</span> <span class="va">IDVARVAL</span><span class="op">)</span></span>
@@ -499,11 +539,19 @@ set to use</td>
 <th align="left">name</th>
 <th align="left">description</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
+<td align="left">domain</td>
+<td align="left">
+<code>character</code> Name of new domain being
+created</td>
+</tr>
+<tr class="even">
 <td align="left">end_window</td>
 <td align="left">Passed along to <code>admiral::end_window()</code>
 </td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
@@ -516,19 +564,19 @@ set to use</td>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">ASTDT</td>
 </tr>
 <tr class="even">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">AENDT</td>
 </tr>
 <tr class="odd">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">TRTSDT</td>
 </tr>
 <tr class="even">
-<td align="left">.self</td>
+<td align="left">{{domain}}</td>
 <td align="left">TRTEDT</td>
 </tr>
 </tbody>
@@ -545,7 +593,7 @@ set to use</td>
 <h3 id="code-6">Code<a class="anchor" aria-label="anchor" href="#code-6"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">.self</span> <span class="op">&lt;-</span> <span class="va">.self</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/derive_var_trtemfl.html">derive_var_trtemfl</a></span><span class="op">(</span></span>
 <span>    start_date <span class="op">=</span> <span class="va">ASTDT</span>,</span>
 <span>    end_date <span class="op">=</span> <span class="va">AENDT</span>,</span>
@@ -566,7 +614,7 @@ set to use</td>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
