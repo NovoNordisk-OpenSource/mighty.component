@@ -50,11 +50,13 @@ mighty_component_rendered <- R6::R6Class(
     },
     #' @description
     #' Test component against expected output.
-    #' @param expected The expected output in `.self` after evaluation
+    #' @param expected The expected output in `value` after evaluation
+    #' @param value Name of the object used to compare against after evaluating
+    #' the component. Defaults to `"domain"`.
     #' @param envir Parent environment to use for evaluation of test code.
     #' Defaults to using the current environment with `parent.frame()`.
-    test = function(expected, envir = parent.frame()) {
-      msr_test(expected, envir, self, private)
+    test = function(expected, value = "domain", envir = parent.frame()) {
+      msr_test(expected, value, envir, self, private)
     },
     #' @description
     #' Calculate test coverage for already run tests
@@ -84,7 +86,7 @@ msr_stream <- function(path, self) {
 }
 
 #' @noRd
-msr_test <- function(expected, envir, self, private, value = "domain") {
+msr_test <- function(expected, value, envir, self, private) {
   env <- new.env(parent = envir)
   self$eval(envir = env)
   testthat::expect_equal(
