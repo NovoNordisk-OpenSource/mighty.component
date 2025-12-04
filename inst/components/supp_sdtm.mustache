@@ -2,10 +2,11 @@
 #' @description
 #' Add a variable from a supplementary SDTM domain.
 #'
+#' @param domain `character` Name of new domain being created
 #' @param source `character` Name of the supplementary data set to use
 #' @param qnam `character` Name of qualifier(s) to add from `source`
 #' @type predecessor
-#' @depends .self USUBJID
+#' @depends {{domain}} USUBJID
 #' @depends {{source}} USUBJID
 #' @depends {{source}} IDVAR
 #' @depends {{source}} IDVARVAL
@@ -16,7 +17,7 @@
 {{/qnam}}
 #' @code
 idvar <- unique({{source}}[["IDVAR"]])
-idclass <- class(.self[[idvar]])
+idclass <- class({{domain}}[[idvar]])
 idfunc <- get(paste0("as.", idclass))
 
 supp_data <- {{source}} |>
@@ -25,7 +26,7 @@ supp_data <- {{source}} |>
   dplyr::mutate(IDVARVAL = idfunc(IDVARVAL)) |>
   dplyr::select(USUBJID, IDVARVAL, {{qnam}})
 
-.self <- .self |>
+{{domain}} <- {{domain}} |>
   dplyr::left_join(
     y = supp_data,
     by = dplyr::join_by(USUBJID, !!idvar == IDVARVAL)

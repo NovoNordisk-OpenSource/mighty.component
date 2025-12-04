@@ -41,7 +41,10 @@ test_that("get_standard", {
 })
 
 test_that("get_rendered_standard", {
-  get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT")) |>
+  get_rendered_standard(
+    standard = "ady",
+    params = list(domain = "adsl", variable = "ASTDY", date = "ASTDT")
+  ) |>
     expect_no_condition() |>
     expect_s3_class("mighty_component_rendered") |>
     print() |>
