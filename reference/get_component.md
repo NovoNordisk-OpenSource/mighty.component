@@ -46,10 +46,10 @@ name:
 
 ## See also
 
-[`get_standard()`](https://nn-opensource.github.io/mighty.component/reference/get_standard.md),
-[`get_rendered_standard()`](https://nn-opensource.github.io/mighty.component/reference/get_standard.md),
-[mighty_component](https://nn-opensource.github.io/mighty.component/reference/mighty_component.md),
-[mighty_component_rendered](https://nn-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[`get_standard()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/get_standard.md),
+[`get_rendered_standard()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/get_standard.md),
+[mighty_component](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component.md),
+[mighty_component_rendered](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component_rendered.md)
 
 ## Examples
 

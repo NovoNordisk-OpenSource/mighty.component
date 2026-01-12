@@ -33,9 +33,9 @@ get_rendered_standard(standard, params = list())
 
 ## See also
 
-[`list_standards()`](https://nn-opensource.github.io/mighty.component/reference/list_standards.md),
-[mighty_component](https://nn-opensource.github.io/mighty.component/reference/mighty_component.md),
-[mighty_component_rendered](https://nn-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[`list_standards()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/list_standards.md),
+[mighty_component](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component.md),
+[mighty_component_rendered](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component_rendered.md)
 
 ## Examples
 

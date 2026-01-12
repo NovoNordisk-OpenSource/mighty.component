@@ -9,7 +9,7 @@ You can install the development version of `mighty.component` from
 GitHub with:
 
 ``` r
-pak::pak("NN-OpenSource/mighty.component")
+pak::pak("NovoNordisk-OpenSource/mighty.component")
 ```
 
 ## Usage
@@ -19,5 +19,5 @@ components, and helper functions to retrieve them. For now it also holds
 a small temporary library of components.
 
 See
-[`vignette("mighty-standards")`](https://nn-opensource.github.io/mighty.component/articles/mighty-standards.md)
+[`vignette("mighty-standards")`](https://NovoNordisk-OpenSource.github.io/mighty.component/articles/mighty-standards.md)
 on how to work with standard components.
