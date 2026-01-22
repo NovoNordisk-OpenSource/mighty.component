@@ -1,14 +1,17 @@
-#' Linter to detect dplyr joins without explicit 'by' argument
+#' Validate that code has no implicit dplyr joins
 #'
-#' This linter flags join operations (left_join, right_join, inner_join, etc.)
+#' This function checks R code for join operations (left_join, right_join, etc.)
 #' that don't explicitly specify the join keys via the 'by' argument.
+#' Throws an error if any implicit joins are detected.
 #'
+#' @param code Character string of R code to validate
 #' @param namespaces Character vector of package namespaces to check.
 #'   Default includes "dplyr", "tidylog", and "dbplyr". Can be customized
 #'   to include other packages that export join functions.
-#' @return A linter function
-#' @export
-lint_implicit_join <- function(
+#' @return Invisible NULL on success, throws error if implicit joins found
+#' @keywords internal
+validate_implicit_join <- function(
+  code,
   namespaces = c(
     "dplyr",
     "tidylog",
@@ -25,72 +28,97 @@ lint_implicit_join <- function(
     "nest_join"
   )
 
-  lintr::Linter(function(source_expression) {
-    if (!lintr::is_lint_level(source_expression, "expression")) {
-      return(list())
-    }
+  # Parse code to XML
+  parsed <- parse(text = code, keep.source = TRUE)
+  xml_string <- xmlparsedata::xml_parse_data(parsed)
+  xml <- xml2::read_xml(xml_string)
 
-    xml <- source_expression$xml_parsed_content
+  # Find all join function calls
+  xpath_query <- .build_join_xpath_query(join_functions, namespaces)
+  join_calls <- xml2::xml_find_all(xml, xpath_query)
 
-    xpath_query <- .build_join_xpath_query(join_functions, namespaces)
-    join_calls <- xml2::xml_find_all(xml, xpath_query)
+  # Check each join call for violations
+  violations <-
+    Filter(
+      Negate(is.null),
+      join_calls |>
+        lapply(
+          .check_join_node_validate,
+          namespaces = namespaces
+        )
+    )
 
-    lints <-
-      Filter(
-        Negate(is.null),
-        join_calls |>
-          lapply(
-            .check_join_node,
-            source_expression = source_expression,
-            namespaces = namespaces
-          )
-      )
+  # Throw error if any violations found
+  has_violations <- length(violations) > 0
+  if (has_violations) {
+    .abort_implicit_joins(violations)
+  }
 
-    lints
-  })
+  invisible(NULL)
 }
 
 
-#' Check a single join node for implicit join
+#' Abort with formatted implicit join error message
+#'
+#' Throws a cli error with formatted information about implicit join violations.
+#'
+#' @param violations List of violation objects, each containing line_number and function_name
+#' @noRd
+.abort_implicit_joins <- function(violations) {
+  cli::cli_abort(
+    c(
+      "Implicit {.pkg dplyr} join(s) detected in rendered component:",
+      "x" = "Join operations must explicitly specify the {.arg by} argument",
+      rlang::set_names(
+        vapply(
+          violations,
+          function(v) {
+            sprintf("Line %d: %s", v$line_number, v$function_name)
+          },
+          character(1)
+        ),
+        rep("i", length(violations))
+      )
+    )
+  )
+}
+
+
+#' Check a single join node for implicit join (validation version)
 #'
 #' Examines a join function call node to determine if it lacks an explicit
-#' 'by' argument. Returns a Lint object if the join is implicit, NULL otherwise.
+#' 'by' argument. Returns a list with violation details if implicit, NULL otherwise.
 #'
 #' @param call_node XML node representing the join function call
-#' @param source_expression Source expression object from lintr
 #' @param namespaces Character vector of allowed package namespaces
-#' @return lintr::Lint object if join is implicit, NULL otherwise
+#' @return List with line_number and function_name if implicit, NULL otherwise
 #' @noRd
-.check_join_node <- function(call_node, source_expression, namespaces) {
+.check_join_node_validate <- function(call_node, namespaces) {
   expr_node <- xml2::xml_parent(call_node)
   call_parent <- xml2::xml_parent(expr_node)
 
   call_namespace <- .get_call_namespace(expr_node)
-  if (!is.null(call_namespace) && !call_namespace %in% namespaces) {
+  is_excluded_namespace <- !is.null(call_namespace) &&
+    !call_namespace %in% namespaces
+  if (is_excluded_namespace) {
     return(NULL)
   }
 
-  # Since this is a specific lint, hardcoding "by" is OK
   by_args <- xml2::xml_find_all(call_parent, ".//SYMBOL_SUB[text()='by']")
-
-  if (length(by_args) > 0) {
+  has_by_argument <- length(by_args) > 0
+  if (has_by_argument) {
     return(NULL)
   }
-  line_num <- as.integer(xml2::xml_attr(call_node, "line1"))
-  col_num <- as.integer(xml2::xml_attr(call_node, "col1"))
-  line_text <- source_expression$lines[as.character(line_num)]
 
-  call_node |>
-    .extract_function_name() |>
-    .create_implicit_join_lint(
-      source_expression,
-      location = list(
-        line_num = line_num,
-        col_num = col_num,
-        line_text = line_text
-      )
-    )
+  line_num <- as.integer(xml2::xml_attr(call_node, "line1"))
+  function_name <- .extract_function_name(call_node)
+
+  list(
+    line_number = line_num,
+    function_name = function_name
+  )
 }
+
 
 #' Extract namespace from a function call node
 #'
@@ -106,8 +134,8 @@ lint_implicit_join <- function(
   # Only use NS_GET and not NS_GET_INT (:::) because accessing internal
   # functions is not allowed in a component and validated seprately
   ns_get <- xml2::xml_find_first(expr_node, "./NS_GET")
-
-  if (is.na(xml2::xml_name(ns_get))) {
+  is_bare_call <- is.na(xml2::xml_name(ns_get))
+  if (is_bare_call) {
     return(NULL)
   }
 
@@ -115,6 +143,7 @@ lint_implicit_join <- function(
   pkg_node <- xml2::xml_find_first(expr_node, "./SYMBOL_PACKAGE")
   xml2::xml_text(pkg_node)
 }
+
 
 #' Build XPath query for finding join function calls
 #'
@@ -136,6 +165,7 @@ lint_implicit_join <- function(
   sprintf("//SYMBOL_FUNCTION_CALL[%s]", paste(conditions, collapse = " or "))
 }
 
+
 #' Extract function name including namespace if present
 #'
 #' Navigates the AST to determine if a function call includes a namespace
@@ -149,40 +179,12 @@ lint_implicit_join <- function(
 
   parent_expr <- xml2::xml_parent(call_node)
   ns_get <- xml2::xml_find_first(parent_expr, "./NS_GET")
-
-  if (is.na(xml2::xml_name(ns_get))) {
+  is_bare_call <- is.na(xml2::xml_name(ns_get))
+  if (is_bare_call) {
     return(function_name)
   }
 
   # Package name always exisets when NS_GET is present
   pkg_node <- xml2::xml_find_first(parent_expr, "./SYMBOL_PACKAGE")
   paste0(xml2::xml_text(pkg_node), "::", function_name)
-}
-
-#' Create a Lint object for implicit join violation
-#'
-#' Constructs a lintr::Lint object with appropriate message for joins
-#' that lack explicit 'by' arguments.
-#'
-#' @param function_name Name of the join function (e.g., "left_join")
-#' @param source_expression Source expression object from lintr
-#' @param location List containing line_num, col_num, and line_text
-#' @return lintr::Lint object
-#' @noRd
-.create_implicit_join_lint <- function(
-  function_name,
-  source_expression,
-  location
-) {
-  lintr::Lint(
-    filename = source_expression$filename,
-    line_number = location$line_num,
-    column_number = location$col_num,
-    type = "warning",
-    message = sprintf(
-      "`dplyr` join operation '%s' should explicitly specify join keys using the `by` argument.", #nolint
-      function_name
-    ),
-    line = location$line_text
-  )
 }
