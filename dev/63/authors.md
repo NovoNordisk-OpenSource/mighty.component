@@ -15,12 +15,12 @@ Source:
 
 Thomsen A, Phelps M (2026). *mighty.component: Standard Components for
 ADaM Generation*. R package version 0.0.0.9014,
-<https://NovoNordisk-opensource.github.io/mighty.component>.
+<https://NovoNordisk-OpenSource.github.io/mighty.component>.
 
     @Manual{,
       title = {mighty.component: Standard Components for ADaM Generation},
       author = {Aksel Thomsen and Matthew Phelps},
       year = {2026},
       note = {R package version 0.0.0.9014},
-      url = {https://NovoNordisk-opensource.github.io/mighty.component},
+      url = {https://NovoNordisk-OpenSource.github.io/mighty.component},
     }
