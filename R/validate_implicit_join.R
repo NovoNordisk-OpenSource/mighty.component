@@ -65,20 +65,18 @@ validate_implicit_join <- function(
 #' @param violations List of violation objects, each containing line_number and function_name
 #' @noRd
 .abort_implicit_joins <- function(violations) {
+  violation_messages <- vapply(
+    violations,
+    function(v) sprintf("Line %d: %s", v$line_number, v$function_name),
+    character(1)
+  )
+  names(violation_messages) <- rep("i", length(violations))
+
   cli::cli_abort(
     c(
       "Implicit {.pkg dplyr} join(s) detected in rendered component:",
       "x" = "Join operations must explicitly specify the {.arg by} argument",
-      rlang::set_names(
-        vapply(
-          violations,
-          function(v) {
-            sprintf("Line %d: %s", v$line_number, v$function_name)
-          },
-          character(1)
-        ),
-        rep("i", length(violations))
-      )
+      violation_messages
     )
   )
 }
@@ -139,7 +137,7 @@ validate_implicit_join <- function(
     return(NULL)
   }
 
-  # Package name always exisets when NS_GET is present
+  # pkg name assumed to always be present when NS_GET present
   pkg_node <- xml2::xml_find_first(expr_node, "./SYMBOL_PACKAGE")
   xml2::xml_text(pkg_node)
 }
@@ -155,13 +153,13 @@ validate_implicit_join <- function(
 #' @return Character string containing XPath query
 #' @noRd
 .build_join_xpath_query <- function(join_functions, namespaces) {
-  # Match bare function names and all specified namespace::function combinations
-  conditions <- c(
-    sprintf("text()='%s'", join_functions),
-    unlist(lapply(namespaces, function(ns) {
+  bare_fns <- sprintf("text()='%s'", join_functions)
+  namesspaced_fns <- namespaces |>
+    lapply(function(ns) {
       sprintf("text()='%s::%s'", ns, join_functions)
-    }))
-  )
+    }) |>
+    unlist()
+  conditions <- c(bare_fns, namesspaced_fns)
   sprintf("//SYMBOL_FUNCTION_CALL[%s]", paste(conditions, collapse = " or "))
 }
 
@@ -184,7 +182,7 @@ validate_implicit_join <- function(
     return(function_name)
   }
 
-  # Package name always exisets when NS_GET is present
+  # pkg name assumed to always exist when NS_GET present
   pkg_node <- xml2::xml_find_first(parent_expr, "./SYMBOL_PACKAGE")
   paste0(xml2::xml_text(pkg_node), "::", function_name)
 }
