@@ -28,16 +28,13 @@ validate_implicit_join <- function(
     "nest_join"
   )
 
-  # Parse code to XML
   parsed <- parse(text = code, keep.source = TRUE)
   xml_string <- xmlparsedata::xml_parse_data(parsed)
   xml <- xml2::read_xml(xml_string)
 
-  # Find all join function calls
   xpath_query <- .build_join_xpath_query(join_functions, namespaces)
   join_calls <- xml2::xml_find_all(xml, xpath_query)
 
-  # Check each join call for violations
   violations <-
     Filter(
       Negate(is.null),
@@ -48,7 +45,6 @@ validate_implicit_join <- function(
         )
     )
 
-  # Throw error if any violations found
   has_violations <- length(violations) > 0
   if (has_violations) {
     .abort_implicit_joins(violations)
@@ -58,27 +54,24 @@ validate_implicit_join <- function(
 }
 
 
-#' Abort with formatted implicit join error message
+#' Build XPath query for finding join function calls
 #'
-#' Throws a cli error with formatted information about implicit join violations.
+#' Constructs an XPath query that matches both bare function calls
+#' (e.g., left_join) and namespaced calls (e.g., dplyr::left_join).
 #'
-#' @param violations List of violation objects, each containing line_number and function_name
+#' @param join_functions Character vector of join function names
+#' @param namespaces Character vector of package namespaces to check
+#' @return Character string containing XPath query
 #' @noRd
-.abort_implicit_joins <- function(violations) {
-  violation_messages <- vapply(
-    violations,
-    function(v) sprintf("Line %d: %s", v$line_number, v$function_name),
-    character(1)
-  )
-  names(violation_messages) <- rep("i", length(violations))
-
-  cli::cli_abort(
-    c(
-      "Implicit {.pkg dplyr} join(s) detected in rendered component:",
-      "x" = "Join operations must explicitly specify the {.arg by} argument",
-      violation_messages
-    )
-  )
+.build_join_xpath_query <- function(join_functions, namespaces) {
+  bare_fns <- sprintf("text()='%s'", join_functions)
+  namesspaced_fns <- namespaces |>
+    lapply(function(ns) {
+      sprintf("text()='%s::%s'", ns, join_functions)
+    }) |>
+    unlist()
+  conditions <- c(bare_fns, namesspaced_fns)
+  sprintf("//SYMBOL_FUNCTION_CALL[%s]", paste(conditions, collapse = " or "))
 }
 
 
@@ -143,27 +136,6 @@ validate_implicit_join <- function(
 }
 
 
-#' Build XPath query for finding join function calls
-#'
-#' Constructs an XPath query that matches both bare function calls
-#' (e.g., left_join) and namespaced calls (e.g., dplyr::left_join).
-#'
-#' @param join_functions Character vector of join function names
-#' @param namespaces Character vector of package namespaces to check
-#' @return Character string containing XPath query
-#' @noRd
-.build_join_xpath_query <- function(join_functions, namespaces) {
-  bare_fns <- sprintf("text()='%s'", join_functions)
-  namesspaced_fns <- namespaces |>
-    lapply(function(ns) {
-      sprintf("text()='%s::%s'", ns, join_functions)
-    }) |>
-    unlist()
-  conditions <- c(bare_fns, namesspaced_fns)
-  sprintf("//SYMBOL_FUNCTION_CALL[%s]", paste(conditions, collapse = " or "))
-}
-
-
 #' Extract function name including namespace if present
 #'
 #' Navigates the AST to determine if a function call includes a namespace
@@ -185,4 +157,28 @@ validate_implicit_join <- function(
   # pkg name assumed to always exist when NS_GET present
   pkg_node <- xml2::xml_find_first(parent_expr, "./SYMBOL_PACKAGE")
   paste0(xml2::xml_text(pkg_node), "::", function_name)
+}
+
+
+#' Abort with formatted implicit join error message
+#'
+#' Throws a cli error with formatted information about implicit join violations.
+#'
+#' @param violations List of violation objects, each containing line_number and function_name
+#' @noRd
+.abort_implicit_joins <- function(violations) {
+  violation_messages <- vapply(
+    violations,
+    function(v) sprintf("Line %d: %s", v$line_number, v$function_name),
+    character(1)
+  )
+  names(violation_messages) <- rep("i", length(violations))
+
+  cli::cli_abort(
+    c(
+      "Implicit {.pkg dplyr} join(s) detected in rendered component:",
+      "x" = "Join operations must explicitly specify the {.arg by} argument",
+      violation_messages
+    )
+  )
 }
