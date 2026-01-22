@@ -10,6 +10,9 @@
 
 ## Citation
 
+Source:
+[`DESCRIPTION`](https://github.com/NovoNordisk-OpenSource/mighty.component/blob/fix-description/DESCRIPTION)
+
 Thomsen A, Phelps M (2026). *mighty.component: Standard Components for
 ADaM Generation*. R package version 0.0.0.9014,
 <https://novonordisk-opensource.github.io/mighty.component/>.

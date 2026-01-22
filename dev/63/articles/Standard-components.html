@@ -42,6 +42,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/NovoNordisk-OpenSource/mighty.component/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -58,7 +59,7 @@
       <h1>Standard components</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/NovoNordisk-OpenSource/mighty.component/blob/fix-description/vignettes/Standard-components.Rmd" class="external-link"><code>vignettes/Standard-components.Rmd</code></a></small>
       <div class="d-none name"><code>Standard-components.Rmd</code></div>
     </div>
 
@@ -200,12 +201,12 @@ created</td>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    AENDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
+<span>    AENDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.0/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
 <span>      highest_imputation <span class="op">=</span> <span class="st">"M"</span>,</span>
 <span>      date_imputation <span class="op">=</span> <span class="st">"last"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    AENDTF <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/compute_dtf.html">compute_dtf</a></span><span class="op">(</span></span>
+<span>    AENDTF <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.0/cran-release/reference/compute_dtf.html">compute_dtf</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
 <span>      dt <span class="op">=</span> <span class="va">AENDT</span></span>
 <span>    <span class="op">)</span></span>
@@ -329,12 +330,12 @@ created</td>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    ASTDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
+<span>    ASTDT <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.0/cran-release/reference/convert_dtc_to_dt.html">convert_dtc_to_dt</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
 <span>      highest_imputation <span class="op">=</span> <span class="st">"M"</span>,</span>
 <span>      date_imputation <span class="op">=</span> <span class="st">"first"</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    ASTDTF <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/compute_dtf.html">compute_dtf</a></span><span class="op">(</span></span>
+<span>    ASTDTF <span class="op">=</span> <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.0/cran-release/reference/compute_dtf.html">compute_dtf</a></span><span class="op">(</span></span>
 <span>      dtc <span class="op">=</span> <span class="op">{</span><span class="op">{</span><span class="va">dtc</span><span class="op">}</span><span class="op">}</span>,</span>
 <span>      dt <span class="op">=</span> <span class="va">ASTDT</span></span>
 <span>    <span class="op">)</span></span>
@@ -593,7 +594,7 @@ created</td>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">&lt;-</span> <span class="op">{</span><span class="op">{</span><span class="va">domain</span><span class="op">}</span><span class="op">}</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.3.1/cran-release/reference/derive_var_trtemfl.html">derive_var_trtemfl</a></span><span class="op">(</span></span>
+<span>  <span class="fu">admiral</span><span class="fu">::</span><span class="fu"><a href="https:/pharmaverse.github.io/admiral/v1.4.0/cran-release/reference/derive_var_trtemfl.html">derive_var_trtemfl</a></span><span class="op">(</span></span>
 <span>    start_date <span class="op">=</span> <span class="va">ASTDT</span>,</span>
 <span>    end_date <span class="op">=</span> <span class="va">AENDT</span>,</span>
 <span>    trt_start_date <span class="op">=</span> <span class="va">TRTSDT</span>,</span>
