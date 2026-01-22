@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Standard components library to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
-URL: https://NovoNordisk-opensource.github.io/mighty.component,
+URL: https://NovoNordisk-OpenSource.github.io/mighty.component,
     https://github.com/NovoNordisk-OpenSource/mighty.component
 Depends: 
     R (>= 4.1)
