@@ -64,12 +64,12 @@
 #' @noRd
 .build_join_xpath_query <- function(join_functions, namespaces) {
   bare_fns <- sprintf("text()='%s'", join_functions)
-  namesspaced_fns <- namespaces |>
+  namespaced_fns <- namespaces |>
     lapply(function(ns) {
       sprintf("text()='%s::%s'", ns, join_functions)
     }) |>
     unlist()
-  conditions <- c(bare_fns, namesspaced_fns)
+  conditions <- c(bare_fns, namespaced_fns)
   sprintf("//SYMBOL_FUNCTION_CALL[%s]", paste(conditions, collapse = " or "))
 }
 
@@ -122,7 +122,7 @@
 .get_call_namespace <- function(expr_node) {
   # NS_GET is the AST node type that R's parser creates for the :: operator.
   # Only use NS_GET and not NS_GET_INT (:::) because accessing internal
-  # functions is not allowed in a component and validated seprately
+  # functions is not allowed in a component and validated separately
   ns_get <- xml2::xml_find_first(expr_node, "./NS_GET")
   is_bare_call <- is.na(xml2::xml_name(ns_get))
   if (is_bare_call) {

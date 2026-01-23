@@ -111,10 +111,10 @@ test_that("validate_component_code (implicit joins) handles joins with other arg
 })
 
 test_that("validate_component_code (implicit joins) catches multiple implicit joins in simple code", {
-  code_with_two_errors <- '
+  code_with_two_errors <- "
 result1 <- dplyr::left_join(df1, df2)
 result2 <- dplyr::inner_join(df3, df4)
-  '
+  "
 
   err <- expect_error(
     validate_component_code(code_with_two_errors),
