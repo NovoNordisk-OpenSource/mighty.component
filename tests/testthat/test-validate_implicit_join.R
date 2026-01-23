@@ -1,34 +1,34 @@
-test_that("validate_implicit_join detects implicit joins (without namespace)", {
+test_that("validate_component_code (implicit joins) detects implicit joins (without namespace)", {
   bad_code1 <- "left_join(df1, df2)"
 
   expect_error(
-    validate_implicit_join(bad_code1),
+    validate_component_code(bad_code1),
     "Implicit.*join.*detected"
   )
 })
 
-test_that("validate_implicit_join accepts explicit joins with 'by' argument", {
+test_that("validate_component_code (implicit joins) accepts explicit joins with 'by' argument", {
   good_code1 <- 'dplyr::left_join(df1, df2, by = "id")'
 
-  expect_no_error(validate_implicit_join(good_code1))
+  expect_no_error(validate_component_code(good_code1))
 })
 
-test_that("validate_implicit_join works with multiple join keys", {
+test_that("validate_component_code (implicit joins) works with multiple join keys", {
   good_code <- 'dplyr::left_join(df1, df2, by = c("id", "name"))'
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join detects namespaced implicit joins", {
+test_that("validate_component_code (implicit joins) detects namespaced implicit joins", {
   bad_code <- "dplyr::left_join(df1, df2)"
 
   expect_error(
-    validate_implicit_join(bad_code),
+    validate_component_code(bad_code),
     "dplyr::left_join"
   )
 })
 
-test_that("validate_implicit_join works with all join types", {
+test_that("validate_component_code (implicit joins) works with all join types", {
   join_types <- c(
     "left_join",
     "right_join",
@@ -43,37 +43,37 @@ test_that("validate_implicit_join works with all join types", {
     bad_code <- sprintf("dplyr::%s(df1, df2)", join_type)
 
     expect_error(
-      validate_implicit_join(bad_code),
+      validate_component_code(bad_code),
       join_type,
       info = sprintf("Should detect implicit dplyr::%s", join_type)
     )
   }
 })
 
-test_that("validate_implicit_join works with piped syntax (both |> and %>%)", {
+test_that("validate_component_code (implicit joins) works with piped syntax (both |> and %>%)", {
   bad_code <- "df1 |> dplyr::left_join(df2) |> dplyr::inner_join(df3)"
   expect_error(
-    validate_implicit_join(bad_code),
+    validate_component_code(bad_code),
     "Implicit.*join"
   )
 
   good_code <- 'df1 |> dplyr::left_join(df2, by = "id")'
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 
   bad_magrittr <- "df1 %>% dplyr::left_join(df2)"
   expect_error(
-    validate_implicit_join(bad_magrittr),
+    validate_component_code(bad_magrittr),
     "Implicit.*join"
   )
 })
 
-test_that("validate_implicit_join accepts named vector in 'by'", {
+test_that("validate_component_code (implicit joins) accepts named vector in 'by'", {
   good_code <- 'dplyr::left_join(df1, df2, by = c("id" = "user_id"))'
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join handles multiline joins", {
+test_that("validate_component_code (implicit joins) handles multiline joins", {
   bad_code <- "
     dplyr::left_join(
       df1,
@@ -82,7 +82,7 @@ test_that("validate_implicit_join handles multiline joins", {
   "
 
   expect_error(
-    validate_implicit_join(bad_code),
+    validate_component_code(bad_code),
     "Implicit.*join"
   )
 
@@ -94,23 +94,39 @@ test_that("validate_implicit_join handles multiline joins", {
     )
   '
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join handles joins with other arguments", {
+test_that("validate_component_code (implicit joins) handles joins with other arguments", {
   bad_code <- 'dplyr::left_join(df1, df2, suffix = c(".x", ".y"))'
 
   expect_error(
-    validate_implicit_join(bad_code),
+    validate_component_code(bad_code),
     "Implicit.*join"
   )
 
   good_code <- 'dplyr::left_join(df1, df2, by = "id", suffix = c(".x", ".y"))'
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join handles complex piped workflows", {
+test_that("validate_component_code (implicit joins) catches multiple implicit joins in simple code", {
+  code_with_two_errors <- '
+result1 <- dplyr::left_join(df1, df2)
+result2 <- dplyr::inner_join(df3, df4)
+  '
+
+  err <- expect_error(
+    validate_component_code(code_with_two_errors),
+    "Implicit.*join"
+  )
+  browser()
+  # Should flag both joins
+  expect_match(conditionMessage(err), "left_join")
+  expect_match(conditionMessage(err), "inner_join")
+})
+
+test_that("validate_component_code (implicit joins) handles complex piped workflows", {
   complex_code <- '
     result <- df1 |>
       dplyr::left_join(df2, by = "id") |>
@@ -119,12 +135,12 @@ test_that("validate_implicit_join handles complex piped workflows", {
   '
 
   expect_error(
-    validate_implicit_join(complex_code),
+    validate_component_code(complex_code),
     "Implicit.*join"
   )
 })
 
-test_that("validate_implicit_join doesn't flag non-join functions", {
+test_that("validate_component_code (implicit joins) doesn't flag non-join functions", {
   code <- "
     result <- df1 |>
       dplyr::mutate(new_col = old_col * 2) |>
@@ -132,25 +148,25 @@ test_that("validate_implicit_join doesn't flag non-join functions", {
       dplyr::select(id, name)
   "
 
-  expect_no_error(validate_implicit_join(code))
+  expect_no_error(validate_component_code(code))
 })
 
-test_that("validate_implicit_join handles 'by' with variable", {
+test_that("validate_component_code (implicit joins) handles 'by' with variable", {
   good_code <- '
     join_cols <- c("id", "name")
     dplyr::left_join(df1, df2, by = join_cols)
   '
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join handles join_by() syntax (dplyr 1.1.0+)", {
+test_that("validate_component_code (implicit joins) handles join_by() syntax (dplyr 1.1.0+)", {
   good_code <- "dplyr::left_join(df1, df2, by = dplyr::join_by(id))"
 
-  expect_no_error(validate_implicit_join(good_code))
+  expect_no_error(validate_component_code(good_code))
 })
 
-test_that("validate_implicit_join reports correct line numbers in error", {
+test_that("validate_component_code (implicit joins) reports correct line numbers in error", {
   multiline_code <- "
 library(dplyr)
 
@@ -162,7 +178,7 @@ result3 <- dplyr::inner_join(df1, df2)
   "
 
   error_obj <- tryCatch(
-    validate_implicit_join(multiline_code),
+    validate_component_code(multiline_code),
     error = function(e) e
   )
 
@@ -170,13 +186,13 @@ result3 <- dplyr::inner_join(df1, df2)
   expect_match(conditionMessage(error_obj), "Line [0-9]+")
 })
 
-test_that("validate_implicit_join handles by = NULL explicitly", {
+test_that("validate_component_code (implicit joins) handles by = NULL explicitly", {
   code_with_null <- "dplyr::left_join(df1, df2, by = NULL)"
 
-  expect_no_error(validate_implicit_join(code_with_null))
+  expect_no_error(validate_component_code(code_with_null))
 })
 
-test_that("validate_implicit_join handles nested and complex expressions", {
+test_that("validate_component_code (implicit joins) handles nested and complex expressions", {
   complex_code <- '
 result <- base_data |>
   dplyr::left_join(
@@ -187,13 +203,17 @@ result <- base_data |>
   dplyr::semi_join(active_records |> dplyr::filter(status == "active"))
   '
 
-  expect_error(
-    validate_implicit_join(complex_code),
+  err <- expect_error(
+    validate_component_code(complex_code),
     "Implicit.*join"
   )
+
+  # Should flag both inner_join and semi_join (but not left_join which has 'by')
+  expect_match(conditionMessage(err), "inner_join")
+  expect_match(conditionMessage(err), "semi_join")
 })
 
-test_that("validate_implicit_join handles function definitions with joins", {
+test_that("validate_component_code (implicit joins) handles function definitions with joins", {
   function_code <- '
 merge_datasets <- function(primary, secondary, reference) {
   primary |>
@@ -204,12 +224,12 @@ merge_datasets <- function(primary, secondary, reference) {
   '
 
   expect_error(
-    validate_implicit_join(function_code),
+    validate_component_code(function_code),
     "Implicit.*join"
   )
 })
 
-test_that("validate_implicit_join handles mixed dplyr and base R code", {
+test_that("validate_component_code (implicit joins) handles mixed dplyr and base R code", {
   mixed_code <- '
 result1 <- merge(df1, df2, by = "id")
 
@@ -219,25 +239,35 @@ result3 <- dplyr::inner_join(df1, df2, by = "id")
   '
 
   expect_error(
-    validate_implicit_join(mixed_code),
+    validate_component_code(mixed_code),
     "Implicit.*join"
   )
 })
 
-test_that("validate_implicit_join works with custom namespaces parameter", {
+test_that("validate_component_code (implicit joins) works with custom namespaces parameter", {
   tidylog_code <- "tidylog::left_join(df1, df2)"
 
   expect_no_error(
-    validate_implicit_join(tidylog_code, namespaces = "dplyr")
+    validate_component_code(
+      tidylog_code,
+      validators = list(mighty.component:::.validate_implicit_join(
+        namespaces = "dplyr"
+      ))
+    )
   )
 
   expect_error(
-    validate_implicit_join(tidylog_code, namespaces = c("dplyr", "tidylog")),
+    validate_component_code(
+      tidylog_code,
+      validators = list(mighty.component:::.validate_implicit_join(
+        namespaces = c("dplyr", "tidylog")
+      ))
+    ),
     "tidylog::left_join"
   )
 })
 
-test_that("validate_implicit_join handles multiple namespaces simultaneously", {
+test_that("validate_component_code (implicit joins) handles multiple namespaces simultaneously", {
   mixed_namespace_code <- '
 result1 <- dplyr::left_join(df1, df2)
 result2 <- tidylog::inner_join(df1, df2)
@@ -245,9 +275,11 @@ result3 <- dplyr::left_join(df1, df2, by = "id")
   '
 
   expect_error(
-    validate_implicit_join(
+    validate_component_code(
       mixed_namespace_code,
-      namespaces = c("dplyr", "tidylog")
+      validators = list(mighty.component:::.validate_implicit_join(
+        namespaces = c("dplyr", "tidylog")
+      ))
     ),
     "Implicit.*join"
   )

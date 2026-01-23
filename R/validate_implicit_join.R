@@ -1,56 +1,55 @@
-#' Validate that code has no implicit dplyr joins
+#' Create validator for implicit join detection
 #'
-#' This function checks R code for join operations (left_join, right_join, etc.)
-#' that don't explicitly specify the join keys via the 'by' argument.
-#' Throws an error if any implicit joins are detected.
+#' Factory function that creates a validator to detect dplyr join operations
+#' that lack an explicit `by` argument. Implicit joins can lead to unexpected
+#' behavior when column names change, so requiring explicit joins makes
+#' component code more robust.
 #'
-#' @param code Character string of R code to validate
-#' @param namespaces Character vector of package namespaces to check.
-#'   Default includes "dplyr", "tidylog", and "dbplyr". Can be customized
-#'   to include other packages that export join functions.
-#' @return Invisible NULL on success, throws error if implicit joins found
-#' @keywords internal
-validate_implicit_join <- function(
-  code,
-  namespaces = c(
-    "dplyr",
-    "tidylog",
-    "dbplyr"
-  )
+#' @param namespaces Character vector of package namespaces to check for join
+#'   functions. Defaults to `c("dplyr", "tidylog", "dbplyr")`. Only join calls
+#'   from these namespaces (or bare calls) will be validated.
+#'
+#' @return A validator function that takes a context object with an XML AST
+#'   and returns either `NULL` (no violations) or a `validation_violation` object
+#'
+#' @noRd
+.validate_implicit_join <- function(
+  namespaces = c("dplyr", "tidylog", "dbplyr")
 ) {
-  join_functions <- c(
-    "left_join",
-    "right_join",
-    "inner_join",
-    "full_join",
-    "semi_join",
-    "anti_join",
-    "nest_join"
-  )
-
-  parsed <- parse(text = code, keep.source = TRUE)
-  xml_string <- xmlparsedata::xml_parse_data(parsed)
-  xml <- xml2::read_xml(xml_string)
-
-  xpath_query <- .build_join_xpath_query(join_functions, namespaces)
-  join_calls <- xml2::xml_find_all(xml, xpath_query)
-
-  violations <-
-    Filter(
-      Negate(is.null),
-      join_calls |>
-        lapply(
-          .check_join_node_validate,
-          namespaces = namespaces
-        )
+  function(xml) {
+    join_functions <- c(
+      "left_join",
+      "right_join",
+      "inner_join",
+      "full_join",
+      "semi_join",
+      "anti_join",
+      "nest_join"
     )
 
-  has_violations <- length(violations) > 0
-  if (has_violations) {
-    .abort_implicit_joins(violations)
-  }
+    xpath_query <- .build_join_xpath_query(join_functions, namespaces)
+    join_calls <- xml2::xml_find_all(xml, xpath_query)
 
-  invisible(NULL)
+    violations <-
+      Filter(
+        Negate(is.null),
+        join_calls |>
+          lapply(
+            .check_join_node_validate,
+            namespaces = namespaces
+          )
+      )
+
+    if (length(violations) == 0) {
+      return(NULL)
+    }
+
+    new_validation_violation(
+      message = "Implicit {.pkg dplyr} join(s) detected in rendered component:",
+      details = "Join operations must explicitly specify the {.arg by} argument",
+      violations = violations
+    )
+  }
 }
 
 
@@ -157,28 +156,4 @@ validate_implicit_join <- function(
   # pkg name assumed to always exist when NS_GET present
   pkg_node <- xml2::xml_find_first(parent_expr, "./SYMBOL_PACKAGE")
   paste0(xml2::xml_text(pkg_node), "::", function_name)
-}
-
-
-#' Abort with formatted implicit join error message
-#'
-#' Throws a cli error with formatted information about implicit join violations.
-#'
-#' @param violations List of violation objects, each containing line_number and function_name
-#' @noRd
-.abort_implicit_joins <- function(violations) {
-  violation_messages <- vapply(
-    violations,
-    function(v) sprintf("Line %d: %s", v$line_number, v$function_name),
-    character(1)
-  )
-  names(violation_messages) <- rep("i", length(violations))
-
-  cli::cli_abort(
-    c(
-      "Implicit {.pkg dplyr} join(s) detected in rendered component:",
-      "x" = "Join operations must explicitly specify the {.arg by} argument",
-      violation_messages
-    )
-  )
 }
