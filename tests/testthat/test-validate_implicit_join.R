@@ -120,8 +120,6 @@ result2 <- dplyr::inner_join(df3, df4)
     validate_component_code(code_with_two_errors),
     "Implicit.*join"
   )
-  browser()
-  # Should flag both joins
   expect_match(conditionMessage(err), "left_join")
   expect_match(conditionMessage(err), "inner_join")
 })

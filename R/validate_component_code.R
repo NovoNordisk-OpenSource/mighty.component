@@ -81,8 +81,8 @@ new_validation_violation <- function(message, details, violations) {
 
   c(
     "",
-    setNames(v$message, "!"),
-    setNames(v$details, "x"),
-    setNames(violation_lines, rep("i", length(violation_lines)))
+    stats::setNames(v$message, "!"),
+    stats::setNames(v$details, "x"),
+    stats::setNames(violation_lines, rep("i", length(violation_lines)))
   )
 }
