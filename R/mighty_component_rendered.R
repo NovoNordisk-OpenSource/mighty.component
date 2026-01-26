@@ -21,6 +21,9 @@ mighty_component_rendered <- R6::R6Class(
     #' @param id `character` ID of the component. Either name of standard or path to local.
     initialize = function(template, id) {
       super$initialize(template, id)
+
+      validate_component_code(self$code)
+
       private$.params <- data.frame(
         name = character(),
         description = character()

@@ -78,3 +78,34 @@ test_that("msr_test_coverage", {
     eval_method(method = "test_coverage") |>
     expect_equal(0)
 })
+
+test_that("validation runs automatically when rendering component with invalid code", {
+  # Template with mustache parameters
+  invalid_template <- c(
+    "#' @title title",
+    "#' @description Desc",
+    "#' @param dataset The dataset to join",
+    "#' @param join_type The type of join function",
+    "#' @type derivation",
+    "#' @depends .self USUBJID",
+    "#' @outputs NEWVAR",
+    "#' @code",
+    ".self <- .self |>",
+    "  dplyr::{{ join_type }}({{ dataset }})"
+  )
+
+  component <- mighty_component$new(
+    template = invalid_template,
+    id = "test_invalid"
+  )
+
+  expect_error(
+    component$render(dataset = "other_data", join_type = "left_join"),
+    "Component validation failed"
+  )
+
+  expect_error(
+    component$render(dataset = "other_data", join_type = "left_join"),
+    "Implicit.*join"
+  )
+})
