@@ -64,8 +64,7 @@ test_that("aendt", {
 })
 
 test_that("ady", {
-  skip("Awaiting new testing framework in #48")
-
+  browser()
   ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
 
   expect_snapshot(ady)
