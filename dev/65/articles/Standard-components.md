@@ -239,7 +239,8 @@ supp_data <- {{source}} |>
 
 {{domain}} <- {{domain}} |>
   dplyr::left_join(
-    y = supp_data
+    y = supp_data,
+    by = dplyr::join_by(USUBJID, !!idvar == IDVARVAL)
   )
 ```
 
