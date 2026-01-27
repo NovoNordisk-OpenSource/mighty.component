@@ -20,7 +20,10 @@ validate_implicit_join <- function(xml) {
     "full_join",
     "semi_join",
     "anti_join",
-    "nest_join"
+    "nest_join",
+    "cross_join",
+    "sql_join",
+    "sql_semi_join"
   )
 
   xpath_query <- build_join_xpath_query(join_functions, namespaces)
