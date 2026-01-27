@@ -242,29 +242,6 @@ result3 <- dplyr::inner_join(df1, df2, by = "id")
   )
 })
 
-test_that("validate_component_code (implicit joins) works with custom namespaces parameter", {
-  tidylog_code <- "tidylog::left_join(df1, df2)"
-
-  expect_no_error(
-    validate_component_code(
-      tidylog_code,
-      validators = list(mighty.component:::.validate_implicit_join(
-        namespaces = "dplyr"
-      ))
-    )
-  )
-
-  expect_error(
-    validate_component_code(
-      tidylog_code,
-      validators = list(mighty.component:::.validate_implicit_join(
-        namespaces = c("dplyr", "tidylog")
-      ))
-    ),
-    "tidylog::left_join"
-  )
-})
-
 test_that("validate_component_code (implicit joins) handles multiple namespaces simultaneously", {
   mixed_namespace_code <- '
 result1 <- dplyr::left_join(df1, df2)
@@ -273,12 +250,7 @@ result3 <- dplyr::left_join(df1, df2, by = "id")
   '
 
   expect_error(
-    validate_component_code(
-      mixed_namespace_code,
-      validators = list(mighty.component:::.validate_implicit_join(
-        namespaces = c("dplyr", "tidylog")
-      ))
-    ),
+    validate_component_code(mixed_namespace_code),
     "Implicit.*join"
   )
 })

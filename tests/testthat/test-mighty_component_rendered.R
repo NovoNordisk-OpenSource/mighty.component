@@ -98,7 +98,7 @@ test_that("validation runs automatically when rendering component with invalid c
     template = invalid_template,
     id = "test_invalid"
   )
-  browser()
+
   expect_error(
     component$render(dataset = "other_data", join_type = "left_join"),
     "Component validation failed"

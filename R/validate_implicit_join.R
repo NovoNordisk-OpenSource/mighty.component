@@ -1,55 +1,50 @@
-#' Create validator for implicit join detection
+#' Validator for implicit join detection
 #'
-#' Factory function that creates a validator to detect dplyr join operations
-#' that lack an explicit `by` argument. Implicit joins can lead to unexpected
-#' behavior when column names change, so requiring explicit joins makes
-#' component code more robust.
+#' Detects dplyr join operations that lack an explicit `by` argument.
+#' Implicit joins can lead to unexpected behavior when column names change,
+#' so requiring explicit joins makes component code more robust.
 #'
-#' @param namespaces Character vector of package namespaces to check for join
-#'   functions. Defaults to `c("dplyr", "tidylog", "dbplyr")`. Only join calls
-#'   from these namespaces (or bare calls) will be validated.
+#' Checks join functions from the dplyr, tidylog, and dbplyr namespaces.
 #'
-#' @return A validator function that takes a context object with an XML AST
-#'   and returns either `NULL` (no violations) or a `validation_violation` object
+#' @param xml XML serialization of the abstract syntax tree (AST) to validate
+#'
+#' @return Either `NULL` (no violations) or a `validation_violation` object
 #'
 #' @noRd
-.validate_implicit_join <- function(
-  namespaces = c("dplyr", "tidylog", "dbplyr")
-) {
-  function(xml) {
-    join_functions <- c(
-      "left_join",
-      "right_join",
-      "inner_join",
-      "full_join",
-      "semi_join",
-      "anti_join",
-      "nest_join"
+validate_implicit_join <- function(xml) {
+  namespaces <- c("dplyr", "tidylog", "dbplyr")
+  join_functions <- c(
+    "left_join",
+    "right_join",
+    "inner_join",
+    "full_join",
+    "semi_join",
+    "anti_join",
+    "nest_join"
+  )
+
+  xpath_query <- build_join_xpath_query(join_functions, namespaces)
+  join_calls <- xml2::xml_find_all(xml, xpath_query)
+
+  violations <-
+    Filter(
+      Negate(is.null),
+      join_calls |>
+        lapply(
+          check_join_node_validate,
+          namespaces = namespaces
+        )
     )
 
-    xpath_query <- .build_join_xpath_query(join_functions, namespaces)
-    join_calls <- xml2::xml_find_all(xml, xpath_query)
-
-    violations <-
-      Filter(
-        Negate(is.null),
-        join_calls |>
-          lapply(
-            .check_join_node_validate,
-            namespaces = namespaces
-          )
-      )
-
-    if (length(violations) == 0) {
-      return(NULL)
-    }
-
-    new_validation_violation(
-      message = "Implicit {.pkg dplyr} join(s) detected in rendered component:",
-      details = "Join operations must explicitly specify the {.arg by} argument",
-      violations = violations
-    )
+  if (length(violations) == 0) {
+    return(NULL)
   }
+
+  new_validation_violation(
+    message = "Implicit {.pkg dplyr} join(s) detected in rendered component:",
+    details = "Join operations must explicitly specify the {.arg by} argument",
+    violations = violations
+  )
 }
 
 
@@ -62,7 +57,7 @@
 #' @param namespaces Character vector of package namespaces to check
 #' @return Character string containing XPath query
 #' @noRd
-.build_join_xpath_query <- function(join_functions, namespaces) {
+build_join_xpath_query <- function(join_functions, namespaces) {
   bare_fns <- sprintf("text()='%s'", join_functions)
   namespaced_fns <- namespaces |>
     lapply(function(ns) {
@@ -83,11 +78,11 @@
 #' @param namespaces Character vector of allowed package namespaces
 #' @return List with line_number and function_name if implicit, NULL otherwise
 #' @noRd
-.check_join_node_validate <- function(call_node, namespaces) {
+check_join_node_validate <- function(call_node, namespaces) {
   expr_node <- xml2::xml_parent(call_node)
   call_parent <- xml2::xml_parent(expr_node)
 
-  call_namespace <- .get_call_namespace(expr_node)
+  call_namespace <- get_call_namespace(expr_node)
   is_excluded_namespace <- !is.null(call_namespace) &&
     !call_namespace %in% namespaces
   if (is_excluded_namespace) {
@@ -101,7 +96,7 @@
   }
 
   line_num <- as.integer(xml2::xml_attr(call_node, "line1"))
-  function_name <- .extract_function_name(call_node)
+  function_name <- extract_function_name(call_node)
 
   list(
     line_number = line_num,
@@ -119,7 +114,7 @@
 #' @param expr_node XML node representing the expression containing the call
 #' @return Character string of namespace, or NULL if bare call or indeterminate
 #' @noRd
-.get_call_namespace <- function(expr_node) {
+get_call_namespace <- function(expr_node) {
   # NS_GET is the AST node type that R's parser creates for the :: operator.
   # Only use NS_GET and not NS_GET_INT (:::) because accessing internal
   # functions is not allowed in a component and validated separately
@@ -143,7 +138,7 @@
 #' @param call_node XML node representing the function call
 #' @return Character string like "left_join" or "dplyr::left_join"
 #' @noRd
-.extract_function_name <- function(call_node) {
+extract_function_name <- function(call_node) {
   function_name <- xml2::xml_text(call_node)
 
   parent_expr <- xml2::xml_parent(call_node)

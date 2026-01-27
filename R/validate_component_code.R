@@ -4,7 +4,7 @@
 #' @param validators List of validator functions to run
 #' @return Invisible NULL on success, throws error if validation fails
 #' @noRd
-validate_component_code <- function(code, validators = .default_validators()) {
+validate_component_code <- function(code, validators = default_validators()) {
   xml <- parse(text = code, keep.source = TRUE) |>
     xmlparsedata::xml_parse_data() |>
     xml2::read_xml()
@@ -14,37 +14,34 @@ validate_component_code <- function(code, validators = .default_validators()) {
     Filter(f = Negate(is.null))
 
   if (length(all_violations) > 0) {
-    .abort_validation_errors(all_violations)
+    abort_validation_errors(all_violations)
   }
 
   invisible(NULL)
 }
 
 #' @noRd
-.default_validators <- function() {
+default_validators <- function() {
   list(
-    .validate_implicit_join()
+    validate_implicit_join
   )
 }
 
 
 #' Create a validation violation result
 #'
-#' Constructor for validation_violation objects.
+#' Constructor for validation violation results.
 #'
 #' @param message Character string describing the overall issue
 #' @param details Character string with detailed explanation
 #' @param violations List of individual violations, each with `line_number` and `function_name`
-#' @return A validation_violation object (S3 class)
+#' @return A list
 #' @noRd
 new_validation_violation <- function(message, details, violations) {
-  structure(
-    list(
-      message = message,
-      details = details,
-      violations = violations
-    ),
-    class = "validation_violation"
+  list(
+    message = message,
+    details = details,
+    violations = violations
   )
 }
 
@@ -55,8 +52,8 @@ new_validation_violation <- function(message, details, violations) {
 #'   is a list with: `message` (overall issue), `details` (explanation), and
 #'   `violations` (list of individual occurrences with `line_number` and `function_name`)
 #' @noRd
-.abort_validation_errors <- function(all_violations) {
-  violation_messages <- lapply(all_violations, .format_violation_group)
+abort_validation_errors <- function(all_violations) {
+  violation_messages <- lapply(all_violations, format_violation_group)
 
   cli::cli_abort(c(
     "Component validation failed:",
@@ -70,7 +67,7 @@ new_validation_violation <- function(message, details, violations) {
 #' @param v A violation object with message, details, and violations
 #' @return Character vector with cli formatting names
 #' @noRd
-.format_violation_group <- function(v) {
+format_violation_group <- function(v) {
   violation_lines <- vapply(
     v$violations,
     function(violation) {
