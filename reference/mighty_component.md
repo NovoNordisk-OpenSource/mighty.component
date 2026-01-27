@@ -74,8 +74,8 @@ rendered code used in mighty becomes:
 
 ## See also
 
-[`get_standard()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/get_standard.md),
-[mighty_component_rendered](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[`get_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md),
+[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
 
 ## Active bindings
 
@@ -187,7 +187,7 @@ uses
 #### Returns
 
 Object of class
-[mighty_component_rendered](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
 
 ------------------------------------------------------------------------
 

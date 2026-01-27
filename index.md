@@ -19,5 +19,5 @@ components, and helper functions to retrieve them. For now it also holds
 a small temporary library of components.
 
 See
-[`vignette("mighty-standards")`](https://NovoNordisk-OpenSource.github.io/mighty.component/articles/mighty-standards.md)
+[`vignette("mighty-standards")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md)
 on how to work with standard components.
