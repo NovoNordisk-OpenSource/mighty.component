@@ -20,7 +20,7 @@ validate_component_code <- function(code, validators = .default_validators()) {
   invisible(NULL)
 }
 
-
+#' @noRd
 .default_validators <- function() {
   list(
     .validate_implicit_join()
