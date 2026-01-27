@@ -175,13 +175,14 @@ result2 <- dplyr::left_join(df1, df2, by = 'id')
 result3 <- dplyr::inner_join(df1, df2)
   "
 
-  error_obj <- tryCatch(
+  err <- expect_error(
     validate_component_code(multiline_code),
-    error = function(e) e
+    "Implicit.*join"
   )
 
-  expect_s3_class(error_obj, "error")
-  expect_match(conditionMessage(error_obj), "Line [0-9]+")
+  error_message <- conditionMessage(err)
+  expect_match(error_message, "Line 4")
+  expect_match(error_message, "Line 8")
 })
 
 test_that("validate_component_code (implicit joins) handles by = NULL explicitly", {
