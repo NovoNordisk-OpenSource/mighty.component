@@ -3,7 +3,7 @@
 #' @param code Character string of R code to validate
 #' @param validators List of validator functions to run
 #' @return Invisible NULL on success, throws error if validation fails
-#' @keywords internal
+#' @noRd
 validate_component_code <- function(code, validators = .default_validators()) {
   xml <- parse(text = code, keep.source = TRUE) |>
     xmlparsedata::xml_parse_data() |>
