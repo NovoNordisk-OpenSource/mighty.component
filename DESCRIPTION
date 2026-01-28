@@ -1,6 +1,6 @@
 Package: mighty.component
-Title: Standard components for ADaM generation
-Version: 0.0.0.9013
+Title: Standard Components for ADaM Generation
+Version: 0.0.0.9014
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Standard components library to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
-URL: https://NovoNordisk-OpenSource.github.io/mighty.component,
+URL: https://novonordisk-opensource.github.io/mighty.component,
     https://github.com/NovoNordisk-OpenSource/mighty.component
 Depends: 
     R (>= 4.1)
