@@ -255,3 +255,9 @@ result3 <- dplyr::left_join(df1, df2, by = "id")
     "Implicit.*join"
   )
 })
+
+test_that("validate_component_code (implicit joins) ignores joins from other namespaces", {
+  good_code <- "fakepkg::left_join(df1, df2)"
+
+  expect_no_error(validate_component_code(good_code))
+})
