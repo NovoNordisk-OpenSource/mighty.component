@@ -1,0 +1,52 @@
+# mighty.component
+
+mighty.component serve as a repository of generic compute component
+classes used to produce ADaM scripts in the {mighty} framework.
+
+## Installation
+
+You can install the development version of `mighty.component` from
+GitHub with:
+
+``` r
+pak::pak("NovoNordisk-OpenSource/mighty.component")
+```
+
+## Usage
+
+`mighty.component` provide generic classes to work with standard
+components, and helper functions to retrieve them. For now it also holds
+a small temporary library of components.
+
+See
+[`vignette("mighty-standards")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md)
+on how to work with standard components.
+
+# Package index
+
+## Use components
+
+- [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
+  [`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
+  : Retrieve mighty code component
+- [`get_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
+  [`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
+  : Retrieve mighty standard component
+- [`list_standards()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_standards.md)
+  : List all available standards
+
+## Mighty standard component classes
+
+- [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+  : Mighty standard component
+- [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+  : Rendered mighty standard component
+
+# Articles
+
+### All vignettes
+
+- [Use Mighty Standard
+  Components](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md):
+- [Standard
+  components](https://novonordisk-opensource.github.io/mighty.component/articles/Standard-components.md):
