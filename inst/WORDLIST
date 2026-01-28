@@ -29,6 +29,7 @@ dbplyr
 dtc
 emph
 envir
+fakepkg
 IDVARVAL
 jsonlite
 kable
