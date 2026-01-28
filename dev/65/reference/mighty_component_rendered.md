@@ -14,11 +14,11 @@ Once rendered a component can be used to:
 
 ## See also
 
-[`get_rendered_standard()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/get_standard.md)
+[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
 
 ## Super class
 
-[`mighty.component::mighty_component`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component.md)
+[`mighty.component::mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
 -\> `mighty_component_rendered`
 
 ## Methods
@@ -41,8 +41,8 @@ Once rendered a component can be used to:
 
 Inherited methods
 
-- [`mighty.component::mighty_component$document()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component.html#method-document)
-- [`mighty.component::mighty_component$render()`](https://NovoNordisk-OpenSource.github.io/mighty.component/reference/mighty_component.html#method-render)
+- [`mighty.component::mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
+- [`mighty.component::mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
 
 ------------------------------------------------------------------------
 

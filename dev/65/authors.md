@@ -13,14 +13,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/NovoNordisk-OpenSource/mighty.component/blob/feat/lint/DESCRIPTION)
 
-Thomsen A, Phelps M (2026). *mighty.component: Standard components for
-ADaM generation*. R package version 0.0.0.9013,
-<https://NovoNordisk-OpenSource.github.io/mighty.component>.
+Thomsen A, Phelps M (2026). *mighty.component: Standard Components for
+ADaM Generation*. R package version 0.0.0.9014,
+<https://novonordisk-opensource.github.io/mighty.component>.
 
     @Manual{,
-      title = {mighty.component: Standard components for ADaM generation},
+      title = {mighty.component: Standard Components for ADaM Generation},
       author = {Aksel Thomsen and Matthew Phelps},
       year = {2026},
-      note = {R package version 0.0.0.9013},
-      url = {https://NovoNordisk-OpenSource.github.io/mighty.component},
+      note = {R package version 0.0.0.9014},
+      url = {https://novonordisk-opensource.github.io/mighty.component},
     }
