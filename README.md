@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mighty.component
+# mighty.component <a href="https://novonordisk-opensource.github.io/mighty.component"><img src="man/figures/logo.png" align="right" height="139" alt="mighty.component website" /></a>
 
 <!-- badges: start -->
 
