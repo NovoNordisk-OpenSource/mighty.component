@@ -7,10 +7,11 @@
       test: This is a test component used for unit testing
       Type: derivation
       Parameters:
+      * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
-      * .self.A
+      * {{domain}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -27,17 +28,18 @@
       
       ### Parameters
       
-      |name |description  |
-      |:----|:------------|
-      |x1   |First input  |
-      |x2   |Second input |
+      |name   |description                                  |
+      |:------|:--------------------------------------------|
+      |domain |`character` Name of new domain being created |
+      |x1     |First input                                  |
+      |x2     |Second input                                 |
       
       ### Depends
       
-      |domain |column |
-      |:------|:------|
-      |.self  |A      |
-      |Y      |B      |
+      |domain     |column |
+      |:----------|:------|
+      |{{domain}} |A      |
+      |Y          |B      |
       
       ### Outputs
       
@@ -46,7 +48,7 @@
       ### Code
       
       ```r
-      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
       ``` 
       
 
@@ -59,12 +61,12 @@
       test: This is a test component used for unit testing
       Type: derivation
       Depends:
-      * .self.A
+      * domain.A
       * Y.B
       Outputs:
       * NEWVAR
       Code:
-      .self$NEWVAR <- 1 * Y$B + .self$A - 2
+      domain$NEWVAR <- 1 * Y$B + domain$A - 2
 
 # print
 
@@ -77,10 +79,11 @@
       testing
       Type: derivation
       Parameters:
+      * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
-      * .self.A
+      * {{domain}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -107,17 +110,18 @@
       
       ### Parameters
       
-      |name |description  |
-      |:----|:------------|
-      |x1   |First input  |
-      |x2   |Second input |
+      |name   |description                                  |
+      |:------|:--------------------------------------------|
+      |domain |`character` Name of new domain being created |
+      |x1     |First input                                  |
+      |x2     |Second input                                 |
       
       ### Depends
       
-      |domain |column |
-      |:------|:------|
-      |.self  |A      |
-      |Y      |B      |
+      |domain     |column |
+      |:----------|:------|
+      |{{domain}} |A      |
+      |Y          |B      |
       
       ### Outputs
       
@@ -126,7 +130,7 @@
       ### Code
       
       ```r
-      .self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}
+      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
       ``` 
       
 

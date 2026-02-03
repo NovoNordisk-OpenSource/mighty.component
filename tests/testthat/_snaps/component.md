@@ -1,26 +1,28 @@
-# get_rendered_component, custom code component as function multiple depends
+# get_rendered_component, custom code component from R script
 
     Code
       x
     Message
       <mighty_component_rendered/mighty_component/R6>
-      _components/ady.R: Derives the relative day compared to the treatment start
-      date.
+      _components/ady_local.R: Derives the relative day compared to the treatment
+      start date.
       Type: derivation
       Depends:
-      * .self.A
-      * lb.A
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
-      * B
+      * out_var
       Code:
-        "hello" |>
-          print()
-        if (a) {
-          NULL
-        } else {
-          a <- 1
-        }
-        
+      domain <- domain |>
+        dplyr::mutate(
+          out_var = admiral::compute_duration(
+            start_date = TRTSDT,
+            end_date = date_var,
+            in_unit = "days",
+            out_unit = "days",
+            add_one = TRUE
+          )
+        )
 
 # get_rendered_component custom local mustache template with params
 
@@ -32,12 +34,12 @@
       treatment start date.
       Type: derivation
       Depends:
-      * .self.date_var
-      * .self.TRTSDT
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
       * out_var
       Code:
-      .self <- .self |>
+      domain <- domain |>
         dplyr::mutate(
           out_var = admiral::compute_duration(
             start_date = TRTSDT,
@@ -57,12 +59,12 @@
       ady: Derives the relative day compared to the treatment start date.
       Type: derivation
       Depends:
-      * .self.date_var
-      * .self.TRTSDT
+      * domain.date_var
+      * domain.TRTSDT
       Outputs:
       * out_var
       Code:
-      .self <- .self |>
+      domain <- domain |>
         dplyr::mutate(
           out_var = admiral::compute_duration(
             start_date = TRTSDT,

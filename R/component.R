@@ -25,7 +25,7 @@
 #' @examples
 #' get_component("ady")
 #'
-#' get_rendered_component("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' get_rendered_component("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
 #'
 #' @rdname get_component
 #' @export
@@ -38,12 +38,17 @@ get_component <- function(component) {
 
   switch(
     file_type,
-    "r" = get_custom_r_function(component),
-    "mustache" = mighty_component$new(
-      template = readLines(component),
-      id = component
-    ),
+    "r" = get_custom_r(component),
+    "mustache" = get_mustache(component),
     get_standard(component)
+  )
+}
+
+#' @noRd
+get_mustache <- function(component) {
+  mighty_component$new(
+    template = readLines(component),
+    id = component
   )
 }
 

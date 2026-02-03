@@ -1,63 +1,52 @@
-test_that("get_rendered_component, custom code component as function multiple depends", {
-  # ACT ---------------------------
-  x <- get_rendered_component(
-    component = test_path("_components", "ady.R")
-  )
-
-  # ASSERT
+expect_ady <- function(x) {
   expect_s3_class(x, "mighty_component_rendered")
-  expect_snapshot(x)
   expect_equal(x$type, "derivation")
   expect_equal(
     x$depends,
-    data.frame(domain = c(".self", "lb"), column = c("A", "A"))
+    data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
   )
-  expect_equal(x$outputs, "B")
+  expect_equal(x$outputs, "out_var")
+
+  invisible(x)
+}
+
+test_that("get_rendered_component, custom code component from R script", {
+  x <- get_rendered_component(
+    component = test_path("_components", "ady_local.R")
+  )
+
+  expect_ady(x)
+  expect_snapshot(x)
 })
 
 
 test_that("get_rendered_component custom local mustache template with params", {
-  # ACT ---------------------------
   x <- get_rendered_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(
+      domain = "domain",
       date = "date_var",
       variable = "out_var"
     )
   )
 
-  # ASSERT
-  expect_s3_class(x, "mighty_component_rendered")
+  expect_ady(x)
   expect_snapshot(x)
-  expect_equal(x$type, "derivation")
-  expect_equal(
-    x$depends,
-    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
-  )
-  expect_equal(x$outputs, "out_var")
 })
 
 
 test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
-  # ARRANGE -------------------------------------------------------------------
-  # ACT ---------------------------
   y <- get_rendered_component(
     component = "ady",
     params = list(
+      domain = "domain",
       date = "date_var",
       variable = "out_var"
     )
   )
 
-  # ASSERT ---------------------------
-  expect_s3_class(y, "mighty_component_rendered")
+  expect_ady(y)
   expect_snapshot(y)
-  expect_equal(y$type, "derivation")
-  expect_equal(
-    y$depends,
-    data.frame(domain = rep(".self", 2), column = c("date_var", "TRTSDT"))
-  )
-  expect_equal(y$outputs, "out_var")
 })
 
 test_that("error handling", {

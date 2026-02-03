@@ -2,15 +2,16 @@
 #' @description
 #' Derives treatment emergent analysis flag.
 #'
+#' @param domain `character` Name of new domain being created
 #' @param end_window Passed along to `admiral::end_window()`
 #' @type derivation
-#' @depends .self ASTDT
-#' @depends .self AENDT
-#' @depends .self TRTSDT
-#' @depends .self TRTEDT
+#' @depends {{domain}} ASTDT
+#' @depends {{domain}} AENDT
+#' @depends {{domain}} TRTSDT
+#' @depends {{domain}} TRTEDT
 #' @outputs TRTEMFL
 #' @code
-.self <- .self |>
+{{domain}} <- {{domain}} |>
   admiral::derive_var_trtemfl(
     start_date = ASTDT,
     end_date = AENDT,

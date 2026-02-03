@@ -15,7 +15,7 @@
 #' @examples
 #' get_standard("ady")
 #'
-#' get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
+#' get_rendered_standard("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
 #' @rdname get_standard
 #' @export
 get_standard <- function(standard) {

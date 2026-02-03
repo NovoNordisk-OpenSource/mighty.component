@@ -12,7 +12,7 @@ test_that("mighty_component", {
 
   test_component$code |>
     expect_equal(
-      ".self$NEWVAR <- {{ x1 }} * Y$B + .self$A - {{ x2 }}"
+      "{{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}"
     )
 
   test_component$template |>
@@ -25,7 +25,7 @@ test_that("mighty_component", {
     expect_s3_class("data.frame") |>
     expect_equal(
       data.frame(
-        domain = c(".self", "Y"),
+        domain = c("{{domain}}", "Y"),
         column = c("A", "B")
       )
     )
@@ -36,15 +36,27 @@ test_that("mighty_component", {
   test_component$params |>
     expect_equal(
       data.frame(
-        name = c("x1", "x2"),
-        description = c("First input", "Second input")
+        name = c(
+          "domain",
+          "x1",
+          "x2"
+        ),
+        description = c(
+          "`character` Name of new domain being created",
+          "First input",
+          "Second input"
+        )
       )
     )
 
   test_component$document() |>
     expect_snapshot()
 
-  test_component_rendered <- test_component$render(x1 = 1, x2 = 2) |>
+  test_component_rendered <- test_component$render(
+    domain = "domain",
+    x1 = 1,
+    x2 = 2
+  ) |>
     expect_no_condition() |>
     expect_s3_class("mighty_component_rendered")
 
@@ -52,7 +64,7 @@ test_that("mighty_component", {
 
   test_component_rendered$code |>
     expect_equal(
-      ".self$NEWVAR <- 1 * Y$B + .self$A - 2"
+      "domain$NEWVAR <- 1 * Y$B + domain$A - 2"
     )
 
   grepl(pattern = "\\{\\{|\\}\\}", x = test_component_rendered$template) |>
@@ -66,7 +78,7 @@ test_that("mighty_component", {
     expect_s3_class("data.frame") |>
     expect_equal(
       data.frame(
-        domain = c(".self", "Y"),
+        domain = c("domain", "Y"),
         column = c("A", "B")
       )
     )
@@ -219,7 +231,7 @@ test_that("render", {
   eval_method(
     x = test_component,
     method = "render",
-    args = list(x1 = 5, x2 = 4)
+    args = list(domain = "domain", x1 = 5, x2 = 4)
   ) |>
     expect_no_condition()
 })

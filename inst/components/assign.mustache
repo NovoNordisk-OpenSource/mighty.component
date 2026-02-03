@@ -2,12 +2,13 @@
 #' @description
 #' Assigns a single value to an entire column.
 #'
+#' @param domain `character` Name of new domain being created
 #' @param variable `character` Name of variable to create or modify
 #' @param value Value to assign to the variable
 #' @type assigned
 #' @outputs {{variable}}
 #' @code
-.self <- .self |>
+{{domain}} <- {{domain}} |>
   dplyr::mutate(
     {{variable}} = {{{value}}}
   )
