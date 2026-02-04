@@ -20,7 +20,8 @@ Imports:
     rlang,
     whisker,
     xmlparsedata,
-    xml2
+    xml2,
+    zephyr
 Suggests: 
     admiral,
     callr,
