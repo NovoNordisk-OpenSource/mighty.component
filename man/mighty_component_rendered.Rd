@@ -40,7 +40,7 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from rendered template.
+Create component from rendered template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$new(template, id)}\if{html}{\out{</div>}}
 }

@@ -49,14 +49,21 @@ test_that("Error with no test code coverage", {
 test_that("my component", {
   skip()
 
-  x <- get_test_component("my_component", param = list(...)) # --> associated callr R session
+  x <- get_test_component(
+    component = test_path("_components", "ady_local.mustache"),
+    params = list(domain = "adlb", variable = "ADY2", date = "ADT")
+  ) # --> associated callr R session
 
   # Setup requirements
-  x$assign("adsl", pharmaverseadam::adsl)
-  x$assign("advs", pharmaverseadam::advs |> dplyr::select(-AVISIT))
+  x$assign("adlb", head(pharmaverseadam::adlb, 5))
+
+  x$get("adlb") |> # --> gets outpuit
+    names() |>
+    expect_disjoint("ADY2")
 
   x$eval() # --> runs and tracks coverage
 
-  x$get("advs") |> # --> gets outpuit
-    expect_something()
+  x$get("adlb") |> # --> gets outpuit
+    names() |>
+    expect_contains("ADY2")
 })

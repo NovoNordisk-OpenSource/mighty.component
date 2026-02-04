@@ -2,29 +2,17 @@
 % Please edit documentation in R/mighty_component_test.R
 \name{mighty_component_test}
 \alias{mighty_component_test}
-\title{Rendered mighty standard component}
+\title{Test mighty component}
 \description{
-Class for a rendered mighty standard component.
-
-Once rendered a component can be used to:
-\itemize{
-\item Test code against expected output
-\item Calculate test coverage
+Class for a testing a mighty component.
 }
-}
-\seealso{
-\code{\link[=get_rendered_standard]{get_rendered_standard()}}
+\section{Super classes}{
+\code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty.component::mighty_component_rendered}} -> \code{mighty_component_test}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{component}}{The \link{mighty_component_rendered} object being tested.}
-
-\item{\code{test_coverage}}{Test coverage percentage}
-
-\item{\code{missing_lines}}{Index of lines uncovered by unit tests}
-
-\item{\code{covered_lines}}{Index of lines covered by unit tests}
+\item{\code{coverage}}{description}
 }
 \if{html}{\out{</div>}}
 }
@@ -33,24 +21,38 @@ Once rendered a component can be used to:
 \itemize{
 \item \href{#method-mighty_component_test-new}{\code{mighty_component_test$new()}}
 \item \href{#method-mighty_component_test-print}{\code{mighty_component_test$print()}}
+\item \href{#method-mighty_component_test-assign}{\code{mighty_component_test$assign()}}
+\item \href{#method-mighty_component_test-get}{\code{mighty_component_test$get()}}
+\item \href{#method-mighty_component_test-ls}{\code{mighty_component_test$ls()}}
 \item \href{#method-mighty_component_test-eval}{\code{mighty_component_test$eval()}}
 \item \href{#method-mighty_component_test-check_coverage}{\code{mighty_component_test$check_coverage()}}
 \item \href{#method-mighty_component_test-clone}{\code{mighty_component_test$clone()}}
 }
 }
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty.component::mighty_component$document()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty.component::mighty_component$render()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component_rendered" data-id="stream"><a href='../../mighty.component/html/mighty_component_rendered.html#method-mighty_component_rendered-stream'><code>mighty.component::mighty_component_rendered$stream()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from rendered template.
+Create test component from rendered template.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$new(component)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$new(template, id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{component}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+\item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+
+\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
 }
 \if{html}{\out{</div>}}
 }
@@ -59,9 +61,37 @@ Create standard component from rendered template.
 \if{html}{\out{<a id="method-mighty_component_test-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-print}{}}}
 \subsection{Method \code{print()}}{
-Print method showing test coverage
+Print method showing component and test coverage
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component_test-assign"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_test-assign}{}}}
+\subsection{Method \code{assign()}}{
+Assign
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$assign(x, value)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component_test-get"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_test-get}{}}}
+\subsection{Method \code{get()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$get(x)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
+\subsection{Method \code{ls()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$ls()}\if{html}{\out{</div>}}
 }
 
 }
@@ -71,16 +101,9 @@ Print method showing test coverage
 \subsection{Method \code{eval()}}{
 Test component against expected output.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$eval(input)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$eval()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{input}}{The input to use as \code{.self} for the code chunk}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-check_coverage"></a>}}

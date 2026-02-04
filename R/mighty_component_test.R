@@ -1,31 +1,39 @@
-#' Rendered mighty standard component
+#' Test mighty component
 #' @description
-#' Class for a rendered mighty standard component.
+#' Class for a testing a mighty component.
 #'
-#' Once rendered a component can be used to:
-#'
-#' * Test code against expected output
-#' * Calculate test coverage
-#'
-#' @seealso [get_rendered_standard()]
 #' @export
 mighty_component_test <- R6::R6Class(
   classname = "mighty_component_test",
+  inherit = mighty_component_rendered,
   public = list(
     #' @description
-    #' Create standard component from rendered template.
-    #' @param component `character` Rendered template such as output from `mighty_component$render()`.
-    initialize = function(component) {
-      mst_initialize(component, self, private)
+    #' Create test component from rendered template.
+    #' @param template `character` Rendered template such as output from `mighty_component$render()`.
+    #' @param id `character` ID of the component. Either name of standard or path to local.
+    initialize = function(template, id) {
+      mst_initialize(template, id, self, private, super)
     },
     #' @description
-    #' Print method showing test coverage
-    print = \() mst_print(self),
+    #' Print method showing component and test coverage
+    print = function() {
+      mst_print(self)
+    },
+    #' @description
+    #' Assign
+    assign = function(x, value) {
+      mst_run(assign, list(x, value), self, private)
+    },
+    get = function(x) {
+      mst_run(get, list(x), self, private)
+    },
+    ls = function() {
+      mst_run(ls, list(), self, private)
+    },
     #' @description
     #' Test component against expected output.
-    #' @param input The input to use as `.self` for the code chunk
-    eval = function(input) {
-      mst_eval(input, self, private)
+    eval = function() {
+      mst_run(\() .f(), list(), self, private)
     },
     #' @description
     #' Check that code coverage is 100%
@@ -34,94 +42,93 @@ mighty_component_test <- R6::R6Class(
     }
   ),
   private = list(
-    .component = NULL,
-    .test_fn = NULL,
-    .coverage = NULL
+    .session = NULL,
+    .coverage = 0
   ),
   active = list(
-    #' @field component The [mighty_component_rendered] object being tested.
-    component = \() private$.component,
-    #' @field test_coverage Test coverage percentage
-    test_coverage = \() mean(private$.coverage$covered) * 100,
-    #' @field missing_lines Index of lines uncovered by unit tests
-    missing_lines = \() private$.coverage$line[!private$.coverage$covered],
-    #' @field covered_lines Index of lines covered by unit tests
-    covered_lines = \() private$.coverage$line[private$.coverage$covered]
+    #' @field coverage description
+    coverage = \() private$.coverage
   )
 )
 
 #' @noRd
-mst_initialize <- function(component, self, private) {
+mst_initialize <- function(template, id, self, private, super) {
   rlang::check_installed("callr")
   rlang::check_installed("covr")
 
-  private$.component <- component
+  super$initialize(template, id)
 
-  private$.test_fn <- c(
-    "test_fn <- function(.self) {",
-    component$code,
-    "return(.self)",
-    "}"
-  )
+  private$.session <- callr::r_session$new()
 
-  zero_coverage <- callr::r(
-    func = eval_coverage,
-    args = list(
-      test_fn = private$.test_fn
+  # TODO: Can it be done less hacky?????
+  test_fn <- function() {}
+  body(test_fn) <- parse(
+    text = gsub(
+      pattern = "<-",
+      replacement = "<<-",
+      x = self$code,
+      fixed = TRUE
     )
   )
 
-  private$.coverage <- zero_coverage[["coverage"]] |>
-    covr::tally_coverage(by = "line") |>
-    format_coverage()
+  self$assign(x = ".f", value = test_fn)
+
+  # TODO assign function
+
+  # TODO: Retrieve init coverage
+
+  # private$.coverage <- zero_coverage[["coverage"]] |>
+  #   covr::tally_coverage(by = "line") |>
+  #   format_coverage()
 }
 
 #' @noRd
 mst_print <- function(self) {
-  cli::cli({
-    cli::cli_text("{.emph Code:}")
-    cli::cli_code(self$component$code)
-  })
-
+  # TODO
   invisible(self)
 }
 
 #' @noRd
-mst_eval <- function(input, self, private) {
-  result <- callr::r(
-    func = eval_coverage,
-    args = list(
-      input = input,
-      test_fn = private$.test_fn,
-      test_code = "output <<- test_fn(.self = input)"
-    ),
-    package = TRUE
+mst_run <- function(func, args, self, private) {
+  invisible(
+    private$.session$run(
+      func = func,
+      args = args
+    )
   )
+}
 
-  coverage <- result$coverage |>
-    covr::tally_coverage(by = "line") |>
-    format_coverage()
-
-  private$.coverage$covered <- private$.coverage$covered |
-    as.logical(coverage$covered)
-
-  result$output
+#' @noRd
+mst_eval <- function(self, private) {
+  # result <- callr::r(
+  #   func = eval_coverage,
+  #   args = list(
+  #     input = input,
+  #     test_fn = private$.test_fn,
+  #     test_code = "output <<- test_fn(.self = input)"
+  #   ),
+  #   package = TRUE
+  # )
+  # coverage <- result$coverage |>
+  #   covr::tally_coverage(by = "line") |>
+  #   format_coverage()
+  # private$.coverage$covered <- private$.coverage$covered |
+  #   as.logical(coverage$covered)
+  # result$output
 }
 
 #' @noRd
 eval_coverage <- function(input = data.frame(), test_fn, test_code = "") {
-  output <- NULL
-
-  coverage <- covr::code_coverage(
-    source_code = paste(test_fn, collapse = "\n"),
-    test_code = test_code,
-    parent_env = rlang::current_env()
-  )
-
-  list(
-    output = output,
-    coverage = coverage
-  )
+  # output <- NULL
+  # coverage <- covr::code_coverage(
+  #   source_code = paste(test_fn, collapse = "\n"),
+  #   test_code = test_code,
+  #   parent_env = rlang::current_env()
+  # )
+  # list(
+  #   output = output,
+  #   coverage = coverage
+  # )
 }
 
 #' @noRd
