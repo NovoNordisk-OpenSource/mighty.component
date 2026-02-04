@@ -25,7 +25,6 @@ Once rendered a component can be used to:
 \item \href{#method-mighty_component_rendered-print}{\code{mighty_component_rendered$print()}}
 \item \href{#method-mighty_component_rendered-stream}{\code{mighty_component_rendered$stream()}}
 \item \href{#method-mighty_component_rendered-eval}{\code{mighty_component_rendered$eval()}}
-\item \href{#method-mighty_component_rendered-test}{\code{mighty_component_rendered$test()}}
 \item \href{#method-mighty_component_rendered-clone}{\code{mighty_component_rendered$clone()}}
 }
 }
@@ -103,17 +102,6 @@ Defaults to using the current environment with \code{parent.frame()}.}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component_rendered-test"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component_rendered-test}{}}}
-\subsection{Method \code{test()}}{
-Creates a \link{mighty_component_test} object used
-for unit testing a rendered component.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-clone"></a>}}

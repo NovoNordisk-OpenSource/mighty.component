@@ -45,3 +45,18 @@ test_that("Error with no test code coverage", {
   }) |>
     expect_error("All lines in component must be covered by unit tests")
 })
+
+test_that("my component", {
+  skip()
+
+  x <- get_test_component("my_component", param = list(...)) # --> associated callr R session
+
+  # Setup requirements
+  x$assign("adsl", pharmaverseadam::adsl)
+  x$assign("advs", pharmaverseadam::advs |> dplyr::select(-AVISIT))
+
+  x$eval() # --> runs and tracks coverage
+
+  x$get("advs") |> # --> gets outpuit
+    expect_something()
+})

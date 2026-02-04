@@ -37,16 +37,7 @@ mighty_component_rendered <- R6::R6Class(
     #' @param envir Environment to evaluate in. Parsed to `eval()`.
     #' Defaults to using the current environment with `parent.frame()`.
     eval = function(envir = parent.frame()) {
-      eval(
-        expr = parse(text = self$code),
-        envir = envir
-      )
-    },
-    #' @description
-    #' Creates a [mighty_component_test] object used
-    #' for unit testing a rendered component.
-    test = function() {
-      mighty_component_test$new(component = self)
+      msr_eval(envir, self)
     }
   )
 )
@@ -78,4 +69,21 @@ msr_stream <- function(path, self) {
   writeLines(text = self$code, con = f)
   close(f)
   invisible(self)
+}
+
+#' @noRd
+msr_eval <- function(envir, self) {
+  zephyr::msg_verbose(
+    message = c(
+      ">" = "Evaluating component {.field {self$title}}",
+      "i" = "{.emph Code:}",
+      "{.code {self$code}}"
+    ),
+    msg_fun = cli::cli_bullets
+  )
+
+  eval(
+    expr = parse(text = self$code),
+    envir = envir
+  )
 }

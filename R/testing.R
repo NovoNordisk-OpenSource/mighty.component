@@ -3,7 +3,7 @@
 #' @param check_coverage `logical(1)`
 #' @param teardown_env Environment used
 #' @export
-test_component <- function(
+get_test_component <- function(
   component,
   params,
   check_coverage = TRUE,
@@ -18,12 +18,4 @@ test_component <- function(
     )
   }
   test
-}
-
-#' Evaluate a test component
-#' @param input Object to be used as `.self` when testing the component
-#' @param component Test component
-#' @export
-test_eval <- function(input, component) {
-  component$eval(input = input)
 }
