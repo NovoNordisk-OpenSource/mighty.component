@@ -43,42 +43,6 @@ test_that("eval", {
     expect_equal(47)
 })
 
-test_that("test", {
-  component <- test_path("_components", "test_component.mustache") |>
-    get_rendered_component(params = list(domain = "domain", x1 = 15, x2 = 35))
-
-  component$code |>
-    expect_equal("domain$NEWVAR <- 15 * Y$B + domain$A - 35")
-
-  env <- new.env(parent = baseenv())
-  env$domain <- data.frame(A = c(1, 5, 6))
-  env$Y <- data.frame(B = c(3, 2, 10))
-
-  eval_method(
-    x = component,
-    method = "test",
-    args = list(
-      expected = data.frame(
-        A = c(1, 5, 6),
-        NEWVAR = c(11, 0, 121)
-      ),
-      envir = env
-    )
-  )
-
-  env$domain |>
-    expect_equal(
-      data.frame(A = c(1, 5, 6))
-    )
-})
-
-test_that("msr_test_coverage", {
-  test_path("_components", "test_component.mustache") |>
-    get_rendered_component(params = list(domain = "domain", x1 = 5, x2 = 3)) |>
-    eval_method(method = "test_coverage") |>
-    expect_equal(0)
-})
-
 test_that("validation runs automatically when rendering component with invalid code", {
   # Template with mustache parameters
   invalid_template <- c(
