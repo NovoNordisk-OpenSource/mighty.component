@@ -32,17 +32,14 @@ on how to work with standard components.
 - [`get_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
   [`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
   : Retrieve mighty standard component
+- [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+  : Create test component
 - [`list_standards()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_standards.md)
   : List all available standards
+- [`mighty.component-options`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md)
+  : Options for mighty.component
 
-## Testing components
-
-- [`test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/test_component.md)
-  : Create test component
-- [`test_eval()`](https://novonordisk-opensource.github.io/mighty.component/reference/test_eval.md)
-  : Evaluate a test component
-
-## Mighty standard component classes
+## Mighty component classes
 
 - [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
   : Mighty standard component

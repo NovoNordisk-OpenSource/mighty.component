@@ -30,8 +30,6 @@ Once rendered a component can be used to:
 
 - [`mighty_component_rendered$eval()`](#method-mighty_component_rendered-eval)
 
-- [`mighty_component_rendered$test()`](#method-mighty_component_rendered-test)
-
 - [`mighty_component_rendered$clone()`](#method-mighty_component_rendered-clone)
 
 Inherited methods
@@ -109,18 +107,6 @@ Evaluate code in a specified environment.
   [`eval()`](https://rdrr.io/r/base/eval.html). Defaults to using the
   current environment with
   [`parent.frame()`](https://rdrr.io/r/base/sys.parent.html).
-
-------------------------------------------------------------------------
-
-### Method `test()`
-
-Creates a
-[mighty_component_test](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
-object used for unit testing a rendered component.
-
-#### Usage
-
-    mighty_component_rendered$test()
 
 ------------------------------------------------------------------------
 
