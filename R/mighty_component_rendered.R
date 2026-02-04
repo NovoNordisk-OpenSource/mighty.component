@@ -46,6 +46,8 @@ mighty_component_rendered <- R6::R6Class(
 msr_initialize <- function(template, id, self, private, super) {
   super$initialize(template, id)
 
+  validate_component_code(self$code)
+
   private$.params <- data.frame(
     name = character(),
     description = character()
