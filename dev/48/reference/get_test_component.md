@@ -7,7 +7,7 @@ Create test component
 ``` r
 get_test_component(
   component,
-  params,
+  params = list(),
   check_coverage = TRUE,
   teardown_env = parent.frame()
 )

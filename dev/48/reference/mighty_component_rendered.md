@@ -41,7 +41,7 @@ Inherited methods
 
 ### Method `new()`
 
-Create standard component from rendered template.
+Create component from rendered template.
 
 #### Usage
 

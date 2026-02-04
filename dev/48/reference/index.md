@@ -22,4 +22,4 @@
 - [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
   : Rendered mighty standard component
 - [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
-  : Rendered mighty standard component
+  : Test mighty component

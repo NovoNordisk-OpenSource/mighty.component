@@ -1,36 +1,19 @@
-# Rendered mighty standard component
+# Test mighty component
 
-Class for a rendered mighty standard component.
+Class for a testing a mighty component.
 
-Once rendered a component can be used to:
+## Super classes
 
-- Test code against expected output
-
-- Calculate test coverage
-
-## See also
-
-[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
+[`mighty.component::mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+-\>
+[`mighty.component::mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+-\> `mighty_component_test`
 
 ## Active bindings
 
-- `component`:
+- `coverage`:
 
-  The
-  [mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
-  object being tested.
-
-- `test_coverage`:
-
-  Test coverage percentage
-
-- `missing_lines`:
-
-  Index of lines uncovered by unit tests
-
-- `covered_lines`:
-
-  Index of lines covered by unit tests
+  description
 
 ## Methods
 
@@ -40,38 +23,81 @@ Once rendered a component can be used to:
 
 - [`mighty_component_test$print()`](#method-mighty_component_test-print)
 
+- [`mighty_component_test$assign()`](#method-mighty_component_test-assign)
+
+- [`mighty_component_test$get()`](#method-mighty_component_test-get)
+
+- [`mighty_component_test$ls()`](#method-mighty_component_test-ls)
+
 - [`mighty_component_test$eval()`](#method-mighty_component_test-eval)
 
 - [`mighty_component_test$check_coverage()`](#method-mighty_component_test-check_coverage)
 
 - [`mighty_component_test$clone()`](#method-mighty_component_test-clone)
 
+Inherited methods
+
+- [`mighty.component::mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
+- [`mighty.component::mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
+- [`mighty.component::mighty_component_rendered$stream()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.html#method-stream)
+
 ------------------------------------------------------------------------
 
 ### Method `new()`
 
-Create standard component from rendered template.
+Create test component from rendered template.
 
 #### Usage
 
-    mighty_component_test$new(component)
+    mighty_component_test$new(template, id)
 
 #### Arguments
 
-- `component`:
+- `template`:
 
   `character` Rendered template such as output from
   `mighty_component$render()`.
+
+- `id`:
+
+  `character` ID of the component. Either name of standard or path to
+  local.
 
 ------------------------------------------------------------------------
 
 ### Method [`print()`](https://rdrr.io/r/base/print.html)
 
-Print method showing test coverage
+Print method showing component and test coverage
 
 #### Usage
 
     mighty_component_test$print()
+
+------------------------------------------------------------------------
+
+### Method [`assign()`](https://rdrr.io/r/base/assign.html)
+
+Assign
+
+#### Usage
+
+    mighty_component_test$assign(x, value)
+
+------------------------------------------------------------------------
+
+### Method [`get()`](https://rdrr.io/r/base/get.html)
+
+#### Usage
+
+    mighty_component_test$get(x)
+
+------------------------------------------------------------------------
+
+### Method [`ls()`](https://rdrr.io/r/base/ls.html)
+
+#### Usage
+
+    mighty_component_test$ls()
 
 ------------------------------------------------------------------------
 
@@ -81,13 +107,7 @@ Test component against expected output.
 
 #### Usage
 
-    mighty_component_test$eval(input)
-
-#### Arguments
-
-- `input`:
-
-  The input to use as `.self` for the code chunk
+    mighty_component_test$eval()
 
 ------------------------------------------------------------------------
 
