@@ -1,69 +1,49 @@
-test_that("Testing workflow works", {
-  x <- test_component(
-    component = test_path("_components", "test_coverage.mustache"),
-    params = list(x = 1, y = 1),
-    check_coverage = !covr::in_covr()
-  )
-
-  expect_snapshot(x)
-
-  test_eval(input = data.frame(z = 1), component = x) |>
-    expect_equal(
-      data.frame(z = 3)
-    )
-
-  test_eval(input = data.frame(z = 10), component = x) |>
-    expect_equal(
-      data.frame(z = 10)
-    )
-})
-
-test_that("Objects are passed along correctly", {
-  x <- test_component(
-    component = test_path("_components", "test_component.mustache"),
-    params = list(x1 = 1, x2 = 3),
-    check_coverage = FALSE
-  )
-
-  expect_snapshot(x)
-
-  Y <- data.frame(B = 1)
-
-  test_eval(
-    input = data.frame(A = 1),
-    component = x
-  ) |>
-    expect_equal(-3)
-})
-
-test_that("Error with no test code coverage", {
-  local({
-    test_component(
-      component = test_path("_components", "test_component.mustache"),
-      params = list(x1 = 1, x2 = 3)
-    )
-  }) |>
-    expect_error("All lines in component must be covered by unit tests")
-})
-
-test_that("my component", {
-  skip()
-
+test_that("general testing workflow", {
   x <- get_test_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(domain = "adlb", variable = "ADY2", date = "ADT")
   ) # --> associated callr R session
 
   # Setup requirements
-  x$assign("adlb", head(pharmaverseadam::adlb, 5))
+  x$assign("adlb", head(pharmaverseadam::adlb, 5)) |>
+    expect_invisible()
+
+  x$ls() |>
+    expect_visible() |>
+    expect_equal("adlb")
 
   x$get("adlb") |> # --> gets outpuit
     names() |>
     expect_disjoint("ADY2")
 
-  x$eval() # --> runs and tracks coverage
+  x$eval() |> # --> runs and tracks coverage
+    expect_invisible()
 
   x$get("adlb") |> # --> gets outpuit
+    expect_visible() |>
     names() |>
     expect_contains("ADY2")
+
+  x$percent_coverage |>
+    expect_equal(100)
+
+  x$line_coverage |>
+    expect_s3_class("data.frame")
+
+  x$check_coverage() |>
+    expect_no_error()
+
+  x$line_coverage$value |>
+    min() |>
+    expect_equal(1)
+})
+
+test_that("Error with no test code coverage", {
+  local({
+    get_test_component(
+      component = test_path("_components", "test_component.mustache"),
+      params = list(domain = "a", x1 = 1, x2 = 3)
+    )
+  }) |>
+    expect_error("All lines in component must be covered by unit tests")
 })

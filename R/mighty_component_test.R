@@ -22,7 +22,9 @@ mighty_component_test <- R6::R6Class(
     #' @description
     #' Assign
     assign = function(x, value) {
-      mst_run(assign, list(x, value), self, private)
+      invisible(
+        mst_run(assign, list(x, value), self, private)
+      )
     },
     get = function(x) {
       mst_run(get, list(x), self, private)
@@ -33,7 +35,7 @@ mighty_component_test <- R6::R6Class(
     #' @description
     #' Test component against expected output.
     eval = function() {
-      mst_run(\() .f(), list(), self, private)
+      mst_eval(self, private)
     },
     #' @description
     #' Check that code coverage is 100%
@@ -43,11 +45,13 @@ mighty_component_test <- R6::R6Class(
   ),
   private = list(
     .session = NULL,
-    .coverage = 0
+    .coverage = NULL
   ),
   active = list(
-    #' @field coverage description
-    coverage = \() private$.coverage
+    #' @field percent_coverage description
+    percent_coverage = \() mean(private$.coverage$value > 0) * 100,
+    #' @field line_coverage description
+    line_coverage = \() private$.coverage
   )
 )
 
@@ -58,28 +62,38 @@ mst_initialize <- function(template, id, self, private, super) {
 
   super$initialize(template, id)
 
-  private$.session <- callr::r_session$new()
-
   # TODO: Can it be done less hacky?????
-  test_fn <- function() {}
-  body(test_fn) <- parse(
-    text = gsub(
-      pattern = "<-",
-      replacement = "<<-",
-      x = self$code,
-      fixed = TRUE
-    )
+  # covr::function_coverage seems to be buggy for this use
+  test_fn <- paste(
+    c(
+      ".f <- function() {",
+      gsub(
+        pattern = "<-",
+        replacement = "<<-",
+        x = self$code,
+        fixed = TRUE
+      ),
+      "}"
+    ),
+    collapse = "\n"
   )
 
+  private$.session <- callr::r_session$new()
+
+  # TODO: binding
   self$assign(x = ".f", value = test_fn)
 
-  # TODO assign function
+  init_coverage <- mst_run(
+    func = \() covr::code_coverage(source_code = .f, test_code = ""),
+    args = list(),
+    self = self,
+    private = private
+  ) |>
+    covr::tally_coverage()
 
-  # TODO: Retrieve init coverage
+  init_coverage$line <- init_coverage$line - 1
 
-  # private$.coverage <- zero_coverage[["coverage"]] |>
-  #   covr::tally_coverage(by = "line") |>
-  #   format_coverage()
+  private$.coverage <- init_coverage[, c("line", "value")]
 }
 
 #' @noRd
@@ -90,62 +104,38 @@ mst_print <- function(self) {
 
 #' @noRd
 mst_run <- function(func, args, self, private) {
-  invisible(
-    private$.session$run(
-      func = func,
-      args = args
-    )
+  private$.session$run(
+    func = func,
+    args = args
   )
 }
 
 #' @noRd
 mst_eval <- function(self, private) {
-  # result <- callr::r(
-  #   func = eval_coverage,
-  #   args = list(
-  #     input = input,
-  #     test_fn = private$.test_fn,
-  #     test_code = "output <<- test_fn(.self = input)"
-  #   ),
-  #   package = TRUE
-  # )
-  # coverage <- result$coverage |>
-  #   covr::tally_coverage(by = "line") |>
-  #   format_coverage()
-  # private$.coverage$covered <- private$.coverage$covered |
-  #   as.logical(coverage$covered)
-  # result$output
-}
+  coverage <- mst_run(
+    func = \() covr::code_coverage(source_code = .f, test_code = ".f()"),
+    args = list(),
+    self = self,
+    private = private
+  ) |>
+    covr::tally_coverage(by = "line")
 
-#' @noRd
-eval_coverage <- function(input = data.frame(), test_fn, test_code = "") {
-  # output <- NULL
-  # coverage <- covr::code_coverage(
-  #   source_code = paste(test_fn, collapse = "\n"),
-  #   test_code = test_code,
-  #   parent_env = rlang::current_env()
-  # )
-  # list(
-  #   output = output,
-  #   coverage = coverage
-  # )
-}
+  private$.coverage$value <- private$.coverage$value + coverage$value
 
-#' @noRd
-format_coverage <- function(tally) {
-  data.frame(
-    line = tally$line - 1,
-    covered = as.logical(tally$value)
-  )
+  invisible()
 }
 
 #' @noRd
 mst_check_coverage <- function(self, private) {
-  if (length(self$missing_lines)) {
+  missing_lines <- self$line_coverage$line[
+    self$line_coverage$value == 0
+  ]
+
+  if (length(missing_lines)) {
     cli::cli_abort(
       c(
         "All lines in component must be covered by unit tests",
-        "i" = "Lines not covered: {self$missing_lines}"
+        "i" = "Lines not covered: {missing_lines}"
       )
     )
   }
