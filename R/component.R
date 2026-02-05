@@ -72,17 +72,17 @@ get_test_component <- function(
 ) {
   x <- get_rendered_component(component, params)
 
-  test <- mighty_component_test$new(
+  test_component <- mighty_component_test$new(
     template = x$template,
     id = x$id
   )
 
   if (check_coverage) {
     withr::defer(
-      expr = test$check_coverage(),
+      expr = test_component$check_coverage(),
       envir = teardown_env
     )
   }
 
-  test
+  test_component
 }

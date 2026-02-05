@@ -22,9 +22,8 @@ mighty_component_test <- R6::R6Class(
     #' @description
     #' Assign
     assign = function(x, value) {
-      invisible(
-        mst_run(assign, list(x, value), self, private)
-      )
+      mst_run(assign, list(x, value), self, private)
+      invisible(self)
     },
     get = function(x) {
       mst_run(get, list(x), self, private)
@@ -122,7 +121,7 @@ mst_eval <- function(self, private) {
 
   private$.coverage$value <- private$.coverage$value + coverage$value
 
-  invisible()
+  invisible(self)
 }
 
 #' @noRd
