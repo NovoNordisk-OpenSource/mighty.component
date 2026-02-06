@@ -16,6 +16,9 @@ test_that("general testing workflow", {
     intersect("ADY2") |>
     expect_length(0)
 
+  x$percent_coverage |>
+    expect_equal(0)
+
   x$eval() |>
     expect_invisible()
 
