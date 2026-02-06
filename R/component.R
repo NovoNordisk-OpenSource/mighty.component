@@ -68,13 +68,12 @@ get_rendered_component <- function(component, params = list()) {
 #' See [mighty_component_test] for a description of the testing workflow.
 #'
 #' @inheritParams get_component
-#' @inheritParams get_rendered_component
 #' @param check_coverage `logical(1)` Whether to automatically check test
-#'   coverage when the test completes. If `TRUE` (default), coverage is
-#'   verified via `test_component$check_coverage()` in a deferred call.
+#' coverage when the test completes. If `TRUE` (default), coverage is
+#' verified via `test_component$check_coverage()` in a deferred call.
 #' @param teardown_env The environment in which to register the deferred
-#'   coverage check. Defaults to the caller's environment (`parent.frame()`).
-#'   This controls when `check_coverage()` executes during test teardown.
+#' coverage check. Defaults to the caller's environment (`parent.frame()`).
+#' This controls when `check_coverage()` executes during test teardown.
 #'
 #' @return A `mighty_component_test` object.
 #'
