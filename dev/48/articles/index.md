@@ -2,9 +2,7 @@
 
 ### All vignettes
 
-- [Use Mighty Standard
-  Components](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md):
+- [Use Mighty
+  Components](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-component.md):
 - [Standard
   components](https://novonordisk-opensource.github.io/mighty.component/articles/Standard-components.md):
-- [Test
-  component](https://novonordisk-opensource.github.io/mighty.component/articles/testing.md):
