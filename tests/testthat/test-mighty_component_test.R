@@ -2,9 +2,8 @@ test_that("general testing workflow", {
   x <- get_test_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(domain = "adlb", variable = "ADY2", date = "ADT")
-  ) # --> associated callr R session
+  )
 
-  # Setup requirements
   x$assign("adlb", head(pharmaverseadam::adlb, 5)) |>
     expect_invisible()
 
