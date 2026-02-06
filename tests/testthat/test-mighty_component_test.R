@@ -12,15 +12,15 @@ test_that("general testing workflow", {
     expect_visible() |>
     expect_equal("adlb")
 
-  x$get("adlb") |> # --> gets outpuit
+  x$get("adlb") |>
     names() |>
     intersect("ADY2") |>
     expect_length(0)
 
-  x$eval() |> # --> runs and tracks coverage
+  x$eval() |>
     expect_invisible()
 
-  x$get("adlb") |> # --> gets outpuit
+  x$get("adlb") |>
     expect_visible() |>
     names() |>
     expect_contains("ADY2")
