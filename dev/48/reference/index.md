@@ -19,9 +19,9 @@
 ## Mighty component classes
 
 - [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
-  : Mighty standard component
+  : Mighty component
 - [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
-  : Rendered mighty standard component
+  : Rendered mighty component
 - [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
   : Test mighty component
 

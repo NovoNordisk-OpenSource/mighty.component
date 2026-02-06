@@ -1,6 +1,6 @@
-# Rendered mighty standard component
+# Rendered mighty component
 
-Class for a rendered mighty standard component.
+Class for a rendered mighty component.
 
 Once rendered a component can be used to:
 

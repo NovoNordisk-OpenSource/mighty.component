@@ -1,8 +1,8 @@
 # Test mighty component
 
-R6 class for unit testing a mighty component with code coverage
-tracking. Runs component code in an isolated R session and tracks which
-lines are executed during testing.
+Class for unit testing a mighty component with code coverage tracking.
+Runs component code in an isolated R session and tracks which lines are
+executed during testing.
 
 ## Details
 
@@ -148,7 +148,7 @@ The value of the variable.
 
 ### Method [`ls()`](https://rdrr.io/r/base/ls.html)
 
-List all variables in the isolated test session.
+List all objects in the isolated test session.
 
 #### Usage
 
