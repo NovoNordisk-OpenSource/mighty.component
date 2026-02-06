@@ -107,15 +107,24 @@ mst_initialize <- function(template, id, self, private, super) {
 
   private$.session <- callr::r_session$new()
 
-  # TODO: binding
   self$assign(x = ".test_fn", value = test_fn)
+
+  mst_run(
+    # Locks .test_fn to make sure it is not accidentally overwritten
+    func = \() lockBinding(sym = ".test_fn", env = globalenv()),
+    args = list(),
+    self = self,
+    private = private
+  )
 
   init_coverage <- mst_run(
     func = \() {
+      # nocov start
       covr::code_coverage(
         source_code = get(".test_fn"),
         test_code = ""
       )
+      # nocov end
     },
     args = list(),
     self = self,
@@ -127,6 +136,8 @@ mst_initialize <- function(template, id, self, private, super) {
 
   private$.coverage <- init_coverage[, c("line", "value")]
 }
+
+# TODO: finalize
 
 #' @noRd
 mst_print <- function(self) {
@@ -146,10 +157,12 @@ mst_run <- function(func, args, self, private) {
 mst_eval <- function(self, private) {
   coverage <- mst_run(
     func = \() {
+      # nocov start
       covr::code_coverage(
         source_code = get(x = ".test_fn"),
         test_code = ".test_fn()"
       )
+      # nocov end
     },
     args = list(),
     self = self,

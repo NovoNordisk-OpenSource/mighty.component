@@ -51,10 +51,10 @@ test_that("validation runs automatically when rendering component with invalid c
     "#' @param dataset The dataset to join",
     "#' @param join_type The type of join function",
     "#' @type derivation",
-    "#' @depends .self USUBJID",
+    "#' @depends {{ domain }} USUBJID",
     "#' @outputs NEWVAR",
     "#' @code",
-    ".self <- .self |>",
+    "{{ domain }} <- {{ domain }} |>",
     "  dplyr::{{ join_type }}({{ dataset }})"
   )
 

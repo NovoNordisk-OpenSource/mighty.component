@@ -64,8 +64,8 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @param variable",
     "#' @param date ",
     "#' @type derivation",
-    "#' @depends .self {{ date }}",
-    "#' @depends .self TRTSDT",
+    "#' @depends {{ domain }} {{ date }}",
+    "#' @depends {{ domain }} TRTSDT",
     "#' @outputs {{ variable }}",
     "print('hello')"
   )

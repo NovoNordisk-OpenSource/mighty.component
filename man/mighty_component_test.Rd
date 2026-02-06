@@ -9,7 +9,7 @@ Runs component code in an isolated R session and tracks which lines are
 executed during testing.
 }
 \details{
-Use \code{\link[=get_test_component]{get_test_component()}} to create instances for testing. The test
+Always use \code{\link[=get_test_component]{get_test_component()}} to create instances for testing. The test
 workflow is:
 \enumerate{
 \item Create test component with \code{get_test_component()}
