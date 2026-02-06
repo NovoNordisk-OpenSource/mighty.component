@@ -6,7 +6,7 @@ lines are executed during testing.
 
 ## Details
 
-Use
+Always use
 [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
 to create instances for testing. The test workflow is:
 
@@ -19,7 +19,7 @@ to create instances for testing. The test workflow is:
 
 4.  Retrieve results with `$get()`
 
-5.  Test results with `expect_*()` functions from `{testthat}` as usual
+5.  Test results with `expect_*()` functions from `{testthat}`
 
 Coverage is automatically checked at test teardown via
 `$check_coverage()`.

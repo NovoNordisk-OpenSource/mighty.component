@@ -19,27 +19,28 @@ specified using `{{ variable_name }}`.
 A template is required to be documented with the following tags similar
 to when documenting functions using roxygen2:
 
-|                |                                                      |                           |
-|----------------|------------------------------------------------------|---------------------------|
-| Tag            | Description                                          | Example                   |
-| `@title`       | Title of the component                               | `@title My component`     |
-| `@description` | Description of the component                         | `@description text text`  |
-| `@param`       | Specifies input used to render the component         | `@param variable new var` |
-| `@type`        | Specifies type: predecessor, derivation, row         | `@type derivation`        |
-| `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID`  |
-| `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`         |
-| `@code`        | Everything under this tag defines the component code | `@code`                   |
+|                |                                                      |                                 |
+|----------------|------------------------------------------------------|---------------------------------|
+| Tag            | Description                                          | Example                         |
+| `@title`       | Title of the component                               | `@title My component`           |
+| `@description` | Description of the component                         | `@description text text`        |
+| `@param`       | Specifies input used to render the component         | `@param variable new var`       |
+| `@type`        | Specifies type: predecessor, derivation, row         | `@type derivation`              |
+| `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
+| `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`               |
+| `@code`        | Everything under this tag defines the component code | `@code`                         |
 
 ### Conventions
 
 A template for a standard components follow these conventions:
 
-1.  The input data set is always called `.self`.
+1.  The input data set is always called `{{ domain }}`.
 
 2.  Additional parameters used to render the template into R code are
     documented with the `@param` tag.
 
-3.  The template ends with creating a modified version of `.self`.
+3.  The template ends with creating a modified version of
+    `{{ domain }}`.
 
 4.  Template documented with the roxygen-like tags above
 
@@ -47,7 +48,7 @@ A template for a standard components follow these conventions:
 
 Below is an example of a mighty component template that creates a new
 dynamic variable `variable` as twice the value of the dynamic input `x`,
-that should already by in the input data set `.self`.
+that should already by in the input data set `{{ domain }}`.
 
     #' @title Title for my component
     #' @description
@@ -56,10 +57,10 @@ that should already by in the input data set `.self`.
     #' @param variable dynamic output if applicable
     #' @param x some other input to the component
     #' @type derivation
-    #' @depends .self {{ x }}
+    #' @depends {{ domain }} {{ x }}
     #' @outputs {{ variable }}
     #' @code
-    .self <- .self |>
+    {{ domain }} <- {{ domain }} |>
       dplyr::mutate(
         {{ variable }} = 2 * {{ x }}
       )
@@ -67,7 +68,7 @@ that should already by in the input data set `.self`.
 When rendered with parameters `variable = "A"` and `x = "B"` the
 rendered code used in mighty becomes:
 
-    .self <- .self |>
+    {{ domain }} <- {{ domain }} |>
       dplyr::mutate(
         A = 2 * B
       )

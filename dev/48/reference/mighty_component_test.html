@@ -49,12 +49,12 @@ executed during testing.</p>
 
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Use <code><a href="get_test_component.html">get_test_component()</a></code> to create instances for testing. The test
+    <p>Always use <code><a href="get_test_component.html">get_test_component()</a></code> to create instances for testing. The test
 workflow is:</p><ol><li><p>Create test component with <code><a href="get_test_component.html">get_test_component()</a></code></p></li>
 <li><p>Assign input data with <code>$assign()</code></p></li>
 <li><p>Execute and track coverage with <code>$eval()</code></p></li>
 <li><p>Retrieve results with <code>$get()</code></p></li>
-<li><p>Test results with <code>expect_*()</code> functions from <code>{testthat}</code> as usual</p></li>
+<li><p>Test results with <code>expect_*()</code> functions from <code>{testthat}</code></p></li>
 </ol><p>Coverage is automatically checked at test teardown via <code>$check_coverage()</code>.</p>
     </div>
     <div class="section level2">
