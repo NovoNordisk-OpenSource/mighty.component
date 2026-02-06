@@ -2,9 +2,9 @@
 % Please edit documentation in R/mighty_component_rendered.R
 \name{mighty_component_rendered}
 \alias{mighty_component_rendered}
-\title{Rendered mighty standard component}
+\title{Rendered mighty component}
 \description{
-Class for a rendered mighty standard component.
+Class for a rendered mighty component.
 
 Once rendered a component can be used to:
 \itemize{

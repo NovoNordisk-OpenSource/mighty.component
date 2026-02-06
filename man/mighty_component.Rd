@@ -2,13 +2,13 @@
 % Please edit documentation in R/mighty_component.R
 \name{mighty_component}
 \alias{mighty_component}
-\title{Mighty standard component}
+\title{Mighty component}
 \description{
-Class for a generic mighty standard component.
+Class for a generic mighty component.
 
 In the mighty framework, a "component" is a code template that processes
 input data and returns a modified version with new columns or rows.
-Standard components share a common structure and roxygen-like documentation pattern,
+Mighty components share a common structure and roxygen-like documentation pattern,
 facilitating their use inside mighty.
 }
 \details{
