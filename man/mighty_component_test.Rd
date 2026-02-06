@@ -4,7 +4,22 @@
 \alias{mighty_component_test}
 \title{Test mighty component}
 \description{
-Class for a testing a mighty component.
+R6 class for unit testing a mighty component with code coverage tracking.
+Runs component code in an isolated R session and tracks which lines are
+executed during testing.
+}
+\details{
+Use \code{\link[=get_test_component]{get_test_component()}} to create instances for testing. The test
+workflow is:
+\enumerate{
+\item Create test component with \code{get_test_component()}
+\item Assign input data with \verb{$assign()}
+\item Execute and track coverage with \verb{$eval()}
+\item Retrieve results with \verb{$get()}
+\item Test results with \verb{expect_*()} functions from \code{{testthat}} as usual
+}
+
+Coverage is automatically checked at test teardown via \verb{$check_coverage()}.
 }
 \section{Super classes}{
 \code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty.component::mighty_component_rendered}} -> \code{mighty_component_test}
@@ -12,7 +27,10 @@ Class for a testing a mighty component.
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{coverage}}{description}
+\item{\code{percent_coverage}}{\code{numeric} Percentage of lines covered (0-100).}
+
+\item{\code{line_coverage}}{\code{data.frame} with columns \code{line} and \code{value}
+showing execution count per line.}
 }
 \if{html}{\out{</div>}}
 }
@@ -71,49 +89,83 @@ Print method showing component and test coverage
 \if{html}{\out{<a id="method-mighty_component_test-assign"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-assign}{}}}
 \subsection{Method \code{assign()}}{
-Assign
+Assign a variable in the isolated test session.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$assign(x, value)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{\code{character} Name of the variable to assign.}
+
+\item{\code{value}}{Value to assign to the variable.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{self} invisibly, for method chaining.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-get"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-get}{}}}
 \subsection{Method \code{get()}}{
+Retrieve a variable from the isolated test session.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$get(x)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{\code{character} Name of the variable to retrieve.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The value of the variable.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
 \subsection{Method \code{ls()}}{
+List all variables in the isolated test session.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$ls()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\code{character} vector of variable names.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-eval}{}}}
 \subsection{Method \code{eval()}}{
-Test component against expected output.
+Execute the component code and update coverage tracking.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$eval()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\code{self} invisibly, for method chaining.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-check_coverage"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-check_coverage}{}}}
 \subsection{Method \code{check_coverage()}}{
-Check that code coverage is 100\%
+Check that all lines in the component were executed at least once.
+Throws an error if any lines have zero coverage.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$check_coverage()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+\code{self} invisibly if all lines are covered.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-clone"></a>}}

@@ -1,6 +1,20 @@
 #' Test mighty component
 #' @description
-#' Class for a testing a mighty component.
+#' R6 class for unit testing a mighty component with code coverage tracking.
+#' Runs component code in an isolated R session and tracks which lines are
+#' executed during testing.
+#'
+#' @details
+#' Always use [get_test_component()] to create instances for testing. The test
+#' workflow is:
+#'
+#' 1. Create test component with `get_test_component()`
+#' 2. Assign input data with `$assign()`
+#' 3. Execute and track coverage with `$eval()`
+#' 4. Retrieve results with `$get()`
+#' 5. Test results with `expect_*()` functions from `{testthat}` as usual
+#'
+#' Coverage is automatically checked at test teardown via `$check_coverage()`.
 #'
 #' @export
 mighty_component_test <- R6::R6Class(
@@ -20,24 +34,37 @@ mighty_component_test <- R6::R6Class(
       mst_print(self)
     },
     #' @description
-    #' Assign
+    #' Assign a variable in the isolated test session.
+    #' @param x `character` Name of the variable to assign.
+    #' @param value Value to assign to the variable.
+    #' @return `self` invisibly, for method chaining.
     assign = function(x, value) {
       mst_run(assign, list(x, value), self, private)
       invisible(self)
     },
+    #' @description
+    #' Retrieve a variable from the isolated test session.
+    #' @param x `character` Name of the variable to retrieve.
+    #' @return The value of the variable.
     get = function(x) {
       mst_run(get, list(x), self, private)
     },
+    #' @description
+    #' List all variables in the isolated test session.
+    #' @return `character` vector of variable names.
     ls = function() {
       mst_run(ls, list(), self, private)
     },
     #' @description
-    #' Test component against expected output.
+    #' Execute the component code and update coverage tracking.
+    #' @return `self` invisibly, for method chaining.
     eval = function() {
       mst_eval(self, private)
     },
     #' @description
-    #' Check that code coverage is 100%
+    #' Check that all lines in the component were executed at least once.
+    #' Throws an error if any lines have zero coverage.
+    #' @return `self` invisibly if all lines are covered.
     check_coverage = function() {
       mst_check_coverage(self, private)
     }
@@ -47,9 +74,10 @@ mighty_component_test <- R6::R6Class(
     .coverage = NULL
   ),
   active = list(
-    #' @field percent_coverage description
+    #' @field percent_coverage `numeric` Percentage of lines covered (0-100).
     percent_coverage = \() mean(private$.coverage$value > 0) * 100,
-    #' @field line_coverage description
+    #' @field line_coverage `data.frame` with columns `line` and `value`
+    #'   showing execution count per line.
     line_coverage = \() private$.coverage
   )
 )
@@ -65,7 +93,7 @@ mst_initialize <- function(template, id, self, private, super) {
   # covr::function_coverage seems to be buggy for this use
   test_fn <- paste(
     c(
-      ".f <- function() {",
+      ".test_fn <- function() {",
       gsub(
         pattern = "<-",
         replacement = "<<-",
@@ -80,10 +108,15 @@ mst_initialize <- function(template, id, self, private, super) {
   private$.session <- callr::r_session$new()
 
   # TODO: binding
-  self$assign(x = ".f", value = test_fn)
+  self$assign(x = ".test_fn", value = test_fn)
 
   init_coverage <- mst_run(
-    func = \() covr::code_coverage(source_code = .f, test_code = ""),
+    func = \() {
+      covr::code_coverage(
+        source_code = get(".test_fn"),
+        test_code = ""
+      )
+    },
     args = list(),
     self = self,
     private = private
@@ -112,7 +145,12 @@ mst_run <- function(func, args, self, private) {
 #' @noRd
 mst_eval <- function(self, private) {
   coverage <- mst_run(
-    func = \() covr::code_coverage(source_code = .f, test_code = ".f()"),
+    func = \() {
+      covr::code_coverage(
+        source_code = get(x = ".test_fn"),
+        test_code = ".test_fn()"
+      )
+    },
     args = list(),
     self = self,
     private = private
