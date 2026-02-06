@@ -48,6 +48,7 @@ test_that("validation runs automatically when rendering component with invalid c
   invalid_template <- c(
     "#' @title title",
     "#' @description Desc",
+    "#' @param domain the data set being changes",
     "#' @param dataset The dataset to join",
     "#' @param join_type The type of join function",
     "#' @type derivation",
@@ -63,13 +64,20 @@ test_that("validation runs automatically when rendering component with invalid c
     id = "test_invalid"
   )
 
-  expect_error(
-    component$render(dataset = "other_data", join_type = "left_join"),
-    "Component validation failed"
-  )
-
-  expect_error(
-    component$render(dataset = "other_data", join_type = "left_join"),
-    "Implicit.*join"
-  )
+  component$render(
+    domain = "x",
+    dataset = "other_data",
+    join_type = "left_join"
+  ) |>
+    expect_error(
+      "Component validation failed"
+    )
+  component$render(
+    domain = "x",
+    dataset = "other_data",
+    join_type = "left_join"
+  ) |>
+    expect_error(
+      "Implicit.*join"
+    )
 })
