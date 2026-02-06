@@ -92,8 +92,6 @@ mst_initialize <- function(template, id, self, private, super) {
 
   super$initialize(template, id)
 
-  # TODO: Can it be done less hacky?????
-  # covr::function_coverage seems to be buggy for this use
   test_fn <- paste(
     c(
       ".test_fn <- function() {",

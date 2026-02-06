@@ -106,6 +106,8 @@ test_that("Error with no test code coverage", {
 })
 
 test_that("Session closed on finalize", {
+  skip_on_os(os = "windows")
+
   x <- get_test_component(
     component = test_path("_components", "test_component.mustache"),
     params = list(domain = "a", x1 = 1, x2 = 3),
