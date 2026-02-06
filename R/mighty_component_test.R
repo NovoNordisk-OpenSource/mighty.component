@@ -1,6 +1,6 @@
 #' Test mighty component
 #' @description
-#' R6 class for unit testing a mighty component with code coverage tracking.
+#' Class for unit testing a mighty component with code coverage tracking.
 #' Runs component code in an isolated R session and tracks which lines are
 #' executed during testing.
 #'
@@ -50,7 +50,7 @@ mighty_component_test <- R6::R6Class(
       mst_run(get, list(x), self, private)
     },
     #' @description
-    #' List all variables in the isolated test session.
+    #' List all objects in the isolated test session.
     #' @return `character` vector of variable names.
     ls = function() {
       mst_run(ls, list(), self, private)
@@ -80,7 +80,7 @@ mighty_component_test <- R6::R6Class(
     #' @field percent_coverage `numeric` Percentage of lines covered (0-100).
     percent_coverage = \() mean(private$.coverage$value > 0) * 100,
     #' @field line_coverage `data.frame` with columns `line` and `value`
-    #'   showing execution count per line.
+    #' showing execution count per line.
     line_coverage = \() private$.coverage
   )
 )

@@ -4,7 +4,7 @@
 \alias{mighty_component_test}
 \title{Test mighty component}
 \description{
-R6 class for unit testing a mighty component with code coverage tracking.
+Class for unit testing a mighty component with code coverage tracking.
 Runs component code in an isolated R session and tracks which lines are
 executed during testing.
 }
@@ -131,7 +131,7 @@ The value of the variable.
 \if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
 \subsection{Method \code{ls()}}{
-List all variables in the isolated test session.
+List all objects in the isolated test session.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$ls()}\if{html}{\out{</div>}}
 }
