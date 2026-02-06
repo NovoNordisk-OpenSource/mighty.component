@@ -14,7 +14,7 @@
 ## Test components
 
 - [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-  : Create test component
+  : Create a testable component for unit testing
 
 ## Mighty component classes
 
