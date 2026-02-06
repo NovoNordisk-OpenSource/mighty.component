@@ -16,7 +16,7 @@ Depends:
 Imports: 
     cli,
     glue,
-    R6,
+    R6 (>= 2.4.0),
     rlang,
     whisker,
     xmlparsedata,

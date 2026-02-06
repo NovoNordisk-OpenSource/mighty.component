@@ -12,7 +12,7 @@
 #' 2. Assign input data with `$assign()`
 #' 3. Execute and track coverage with `$eval()`
 #' 4. Retrieve results with `$get()`
-#' 5. Test results with `expect_*()` functions from `{testthat}` as usual
+#' 5. Test results with `expect_*()` functions from `{testthat}`
 #'
 #' Coverage is automatically checked at test teardown via `$check_coverage()`.
 #'
@@ -70,6 +70,9 @@ mighty_component_test <- R6::R6Class(
     }
   ),
   private = list(
+    finalize = function() {
+      mst_finalize(self, private)
+    },
     .session = NULL,
     .coverage = NULL
   ),
@@ -126,7 +129,6 @@ mst_initialize <- function(template, id, self, private, super) {
       )
       # nocov end
     },
-    args = list(),
     self = self,
     private = private
   ) |>
@@ -137,16 +139,40 @@ mst_initialize <- function(template, id, self, private, super) {
   private$.coverage <- init_coverage[, c("line", "value")]
 }
 
-# TODO: finalize
+#' @noRd
+mst_finalize <- function(self, private) {
+  private$.session$close()
+}
 
 #' @noRd
 mst_print <- function(self) {
-  # TODO
+  coverage <- self$line_coverage
+  covered <- coverage$line[coverage$value > 0]
+  uncovered <- coverage$line[coverage$value == 0]
+
+  code_status <- rep(x = " ", times = length(self$code))
+  code_status[covered] <- cli::col_green(cli::symbol$tick)
+  code_status[uncovered] <- cli::col_red(cli::symbol$cross)
+
+  code_msg <- paste(code_status, cli::code_highlight(self$code))
+
+  cli::cli({
+    cli::cli_text("{.cls {class(self)}}")
+    cli::cli_text("{.field {self$id}}: {self$description}")
+    cli::cli_text(
+      "{.emph Test Coverage:} {.strong {format(self$percent_coverage, digits = 2, nsmall = 2)}%}"
+    )
+    cli::cli_text(
+      "{.emph Code: ({cli::col_green(cli::symbol$tick)} Covered, {cli::col_red(cli::symbol$cross)} Uncovered)}"
+    )
+    cli::cli_verbatim(code_msg)
+  })
+
   invisible(self)
 }
 
 #' @noRd
-mst_run <- function(func, args, self, private) {
+mst_run <- function(func, args = list(), self, private) {
   private$.session$run(
     func = func,
     args = args
@@ -164,7 +190,6 @@ mst_eval <- function(self, private) {
       )
       # nocov end
     },
-    args = list(),
     self = self,
     private = private
   ) |>

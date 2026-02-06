@@ -16,7 +16,7 @@ workflow is:
 \item Assign input data with \verb{$assign()}
 \item Execute and track coverage with \verb{$eval()}
 \item Retrieve results with \verb{$get()}
-\item Test results with \verb{expect_*()} functions from \code{{testthat}} as usual
+\item Test results with \verb{expect_*()} functions from \code{{testthat}}
 }
 
 Coverage is automatically checked at test teardown via \verb{$check_coverage()}.
