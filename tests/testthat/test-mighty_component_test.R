@@ -14,7 +14,8 @@ test_that("general testing workflow", {
 
   x$get("adlb") |> # --> gets outpuit
     names() |>
-    expect_disjoint("ADY2")
+    intersect("ADY2") |>
+    expect_length(0)
 
   x$eval() |> # --> runs and tracks coverage
     expect_invisible()
