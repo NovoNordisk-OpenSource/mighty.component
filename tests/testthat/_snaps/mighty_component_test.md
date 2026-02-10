@@ -12,7 +12,7 @@
         
       x if (x > limit) {
       x     x <- limit
-        }
+      x }
 
 ---
 
@@ -22,13 +22,13 @@
       <mighty_component_test/mighty_component_rendered/mighty_component/R6>
       _components/test_coverage.mustache: This is a test component used for unit
       testing the workflow and coverage.
-      Test Coverage: 66.67%
+      Test Coverage: 75.00%
       Code: (v Covered, x Uncovered)
       v x <- 5
         
       v if (x > limit) {
       x     x <- limit
-        }
+      v }
 
 ---
 
@@ -44,5 +44,5 @@
         
       v if (x > limit) {
       v     x <- limit
-        }
+      v }
 

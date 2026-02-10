@@ -78,8 +78,8 @@ test_that("printing and test percentage updates", {
   x$line_coverage |>
     expect_equal(
       data.frame(
-        line = c(1, 3, 4),
-        value = c(2, 2, 1)
+        line = c(1, 3, 4, 5),
+        value = c(2, 2, 1, 2)
       )
     )
 })

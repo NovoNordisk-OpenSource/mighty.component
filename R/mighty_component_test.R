@@ -95,12 +95,12 @@ mst_initialize <- function(template, id, self, private, super) {
   test_fn <- paste(
     c(
       ".test_fn <- function() {",
-      gsub(
-        pattern = "<-",
-        replacement = "<<-",
-        x = self$code,
-        fixed = TRUE
-      ),
+      "  .eval_env <- new.env(parent = globalenv())",
+      "  eval(expression({",
+      self$code,
+      "  }), envir = .eval_env)",
+      "  list2env(as.list(.eval_env), envir = globalenv())",
+      "  invisible(NULL)",
       "}"
     ),
     collapse = "\n"
@@ -132,7 +132,21 @@ mst_initialize <- function(template, id, self, private, super) {
   ) |>
     covr::tally_coverage()
 
-  init_coverage$line <- init_coverage$line - 1
+  # Filter to only component code lines (lines 4 to 3 + n_code_lines)
+  # and adjust line numbers to match original component code
+  code_start <- 4
+  code_end <- 3 + length(self$code)
+  init_coverage <- init_coverage[
+    init_coverage$line >= code_start & init_coverage$line <= code_end,
+  ]
+  init_coverage$line <- init_coverage$line - 3
+
+  # Exclude blank lines from coverage tracking
+  non_blank_lines <- which(trimws(self$code) != "")
+  init_coverage <- init_coverage[init_coverage$line %in% non_blank_lines, ]
+  # Reset rownames after filtering so they're sequential (1, 2, 3, ...)
+  # rather than preserving original indices (e.g., 3, 5, 6, 7)
+  rownames(init_coverage) <- NULL
 
   private$.coverage <- init_coverage[, c("line", "value")]
 }
@@ -192,6 +206,17 @@ mst_eval <- function(self, private) {
     private = private
   ) |>
     covr::tally_coverage(by = "line")
+
+  # Filter to only component code lines (lines 4 to 3 + n_code_lines)
+  # and exclude blank lines
+  code_start <- 4
+  code_end <- 3 + length(self$code)
+  coverage <- coverage[
+    coverage$line >= code_start & coverage$line <= code_end,
+  ]
+  coverage$line <- coverage$line - 3
+  non_blank_lines <- which(trimws(self$code) != "")
+  coverage <- coverage[coverage$line %in% non_blank_lines, ]
 
   private$.coverage$value <- private$.coverage$value + coverage$value
 
