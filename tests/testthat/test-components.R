@@ -1,118 +1,145 @@
 test_that("predecessor", {
-  skip("Awaiting new testing framework in #48")
-
-  predecessor <- get_rendered_standard(
-    "predecessor",
-    list(source = "pharmaverseadam::adsl", by = "USUBJID", variable = "ACTARM")
+  predecessor <- get_test_component(
+    component = "predecessor",
+    params = list(
+      domain = "advs",
+      source = "pharmaverseadam::adsl",
+      by = "USUBJID",
+      variable = "ACTARM"
+    )
   )
-
-  expect_snapshot(predecessor)
 
   advs <- pharmaverseadam::advs |>
     dplyr::select(USUBJID, PARAMCD, AVAL, ACTARM)
 
-  predecessor$test(
-    input = advs |> dplyr::select(-ACTARM),
-    expected = advs
+  predecessor$assign(
+    x = "advs",
+    value = dplyr::select(advs, -ACTARM)
   )
+
+  predecessor$eval()$get("advs") |>
+    expect_equal(advs)
 })
 
 test_that("assign", {
-  skip("Awaiting new testing framework in #48")
-
-  assign <- get_rendered_standard("assign", list(variable = "y", value = 1))
-
-  expect_snapshot(assign)
+  assign <- get_test_component(
+    component = "assign",
+    params = list(
+      domain = "df",
+      variable = "y",
+      value = 1
+    )
+  )
 
   df <- data.frame(x = "a", y = 1)
 
-  assign$test(
-    input = df |> dplyr::select(-y),
-    expected = df
+  assign$assign(
+    x = "df",
+    value = dplyr::select(df, -y)
   )
+
+  assign$eval()$get("df") |>
+    expect_equal(df)
 })
 
 test_that("astdt", {
-  skip("Awaiting new testing framework in #48")
-
-  astdt <- get_rendered_standard("astdt", list(dtc = "AESTDTC"))
-
-  expect_snapshot(astdt)
+  astdt <- get_test_component(
+    component = "astdt",
+    params = list(
+      domain = "adae",
+      dtc = "AESTDTC"
+    )
+  )
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, AESTDTC, ASTDT, ASTDTF)
+    dplyr::select(USUBJID, AESTDTC, ASTDT, ASTDTF) |>
+    strip_attributes()
 
-  astdt$test(
-    input = adae |> dplyr::select(-ASTDT, -ASTDTF),
-    expected = adae
+  astdt$assign(
+    x = "adae",
+    value = dplyr::select(adae, -ASTDT, -ASTDTF)
   )
+
+  astdt$eval()$get("adae") |>
+    expect_equal(adae)
 })
 
 test_that("aendt", {
-  skip("Awaiting new testing framework in #48")
-
-  aendt <- get_rendered_standard("aendt", list(dtc = "AEENDTC"))
-  expect_snapshot(aendt)
+  aendt <- get_test_component(
+    component = "aendt",
+    params = list(
+      domain = "adae",
+      dtc = "AEENDTC"
+    )
+  )
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF)
+    dplyr::select(USUBJID, AEENDTC, AENDT, AENDTF) |>
+    strip_attributes()
 
-  aendt$test(
-    input = adae |> dplyr::select(-AENDT, -AENDTF),
-    expected = adae
+  aendt$assign(
+    x = "adae",
+    value = dplyr::select(adae, -AENDT, -AENDTF)
   )
+
+  aendt$eval()$get("adae") |>
+    expect_equal(adae)
 })
 
 test_that("ady", {
-  skip("Awaiting new testing framework in #48")
-
-  ady <- get_rendered_standard("ady", list(variable = "ASTDY", date = "ASTDT"))
-
-  expect_snapshot(ady)
-
-  adae <- pharmaverseadam::adae |>
-    dplyr::select(USUBJID, ASTDT, TRTSDT, ASTDY)
-
-  ady$test(
-    input = adae |> dplyr::select(-ASTDY),
-    expected = adae
+  ady <- get_test_component(
+    component = "ady",
+    params = list(
+      domain = "adae",
+      variable = "ASTDY",
+      date = "ASTDT"
+    )
   )
 
-  ady$test(
-    input = adae |> dplyr::select(-ASTDY),
-    expected = adae |> dplyr::mutate(ASTDY = ASTDY + 1)
-  ) |>
-    expect_error()
+  adae <- pharmaverseadam::adae |>
+    dplyr::select(USUBJID, ASTDT, TRTSDT, ASTDY) |>
+    strip_attributes()
+
+  ady$assign(
+    x = "adae",
+    value = dplyr::select(adae, -ASTDY)
+  )
+
+  ady$eval()$get("adae") |>
+    expect_equal(adae)
 })
 
 test_that("trtemfl", {
-  skip("Awaiting new testing framework in #48")
-
-  trtemfl <- get_rendered_standard("trtemfl", list(end_window = 30))
-
-  expect_snapshot(trtemfl)
+  trtemfl <- get_test_component(
+    component = "trtemfl",
+    params = list(
+      domain = "adae",
+      end_window = 30
+    )
+  )
 
   adae <- pharmaverseadam::adae |>
-    dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT, TRTEMFL)
+    dplyr::select(ASTDT, AENDT, TRTSDT, TRTEDT, TRTEMFL) |>
+    strip_attributes()
 
-  trtemfl$test(
-    input = adae |> dplyr::select(-TRTEMFL),
-    expected = adae
+  trtemfl$assign(
+    x = "adae",
+    value = dplyr::select(adae, -TRTEMFL)
   )
+
+  trtemfl$eval()$get("adae") |>
+    expect_equal(adae)
 })
 
 test_that("supp_sdtm", {
-  skip("Awaiting new testing framework in #48")
-
-  supp_sdtm <- get_rendered_standard(
-    standard = "supp_sdtm",
+  supp_sdtm <- get_test_component(
+    component = "supp_sdtm",
     params = list(
+      domain = "adae",
       source = "pharmaversesdtm::suppae",
       qnam = "AETRTEM"
     )
   )
-
-  expect_snapshot(supp_sdtm)
 
   suppae <- pharmaversesdtm::suppae |>
     dplyr::mutate(
@@ -125,8 +152,11 @@ test_that("supp_sdtm", {
     dplyr::select(USUBJID, AESEQ, AETERM) |>
     dplyr::left_join(suppae, by = c("USUBJID", "AESEQ"))
 
-  supp_sdtm$test(
-    input = adae |> dplyr::select(-AETRTEM),
-    expected = adae
+  supp_sdtm$assign(
+    x = "adae",
+    value = dplyr::select(adae, -AETRTEM)
   )
+
+  supp_sdtm$eval()$get("adae") |>
+    expect_equal(adae)
 })

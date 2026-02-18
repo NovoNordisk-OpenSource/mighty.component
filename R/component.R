@@ -58,3 +58,47 @@ get_rendered_component <- function(component, params = list()) {
   x <- get_component(component)
   do.call(what = x$render, args = params)
 }
+
+#' Create a testable component for unit testing
+#'
+#' @description
+#' Creates a `mighty_component_test` object from a rendered component,
+#' enabling structured unit testing with optional coverage checking.
+#'
+#' See [mighty_component_test] for a description of the testing workflow.
+#'
+#' @inheritParams get_component
+#' @param check_coverage `logical(1)` Whether to automatically check test
+#' coverage when the test completes. If `TRUE` (default), coverage is
+#' verified via `test_component$check_coverage()` in a deferred call.
+#' @param teardown_env The environment in which to register the deferred
+#' coverage check. Defaults to the caller's environment (`parent.frame()`).
+#' This controls when `check_coverage()` executes during test teardown.
+#'
+#' @return A `mighty_component_test` object.
+#'
+#' @seealso [get_rendered_component()], [mighty_component_test]
+#'
+#' @export
+get_test_component <- function(
+  component,
+  params = list(),
+  check_coverage = TRUE,
+  teardown_env = parent.frame()
+) {
+  x <- get_rendered_component(component, params)
+
+  test_component <- mighty_component_test$new(
+    template = x$template,
+    id = x$id
+  )
+
+  if (check_coverage) {
+    withr::defer(
+      expr = test_component$check_coverage(),
+      envir = teardown_env
+    )
+  }
+
+  test_component
+}

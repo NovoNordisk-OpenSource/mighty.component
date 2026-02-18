@@ -2,13 +2,13 @@
 % Please edit documentation in R/mighty_component.R
 \name{mighty_component}
 \alias{mighty_component}
-\title{Mighty standard component}
+\title{Mighty component}
 \description{
-Class for a generic mighty standard component.
+Class for a generic mighty component.
 
 In the mighty framework, a "component" is a code template that processes
 input data and returns a modified version with new columns or rows.
-Standard components share a common structure and roxygen-like documentation pattern,
+Mighty components share a common structure and roxygen-like documentation pattern,
 facilitating their use inside mighty.
 }
 \details{
@@ -24,7 +24,7 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
    \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
    \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
-   \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends .self USUBJID} \cr
+   \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends \{\{ domain \}\} USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
    \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
 }
@@ -35,9 +35,9 @@ documenting functions using roxygen2:\tabular{lll}{
 
 A template for a standard components follow these conventions:
 \enumerate{
-\item The input data set is always called \code{.self}.
+\item The input data set is always called \code{{{ domain }}}.
 \item Additional parameters used to render the template into R code are documented with the \verb{@param} tag.
-\item The template ends with creating a modified version of \code{.self}.
+\item The template ends with creating a modified version of \code{{{ domain }}}.
 \item Template documented with the roxygen-like tags above
 }
 }
@@ -46,7 +46,7 @@ A template for a standard components follow these conventions:
 
 Below is an example of a mighty component template that
 creates a new dynamic variable \code{variable} as twice the value
-of the dynamic input \code{x}, that should already by in the input data set \code{.self}.
+of the dynamic input \code{x}, that should already by in the input data set \code{{{ domain }}}.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @title Title for my component
 #' @description
@@ -55,10 +55,10 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 #' @param variable dynamic output if applicable
 #' @param x some other input to the component
 #' @type derivation
-#' @depends .self \{\{ x \}\}
+#' @depends \{\{ domain \}\} \{\{ x \}\}
 #' @outputs \{\{ variable \}\}
 #' @code
-.self <- .self |>
+\{\{ domain \}\} <- \{\{ domain \}\} |>
   dplyr::mutate(
     \{\{ variable \}\} = 2 * \{\{ x \}\}
   )
@@ -67,7 +67,7 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 When rendered with parameters \code{variable = "A"} and \code{x = "B"}
 the rendered code used in mighty becomes:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{.self <- .self |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{\{\{ domain \}\} <- \{\{ domain \}\} |>
   dplyr::mutate(
     A = 2 * B
   )
@@ -75,12 +75,12 @@ the rendered code used in mighty becomes:
 }
 }
 \seealso{
-\code{\link[=get_standard]{get_standard()}}, \link{mighty_component_rendered}
+\code{\link[=get_standard]{get_standard()}}, \code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{id}}{Component ID}
+\item{\code{id}}{Component ID.}
 
 \item{\code{title}}{Title for the component.}
 

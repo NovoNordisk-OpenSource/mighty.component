@@ -20,14 +20,16 @@ ASTDT
 ASTDTF
 ASTDY
 AVAL
+callr
 CDISC
 CMD
 covr
 CRAN
-dplyr
 dbplyr
+dplyr
 dtc
 emph
+enclos
 envir
 fakepkg
 IDVARVAL
@@ -45,7 +47,9 @@ mytest
 myvalue
 NEWVAR
 NEWWAR
+nocov
 Nordisk
+nsmall
 OLDF
 OLDV
 PARAMCD
@@ -70,8 +74,8 @@ Sweave
 testthat
 Thomsen
 tibble
-tidyr
 tidylog
+tidyr
 TRTEDT
 TRTEMFL
 TRTSDT

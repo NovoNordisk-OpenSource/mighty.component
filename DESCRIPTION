@@ -1,12 +1,12 @@
 Package: mighty.component
-Title: Standard Components for ADaM Generation
-Version: 0.0.0.9016
+Title: Mighty Components for ADaM Generation
+Version: 0.0.0.9017
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Standard components library to be used inside the 'mighty'
+Description: Components to be used inside the 'mighty'
     framework for generation of ADaM programs.
 License: Apache License (>= 2)
 URL: https://novonordisk-opensource.github.io/mighty.component,
@@ -16,13 +16,16 @@ Depends:
 Imports: 
     cli,
     glue,
-    R6,
+    R6 (>= 2.4.0),
     rlang,
     whisker,
     xmlparsedata,
-    xml2
+    xml2,
+    zephyr
 Suggests: 
     admiral,
+    callr,
+    covr,
     dplyr,
     jsonlite,
     knitr,

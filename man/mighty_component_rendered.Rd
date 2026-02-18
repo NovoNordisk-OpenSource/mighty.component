@@ -2,20 +2,18 @@
 % Please edit documentation in R/mighty_component_rendered.R
 \name{mighty_component_rendered}
 \alias{mighty_component_rendered}
-\title{Rendered mighty standard component}
+\title{Rendered mighty component}
 \description{
-Class for a rendered mighty standard component.
+Class for a rendered mighty component.
 
 Once rendered a component can be used to:
 \itemize{
 \item Stream into an R script
 \item Evaluate the generated code in an environment
-\item Test code against expected output
-\item Calculate test coverage
 }
 }
 \seealso{
-\code{\link[=get_rendered_standard]{get_rendered_standard()}}
+\code{\link[=get_rendered_standard]{get_rendered_standard()}}, \code{\link[=get_rendered_component]{get_rendered_component()}}
 }
 \section{Super class}{
 \code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{mighty_component_rendered}
@@ -27,8 +25,6 @@ Once rendered a component can be used to:
 \item \href{#method-mighty_component_rendered-print}{\code{mighty_component_rendered$print()}}
 \item \href{#method-mighty_component_rendered-stream}{\code{mighty_component_rendered$stream()}}
 \item \href{#method-mighty_component_rendered-eval}{\code{mighty_component_rendered$eval()}}
-\item \href{#method-mighty_component_rendered-test}{\code{mighty_component_rendered$test()}}
-\item \href{#method-mighty_component_rendered-test_coverage}{\code{mighty_component_rendered$test_coverage()}}
 \item \href{#method-mighty_component_rendered-clone}{\code{mighty_component_rendered$clone()}}
 }
 }
@@ -44,7 +40,7 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from rendered template.
+Create component from rendered template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$new(template, id)}\if{html}{\out{</div>}}
 }
@@ -106,43 +102,6 @@ Defaults to using the current environment with \code{parent.frame()}.}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component_rendered-test"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component_rendered-test}{}}}
-\subsection{Method \code{test()}}{
-Test component against expected output.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test(
-  expected,
-  value = "domain",
-  envir = parent.frame()
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{expected}}{The expected output in \code{value} after evaluation}
-
-\item{\code{value}}{Name of the object used to compare against after evaluating
-the component. Defaults to \code{"domain"}.}
-
-\item{\code{envir}}{Parent environment to use for evaluation of test code.
-Defaults to using the current environment with \code{parent.frame()}.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component_rendered-test_coverage"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component_rendered-test_coverage}{}}}
-\subsection{Method \code{test_coverage()}}{
-Calculate test coverage for already run tests
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$test_coverage()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-clone"></a>}}

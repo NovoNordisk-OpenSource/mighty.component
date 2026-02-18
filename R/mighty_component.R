@@ -1,10 +1,10 @@
-#' Mighty standard component
+#' Mighty component
 #' @description
-#' Class for a generic mighty standard component.
+#' Class for a generic mighty component.
 #'
 #' In the mighty framework, a "component" is a code template that processes
 #' input data and returns a modified version with new columns or rows.
-#' Standard components share a common structure and roxygen-like documentation pattern,
+#' Mighty components share a common structure and roxygen-like documentation pattern,
 #' facilitating their use inside mighty.
 #'
 #' @details
@@ -23,7 +23,7 @@
 #' | `@description` | Description of the component                         | `@description text text` |
 #' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
 #' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type derivation`       |
-#' | `@depends`     | Required input variable (repeat if several)          | `@depends .self USUBJID` |
+#' | `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
 #' | `@code`        | Everything under this tag defines the component code | `@code`                  |
 #'
@@ -31,16 +31,16 @@
 #'
 #' A template for a standard components follow these conventions:
 #'
-#' 1. The input data set is always called `.self`.
+#' 1. The input data set is always called `{{ domain }}`.
 #' 1. Additional parameters used to render the template into R code are documented with the `@param` tag.
-#' 1. The template ends with creating a modified version of `.self`.
+#' 1. The template ends with creating a modified version of `{{ domain }}`.
 #' 1. Template documented with the roxygen-like tags above
 #'
 #' ### Example
 #'
 #' Below is an example of a mighty component template that
 #' creates a new dynamic variable `variable` as twice the value
-#' of the dynamic input `x`, that should already by in the input data set `.self`.
+#' of the dynamic input `x`, that should already by in the input data set `{{ domain }}`.
 #'
 #' ```r
 #' #' @title Title for my component
@@ -50,10 +50,10 @@
 #' #' @param variable dynamic output if applicable
 #' #' @param x some other input to the component
 #' #' @type derivation
-#' #' @depends .self {{ x }}
+#' #' @depends {{ domain }} {{ x }}
 #' #' @outputs {{ variable }}
 #' #' @code
-#' .self <- .self |>
+#' {{ domain }} <- {{ domain }} |>
 #'   dplyr::mutate(
 #'     {{ variable }} = 2 * {{ x }}
 #'   )
@@ -63,13 +63,13 @@
 #' the rendered code used in mighty becomes:
 #'
 #' ```r
-#' .self <- .self |>
+#' {{ domain }} <- {{ domain }} |>
 #'   dplyr::mutate(
 #'     A = 2 * B
 #'   )
 #' ```
 #'
-#' @seealso [get_standard()], [mighty_component_rendered]
+#' @seealso [get_standard()], [get_component()], [mighty_component_rendered]
 #' @export
 mighty_component <- R6::R6Class(
   classname = "mighty_component",
@@ -104,7 +104,7 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field id Component ID
+    #' @field id Component ID.
     id = \() private$.id,
     #' @field title Title for the component.
     title = \() private$.title,

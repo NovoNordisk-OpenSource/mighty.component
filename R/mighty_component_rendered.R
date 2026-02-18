@@ -1,33 +1,24 @@
-#' Rendered mighty standard component
+#' Rendered mighty component
 #' @description
-#' Class for a rendered mighty standard component.
+#' Class for a rendered mighty component.
 #'
 #' Once rendered a component can be used to:
 #'
 #' * Stream into an R script
 #' * Evaluate the generated code in an environment
-#' * Test code against expected output
-#' * Calculate test coverage
 #'
-#' @seealso [get_rendered_standard()]
+#' @seealso [get_rendered_standard()], [get_rendered_component()]
 #' @export
 mighty_component_rendered <- R6::R6Class(
   classname = "mighty_component_rendered",
   inherit = mighty_component,
   public = list(
     #' @description
-    #' Create standard component from rendered template.
+    #' Create component from rendered template.
     #' @param template `character` Rendered template such as output from `mighty_component$render()`.
     #' @param id `character` ID of the component. Either name of standard or path to local.
     initialize = function(template, id) {
-      super$initialize(template, id)
-
-      validate_component_code(self$code)
-
-      private$.params <- data.frame(
-        name = character(),
-        description = character()
-      )
+      msr_initialize(template, id, self, private, super)
     },
     #' @description
     #' Print rendered component
@@ -46,28 +37,22 @@ mighty_component_rendered <- R6::R6Class(
     #' @param envir Environment to evaluate in. Parsed to `eval()`.
     #' Defaults to using the current environment with `parent.frame()`.
     eval = function(envir = parent.frame()) {
-      eval(
-        expr = parse(text = self$code),
-        envir = envir
-      )
-    },
-    #' @description
-    #' Test component against expected output.
-    #' @param expected The expected output in `value` after evaluation
-    #' @param value Name of the object used to compare against after evaluating
-    #' the component. Defaults to `"domain"`.
-    #' @param envir Parent environment to use for evaluation of test code.
-    #' Defaults to using the current environment with `parent.frame()`.
-    test = function(expected, value = "domain", envir = parent.frame()) {
-      msr_test(expected, value, envir, self, private)
-    },
-    #' @description
-    #' Calculate test coverage for already run tests
-    test_coverage = function() {
-      msr_test_coverage(self)
+      msr_eval(envir, self)
     }
   )
 )
+
+#' @noRd
+msr_initialize <- function(template, id, self, private, super) {
+  super$initialize(template, id)
+
+  validate_component_code(self$code)
+
+  private$.params <- data.frame(
+    name = character(),
+    description = character()
+  )
+}
 
 #' @noRd
 msr_print <- function(self, super) {
@@ -89,18 +74,18 @@ msr_stream <- function(path, self) {
 }
 
 #' @noRd
-msr_test <- function(expected, value, envir, self, private) {
-  env <- new.env(parent = envir)
-  self$eval(envir = env)
-  testthat::expect_equal(
-    object = env[[value]],
-    expected = expected,
-    ignore_attr = TRUE
+msr_eval <- function(envir, self) {
+  zephyr::msg_verbose(
+    message = c(
+      ">" = "Evaluating component {.field {self$title}}",
+      "i" = "{.emph Code:}",
+      "{.code {self$code}}"
+    ),
+    msg_fun = cli::cli_bullets
   )
-  return(invisible(self))
-}
 
-#' @noRd
-msr_test_coverage <- function(self) {
-  return(numeric(1))
+  eval(
+    expr = parse(text = self$code),
+    envir = envir
+  )
 }

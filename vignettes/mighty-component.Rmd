@@ -1,8 +1,8 @@
 ---
-title: "Use Mighty Standard Components"
+title: "Use Mighty Components"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Use Mighty Standard Components}
+  %\VignetteIndexEntry{Use Mighty Components}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
