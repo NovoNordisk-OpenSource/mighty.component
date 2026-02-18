@@ -14,13 +14,13 @@ pak::pak("NovoNordisk-OpenSource/mighty.component")
 
 ## Usage
 
-`mighty.component` provide generic classes to work with standard
+`mighty.component` provide generic classes to work with mighty
 components, and helper functions to retrieve them. For now it also holds
 a small temporary library of components.
 
 See
-[`vignette("mighty-standards")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md)
-on how to work with standard components.
+[`vignette("mighty-component")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-component.md)
+on how to work with components.
 
 # Package index
 
@@ -35,18 +35,30 @@ on how to work with standard components.
 - [`list_standards()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_standards.md)
   : List all available standards
 
-## Mighty standard component classes
+## Test components
+
+- [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+  : Create a testable component for unit testing
+
+## Mighty component classes
 
 - [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
-  : Mighty standard component
+  : Mighty component
 - [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
-  : Rendered mighty standard component
+  : Rendered mighty component
+- [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
+  : Test mighty component
+
+## Utilities
+
+- [`mighty.component-options`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md)
+  : Options for mighty.component
 
 # Articles
 
 ### All vignettes
 
-- [Use Mighty Standard
-  Components](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-standards.md):
+- [Use Mighty
+  Components](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-component.md):
 - [Standard
   components](https://novonordisk-opensource.github.io/mighty.component/articles/Standard-components.md):

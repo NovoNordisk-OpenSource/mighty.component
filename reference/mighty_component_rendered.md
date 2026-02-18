@@ -1,6 +1,6 @@
-# Rendered mighty standard component
+# Rendered mighty component
 
-Class for a rendered mighty standard component.
+Class for a rendered mighty component.
 
 Once rendered a component can be used to:
 
@@ -8,13 +8,10 @@ Once rendered a component can be used to:
 
 - Evaluate the generated code in an environment
 
-- Test code against expected output
-
-- Calculate test coverage
-
 ## See also
 
-[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
+[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md),
+[`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
 
 ## Super class
 
@@ -33,10 +30,6 @@ Once rendered a component can be used to:
 
 - [`mighty_component_rendered$eval()`](#method-mighty_component_rendered-eval)
 
-- [`mighty_component_rendered$test()`](#method-mighty_component_rendered-test)
-
-- [`mighty_component_rendered$test_coverage()`](#method-mighty_component_rendered-test_coverage)
-
 - [`mighty_component_rendered$clone()`](#method-mighty_component_rendered-clone)
 
 Inherited methods
@@ -48,7 +41,7 @@ Inherited methods
 
 ### Method `new()`
 
-Create standard component from rendered template.
+Create component from rendered template.
 
 #### Usage
 
@@ -114,47 +107,6 @@ Evaluate code in a specified environment.
   [`eval()`](https://rdrr.io/r/base/eval.html). Defaults to using the
   current environment with
   [`parent.frame()`](https://rdrr.io/r/base/sys.parent.html).
-
-------------------------------------------------------------------------
-
-### Method `test()`
-
-Test component against expected output.
-
-#### Usage
-
-    mighty_component_rendered$test(
-      expected,
-      value = "domain",
-      envir = parent.frame()
-    )
-
-#### Arguments
-
-- `expected`:
-
-  The expected output in `value` after evaluation
-
-- `value`:
-
-  Name of the object used to compare against after evaluating the
-  component. Defaults to `"domain"`.
-
-- `envir`:
-
-  Parent environment to use for evaluation of test code. Defaults to
-  using the current environment with
-  [`parent.frame()`](https://rdrr.io/r/base/sys.parent.html).
-
-------------------------------------------------------------------------
-
-### Method `test_coverage()`
-
-Calculate test coverage for already run tests
-
-#### Usage
-
-    mighty_component_rendered$test_coverage()
 
 ------------------------------------------------------------------------
 
