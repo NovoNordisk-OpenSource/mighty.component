@@ -1,0 +1,249 @@
+---
+title: "Get started"
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r setup, include = FALSE}
+library(mighty.component)
+library(testthat)
+```
+
+## Overview
+
+mighty.component is the component engine for the
+[mighty](https://novonordisk-opensource.github.io/mighty/) framework.
+It retrieves, renders, and validates reusable code components used to
+build ADaM datasets.
+
+Components are small, self-contained pieces of R code with structured
+metadata (dependencies, outputs, type). They come in two formats:
+
+- **Mustache templates** (`.mustache`) -- parameterized templates that
+  produce concrete R code when rendered with specific values.
+- **R scripts** (`.R`) -- plain R code with no parameters.
+
+This vignette walks through discovering, retrieving, rendering, and
+writing components.
+
+## Browse available standards
+
+Standard components ship with the package and cover common ADaM
+derivations. Use `list_standards()` to see what is available:
+
+```{r}
+list_standards()
+```
+
+For more detail, pass `as = "tibble"`:
+
+```{r}
+list_standards(as = "tibble")
+```
+
+## Retrieve a standard component
+
+`get_standard()` returns a `mighty_component` object -- the unrendered
+template with its metadata:
+```{r}
+ady <- get_standard("ady")
+ady
+```
+
+The printed output shows the component ID, description, type,
+parameters, dependencies, and outputs. You can access each field
+directly:
+
+```{r}
+ady$title
+ady$params
+ady$depends
+ady$outputs
+```
+
+The `$code` field contains the raw template with mustache placeholders:
+
+```{r}
+ady$code
+```
+
+## Render a component
+
+Rendering replaces mustache placeholders with concrete values and
+returns a `mighty_component_rendered` object:
+
+```{r}
+rendered <- get_rendered_standard(
+  "ady",
+  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
+)
+rendered
+```
+
+The rendered `$code` is plain R, ready to execute:
+
+```{r}
+rendered$code
+```
+
+`get_rendered_component()` is a convenience wrapper that accepts both
+standard names and file paths:
+
+```{r}
+get_rendered_component(
+  "assign",
+  list(domain = "adsl", variable = "STUDYID", value = '"XXXX-YY-001"')
+)
+```
+
+## Write a custom component
+
+### R script format
+
+An R script component (`.R` file) contains fixed derivation logic with
+no parameters. The metadata header uses roxygen-style tags, and all
+executable code follows the `@code` tag.
+
+```{r, eval = FALSE}
+#' @title Age group classification
+#' @description Categorizes subjects into age groups based on AGE.
+#' @type derivation
+#' @depends ADSL AGE
+#' @outputs AGEGR1
+#' @code
+ADSL <- ADSL |>
+  dplyr::mutate(
+    AGEGR1 = dplyr::case_when(
+      AGE < 18 ~ "<18",
+      AGE <= 64 ~ "18-64",
+      AGE <= 75 ~ "65-75",
+      TRUE ~ ">75"
+    )
+  )
+```
+
+Save this as, say, `components/der_agegr1.R` and load it with
+`get_component()`:
+
+```{r}
+# Create a temporary R script component for demonstration
+tmp <- tempfile(fileext = ".R")
+writeLines(
+  c(
+    "#' @title Age group classification",
+    "#' @description Categorizes subjects into age groups based on AGE.",
+    "#' @type derivation",
+    "#' @depends ADSL AGE",
+    "#' @outputs AGEGR1",
+    "#' @code",
+    "ADSL <- ADSL |>",
+    '  dplyr::mutate(AGEGR1 = dplyr::case_when(',
+    '    AGE < 18 ~ "<18",',
+    '    AGE <= 64 ~ "18-64",',
+    '    AGE <= 75 ~ "65-75",',
+    '    TRUE ~ ">75"',
+    "  ))"
+  ),
+  tmp
+)
+
+get_component(tmp)
+```
+
+### Mustache template format
+
+A Mustache template (`.mustache` file) adds `@param` tags and uses
+`{{placeholders}}` in both the metadata and code sections. This lets the
+same logic be reused with different inputs.
+
+```mustache
+#' @title Analysis relative day
+#' @description
+#' Derives the relative day compared to the treatment start date.
+#'
+#' @param domain Name of the ADaM domain
+#' @param variable Name of new variable to create
+#' @param date Name of date variable to use
+#' @type derivation
+#' @depends {{domain}} {{date}}
+#' @depends {{domain}} TRTSDT
+#' @outputs {{variable}}
+#' @code
+{{domain}} <- {{domain}} |>
+  dplyr::mutate(
+    {{variable}} = admiral::compute_duration(
+      start_date = TRTSDT,
+      end_date = {{date}},
+      in_unit = "days",
+      out_unit = "days",
+      add_one = TRUE
+    )
+  )
+```
+
+### Metadata tags reference
+
+| Tag | Description |
+|---|---|
+| `@title` | Short title for the component |
+| `@description` | Detailed explanation of what the component does |
+| `@param` | Template parameter (Mustache templates only) |
+| `@type` | Component type (`derivation`, `row`, or `assigned`) |
+| `@depends` | Input dependency: `DOMAIN COLUMN` (repeat for each) |
+| `@outputs` | Column(s) created or modified (repeat for each) |
+| `@code` | Marks the start of executable code |
+
+## Test a component
+
+`get_test_component()` creates a `mighty_component_test` object that
+runs component code in an isolated R session with coverage tracking.
+The workflow is:
+
+1. Create the test component with `get_test_component()`
+2. Assign input data with `$assign()`
+3. Evaluate with `$eval()`
+4. Retrieve results with `$get()`
+5. Check with testthat expectations
+
+Here is an example testing the `ady` standard:
+
+```{r}
+test_that("ady derives analysis relative day", {
+  # 1. Create the test component
+  cmp <- get_test_component(
+    "ady",
+    params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+    check_coverage = FALSE
+  )
+
+  # 2. Assign input data
+  cmp$assign(
+    "adae",
+    data.frame(
+      ASTDT = as.Date(c("2024-01-10", "2024-01-01", "2023-12-25")),
+      TRTSDT = as.Date(c("2024-01-01", "2024-01-01", "2024-01-01"))
+    )
+  )
+  # 3. Evaluate
+  cmp$eval()
+  # 4. Retrieve results
+  result <- cmp$get("adae")
+
+  # 5. Check with testthat expectations
+  expect_equal(result$ASTDY, c(10, 1, -7))
+})
+```
+
+`get_test_component()` registers a deferred `$check_coverage()` call
+that verifies every line of the component code was executed. You can
+also inspect coverage directly with `$percent_coverage` and
+`$line_coverage`.
+
+See `vignette("testing-components")` for a detailed guide on writing
+component tests.
