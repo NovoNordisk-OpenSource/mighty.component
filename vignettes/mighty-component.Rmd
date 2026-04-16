@@ -1,8 +1,8 @@
 ---
-title: "Use Mighty Components"
+title: "Getting Started with mighty.component"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Use Mighty Components}
+  %\VignetteIndexEntry{Getting Started with mighty.component}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,10 +12,431 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+has_pharmaverse <- requireNamespace("pharmaverseadam", quietly = TRUE) &&
+  requireNamespace("pharmaversesdtm", quietly = TRUE) &&
+  requireNamespace("admiral", quietly = TRUE)
 ```
 
-```{r setup, include=FALSE}
+```{r setup}
 library(mighty.component)
 ```
 
-# TODO: New introductory vignette
+## What is a mighty component?
+
+Components let you write a data transformation once and reuse it across studies
+by swapping variable names at render time. Instead of copying and modifying code
+for each new study, you maintain a single template.
+
+A mighty component is a reusable code template for a single, well-defined data
+transformation step. Components are commonly used to generate ADaM (Analysis
+Dataset Model) programs, but the concept is general: any parameterized R code
+snippet that reads a data set, modifies it, and writes it back can be expressed
+as a component.
+
+Components combine two ideas:
+
+- **Mustache templating** — placeholders like `{{ domain }}` are filled in at
+  render time, so the same logic works across different data sets and variables.
+- **Roxygen-like documentation** — tags like `@title`, `@param`, and `@depends`
+  describe what the component does, what it needs, and what it produces.
+
+Think of components as reusable building blocks: each one handles a single
+derivation or transformation, and you compose several of them to build a
+complete program.
+
+## Anatomy of a component template
+
+Below is a minimal component that doubles a column. Every tag is visible at a
+glance:
+```
+#' @title Double a variable
+#' @description
+#' Creates a new column that is twice the value of an existing column.
+#'
+#' @param domain `character` Name of the domain (data frame)
+#' @param input `character` Name of the existing column to double
+#' @param output `character` Name of the new column to create
+#' @type derivation
+#' @depends {{domain}} {{input}}
+#' @outputs {{output}}
+#' @code
+{{domain}} <- {{domain}} |>
+  dplyr::mutate(
+    {{output}} = 2 * {{input}}
+  )
+```
+
+### Tags reference
+
+| Tag | Purpose |
+|-----|---------|
+| `@title` | One-line title (required) |
+| `@description` | Multi-line description (required) |
+| `@param name description` | Declares a Mustache placeholder the user must supply at render time |
+| `@type` | Semantic type: `derivation`, `predecessor`, `assigned`, or `row` |
+| `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
+| `@outputs variable` | Declares a column the code creates (repeat for each) |
+| `@code` | Everything below this tag is executable R code |
+
+### Mustache syntax
+
+Inside `@code`, `{{ }}` are **Mustache placeholders** — not R syntax. They are
+text-replaced with concrete values before the code is parsed as R.
+
+- **`{{ variable }}`** — replaced with the value supplied at render time.
+- **`{{{ variable }}}`** — unescaped rendering, used when the value is literal R
+  code (e.g., `{{{ value }}}` in an assignment component to pass `1`, `"text"`,
+  or an expression).
+- **`{{#list}}...{{/list}}`** — iterates over a vector parameter. Used in
+  components that accept multiple values (e.g., the `predecessor` standard
+  iterates over `by` and `variable`).
+
+### Conventions
+
+1. The input data set is always called `{{ domain }}`.
+2. The code must assign the result back to `{{ domain }}`.
+3. Use explicit package namespaces (`dplyr::mutate()`, not `mutate()`).
+4. Joins must always specify an explicit `by` argument — this is enforced by
+   automatic validation (see [Automatic code validation]).
+
+## Retrieve and inspect a component
+
+List the built-in standard components:
+
+```{r list-standards}
+list_standards()
+```
+
+Retrieve one by name:
+
+```{r get-ady}
+comp <- get_component("ady")
+comp
+```
+
+Access individual fields through the active bindings:
+
+```{r inspect-fields}
+comp$title
+comp$type
+comp$params
+comp$depends
+comp$outputs
+```
+
+You can also retrieve a component from a local `.mustache` or `.R` file by
+passing the file path to `get_component()`.
+
+`get_component()` is the recommended entry point — it handles both built-in
+standards and custom files. If you know you only need a built-in standard, you
+can also use `get_standard()` and `get_rendered_standard()` directly.
+
+## Render a component
+
+Rendering fills in the Mustache placeholders with concrete values. The
+`$render()` method takes parameters as named arguments and returns a
+`mighty_component_rendered` object:
+
+```{r render-ady}
+rendered <- comp$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
+rendered
+```
+
+Inspect the rendered code — every `{{ }}` placeholder is now a concrete name:
+
+```{r rendered-code}
+rendered$code
+```
+
+A convenience function combines retrieval and rendering in one step. Note that
+`get_rendered_component()` takes parameters as a named `list`, unlike
+`$render()` which takes `...`:
+
+```{r shortcut}
+rendered2 <- get_rendered_component(
+  "ady",
+  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
+)
+rendered2$code
+```
+
+If you omit a required parameter, you get an informative error:
+
+```{r render-error, error=TRUE}
+comp$render(domain = "adae")
+```
+
+## Evaluate rendered code
+
+Once rendered, call `$eval()` to execute the code in your current environment.
+Because the component code assigns back to `{{ domain }}`, calling `$eval()`
+modifies the domain variable in your environment directly — no assignment of the
+return value is needed.
+
+```{r eval-setup, eval=has_pharmaverse}
+adae <- pharmaverseadam::adae |>
+  dplyr::select(USUBJID, ASTDT, TRTSDT)
+
+names(adae)
+```
+
+The `ASTDY` column does not exist yet. Run the rendered component:
+
+```{r eval-run, eval=has_pharmaverse}
+rendered$eval()
+names(adae)
+head(adae)
+```
+
+`$eval()` executes the rendered code in the calling environment by default. You
+can pass a different environment via the `envir` argument if needed.
+
+If you want to save the rendered code to a script file instead of evaluating it
+interactively, use `$stream(path)` to append the code to an R file.
+
+## Writing a custom component
+
+You can author your own components as `.mustache` files. Here is a realistic
+example that derives a ratio of the current value to baseline (`R2BASE`) for a
+lab parameter. Save the following template to a `.mustache` file:
+
+```
+#' @title Ratio to baseline
+#' @description
+#' Derives the ratio of the analysis value to the baseline value.
+#'
+#' @param domain `character` Name of the domain
+#' @param variable `character` Name of the new ratio variable
+#' @type derivation
+#' @depends {{domain}} AVAL
+#' @depends {{domain}} BASE
+#' @outputs {{variable}}
+#' @code
+{{domain}} <- {{domain}} |>
+  dplyr::mutate(
+    {{variable}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
+  )
+```
+
+```{r custom-write, include=FALSE}
+r2base_file <- tempfile(fileext = ".mustache")
+writeLines(c(
+  "#' @title Ratio to baseline",
+  "#' @description",
+  "#' Derives the ratio of the analysis value to the baseline value.",
+  "#'",
+  "#' @param domain `character` Name of the domain",
+  "#' @param variable `character` Name of the new ratio variable",
+  "#' @type derivation",
+  "#' @depends {{domain}} AVAL",
+  "#' @depends {{domain}} BASE",
+  "#' @outputs {{variable}}",
+  "#' @code",
+  "{{domain}} <- {{domain}} |>",
+  "  dplyr::mutate(",
+  "    {{variable}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)",
+  "  )"
+), r2base_file)
+```
+
+Load it, render it, and run it:
+
+```{r custom-load}
+r2base_comp <- get_component(r2base_file)
+r2base_comp
+```
+
+```{r custom-render}
+r2base_rendered <- r2base_comp$render(
+  domain = "adlb",
+  variable = "R2BASE"
+)
+r2base_rendered$code
+```
+
+```{r custom-eval, eval=has_pharmaverse}
+adlb <- pharmaverseadam::adlb |>
+  dplyr::filter(PARAMCD == "ALB") |>
+  dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE)
+
+head(adlb)
+
+r2base_rendered$eval()
+
+adlb |>
+  dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE, R2BASE) |>
+  head()
+```
+
+## Automatic code validation
+
+When a component is rendered, the generated code is automatically validated.
+The package currently checks for **implicit joins** — any `dplyr::left_join()`,
+`dplyr::inner_join()`, or similar call without an explicit `by` argument triggers
+an error. This prevents a common source of bugs in clinical programming where
+join columns change between studies.
+
+Here is a component that fails validation:
+
+```{r validation-fail, error=TRUE}
+bad_template <- c(
+  "#' @title Bad join example",
+  "#' @description Implicit join that will fail validation.",
+  "#'",
+  "#' @param domain `character` domain name",
+  "#' @type predecessor",
+  "#' @depends {{domain}} USUBJID",
+  "#' @outputs NEWCOL",
+  "#' @code",
+  "{{domain}} <- {{domain}} |>",
+  "  dplyr::left_join(other_data)"
+)
+
+bad_file <- tempfile(fileext = ".mustache")
+writeLines(bad_template, bad_file)
+get_rendered_component(bad_file, list(domain = "adae"))
+```
+
+The fix is to specify the join key explicitly:
+
+```{r validation-pass}
+good_template <- c(
+  "#' @title Good join example",
+  "#' @description Explicit join that passes validation.",
+  "#'",
+  "#' @param domain `character` domain name",
+  "#' @type predecessor",
+  "#' @depends {{domain}} USUBJID",
+  "#' @outputs NEWCOL",
+  "#' @code",
+  "{{domain}} <- {{domain}} |>",
+  "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
+)
+
+good_file <- tempfile(fileext = ".mustache")
+writeLines(good_template, good_file)
+good_comp <- get_rendered_component(good_file, list(domain = "adae"))
+good_comp$code
+```
+
+## Testing components
+
+`get_test_component()` creates a component that runs in an **isolated R session**
+with automatic code coverage tracking. This is useful both for interactive
+exploration and for formal unit tests with `testthat`.
+
+We set `check_coverage = FALSE` here because this code runs inside a vignette,
+not inside a `test_that()` block. The default (`TRUE`) uses `withr::defer()` to
+automatically verify coverage when a test finishes — use that default in your
+actual tests.
+
+```{r test-create, eval=has_pharmaverse}
+test <- get_test_component(
+  component = "ady",
+  params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+  check_coverage = FALSE
+)
+test
+```
+
+Assign input data into the isolated session:
+
+```{r test-assign, eval=has_pharmaverse}
+adae_input <- pharmaverseadam::adae |>
+  dplyr::select(USUBJID, ASTDT, TRTSDT)
+
+test$assign("adae", adae_input)
+test$ls()
+```
+
+Execute the component and retrieve the result:
+
+```{r test-eval, eval=has_pharmaverse}
+test$eval()
+result <- test$get("adae")
+head(result)
+```
+
+Check coverage — every line of the component code should have been executed:
+
+```{r test-coverage, eval=has_pharmaverse}
+test$percent_coverage
+test$line_coverage
+```
+
+When `check_coverage = TRUE` (the default), coverage is verified automatically
+when the test object goes out of scope using `withr::defer()`. If any line was
+not executed, an error is raised. This integrates naturally with `testthat` test
+files: create the test component inside a `test_that()` block, assign data,
+evaluate, and assert on the results — coverage checking happens automatically
+when the test finishes.
+
+## Chaining multiple components
+
+Components are designed to be composed. Each one takes a data frame, adds or
+modifies columns, and passes it along. Here is an example that builds up an
+ADAE step by step from SDTM data.
+
+```{r chain-setup, eval=has_pharmaverse}
+adae <- pharmaversesdtm::ae |>
+  dplyr::select(USUBJID, AESEQ, AETERM, AESTDTC, AEENDTC)
+
+adsl <- pharmaverseadam::adsl |>
+  dplyr::select(USUBJID, TRTSDT, TRTEDT)
+
+adae <- adae |>
+  dplyr::left_join(adsl, by = dplyr::join_by(USUBJID))
+
+names(adae)
+```
+
+Derive analysis start date, end date, and relative day:
+
+```{r chain-derive, eval=has_pharmaverse}
+get_rendered_component(
+  "astdt",
+  list(domain = "adae", dtc = "AESTDTC")
+)$eval()
+
+get_rendered_component(
+  "aendt",
+  list(domain = "adae", dtc = "AEENDTC")
+)$eval()
+
+get_rendered_component(
+  "ady",
+  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
+)$eval()
+```
+
+Inspect the result:
+
+```{r chain-result, eval=has_pharmaverse}
+adae |>
+  dplyr::select(
+    USUBJID, AESTDTC, ASTDT, ASTDTF, AEENDTC, AENDT, AENDTF, ASTDY
+  ) |>
+  head()
+```
+
+Each `get_rendered_component()$eval()` call is one composable step. In the full
+mighty framework these steps are orchestrated automatically, but you can also
+use them interactively to build programs step by step.
+
+## Summary
+
+The mighty component workflow:
+
+1. **Write** a component template with Mustache placeholders and documentation
+   tags.
+2. **Retrieve** it with `get_component()`.
+3. **Render** it with `$render()` to fill in the placeholders.
+4. **Evaluate** it with `$eval()` to run the code against your data.
+5. **Test** it with `get_test_component()` for isolated execution and coverage
+   tracking.
+
+Use `list_standards(as = "tibble")` for a quick overview of all built-in
+standard components. See the [package reference
+site](https://novonordisk-opensource.github.io/mighty.component) for full API
+documentation.
