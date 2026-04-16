@@ -275,8 +275,8 @@ ms_render <- function(params, self) {
   }
 
   if (
-    any(!names(params) %in% self$params$name) ||
-      any(!self$params$name %in% names(params))
+    !all(names(params) %in% self$params$name) ||
+      !all(self$params$name %in% names(params))
   ) {
     missing_params <- setdiff(self$params$name, names(params))
     unknown_params <- setdiff(names(params), self$params$name)
