@@ -77,16 +77,22 @@ glance:
 
 ### Mustache syntax
 
-Inside `@code`, `{{ }}` are **Mustache placeholders** — not R syntax. They are
-text-replaced with concrete values before the code is parsed as R.
+Components use [Mustache](https://mustache.github.io) — a simple, logic-less
+templating language. Inside `@code`, `{{ }}` are Mustache placeholders, not R
+syntax. They are text-replaced with concrete values before the code is parsed
+as R. Rendering is done by the
+[whisker](https://github.com/edwindj/whisker) R package.
+
+The three patterns used in components are:
 
 - **`{{ variable }}`** — replaced with the value supplied at render time.
-- **`{{{ variable }}}`** — unescaped rendering, used when the value is literal R
-  code (e.g., `{{{ value }}}` in an assignment component to pass `1`, `"text"`,
-  or an expression).
-- **`{{#list}}...{{/list}}`** — iterates over a vector parameter. Used in
-  components that accept multiple values (e.g., the `predecessor` standard
-  iterates over `by` and `variable`).
+- **`{{{ variable }}}`** — unescaped replacement. Used when the value is literal
+  R code (e.g., `{{{ value }}}` to insert `1`, `"text"`, or an expression).
+- **`{{#list}}...{{/list}}`** — repeats its body once for each element of a
+  vector parameter.
+
+See the [Mustache manual](https://mustache.github.io/mustache.5.html) for the
+full syntax reference.
 
 ### Conventions
 
