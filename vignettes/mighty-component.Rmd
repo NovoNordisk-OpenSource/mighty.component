@@ -12,10 +12,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-has_pharmaverse <- requireNamespace("pharmaverseadam", quietly = TRUE) &&
-  requireNamespace("pharmaversesdtm", quietly = TRUE) &&
-  requireNamespace("admiral", quietly = TRUE)
 ```
 
 ```{r setup}
@@ -170,11 +166,12 @@ comp$render(domain = "adae")
 ## Evaluate rendered code
 
 Once rendered, call `$eval()` to execute the code in your current environment.
-Because the component code assigns back to `{{ domain }}`, calling `$eval()`
-modifies the domain variable in your environment directly — no assignment of the
-return value is needed.
+The component code contains an assignment (e.g., `adae <- adae |> ...`), and
+`$eval()` evaluates that code in the calling environment via
+`eval(envir = parent.frame())`. This means `$eval()` modifies the domain
+variable in place — no assignment of the return value is needed.
 
-```{r eval-setup, eval=has_pharmaverse}
+```{r eval-setup}
 adae <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
@@ -183,7 +180,7 @@ names(adae)
 
 The `ASTDY` column does not exist yet. Run the rendered component:
 
-```{r eval-run, eval=has_pharmaverse}
+```{r eval-run}
 rendered$eval()
 names(adae)
 head(adae)
@@ -219,7 +216,7 @@ lab parameter. Save the following template to a `.mustache` file:
   )
 ```
 
-```{r custom-write, include=FALSE}
+```{r custom-write}
 r2base_file <- tempfile(fileext = ".mustache")
 writeLines(c(
   "#' @title Ratio to baseline",
@@ -255,7 +252,7 @@ r2base_rendered <- r2base_comp$render(
 r2base_rendered$code
 ```
 
-```{r custom-eval, eval=has_pharmaverse}
+```{r custom-eval}
 adlb <- pharmaverseadam::adlb |>
   dplyr::filter(PARAMCD == "ALB") |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE)
@@ -331,7 +328,7 @@ not inside a `test_that()` block. The default (`TRUE`) uses `withr::defer()` to
 automatically verify coverage when a test finishes — use that default in your
 actual tests.
 
-```{r test-create, eval=has_pharmaverse}
+```{r test-create}
 test <- get_test_component(
   component = "ady",
   params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
@@ -342,7 +339,7 @@ test
 
 Assign input data into the isolated session:
 
-```{r test-assign, eval=has_pharmaverse}
+```{r test-assign}
 adae_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
@@ -352,7 +349,7 @@ test$ls()
 
 Execute the component and retrieve the result:
 
-```{r test-eval, eval=has_pharmaverse}
+```{r test-eval}
 test$eval()
 result <- test$get("adae")
 head(result)
@@ -360,7 +357,7 @@ head(result)
 
 Check coverage — every line of the component code should have been executed:
 
-```{r test-coverage, eval=has_pharmaverse}
+```{r test-coverage}
 test$percent_coverage
 test$line_coverage
 ```
@@ -375,10 +372,11 @@ when the test finishes.
 ## Chaining multiple components
 
 Components are designed to be composed. Each one takes a data frame, adds or
-modifies columns, and passes it along. Here is an example that builds up an
-ADAE step by step from SDTM data.
+modifies columns, and passes it along. Here is an example of a typical
+SDTM-to-ADaM workflow: start with the SDTM AE domain, merge subject-level
+treatment dates from ADSL, then derive ADaM analysis variables step by step.
 
-```{r chain-setup, eval=has_pharmaverse}
+```{r chain-setup}
 adae <- pharmaversesdtm::ae |>
   dplyr::select(USUBJID, AESEQ, AETERM, AESTDTC, AEENDTC)
 
@@ -393,7 +391,7 @@ names(adae)
 
 Derive analysis start date, end date, and relative day:
 
-```{r chain-derive, eval=has_pharmaverse}
+```{r chain-derive}
 get_rendered_component(
   "astdt",
   list(domain = "adae", dtc = "AESTDTC")
@@ -412,7 +410,7 @@ get_rendered_component(
 
 Inspect the result:
 
-```{r chain-result, eval=has_pharmaverse}
+```{r chain-result}
 adae |>
   dplyr::select(
     USUBJID, AESTDTC, ASTDT, ASTDTF, AEENDTC, AENDT, AENDTF, ASTDY
