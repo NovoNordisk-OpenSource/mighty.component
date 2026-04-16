@@ -215,7 +215,7 @@ tags_to_params <- function(tags) {
 tags_to_depends <- function(tags) {
   i <- regexpr(pattern = " +", text = tags)
 
-  data.frame(
+  depends <- data.frame(
     domain = tags |>
       substr(start = 1, stop = i - 1) |>
       trimws(),
@@ -223,6 +223,18 @@ tags_to_depends <- function(tags) {
       substr(start = i + 1, stop = nchar(tags)) |>
       trimws()
   )
+
+  mistakes <- tags[!nchar(depends$domain) | !nchar(depends$column)]
+  if (length(mistakes)) {
+    cli::cli_abort(
+      c(
+        "All {.code @depends} tags must have both a domain and column:",
+        "x" = "Not valid: {.code {mistakes}}"
+      )
+    )
+  }
+
+  depends
 }
 
 #' @noRd
