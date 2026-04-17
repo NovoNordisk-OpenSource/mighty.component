@@ -138,29 +138,23 @@ can also use `get_standard()` and `get_rendered_standard()` directly.
 
 Rendering fills in the Mustache placeholders with concrete values. The
 `$render()` method takes parameters as named arguments and returns a
-`mighty_component_rendered` object:
+`mighty_component_rendered` object. Notice every `{{ }}` placeholder is now a
+concrete name:
 
 ```{r render-ady}
 rendered <- comp$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
 rendered
 ```
 
-Inspect the rendered code — every `{{ }}` placeholder is now a concrete name:
-
-```{r rendered-code}
-rendered$code
-```
-
-A convenience function combines retrieval and rendering in one step. Note that
-`get_rendered_component()` takes parameters as a named `list`, unlike
-`$render()` which takes `...`:
+A convenience function combines retrieval and rendering in one step. It returns
+the same rendered component as above. Note that `get_rendered_component()`
+takes parameters as a named `list`, unlike `$render()` which takes `...`:
 
 ```{r shortcut}
-rendered2 <- get_rendered_component(
+get_rendered_component(
   "ady",
   list(domain = "adae", variable = "ASTDY", date = "ASTDT")
 )
-rendered2$code
 ```
 
 If you omit a required parameter, you get an informative error:
@@ -222,7 +216,7 @@ lab parameter. Save the following template to a `.mustache` file:
   )
 ```
 
-```{r custom-write}
+```{r custom-write, include = FALSE}
 r2base_file <- tempfile(fileext = ".mustache")
 writeLines(c(
   "#' @title Ratio to baseline",
@@ -243,7 +237,7 @@ writeLines(c(
 ), r2base_file)
 ```
 
-Load it, render it, and run it:
+After saving this template to a `.mustache` file, load, render, and run it:
 
 ```{r custom-load}
 r2base_comp <- get_component(r2base_file)
@@ -282,7 +276,20 @@ join columns change between studies.
 
 Here is a component that fails validation:
 
-```{r validation-fail, error=TRUE}
+```
+#' @title Bad join example
+#' @description Implicit join that will fail validation.
+#'
+#' @param domain `character` domain name
+#' @type predecessor
+#' @depends {{domain}} USUBJID
+#' @outputs NEWCOL
+#' @code
+{{domain}} <- {{domain}} |>
+  dplyr::left_join(other_data)
+```
+
+```{r validation-fail-setup, include = FALSE}
 bad_template <- c(
   "#' @title Bad join example",
   "#' @description Implicit join that will fail validation.",
@@ -298,12 +305,28 @@ bad_template <- c(
 
 bad_file <- tempfile(fileext = ".mustache")
 writeLines(bad_template, bad_file)
+```
+
+```{r validation-fail, error=TRUE}
 get_rendered_component(bad_file, list(domain = "adae"))
 ```
 
 The fix is to specify the join key explicitly:
 
-```{r validation-pass}
+```
+#' @title Good join example
+#' @description Explicit join that passes validation.
+#'
+#' @param domain `character` domain name
+#' @type predecessor
+#' @depends {{domain}} USUBJID
+#' @outputs NEWCOL
+#' @code
+{{domain}} <- {{domain}} |>
+  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
+```
+
+```{r validation-pass-setup, include = FALSE}
 good_template <- c(
   "#' @title Good join example",
   "#' @description Explicit join that passes validation.",
@@ -319,8 +342,10 @@ good_template <- c(
 
 good_file <- tempfile(fileext = ".mustache")
 writeLines(good_template, good_file)
-good_comp <- get_rendered_component(good_file, list(domain = "adae"))
-good_comp$code
+```
+
+```{r validation-pass}
+get_rendered_component(good_file, list(domain = "adae"))$code
 ```
 
 ## Testing components
@@ -357,8 +382,7 @@ Execute the component and retrieve the result:
 
 ```{r test-eval}
 test$eval()
-result <- test$get("adae")
-head(result)
+test$get("adae") |> head()
 ```
 
 Check coverage — every line of the component code should have been executed:
@@ -374,73 +398,3 @@ not executed, an error is raised. This integrates naturally with `testthat` test
 files: create the test component inside a `test_that()` block, assign data,
 evaluate, and assert on the results — coverage checking happens automatically
 when the test finishes.
-
-## Chaining multiple components
-
-Components are designed to be composed. Each one takes a data frame, adds or
-modifies columns, and passes it along. Here is an example of a typical
-SDTM-to-ADaM workflow: start with the SDTM AE domain, merge subject-level
-treatment dates from ADSL, then derive ADaM analysis variables step by step.
-
-```{r chain-setup}
-adae <- pharmaversesdtm::ae |>
-  dplyr::select(USUBJID, AESEQ, AETERM, AESTDTC, AEENDTC)
-
-adsl <- pharmaverseadam::adsl |>
-  dplyr::select(USUBJID, TRTSDT, TRTEDT)
-
-adae <- adae |>
-  dplyr::left_join(adsl, by = dplyr::join_by(USUBJID))
-
-names(adae)
-```
-
-Derive analysis start date, end date, and relative day:
-
-```{r chain-derive}
-get_rendered_component(
-  "astdt",
-  list(domain = "adae", dtc = "AESTDTC")
-)$eval()
-
-get_rendered_component(
-  "aendt",
-  list(domain = "adae", dtc = "AEENDTC")
-)$eval()
-
-get_rendered_component(
-  "ady",
-  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
-)$eval()
-```
-
-Inspect the result:
-
-```{r chain-result}
-adae |>
-  dplyr::select(
-    USUBJID, AESTDTC, ASTDT, ASTDTF, AEENDTC, AENDT, AENDTF, ASTDY
-  ) |>
-  head()
-```
-
-Each `get_rendered_component()$eval()` call is one composable step. In the full
-mighty framework these steps are orchestrated automatically, but you can also
-use them interactively to build programs step by step.
-
-## Summary
-
-The mighty component workflow:
-
-1. **Write** a component template with Mustache placeholders and documentation
-   tags.
-2. **Retrieve** it with `get_component()`.
-3. **Render** it with `$render()` to fill in the placeholders.
-4. **Evaluate** it with `$eval()` to run the code against your data.
-5. **Test** it with `get_test_component()` for isolated execution and coverage
-   tracking.
-
-Use `list_standards(as = "tibble")` for a quick overview of all built-in
-standard components. See the [package reference
-site](https://novonordisk-opensource.github.io/mighty.component) for full API
-documentation.
