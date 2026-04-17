@@ -181,6 +181,12 @@ test_that("tags_to_depends", {
     expect_named(c("domain", "column")) |>
     nrow() |>
     expect_equal(0)
+
+  tags_to_depends("USUBJID") |>
+    expect_error("must have both a domain and column")
+
+  tags_to_depends(c("data1 var1", "USUBJID")) |>
+    expect_error("must have both a domain and column")
 })
 
 test_that("print", {
