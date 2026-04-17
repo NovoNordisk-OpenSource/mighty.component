@@ -54,3 +54,5 @@ rsconnect/
 
 /.quarto/
 inst/doc
+/doc/
+/Meta/

@@ -8,3 +8,6 @@
 ^\.lintr$
 ^cspell\.yaml$
 ^\.github$
+^doc$
+^Meta$
+^\.claude$
