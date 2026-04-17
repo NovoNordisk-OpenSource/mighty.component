@@ -113,18 +113,18 @@ list_standards()
 Retrieve one by name:
 
 ```{r get-ady}
-comp <- get_component("ady")
-comp
+ady <- get_component("ady")
+ady
 ```
 
 Access individual fields through the active bindings:
 
 ```{r inspect-fields}
-comp$title
-comp$type
-comp$params
-comp$depends
-comp$outputs
+ady$title
+ady$type
+ady$params
+ady$depends
+ady$outputs
 ```
 
 You can also retrieve a component from a local `.mustache` or `.R` file by
@@ -142,8 +142,8 @@ Rendering fills in the Mustache placeholders with concrete values. The
 concrete name:
 
 ```{r render-ady}
-rendered <- comp$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
-rendered
+ady_rendered <- ady$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
+ady_rendered
 ```
 
 A convenience function combines retrieval and rendering in one step. It returns
@@ -160,7 +160,7 @@ get_rendered_component(
 If you omit a required parameter, you get an informative error:
 
 ```{r render-error, error=TRUE}
-comp$render(domain = "adae")
+ady$render(domain = "adae")
 ```
 
 ## Evaluate rendered code
@@ -181,7 +181,7 @@ names(adae)
 The `ASTDY` column does not exist yet. Run the rendered component:
 
 ```{r eval-run}
-rendered$eval()
+ady_rendered$eval()
 names(adae)
 head(adae)
 ```
@@ -240,12 +240,12 @@ writeLines(c(
 After saving this template to a `.mustache` file, load, render, and run it:
 
 ```{r custom-load}
-r2base_comp <- get_component(r2base_file)
-r2base_comp
+r2base <- get_component(r2base_file)
+r2base
 ```
 
 ```{r custom-render}
-r2base_rendered <- r2base_comp$render(
+r2base_rendered <- r2base$render(
   domain = "adlb",
   variable = "R2BASE"
 )
@@ -360,12 +360,12 @@ automatically verify coverage when a test finishes — use that default in your
 actual tests.
 
 ```{r test-create}
-test <- get_test_component(
+ady_test <- get_test_component(
   component = "ady",
   params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
   check_coverage = FALSE
 )
-test
+ady_test
 ```
 
 Assign input data into the isolated session:
@@ -374,22 +374,26 @@ Assign input data into the isolated session:
 adae_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-test$assign("adae", adae_input)
-test$ls()
+ady_test$assign("adae", adae_input)
+ady_test$ls()
 ```
 
 Execute the component and retrieve the result:
 
 ```{r test-eval}
-test$eval()
-test$get("adae") |> head()
+ady_test$eval()
+ady_test$get("adae") |> head()
 ```
 
 Check coverage — every line of the component code should have been executed:
 
 ```{r test-coverage}
-test$percent_coverage
-test$line_coverage
+# Normal print method
+ady_test
+# Percent coverage
+ady_test$percent_coverage
+# Line coverage in a data.frame
+ady_test$line_coverage
 ```
 
 When `check_coverage = TRUE` (the default), coverage is verified automatically
