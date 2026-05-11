@@ -7,7 +7,7 @@
 #' * Stream into an R script
 #' * Evaluate the generated code in an environment
 #'
-#' @seealso [get_rendered_standard()], [get_rendered_component()]
+#' @seealso [get_rendered_component()]
 #' @export
 mighty_component_rendered <- R6::R6Class(
   classname = "mighty_component_rendered",

@@ -35,25 +35,14 @@ test_that("get_rendered_component custom local mustache template with params", {
 })
 
 
-test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
-  y <- get_rendered_component(
-    component = "ady",
-    params = list(
-      domain = "domain",
-      date = "date_var",
-      variable = "out_var"
-    )
-  )
-
-  expect_ady(y)
-  expect_snapshot(y)
-})
-
 test_that("error handling", {
   get_component("my/fake/file.mustache") |>
     expect_error("not found")
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
+    expect_error("not found")
+
+  get_component("no_extension") |>
     expect_error("not found")
 })
 
