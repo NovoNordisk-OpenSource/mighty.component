@@ -13,7 +13,7 @@ Once rendered a component can be used to:
 }
 }
 \seealso{
-\code{\link[=get_rendered_standard]{get_rendered_standard()}}, \code{\link[=get_rendered_component]{get_rendered_component()}}
+\code{\link[=get_rendered_component]{get_rendered_component()}}
 }
 \section{Super class}{
 \code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{mighty_component_rendered}

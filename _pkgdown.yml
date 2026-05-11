@@ -5,8 +5,6 @@ reference:
   - title: Use components
     contents:
       - get_component
-      - get_standard
-      - list_standards
   - title: Test components
     contents:
       - get_test_component
