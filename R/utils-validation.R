@@ -7,7 +7,7 @@ assert_type <- function(type) {
   if (!type %in% types) {
     cli::cli_abort("@type must be one of {.val {types}}")
   }
-  return(type)
+  type
 }
 
 valid_origins <- function() {
@@ -20,5 +20,5 @@ assert_origin <- function(origin) {
   if (!origin %in% origins) {
     cli::cli_abort("@origin must be one of {.val {origins}}")
   }
-  return(origin)
+  origin
 }
