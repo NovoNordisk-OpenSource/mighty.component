@@ -148,10 +148,7 @@ ms_initialize <- function(template, id, self, private) {
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type") |> assert_type()
-  private$.origin <- get_optional_tag(template, "origin")
-  if (!is.null(private$.origin)) {
-    assert_origin(private$.origin)
-  }
+  private$.origin <- get_optional_tag(template, "origin") |> assert_origin()
   private$.params <- get_tags(template, "param") |>
     tags_to_params()
   private$.depends <- get_tags(template, "depends") |>

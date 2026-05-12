@@ -15,6 +15,7 @@ valid_origins <- function() {
 }
 
 assert_origin <- function(origin) {
+  if (is.null(origin)) return(NULL)
   origins <- valid_origins()
   if (!origin %in% origins) {
     cli::cli_abort("@origin must be one of {.val {origins}}")
