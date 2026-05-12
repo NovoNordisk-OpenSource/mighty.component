@@ -363,6 +363,7 @@ actual tests.
 ady_test <- get_test_component(
   component = "ady",
   params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+  # Remove this check_coverage or set it to TRUE in a real world scenario
   check_coverage = FALSE
 )
 ady_test
