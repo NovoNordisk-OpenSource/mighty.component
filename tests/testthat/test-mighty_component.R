@@ -144,6 +144,23 @@ test_that("get_tag", {
     expect_error(regexp = "Multiple or no matches found for tag")
 })
 
+test_that("get_optional_tag", {
+  get_optional_tag(template = "#' @mytag myvalue", tag = "mytag") |>
+    expect_equal("myvalue")
+
+  get_optional_tag(
+    template = c("#' @myothertag content", "also unrelated"),
+    tag = "mytag"
+  ) |>
+    expect_null()
+
+  get_optional_tag(
+    template = c("#' @mytag myvalue", "#' @mytag myothervalue"),
+    tag = "mytag"
+  ) |>
+    expect_error(regexp = "Multiple matches found for tag")
+})
+
 test_that("tags_to_params", {
   tags_to_params("myparam myvalue") |>
     expect_equal(

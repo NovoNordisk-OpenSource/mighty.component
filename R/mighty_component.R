@@ -116,6 +116,8 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
+    #' @field origin The CDISC origin of the component. Can be one of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
+    origin = \() private$.origin,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
@@ -128,6 +130,7 @@ mighty_component <- R6::R6Class(
     .title = character(1),
     .description = character(1),
     .type = character(1),
+    .origin = NULL,
     .params = data.frame(
       name = character(),
       description = character()
@@ -144,7 +147,11 @@ ms_initialize <- function(template, id, self, private) {
   private$.id <- id
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
-  private$.type <- get_tag(template, "type")
+  private$.type <- get_tag(template, "type") |> assert_type()
+  private$.origin <- get_optional_tag(template, "origin")
+  if (!is.null(private$.origin)) {
+    assert_origin(private$.origin)
+  }
   private$.params <- get_tags(template, "param") |>
     tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
@@ -183,6 +190,21 @@ get_tag <- function(template, tag) {
   }
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
+}
+
+#' @noRd
+get_optional_tag <- function(template, tag) {
+  tags <- get_tags(template, tag)
+
+  if (length(tags) == 0L) {
+    return(NULL)
+  }
+
+  if (length(tags) == 1L) {
+    return(tags)
+  }
+
+  cli::cli_abort("Multiple matches found for tag: {tag}")
 }
 
 #' @noRd
