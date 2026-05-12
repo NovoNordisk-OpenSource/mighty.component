@@ -1,6 +1,7 @@
 # Getting Started with mighty.component
 
 ``` r
+
 library(mighty.component)
 ```
 
@@ -52,15 +53,15 @@ at a glance:
 
 ### Tags reference
 
-| Tag                       | Purpose                                                               |
-|---------------------------|-----------------------------------------------------------------------|
-| `@title`                  | One-line title (required)                                             |
-| `@description`            | Multi-line description (required)                                     |
-| `@param name description` | Declares a Mustache placeholder the user must supply at render time   |
-| `@type`                   | Semantic type: `derivation`, `predecessor`, `assigned`, or `row`      |
-| `@depends domain column`  | Declares that the code reads `column` from `domain` (repeat for each) |
-| `@outputs variable`       | Declares a column the code creates (repeat for each)                  |
-| `@code`                   | Everything below this tag is executable R code                        |
+| Tag | Purpose |
+|----|----|
+| `@title` | One-line title (required) |
+| `@description` | Multi-line description (required) |
+| `@param name description` | Declares a Mustache placeholder the user must supply at render time |
+| `@type` | Semantic type: `derivation`, `predecessor`, `assigned`, or `row` |
+| `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
+| `@outputs variable` | Declares a column the code creates (repeat for each) |
+| `@code` | Everything below this tag is executable R code |
 
 ### Mustache syntax
 
@@ -99,6 +100,7 @@ for the full syntax reference.
 List the built-in standard components:
 
 ``` r
+
 list_standards()
 #> [1] "ady"         "aendt"       "assign"      "astdt"       "predecessor"
 #> [6] "supp_sdtm"   "trtemfl"
@@ -107,6 +109,7 @@ list_standards()
 Retrieve one by name:
 
 ``` r
+
 ady <- get_component("ady")
 ady
 #> <mighty_component/R6>
@@ -126,6 +129,7 @@ ady
 Access individual fields through the active bindings:
 
 ``` r
+
 ady$title
 #> [1] "Analysis relative day"
 ady$type
@@ -164,6 +168,7 @@ Rendering fills in the Mustache placeholders with concrete values. The
 now a concrete name:
 
 ``` r
+
 ady_rendered <- ady$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 #> <mighty_component_rendered/mighty_component/R6>
@@ -194,6 +199,7 @@ takes parameters as a named `list`, unlike `$render()` which takes
 `...`:
 
 ``` r
+
 get_rendered_component(
   "ady",
   list(domain = "adae", variable = "ASTDY", date = "ASTDT")
@@ -222,6 +228,7 @@ get_rendered_component(
 If you omit a required parameter, you get an informative error:
 
 ``` r
+
 ady$render(domain = "adae")
 #> Error in `ms_render()`:
 #> ! Parameter names not matching component requirements:
@@ -239,6 +246,7 @@ modifies the domain variable in place — no assignment of the return
 value is needed.
 
 ``` r
+
 adae <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
@@ -249,6 +257,7 @@ names(adae)
 The `ASTDY` column does not exist yet. Run the rendered component:
 
 ``` r
+
 ady_rendered$eval()
 #> → Evaluating component Analysis relative day
 #> ℹ Code:
@@ -304,10 +313,11 @@ After saving this template to a `.mustache` file, load, render, and run
 it:
 
 ``` r
+
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/RtmpmInIzX/file1ad755841ddf.mustache: Derives the ratio of the analysis
+#> /tmp/Rtmpq07Rjt/file1b7b6a82f1e5.mustache: Derives the ratio of the analysis
 #> value to the baseline value.
 #> Type: derivation
 #> Parameters:
@@ -321,6 +331,7 @@ r2base
 ```
 
 ``` r
+
 r2base_rendered <- r2base$render(
   domain = "adlb",
   variable = "R2BASE"
@@ -333,6 +344,7 @@ r2base_rendered$code
 ```
 
 ``` r
+
 adlb <- pharmaverseadam::adlb |>
   dplyr::filter(PARAMCD == "ALB") |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE)
@@ -392,6 +404,7 @@ Here is a component that fails validation:
       dplyr::left_join(other_data)
 
 ``` r
+
 get_rendered_component(bad_file, list(domain = "adae"))
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
@@ -415,6 +428,7 @@ The fix is to specify the join key explicitly:
       dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
 
 ``` r
+
 get_rendered_component(good_file, list(domain = "adae"))$code
 #> [1] "adae <- adae |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
@@ -434,9 +448,11 @@ automatically verify coverage when a test finishes — use that default in
 your actual tests.
 
 ``` r
+
 ady_test <- get_test_component(
   component = "ady",
   params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+  # Remove this check_coverage or set it to TRUE in a real world scenario
   check_coverage = FALSE
 )
 ady_test
@@ -459,6 +475,7 @@ ady_test
 Assign input data into the isolated session:
 
 ``` r
+
 adae_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
@@ -470,6 +487,7 @@ ady_test$ls()
 Execute the component and retrieve the result:
 
 ``` r
+
 ady_test$eval()
 ady_test$get("adae") |> head()
 #> # A tibble: 6 × 4
@@ -487,6 +505,7 @@ Check coverage — every line of the component code should have been
 executed:
 
 ``` r
+
 # Normal print method
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>

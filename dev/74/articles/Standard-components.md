@@ -70,6 +70,7 @@ Derives analysis end date based on (incomplete) dates given as character
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::mutate(
     AENDT = admiral::convert_dtc_to_dt(
@@ -144,6 +145,7 @@ character
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::mutate(
     ASTDT = admiral::convert_dtc_to_dt(
@@ -188,6 +190,7 @@ Creates new column(s) based on a predecessor column(s).
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::left_join(
     y = dplyr::select({{source}}, {{by}}, {{variable}}),
@@ -227,6 +230,7 @@ Add a variable from a supplementary SDTM domain.
 ### Code
 
 ``` r
+
 idvar <- unique({{source}}[["IDVAR"]])
 idclass <- class({{domain}}[[idvar]])
 idfunc <- get(paste0("as.", idclass))
@@ -273,6 +277,7 @@ Derives treatment emergent analysis flag.
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   admiral::derive_var_trtemfl(
     start_date = ASTDT,
