@@ -33,7 +33,7 @@ documenting functions using roxygen2:\tabular{lll}{
 
 \subsection{Conventions}{
 
-A template for a standard components follow these conventions:
+A component template follows these conventions:
 \enumerate{
 \item The input data set is always called \code{{{ domain }}}.
 \item Additional parameters used to render the template into R code are documented with the \verb{@param} tag.
@@ -114,7 +114,7 @@ the rendered code used in mighty becomes:
 \if{html}{\out{<a id="method-mighty_component-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from template.
+Create component from template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$new(template, id)}\if{html}{\out{</div>}}
 }
@@ -124,7 +124,7 @@ Create standard component from template.
 \describe{
 \item{\code{template}}{\code{character} template code. See details for how to format.}
 
-\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
+\item{\code{id}}{\code{character} ID of the component.}
 }
 \if{html}{\out{</div>}}
 }

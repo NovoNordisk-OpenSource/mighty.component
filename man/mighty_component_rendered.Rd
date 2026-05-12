@@ -50,7 +50,7 @@ Create component from rendered template.
 \describe{
 \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
 
-\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
+\item{\code{id}}{\code{character} ID of the component.}
 }
 \if{html}{\out{</div>}}
 }

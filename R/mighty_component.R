@@ -29,7 +29,7 @@
 #'
 #' ### Conventions
 #'
-#' A template for a standard components follow these conventions:
+#' A component template follows these conventions:
 #'
 #' 1. The input data set is always called `{{ domain }}`.
 #' 1. Additional parameters used to render the template into R code are documented with the `@param` tag.
@@ -75,9 +75,9 @@ mighty_component <- R6::R6Class(
   classname = "mighty_component",
   public = list(
     #' @description
-    #' Create standard component from template.
+    #' Create component from template.
     #' @param template `character` template code. See details for how to format.
-    #' @param id `character` ID of the component. Either name of standard or path to local.
+    #' @param id `character` ID of the component.
     initialize = function(template, id) {
       ms_initialize(template, id, self, private)
     },
