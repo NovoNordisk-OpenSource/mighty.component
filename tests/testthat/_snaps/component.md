@@ -7,7 +7,6 @@
       _components/ady_local.R: Derives the relative day compared to the treatment
       start date.
       Type: column
-      Origin: Derived
       Depends:
       * domain.date_var
       * domain.TRTSDT
@@ -34,7 +33,6 @@
       _components/ady_local.mustache: Derives the relative day compared to the
       treatment start date.
       Type: column
-      Origin: Derived
       Depends:
       * domain.date_var
       * domain.TRTSDT
@@ -60,7 +58,6 @@
       <mighty_component_rendered/mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
       Type: column
-      Origin: Derived
       Depends:
       * domain.date_var
       * domain.TRTSDT

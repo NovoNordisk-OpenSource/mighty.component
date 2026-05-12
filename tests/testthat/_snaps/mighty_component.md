@@ -6,7 +6,6 @@
       <mighty_component/R6>
       test: This is a test component used for unit testing
       Type: column
-      Origin: Derived
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input
@@ -61,7 +60,6 @@
       <mighty_component_rendered/mighty_component/R6>
       test: This is a test component used for unit testing
       Type: column
-      Origin: Derived
       Depends:
       * domain.A
       * Y.B
@@ -80,7 +78,6 @@
       _components/test_component.mustache: This is a test component used for unit
       testing
       Type: column
-      Origin: Derived
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input

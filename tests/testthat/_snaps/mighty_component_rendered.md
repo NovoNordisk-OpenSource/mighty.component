@@ -8,7 +8,6 @@
       _components/test_component.mustache: This is a test component used for unit
       testing
       Type: column
-      Origin: Derived
       Depends:
       * domain.A
       * Y.B
