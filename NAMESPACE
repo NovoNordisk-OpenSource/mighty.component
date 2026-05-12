@@ -3,6 +3,7 @@
 export(get_component)
 export(get_rendered_component)
 export(get_test_component)
+export(list_components)
 export(mighty_component)
 export(mighty_component_rendered)
 export(mighty_component_test)

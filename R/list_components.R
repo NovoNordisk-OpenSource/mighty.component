@@ -9,7 +9,8 @@
 #' while `list` and `tibble` show detailed component metadata.
 #' @returns Depending on `as`:
 #' * `character`: vector of component IDs
-#' * `list`: list of component metadata (id, title, description, params, depends, outputs, code)
+#' * `list`: list of component metadata
+#'   (id, title, description, params, depends, outputs, code)
 #' * `tibble`: tibble with one row per component
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
@@ -35,7 +36,8 @@ list_components <- function(path, as = c("character", "list", "tibble")) {
     character = tools::file_path_sans_ext(basename(files)),
     list = lapply(files, function(f) {
       comp <- get_component(f)
-      get_fields(comp, c("id", "title", "description", "params", "depends", "outputs", "code"))
+      fields <- c("id", "title", "description", "params", "depends", "outputs", "code")
+      get_fields(comp, fields)
     }),
     tibble = {
       rlang::check_installed("tibble")

@@ -5,6 +5,7 @@ reference:
   - title: Use components
     contents:
       - get_component
+      - list_components
   - title: Test components
     contents:
       - get_test_component
