@@ -7,7 +7,8 @@
       <mighty_component_rendered/mighty_component/R6>
       _components/test_component.mustache: This is a test component used for unit
       testing
-      Type: derivation
+      Type: column
+      Origin: Derived
       Depends:
       * domain.A
       * Y.B
