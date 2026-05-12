@@ -32,8 +32,8 @@ Processes different component types based on file extension:
 }
 }
 \examples{
-path <- system.file("templates", "example.mustache", package = "mighty.component")
-if (nzchar(path)) get_component(path)
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+get_component(path)
 
 }
 \seealso{

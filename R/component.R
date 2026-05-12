@@ -17,8 +17,8 @@
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
-#' path <- system.file("templates", "example.mustache", package = "mighty.component")
-#' if (nzchar(path)) get_component(path)
+#' path <- system.file("examples", "ady.mustache", package = "mighty.component")
+#' get_component(path)
 #'
 #' @rdname get_component
 #' @export
