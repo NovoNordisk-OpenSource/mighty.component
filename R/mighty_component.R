@@ -118,7 +118,7 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
-    #' @field origin The CDISC origin of the component. Can be one of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
+    #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
     origin = \() private$.origin,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
