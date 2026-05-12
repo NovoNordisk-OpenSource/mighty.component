@@ -51,6 +51,10 @@ test_that("origin checks", {
     expect_no_condition() |>
     expect_equal("Protocol")
 
+  assert_origin(NULL) |>
+    expect_no_condition() |>
+    expect_null()
+
   assert_origin("illegal origin") |>
     expect_error()
 })
