@@ -5,6 +5,8 @@
 - [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
   [`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
   : Retrieve mighty code component
+- [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
+  : List components in directories
 
 ## Test components
 

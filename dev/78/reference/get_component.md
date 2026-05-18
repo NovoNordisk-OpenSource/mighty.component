@@ -51,13 +51,13 @@ get_component(path)
 #> <mighty_component/R6>
 #> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
 #> the relative day compared to the treatment start date.
-#> Type: derivation
+#> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
 #> • variable: `character` Name of new variable to create
 #> • date: `character` Name of date variable to use
 #> Depends:
-#> • {{domain}}.{{ date }}
+#> • {{domain}}.{{date}}
 #> • {{domain}}.TRTSDT
 #> Outputs:
 #> • {{ variable }}
