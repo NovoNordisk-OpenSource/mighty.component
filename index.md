@@ -9,6 +9,7 @@ You can install the development version of `mighty.component` from
 GitHub with:
 
 ``` r
+
 pak::pak("NovoNordisk-OpenSource/mighty.component")
 ```
 

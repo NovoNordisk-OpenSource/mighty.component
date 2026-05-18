@@ -5,7 +5,7 @@ available standard components inside {mighty.component}.
 
 ## ady: Analysis relative day
 
-*type: derivation*
+*type: column*
 
 Derives the relative day compared to the treatment start date.
 
@@ -45,7 +45,7 @@ Derives the relative day compared to the treatment start date.
 
 ## aendt: Analysis end date
 
-*type: derivation*
+*type: column*
 
 Derives analysis end date based on (incomplete) dates given as character
 
@@ -70,6 +70,7 @@ Derives analysis end date based on (incomplete) dates given as character
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::mutate(
     AENDT = admiral::convert_dtc_to_dt(
@@ -86,7 +87,7 @@ Derives analysis end date based on (incomplete) dates given as character
 
 ## assign: Assign
 
-*type: assigned*
+*type: column*
 
 Assigns a single value to an entire column.
 
@@ -118,7 +119,7 @@ Assigns a single value to an entire column.
 
 ## astdt: Analysis start date
 
-*type: derivation*
+*type: column*
 
 Derives analysis start date based on (incomplete) dates given as
 character
@@ -144,6 +145,7 @@ character
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::mutate(
     ASTDT = admiral::convert_dtc_to_dt(
@@ -160,7 +162,7 @@ character
 
 ## predecessor: Predecessor
 
-*type: predecessor*
+*type: column*
 
 Creates new column(s) based on a predecessor column(s).
 
@@ -188,6 +190,7 @@ Creates new column(s) based on a predecessor column(s).
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   dplyr::left_join(
     y = dplyr::select({{source}}, {{by}}, {{variable}}),
@@ -197,7 +200,7 @@ Creates new column(s) based on a predecessor column(s).
 
 ## supp_sdtm: Add Supplementary Variable from SDTM
 
-*type: predecessor*
+*type: column*
 
 Add a variable from a supplementary SDTM domain.
 
@@ -227,6 +230,7 @@ Add a variable from a supplementary SDTM domain.
 ### Code
 
 ``` r
+
 idvar <- unique({{source}}[["IDVAR"]])
 idclass <- class({{domain}}[[idvar]])
 idfunc <- get(paste0("as.", idclass))
@@ -246,7 +250,7 @@ supp_data <- {{source}} |>
 
 ## trtemfl: Treatment-emergent flag
 
-*type: derivation*
+*type: column*
 
 Derives treatment emergent analysis flag.
 
@@ -273,6 +277,7 @@ Derives treatment emergent analysis flag.
 ### Code
 
 ``` r
+
 {{domain}} <- {{domain}} |>
   admiral::derive_var_trtemfl(
     start_date = ASTDT,

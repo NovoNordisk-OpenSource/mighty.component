@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Standard components">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9018</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9019</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ available standard components inside {mighty.component}.</p>
 <div class="section level2">
 <h2 id="ady-analysis-relative-day">ady: Analysis relative day<a class="anchor" aria-label="anchor" href="#ady-analysis-relative-day"></a>
 </h2>
-<p><em>type: derivation</em></p>
+<p><em>type: column</em></p>
 <p>Derives the relative day compared to the treatment start date.</p>
 <div class="section level3">
 <h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
@@ -151,7 +151,7 @@ use</td>
 <div class="section level2">
 <h2 id="aendt-analysis-end-date">aendt: Analysis end date<a class="anchor" aria-label="anchor" href="#aendt-analysis-end-date"></a>
 </h2>
-<p><em>type: derivation</em></p>
+<p><em>type: column</em></p>
 <p>Derives analysis end date based on (incomplete) dates given as
 character</p>
 <div class="section level3">
@@ -220,7 +220,7 @@ created</td>
 <div class="section level2">
 <h2 id="assign-assign">assign: Assign<a class="anchor" aria-label="anchor" href="#assign-assign"></a>
 </h2>
-<p><em>type: assigned</em></p>
+<p><em>type: column</em></p>
 <p>Assigns a single value to an entire column.</p>
 <div class="section level3">
 <h3 id="parameters-2">Parameters<a class="anchor" aria-label="anchor" href="#parameters-2"></a>
@@ -280,7 +280,7 @@ modify</td>
 <div class="section level2">
 <h2 id="astdt-analysis-start-date">astdt: Analysis start date<a class="anchor" aria-label="anchor" href="#astdt-analysis-start-date"></a>
 </h2>
-<p><em>type: derivation</em></p>
+<p><em>type: column</em></p>
 <p>Derives analysis start date based on (incomplete) dates given as
 character</p>
 <div class="section level3">
@@ -349,7 +349,7 @@ created</td>
 <div class="section level2">
 <h2 id="predecessor-predecessor">predecessor: Predecessor<a class="anchor" aria-label="anchor" href="#predecessor-predecessor"></a>
 </h2>
-<p><em>type: predecessor</em></p>
+<p><em>type: column</em></p>
 <p>Creates new column(s) based on a predecessor column(s).</p>
 <div class="section level3">
 <h3 id="parameters-4">Parameters<a class="anchor" aria-label="anchor" href="#parameters-4"></a>
@@ -433,7 +433,7 @@ by</td>
 <div class="section level2">
 <h2 id="supp_sdtm-add-supplementary-variable-from-sdtm">supp_sdtm: Add Supplementary Variable from SDTM<a class="anchor" aria-label="anchor" href="#supp_sdtm-add-supplementary-variable-from-sdtm"></a>
 </h2>
-<p><em>type: predecessor</em></p>
+<p><em>type: column</em></p>
 <p>Add a variable from a supplementary SDTM domain.</p>
 <div class="section level3">
 <h3 id="parameters-5">Parameters<a class="anchor" aria-label="anchor" href="#parameters-5"></a>
@@ -533,7 +533,7 @@ set to use</td>
 <div class="section level2">
 <h2 id="trtemfl-treatment-emergent-flag">trtemfl: Treatment-emergent flag<a class="anchor" aria-label="anchor" href="#trtemfl-treatment-emergent-flag"></a>
 </h2>
-<p><em>type: derivation</em></p>
+<p><em>type: column</em></p>
 <p>Derives treatment emergent analysis flag.</p>
 <div class="section level3">
 <h3 id="parameters-6">Parameters<a class="anchor" aria-label="anchor" href="#parameters-6"></a>

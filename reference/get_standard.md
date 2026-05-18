@@ -43,7 +43,7 @@ get_rendered_standard(standard, params = list())
 get_standard("ady")
 #> <mighty_component/R6>
 #> ady: Derives the relative day compared to the treatment start date.
-#> Type: derivation
+#> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
 #> • variable: `character` Name of new variable to create
@@ -57,7 +57,7 @@ get_standard("ady")
 get_rendered_standard("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
 #> <mighty_component_rendered/mighty_component/R6>
 #> ady: Derives the relative day compared to the treatment start date.
-#> Type: derivation
+#> Type: column
 #> Depends:
 #> • advs.ASTDT
 #> • advs.TRTSDT
