@@ -19,7 +19,10 @@ test_that("mighty_component", {
     expect_equal(readLines(component))
 
   test_component$type |>
-    expect_equal("derivation")
+    expect_equal("column")
+
+  test_component$origin |>
+    expect_equal("Derived")
 
   test_component$depends |>
     expect_s3_class("data.frame") |>
@@ -72,7 +75,10 @@ test_that("mighty_component", {
     expect_false()
 
   test_component_rendered$type |>
-    expect_equal("derivation")
+    expect_equal("column")
+
+  test_component_rendered$origin |>
+    expect_equal("Derived")
 
   test_component_rendered$depends |>
     expect_s3_class("data.frame") |>
@@ -142,6 +148,23 @@ test_that("get_tag", {
     tag = "myothertag"
   ) |>
     expect_error(regexp = "Multiple or no matches found for tag")
+})
+
+test_that("get_optional_tag", {
+  get_optional_tag(template = "#' @mytag myvalue", tag = "mytag") |>
+    expect_equal("myvalue")
+
+  get_optional_tag(
+    template = c("#' @myothertag content", "also unrelated"),
+    tag = "mytag"
+  ) |>
+    expect_null()
+
+  get_optional_tag(
+    template = c("#' @mytag myvalue", "#' @mytag myothervalue"),
+    tag = "mytag"
+  ) |>
+    expect_error(regexp = "Multiple matches found for tag")
 })
 
 test_that("tags_to_params", {

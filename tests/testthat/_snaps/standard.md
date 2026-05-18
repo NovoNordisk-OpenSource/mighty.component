@@ -6,7 +6,7 @@
     Message
       <mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
-      Type: derivation
+      Type: column
       Parameters:
       * domain: `character` Name of new domain being created
       * variable: `character` Name of new variable to create
@@ -26,7 +26,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       ady: Derives the relative day compared to the treatment start date.
-      Type: derivation
+      Type: column
       Depends:
       * adsl.ASTDT
       * adsl.TRTSDT
