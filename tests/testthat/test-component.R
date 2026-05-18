@@ -1,6 +1,6 @@
 expect_ady <- function(x) {
   expect_s3_class(x, "mighty_component_rendered")
-  expect_equal(x$type, "derivation")
+  expect_equal(x$type, "column")
   expect_equal(
     x$depends,
     data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
@@ -52,7 +52,7 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @description This is a test component with missing parameters.",
     "#' @param variable",
     "#' @param date ",
-    "#' @type derivation",
+    "#' @type column",
     "#' @depends {{ domain }} {{ date }}",
     "#' @depends {{ domain }} TRTSDT",
     "#' @outputs {{ variable }}",

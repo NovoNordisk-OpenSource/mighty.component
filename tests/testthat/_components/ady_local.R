@@ -1,7 +1,8 @@
 #' @title Analysis relative day
 #' @description
 #' Derives the relative day compared to the treatment start date.
-#' @type derivation
+#' @type column
+#' @origin Derived
 #' @depends domain date_var
 #' @depends domain TRTSDT
 #' @outputs out_var
