@@ -71,7 +71,8 @@ glance:
 | `@title` | One-line title (required) |
 | `@description` | Multi-line description (required) |
 | `@param name description` | Declares a Mustache placeholder the user must supply at render time |
-| `@type` | Semantic type: `derivation`, `predecessor`, `assigned`, or `row` |
+| `@type` | Semantic type: `column`, `row`, `parameter`, or `internal` |
+| `@origin` | CDISC origin (optional): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
 | `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
 | `@outputs variable` | Declares a column the code creates (repeat for each) |
 | `@code` | Everything below this tag is executable R code |
