@@ -57,8 +57,8 @@ get_component(path)
 #> • variable: `character` Name of new variable to create
 #> • date: `character` Name of date variable to use
 #> Depends:
-#> • {{domain}}.{{date}}
-#> • {{domain}}.TRTSDT
+#> • {{{domain}}}.{{{date}}}
+#> • {{{domain}}}.TRTSDT
 #> Outputs:
-#> • {{ variable }}
+#> • {{{variable}}}
 ```
