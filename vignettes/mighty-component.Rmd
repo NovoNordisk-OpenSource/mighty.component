@@ -281,11 +281,11 @@ Here is a component that fails validation:
 #' @description Implicit join that will fail validation.
 #'
 #' @param domain `character` domain name
-#' @type predecessor
-#' @depends {{domain}} USUBJID
+#' @type row
+#' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
-{{domain}} <- {{domain}} |>
+{{{domain}}} <- {{{domain}}} |>
   dplyr::left_join(other_data)
 ```
 
@@ -295,11 +295,11 @@ bad_template <- c(
   "#' @description Implicit join that will fail validation.",
   "#'",
   "#' @param domain `character` domain name",
-  "#' @type predecessor",
-  "#' @depends {{domain}} USUBJID",
+  "#' @type row",
+  "#' @depends {{{domain}}} USUBJID",
   "#' @outputs NEWCOL",
   "#' @code",
-  "{{domain}} <- {{domain}} |>",
+  "{{{domain}}} <- {{{domain}}} |>",
   "  dplyr::left_join(other_data)"
 )
 
@@ -318,11 +318,11 @@ The fix is to specify the join key explicitly:
 #' @description Explicit join that passes validation.
 #'
 #' @param domain `character` domain name
-#' @type predecessor
-#' @depends {{domain}} USUBJID
+#' @type row
+#' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
-{{domain}} <- {{domain}} |>
+{{{domain}}} <- {{{domain}}} |>
   dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
 ```
 
@@ -332,11 +332,11 @@ good_template <- c(
   "#' @description Explicit join that passes validation.",
   "#'",
   "#' @param domain `character` domain name",
-  "#' @type predecessor",
-  "#' @depends {{domain}} USUBJID",
+  "#' @type row",
+  "#' @depends {{{domain}}} USUBJID",
   "#' @outputs NEWCOL",
   "#' @code",
-  "{{domain}} <- {{domain}} |>",
+  "{{{domain}}} <- {{{domain}}} |>",
   "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 )
 
