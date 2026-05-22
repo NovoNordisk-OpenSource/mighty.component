@@ -150,7 +150,7 @@ takes parameters as a named `list`, unlike `$render()` which takes `...`:
 
 ```{r shortcut}
 get_rendered_component(
-  "ady",
+  system.file("examples", "ady.mustache", package = "mighty.component"),
   list(domain = "adae", variable = "ASTDY", date = "ASTDT")
 )
 ```
