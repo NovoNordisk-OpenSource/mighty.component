@@ -198,7 +198,13 @@ head(ADAE)
 can pass a different environment via the `envir` argument if needed.
 
 If you want to save the rendered code to a script file instead of evaluating it
-interactively, use `$stream(path)` to append the code to an R file.
+interactively, use `$stream(path)` to append the code to an R file:
+
+```{r stream-example}
+script_file <- tempfile(fileext = ".R")
+ady_rendered$stream(script_file)
+readLines(script_file)
+```
 
 ## Writing a custom component
 
