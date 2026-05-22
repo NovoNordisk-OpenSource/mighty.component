@@ -53,13 +53,14 @@ glance:
 #' @param domain `character` Name of the domain (data frame)
 #' @param input `character` Name of the existing column to double
 #' @param output `character` Name of the new column to create
-#' @type derivation
-#' @depends {{domain}} {{input}}
-#' @outputs {{output}}
+#' @type column
+#' @origin Derived
+#' @depends {{{domain}}} {{{input}}}
+#' @outputs {{{output}}}
 #' @code
-{{domain}} <- {{domain}} |>
+{{{domain}}} <- {{{domain}}} |>
   dplyr::mutate(
-    {{output}} = 2 * {{input}}
+    {{{output}}} = 2 * {{{input}}}
   )
 ```
 
