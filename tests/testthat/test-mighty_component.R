@@ -12,7 +12,7 @@ test_that("mighty_component", {
 
   test_component$code |>
     expect_equal(
-      "{{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}"
+      "{{{domain}}}$NEWVAR <- {{{ x1 }}} * Y$B + {{{domain}}}$A - {{{ x2 }}}"
     )
 
   test_component$template |>
@@ -28,7 +28,7 @@ test_that("mighty_component", {
     expect_s3_class("data.frame") |>
     expect_equal(
       data.frame(
-        domain = c("{{domain}}", "Y"),
+        domain = c("{{{domain}}}", "Y"),
         column = c("A", "B")
       )
     )
