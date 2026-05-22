@@ -1,6 +1,6 @@
 Package: mighty.component
 Title: Mighty Components for ADaM Generation
-Version: 0.0.0.9019
+Version: 0.0.0.9021
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = c("aut")),
@@ -30,7 +30,6 @@ Suggests:
     jsonlite,
     knitr,
     pharmaverseadam,
-    pharmaversesdtm,
     rmarkdown,
     testthat (>= 3.0.0),
     tibble,

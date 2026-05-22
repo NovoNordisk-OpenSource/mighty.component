@@ -51,12 +51,12 @@ test_that("validation runs automatically when rendering component with invalid c
     "#' @param domain the data set being changes",
     "#' @param dataset The dataset to join",
     "#' @param join_type The type of join function",
-    "#' @type derivation",
-    "#' @depends {{ domain }} USUBJID",
+    "#' @type column",
+    "#' @depends {{{domain}}} USUBJID",
     "#' @outputs NEWVAR",
     "#' @code",
-    "{{ domain }} <- {{ domain }} |>",
-    "  dplyr::{{ join_type }}({{ dataset }})"
+    "{{{domain}}} <- {{{domain}}} |>",
+    "  dplyr::{{{join_type}}}({{{dataset}}})"
   )
 
   component <- mighty_component$new(

@@ -22,14 +22,15 @@
 #' | `@title`       | Title of the component                               | `@title My component`    |
 #' | `@description` | Description of the component                         | `@description text text` |
 #' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
-#' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type derivation`       |
+#' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type column`           |
+#' | `@origin`      | CDISC origin (optional)                              | `@origin Derived`        |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
 #' | `@code`        | Everything under this tag defines the component code | `@code`                  |
 #'
 #' ### Conventions
 #'
-#' A template for a standard components follow these conventions:
+#' A component template follows these conventions:
 #'
 #' 1. The input data set is always called `{{ domain }}`.
 #' 1. Additional parameters used to render the template into R code are documented with the `@param` tag.
@@ -49,7 +50,8 @@
 #' #'
 #' #' @param variable dynamic output if applicable
 #' #' @param x some other input to the component
-#' #' @type derivation
+#' #' @type column
+#' #' @origin Derived
 #' #' @depends {{ domain }} {{ x }}
 #' #' @outputs {{ variable }}
 #' #' @code
@@ -69,15 +71,15 @@
 #'   )
 #' ```
 #'
-#' @seealso [get_standard()], [get_component()], [mighty_component_rendered]
+#' @seealso [get_component()], [mighty_component_rendered]
 #' @export
 mighty_component <- R6::R6Class(
   classname = "mighty_component",
   public = list(
     #' @description
-    #' Create standard component from template.
+    #' Create component from template.
     #' @param template `character` template code. See details for how to format.
-    #' @param id `character` ID of the component. Either name of standard or path to local.
+    #' @param id `character` ID of the component.
     initialize = function(template, id) {
       ms_initialize(template, id, self, private)
     },
@@ -116,6 +118,8 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
+    #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
+    origin = \() private$.origin,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
@@ -128,6 +132,7 @@ mighty_component <- R6::R6Class(
     .title = character(1),
     .description = character(1),
     .type = character(1),
+    .origin = NULL,
     .params = data.frame(
       name = character(),
       description = character()
@@ -144,7 +149,8 @@ ms_initialize <- function(template, id, self, private) {
   private$.id <- id
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
-  private$.type <- get_tag(template, "type")
+  private$.type <- get_tag(template, "type") |> assert_type()
+  private$.origin <- get_optional_tag(template, "origin") |> assert_origin()
   private$.params <- get_tags(template, "param") |>
     tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
@@ -183,6 +189,21 @@ get_tag <- function(template, tag) {
   }
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
+}
+
+#' @noRd
+get_optional_tag <- function(template, tag) {
+  tags <- get_tags(template, tag)
+
+  if (length(tags) == 0L) {
+    return(NULL)
+  }
+
+  if (length(tags) == 1L) {
+    return(tags)
+  }
+
+  cli::cli_abort("Multiple matches found for tag: {tag}")
 }
 
 #' @noRd

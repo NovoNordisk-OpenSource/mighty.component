@@ -1,6 +1,6 @@
 expect_ady <- function(x) {
   expect_s3_class(x, "mighty_component_rendered")
-  expect_equal(x$type, "derivation")
+  expect_equal(x$type, "column")
   expect_equal(
     x$depends,
     data.frame(domain = rep("domain", 2), column = c("date_var", "TRTSDT"))
@@ -35,25 +35,14 @@ test_that("get_rendered_component custom local mustache template with params", {
 })
 
 
-test_that("get_rendered_component returns rendered STANDARD code component with valid inputs", {
-  y <- get_rendered_component(
-    component = "ady",
-    params = list(
-      domain = "domain",
-      date = "date_var",
-      variable = "out_var"
-    )
-  )
-
-  expect_ady(y)
-  expect_snapshot(y)
-})
-
 test_that("error handling", {
   get_component("my/fake/file.mustache") |>
     expect_error("not found")
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
+    expect_error("not found")
+
+  get_component("no_extension") |>
     expect_error("not found")
 })
 
@@ -63,10 +52,10 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @description This is a test component with missing parameters.",
     "#' @param variable",
     "#' @param date ",
-    "#' @type derivation",
-    "#' @depends {{ domain }} {{ date }}",
-    "#' @depends {{ domain }} TRTSDT",
-    "#' @outputs {{ variable }}",
+    "#' @type column",
+    "#' @depends {{{domain}}} {{{date}}}",
+    "#' @depends {{{domain}}} TRTSDT",
+    "#' @outputs {{{variable}}}",
     "print('hello')"
   )
 

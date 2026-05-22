@@ -23,7 +23,8 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
    \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
    \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
-   \verb{@type} \tab Specifies type: predecessor, derivation, row \tab \verb{@type derivation} \cr
+   \verb{@type} \tab Specifies type: column, row, parameter, internal \tab \verb{@type column} \cr
+   \verb{@origin} \tab CDISC origin (optional) \tab \verb{@origin Derived} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends \{\{ domain \}\} USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
    \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
@@ -33,7 +34,7 @@ documenting functions using roxygen2:\tabular{lll}{
 
 \subsection{Conventions}{
 
-A template for a standard components follow these conventions:
+A component template follows these conventions:
 \enumerate{
 \item The input data set is always called \code{{{ domain }}}.
 \item Additional parameters used to render the template into R code are documented with the \verb{@param} tag.
@@ -54,7 +55,8 @@ of the dynamic input \code{x}, that should already by in the input data set \cod
 #'
 #' @param variable dynamic output if applicable
 #' @param x some other input to the component
-#' @type derivation
+#' @type column
+#' @origin Derived
 #' @depends \{\{ domain \}\} \{\{ x \}\}
 #' @outputs \{\{ variable \}\}
 #' @code
@@ -75,7 +77,7 @@ the rendered code used in mighty becomes:
 }
 }
 \seealso{
-\code{\link[=get_standard]{get_standard()}}, \code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
+\code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
@@ -90,7 +92,9 @@ the rendered code used in mighty becomes:
 
 \item{\code{template}}{The complete template.}
 
-\item{\code{type}}{The type of the component. Can be one of predecessor, derivation, row.}
+\item{\code{type}}{The type of the component. Can be one of column, row, parameter, internal.}
+
+\item{\code{origin}}{CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or \code{NULL}.}
 
 \item{\code{depends}}{Data.frame listing all the components dependencies.}
 
@@ -114,7 +118,7 @@ the rendered code used in mighty becomes:
 \if{html}{\out{<a id="method-mighty_component-new"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-new}{}}}
 \subsection{Method \code{new()}}{
-Create standard component from template.
+Create component from template.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{mighty_component$new(template, id)}\if{html}{\out{</div>}}
 }
@@ -124,7 +128,7 @@ Create standard component from template.
 \describe{
 \item{\code{template}}{\code{character} template code. See details for how to format.}
 
-\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
+\item{\code{id}}{\code{character} ID of the component.}
 }
 \if{html}{\out{</div>}}
 }

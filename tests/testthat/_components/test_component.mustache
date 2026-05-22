@@ -4,9 +4,10 @@
 #' @param domain `character` Name of new domain being created
 #' @param x1 First input
 #' @param x2 Second input
-#' @type derivation
-#' @depends {{domain}} A
+#' @type column
+#' @origin Derived
+#' @depends {{{domain}}} A
 #' @depends Y B
 #' @outputs NEWVAR
 #' @code
-{{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
+{{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}

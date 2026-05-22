@@ -5,13 +5,13 @@
     Message
       <mighty_component/R6>
       test: This is a test component used for unit testing
-      Type: derivation
+      Type: column
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
-      * {{domain}}.A
+      * {{{domain}}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -22,7 +22,7 @@
       test_component$document()
     Output
       ## test: My test component
-      *type: derivation*
+      *type: column*
       
       This is a test component used for unit testing
       
@@ -36,10 +36,10 @@
       
       ### Depends
       
-      |domain     |column |
-      |:----------|:------|
-      |{{domain}} |A      |
-      |Y          |B      |
+      |domain       |column |
+      |:------------|:------|
+      |{{{domain}}} |A      |
+      |Y            |B      |
       
       ### Outputs
       
@@ -48,7 +48,7 @@
       ### Code
       
       ```r
-      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 
@@ -59,7 +59,7 @@
     Message
       <mighty_component_rendered/mighty_component/R6>
       test: This is a test component used for unit testing
-      Type: derivation
+      Type: column
       Depends:
       * domain.A
       * Y.B
@@ -77,13 +77,13 @@
       <mighty_component/R6>
       _components/test_component.mustache: This is a test component used for unit
       testing
-      Type: derivation
+      Type: column
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input
       * x2: Second input
       Depends:
-      * {{domain}}.A
+      * {{{domain}}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -104,7 +104,7 @@
       "document")
     Output
       ## _components/test_component.mustache: My test component
-      *type: derivation*
+      *type: column*
       
       This is a test component used for unit testing
       
@@ -118,10 +118,10 @@
       
       ### Depends
       
-      |domain     |column |
-      |:----------|:------|
-      |{{domain}} |A      |
-      |Y          |B      |
+      |domain       |column |
+      |:------------|:------|
+      |{{{domain}}} |A      |
+      |Y            |B      |
       
       ### Outputs
       
@@ -130,7 +130,7 @@
       ### Code
       
       ```r
-      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 
