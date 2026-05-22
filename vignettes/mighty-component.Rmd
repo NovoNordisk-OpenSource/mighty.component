@@ -106,16 +106,19 @@ full syntax reference.
 
 ## Retrieve and inspect a component
 
-List the built-in standard components:
+List the example components shipped with the package:
 
-```{r list-standards}
-list_standards()
+```{r list-components}
+path <- system.file("examples", package = "mighty.component")
+list_components(path)
 ```
 
-Retrieve one by name:
+Retrieve one by file path:
 
 ```{r get-ady}
-ady <- get_component("ady")
+ady <- get_component(
+  system.file("examples", "ady.mustache", package = "mighty.component")
+)
 ady
 ```
 
@@ -128,13 +131,6 @@ ady$params
 ady$depends
 ady$outputs
 ```
-
-You can also retrieve a component from a local `.mustache` or `.R` file by
-passing the file path to `get_component()`.
-
-`get_component()` is the recommended entry point — it handles both built-in
-standards and custom files. If you know you only need a built-in standard, you
-can also use `get_standard()` and `get_rendered_standard()` directly.
 
 ## Render a component
 
