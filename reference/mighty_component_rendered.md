@@ -10,7 +10,6 @@ Once rendered a component can be used to:
 
 ## See also
 
-[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md),
 [`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
 
 ## Super class
@@ -56,8 +55,7 @@ Create component from rendered template.
 
 - `id`:
 
-  `character` ID of the component. Either name of standard or path to
-  local.
+  `character` ID of the component.
 
 ------------------------------------------------------------------------
 

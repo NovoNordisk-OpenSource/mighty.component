@@ -5,11 +5,8 @@
 - [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
   [`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
   : Retrieve mighty code component
-- [`get_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
-  [`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
-  : Retrieve mighty standard component
-- [`list_standards()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_standards.md)
-  : List all available standards
+- [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
+  : List components in directories
 
 ## Test components
 
