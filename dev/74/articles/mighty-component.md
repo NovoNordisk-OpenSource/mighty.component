@@ -39,22 +39,24 @@ which components are rendered and with what parameters.
 Below is a minimal component that doubles a column. Every tag is visible
 at a glance:
 
-    #' @title Double a variable
-    #' @description
-    #' Creates a new column that is twice the value of an existing column.
-    #'
-    #' @param domain `character` Name of the domain (data frame)
-    #' @param input `character` Name of the existing column to double
-    #' @param output `character` Name of the new column to create
-    #' @type column
-    #' @origin Derived
-    #' @depends {{{domain}}} {{{input}}}
-    #' @outputs {{{output}}}
-    #' @code
-    {{{domain}}} <- {{{domain}}} |>
-      dplyr::mutate(
-        {{{output}}} = 2 * {{{input}}}
-      )
+``` r
+#' @title Double a variable
+#' @description
+#' Creates a new column that is twice the value of an existing column.
+#'
+#' @param domain `character` Name of the domain (data frame)
+#' @param input `character` Name of the existing column to double
+#' @param output `character` Name of the new column to create
+#' @type column
+#' @origin Derived
+#' @depends {{{domain}}} {{{input}}}
+#' @outputs {{{output}}}
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::mutate(
+    {{{output}}} = 2 * {{{input}}}
+  )
+```
 
 ### Tags reference
 
@@ -316,22 +318,24 @@ realistic example that derives a ratio of the current value to baseline
 (`R2BASE`) for a lab parameter. Save the following template to a
 `.mustache` file:
 
-    #' @title Ratio to baseline
-    #' @description
-    #' Derives the ratio of the analysis value to the baseline value.
-    #'
-    #' @param domain `character` Name of the domain
-    #' @param variable `character` Name of the new ratio variable
-    #' @type column
-    #' @origin Derived
-    #' @depends {{{domain}}} AVAL
-    #' @depends {{{domain}}} BASE
-    #' @outputs {{{variable}}}
-    #' @code
-    {{{domain}}} <- {{{domain}}} |>
-      dplyr::mutate(
-        {{{variable}}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
-      )
+``` r
+#' @title Ratio to baseline
+#' @description
+#' Derives the ratio of the analysis value to the baseline value.
+#'
+#' @param domain `character` Name of the domain
+#' @param variable `character` Name of the new ratio variable
+#' @type column
+#' @origin Derived
+#' @depends {{{domain}}} AVAL
+#' @depends {{{domain}}} BASE
+#' @outputs {{{variable}}}
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::mutate(
+    {{{variable}}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
+  )
+```
 
 After saving this template to a `.mustache` file, load, render, and run
 it:
@@ -341,7 +345,7 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/RtmpXMzBaO/file1aa3568c8725.mustache: Derives the ratio of the analysis
+#> /tmp/Rtmp3gHBko/file1a62d81a05d.mustache: Derives the ratio of the analysis
 #> value to the baseline value.
 #> Type: column
 #> Parameters:
@@ -416,16 +420,19 @@ columns change between studies.
 
 Here is a component that fails validation:
 
-    #' @title Bad join example
-    #' @description Implicit join that will fail validation.
-    #'
-    #' @param domain `character` domain name
-    #' @type row
-    #' @depends {{{domain}}} USUBJID
-    #' @outputs NEWCOL
-    #' @code
-    {{{domain}}} <- {{{domain}}} |>
-      dplyr::left_join(other_data)
+``` r
+
+#' @title Bad join example
+#' @description Implicit join that will fail validation.
+#'
+#' @param domain `character` domain name
+#' @type row
+#' @depends {{{domain}}} USUBJID
+#' @outputs NEWCOL
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::left_join(other_data)
+```
 
 ``` r
 
@@ -440,16 +447,19 @@ get_rendered_component(bad_file, list(domain = "ADAE"))
 
 The fix is to specify the join key explicitly:
 
-    #' @title Good join example
-    #' @description Explicit join that passes validation.
-    #'
-    #' @param domain `character` domain name
-    #' @type row
-    #' @depends {{{domain}}} USUBJID
-    #' @outputs NEWCOL
-    #' @code
-    {{{domain}}} <- {{{domain}}} |>
-      dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
+``` r
+
+#' @title Good join example
+#' @description Explicit join that passes validation.
+#'
+#' @param domain `character` domain name
+#' @type row
+#' @depends {{{domain}}} USUBJID
+#' @outputs NEWCOL
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
+```
 
 ``` r
 
