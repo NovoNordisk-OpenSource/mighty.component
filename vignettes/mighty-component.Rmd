@@ -139,6 +139,12 @@ Rendering fills in the Mustache placeholders with concrete values. The
 `mighty_component_rendered` object. Notice every `{{ }}` placeholder is now a
 concrete name:
 
+Note that rendering is purely textual — mighty.component replaces placeholders
+with the values you supply but does not check whether the resulting code is
+valid R or whether the referenced columns exist. Runtime correctness is your
+responsibility; use `get_test_component()` (see [Testing components]) to verify
+components against real data.
+
 ```{r render-ady}
 ady_rendered <- ady$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
 ady_rendered
