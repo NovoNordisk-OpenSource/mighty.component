@@ -49,7 +49,7 @@ components are rendered and with what parameters.
 
 Below is a minimal component that doubles a column. Every tag is visible at a
 glance:
-```
+```r
 #' @title Double a variable
 #' @description
 #' Creates a new column that is twice the value of an existing column.
@@ -212,7 +212,7 @@ You can author your own components as `.mustache` files. Here is a realistic
 example that derives a ratio of the current value to baseline (`R2BASE`) for a
 lab parameter. Save the following template to a `.mustache` file:
 
-```
+```r
 #' @title Ratio to baseline
 #' @description
 #' Derives the ratio of the analysis value to the baseline value.
@@ -292,7 +292,7 @@ join columns change between studies.
 
 Here is a component that fails validation:
 
-```
+```r
 #' @title Bad join example
 #' @description Implicit join that will fail validation.
 #'
@@ -329,7 +329,7 @@ get_rendered_component(bad_file, list(domain = "ADAE"))
 
 The fix is to specify the join key explicitly:
 
-```
+```r
 #' @title Good join example
 #' @description Explicit join that passes validation.
 #'
