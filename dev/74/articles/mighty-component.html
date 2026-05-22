@@ -81,7 +81,7 @@ modifies it, and writes it back can be expressed as a component.</p>
 <ul>
 <li>
 <strong>Mustache templating</strong> — placeholders like
-<code>{{ domain }}</code> are filled in at render time, so the same
+<code>{{{ domain }}}</code> are filled in at render time, so the same
 logic works across different data sets and variables.</li>
 <li>
 <strong>Roxygen-like documentation</strong> — tags like
@@ -179,7 +179,7 @@ time</td>
 </h3>
 <p>Components use <a href="https://mustache.github.io" class="external-link">Mustache</a> — a
 simple, logic-less templating language. Inside <code>@code</code>,
-<code>{{ }}</code> are Mustache placeholders, not R syntax. They are
+<code>{{{ }}}</code> are Mustache placeholders, not R syntax. They are
 text-replaced with concrete values before the code is parsed as R.
 Rendering is done by the <a href="https://github.com/edwindj/whisker" class="external-link">whisker</a> R package.</p>
 <p>The three patterns used in components are:</p>
@@ -203,9 +203,10 @@ manual</a> for the full syntax reference.</p>
 <h3 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li>The input data set is always called <code>{{ domain }}</code>.</li>
+<li>The input data set is always called
+<code>{{{ domain }}}</code>.</li>
 <li>The code must assign the result back to
-<code>{{ domain }}</code>.</li>
+<code>{{{ domain }}}</code>.</li>
 <li>Use explicit package namespaces (<code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code>, not
 <code>mutate()</code>).</li>
 <li>Joins must always specify an explicit <code>by</code> argument —
@@ -264,7 +265,7 @@ this is enforced by automatic validation (see <a href="#automatic-code-validatio
 <p>Rendering fills in the Mustache placeholders with concrete values.
 The <code>$render()</code> method takes parameters as named arguments
 and returns a <code>mighty_component_rendered</code> object. Notice
-every <code>{{ }}</code> placeholder is now a concrete name:</p>
+every <code>{{{ }}}</code> placeholder is now a concrete name:</p>
 <p>Note that rendering is purely textual — mighty.component replaces
 placeholders with the values you supply but does not check whether the
 resulting code is valid R or whether the referenced columns exist.
@@ -419,7 +420,7 @@ render, and run it:</p>
 <code class="sourceCode R"><span><span class="va">r2base</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_component.html">get_component</a></span><span class="op">(</span><span class="va">r2base_file</span><span class="op">)</span></span>
 <span><span class="va">r2base</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/tmp/Rtmp3gHBko/file1a62d81a05d.mustache</span>: Derives the ratio of the analysis</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">/tmp/Rtmppp1ypJ/file1a8c71fb9088.mustache</span>: Derives the ratio of the analysis</span></span>
 <span><span class="co">#&gt; value to the baseline value.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Parameters:</span></span></span>

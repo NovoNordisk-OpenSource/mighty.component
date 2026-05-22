@@ -19,9 +19,9 @@ modifies it, and writes it back can be expressed as a component.
 
 Components combine two ideas:
 
-- **Mustache templating** — placeholders like `{{ domain }}` are filled
-  in at render time, so the same logic works across different data sets
-  and variables.
+- **Mustache templating** — placeholders like `{{{ domain }}}` are
+  filled in at render time, so the same logic works across different
+  data sets and variables.
 - **Roxygen-like documentation** — tags like `@title`, `@param`, and
   `@depends` describe what the component does, what it needs, and what
   it produces.
@@ -74,7 +74,7 @@ at a glance:
 ### Mustache syntax
 
 Components use [Mustache](https://mustache.github.io) — a simple,
-logic-less templating language. Inside `@code`, `{{ }}` are Mustache
+logic-less templating language. Inside `@code`, `{{{ }}}` are Mustache
 placeholders, not R syntax. They are text-replaced with concrete values
 before the code is parsed as R. Rendering is done by the
 [whisker](https://github.com/edwindj/whisker) R package.
@@ -94,8 +94,8 @@ for the full syntax reference.
 
 ### Conventions
 
-1.  The input data set is always called `{{ domain }}`.
-2.  The code must assign the result back to `{{ domain }}`.
+1.  The input data set is always called `{{{ domain }}}`.
+2.  The code must assign the result back to `{{{ domain }}}`.
 3.  Use explicit package namespaces
     ([`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html),
     not `mutate()`).
@@ -162,8 +162,8 @@ ady$outputs
 
 Rendering fills in the Mustache placeholders with concrete values. The
 `$render()` method takes parameters as named arguments and returns a
-`mighty_component_rendered` object. Notice every `{{ }}` placeholder is
-now a concrete name:
+`mighty_component_rendered` object. Notice every `{{{ }}}` placeholder
+is now a concrete name:
 
 Note that rendering is purely textual — mighty.component replaces
 placeholders with the values you supply but does not check whether the
@@ -345,7 +345,7 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/Rtmp3gHBko/file1a62d81a05d.mustache: Derives the ratio of the analysis
+#> /tmp/Rtmppp1ypJ/file1a8c71fb9088.mustache: Derives the ratio of the analysis
 #> value to the baseline value.
 #> Type: column
 #> Parameters:
