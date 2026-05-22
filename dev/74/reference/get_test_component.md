@@ -22,8 +22,7 @@ get_test_component(
 
 - component:
 
-  `character` specifying either a standard component name or path to a
-  custom component file (R or Mustache template).
+  `character` path to a component file (`.R` or `.mustache`).
 
 - params:
 

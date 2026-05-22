@@ -87,8 +87,7 @@ Create test component from rendered template.
 
 - `id`:
 
-  `character` ID of the component. Either name of standard or path to
-  local.
+  `character` ID of the component.
 
 ------------------------------------------------------------------------
 

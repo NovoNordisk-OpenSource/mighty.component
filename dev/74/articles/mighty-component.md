@@ -30,6 +30,10 @@ Think of components as reusable building blocks: each one handles a
 single derivation or transformation, and you compose several of them to
 build a complete program.
 
+In the broader mighty ecosystem, `mighty.metadata` provides study-level
+configuration (via `mighty_study()` and `study.json`) that can drive
+which components are rendered and with what parameters.
+
 ## Anatomy of a component template
 
 Below is a minimal component that doubles a column. Every tag is visible
@@ -42,13 +46,14 @@ at a glance:
     #' @param domain `character` Name of the domain (data frame)
     #' @param input `character` Name of the existing column to double
     #' @param output `character` Name of the new column to create
-    #' @type derivation
-    #' @depends {{domain}} {{input}}
-    #' @outputs {{output}}
+    #' @type column
+    #' @origin Derived
+    #' @depends {{{domain}}} {{{input}}}
+    #' @outputs {{{output}}}
     #' @code
-    {{domain}} <- {{domain}} |>
+    {{{domain}}} <- {{{domain}}} |>
       dplyr::mutate(
-        {{output}} = 2 * {{input}}
+        {{{output}}} = 2 * {{{input}}}
       )
 
 ### Tags reference
@@ -58,7 +63,8 @@ at a glance:
 | `@title` | One-line title (required) |
 | `@description` | Multi-line description (required) |
 | `@param name description` | Declares a Mustache placeholder the user must supply at render time |
-| `@type` | Semantic type: `derivation`, `predecessor`, `assigned`, or `row` |
+| `@type` | Component type: `column`, `row`, `parameter`, or `internal` |
+| `@origin` | CDISC origin (optional): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
 | `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
 | `@outputs variable` | Declares a column the code creates (repeat for each) |
 | `@code` | Everything below this tag is executable R code |
@@ -97,33 +103,36 @@ for the full syntax reference.
 
 ## Retrieve and inspect a component
 
-List the built-in standard components:
+List the example components shipped with the package:
 
 ``` r
 
-list_standards()
-#> [1] "ady"         "aendt"       "assign"      "astdt"       "predecessor"
-#> [6] "supp_sdtm"   "trtemfl"
+path <- system.file("examples", package = "mighty.component")
+list_components(path)
+#> [1] "ady"
 ```
 
-Retrieve one by name:
+Retrieve one by file path:
 
 ``` r
 
-ady <- get_component("ady")
+ady <- get_component(
+  system.file("examples", "ady.mustache", package = "mighty.component")
+)
 ady
 #> <mighty_component/R6>
-#> ady: Derives the relative day compared to the treatment start date.
-#> Type: derivation
+#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
+#> the relative day compared to the treatment start date.
+#> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
 #> • variable: `character` Name of new variable to create
 #> • date: `character` Name of date variable to use
 #> Depends:
-#> • {{domain}}.{{date}}
-#> • {{domain}}.TRTSDT
+#> • {{{domain}}}.{{{date}}}
+#> • {{{domain}}}.TRTSDT
 #> Outputs:
-#> • {{variable}}
+#> • {{{variable}}}
 ```
 
 Access individual fields through the active bindings:
@@ -133,32 +142,19 @@ Access individual fields through the active bindings:
 ady$title
 #> [1] "Analysis relative day"
 ady$type
-#> [1] "derivation"
+#> [1] "column"
 ady$params
 #>       name                                  description
 #> 1   domain `character` Name of new domain being created
 #> 2 variable   `character` Name of new variable to create
 #> 3     date     `character` Name of date variable to use
 ady$depends
-#>       domain   column
-#> 1 {{domain}} {{date}}
-#> 2 {{domain}}   TRTSDT
+#>         domain     column
+#> 1 {{{domain}}} {{{date}}}
+#> 2 {{{domain}}}     TRTSDT
 ady$outputs
-#> [1] "{{variable}}"
+#> [1] "{{{variable}}}"
 ```
-
-You can also retrieve a component from a local `.mustache` or `.R` file
-by passing the file path to
-[`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md).
-
-[`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
-is the recommended entry point — it handles both built-in standards and
-custom files. If you know you only need a built-in standard, you can
-also use
-[`get_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
-and
-[`get_rendered_standard()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_standard.md)
-directly.
 
 ## Render a component
 
@@ -167,26 +163,35 @@ Rendering fills in the Mustache placeholders with concrete values. The
 `mighty_component_rendered` object. Notice every `{{ }}` placeholder is
 now a concrete name:
 
+Note that rendering is purely textual — mighty.component replaces
+placeholders with the values you supply but does not check whether the
+resulting code is valid R or whether the referenced columns exist.
+Runtime correctness is your responsibility; use
+[`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+(see [Testing components](#testing-components)) to verify components
+against real data.
+
 ``` r
 
-ady_rendered <- ady$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
+ady_rendered <- ady$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 #> <mighty_component_rendered/mighty_component/R6>
-#> ady: Derives the relative day compared to the treatment start date.
-#> Type: derivation
+#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
+#> the relative day compared to the treatment start date.
+#> Type: column
 #> Depends:
-#> • adae.ASTDT
-#> • adae.TRTSDT
+#> • ADAE.ASTDT
+#> • ADAE.TRTSDT
 #> Outputs:
 #> • ASTDY
 #> Code:
-#> adae <- adae |>
+#> ADAE <- ADAE |>
 #>   dplyr::mutate(
 #>     ASTDY = admiral::compute_duration(
 #>       start_date = TRTSDT,
 #>       end_date = ASTDT,
-#>       in_unit = "days",
-#>       out_unit = "days",
+#>       in_unit = 'days',
+#>       out_unit = 'days',
 #>       add_one = TRUE
 #>     )
 #>   )
@@ -201,25 +206,26 @@ takes parameters as a named `list`, unlike `$render()` which takes
 ``` r
 
 get_rendered_component(
-  "ady",
-  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
+  system.file("examples", "ady.mustache", package = "mighty.component"),
+  list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 )
 #> <mighty_component_rendered/mighty_component/R6>
-#> ady: Derives the relative day compared to the treatment start date.
-#> Type: derivation
+#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
+#> the relative day compared to the treatment start date.
+#> Type: column
 #> Depends:
-#> • adae.ASTDT
-#> • adae.TRTSDT
+#> • ADAE.ASTDT
+#> • ADAE.TRTSDT
 #> Outputs:
 #> • ASTDY
 #> Code:
-#> adae <- adae |>
+#> ADAE <- ADAE |>
 #>   dplyr::mutate(
 #>     ASTDY = admiral::compute_duration(
 #>       start_date = TRTSDT,
 #>       end_date = ASTDT,
-#>       in_unit = "days",
-#>       out_unit = "days",
+#>       in_unit = 'days',
+#>       out_unit = 'days',
 #>       add_one = TRUE
 #>     )
 #>   )
@@ -229,7 +235,7 @@ If you omit a required parameter, you get an informative error:
 
 ``` r
 
-ady$render(domain = "adae")
+ady$render(domain = "ADAE")
 #> Error in `ms_render()`:
 #> ! Parameter names not matching component requirements:
 #> ✖ `variable` not specified
@@ -240,17 +246,17 @@ ady$render(domain = "adae")
 
 Once rendered, call `$eval()` to execute the code in your current
 environment. The component code contains an assignment (e.g.,
-`adae <- adae |> ...`), and `$eval()` evaluates that code in the calling
+`ADAE <- ADAE |> ...`), and `$eval()` evaluates that code in the calling
 environment via `eval(envir = parent.frame())`. This means `$eval()`
 modifies the domain variable in place — no assignment of the return
 value is needed.
 
 ``` r
 
-adae <- pharmaverseadam::adae |>
+ADAE <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-names(adae)
+names(ADAE)
 #> [1] "USUBJID" "ASTDT"   "TRTSDT"
 ```
 
@@ -261,12 +267,12 @@ The `ASTDY` column does not exist yet. Run the rendered component:
 ady_rendered$eval()
 #> → Evaluating component Analysis relative day
 #> ℹ Code:
-#> `adae <- adae |>`, ` dplyr::mutate(`, ` ASTDY = admiral::compute_duration(`, `
-#> start_date = TRTSDT,`, ` end_date = ASTDT,`, ` in_unit = "days",`, ` out_unit =
-#> "days",`, ` add_one = TRUE`, ` )`, and ` )`
-names(adae)
+#> `ADAE <- ADAE |>`, ` dplyr::mutate(`, ` ASTDY = admiral::compute_duration(`, `
+#> start_date = TRTSDT,`, ` end_date = ASTDT,`, ` in_unit = 'days',`, ` out_unit =
+#> 'days',`, ` add_one = TRUE`, ` )`, and ` )`
+names(ADAE)
 #> [1] "USUBJID" "ASTDT"   "TRTSDT"  "ASTDY"
-head(adae)
+head(ADAE)
 #> # A tibble: 6 × 4
 #>   USUBJID     ASTDT      TRTSDT     ASTDY
 #>   <chr>       <date>     <date>     <dbl>
@@ -284,7 +290,24 @@ if needed.
 
 If you want to save the rendered code to a script file instead of
 evaluating it interactively, use `$stream(path)` to append the code to
-an R file.
+an R file:
+
+``` r
+
+script_file <- tempfile(fileext = ".R")
+ady_rendered$stream(script_file)
+readLines(script_file)
+#>  [1] "ADAE <- ADAE |>"                       
+#>  [2] "  dplyr::mutate("                      
+#>  [3] "    ASTDY = admiral::compute_duration("
+#>  [4] "      start_date = TRTSDT,"            
+#>  [5] "      end_date = ASTDT,"               
+#>  [6] "      in_unit = 'days',"               
+#>  [7] "      out_unit = 'days',"              
+#>  [8] "      add_one = TRUE"                  
+#>  [9] "    )"                                 
+#> [10] "  )"
+```
 
 ## Writing a custom component
 
@@ -299,14 +322,15 @@ realistic example that derives a ratio of the current value to baseline
     #'
     #' @param domain `character` Name of the domain
     #' @param variable `character` Name of the new ratio variable
-    #' @type derivation
-    #' @depends {{domain}} AVAL
-    #' @depends {{domain}} BASE
-    #' @outputs {{variable}}
+    #' @type column
+    #' @origin Derived
+    #' @depends {{{domain}}} AVAL
+    #' @depends {{{domain}}} BASE
+    #' @outputs {{{variable}}}
     #' @code
-    {{domain}} <- {{domain}} |>
+    {{{domain}}} <- {{{domain}}} |>
       dplyr::mutate(
-        {{variable}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
+        {{{variable}}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
       )
 
 After saving this template to a `.mustache` file, load, render, and run
@@ -317,27 +341,27 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/Rtmpq07Rjt/file1b7b6a82f1e5.mustache: Derives the ratio of the analysis
+#> /tmp/RtmpXMzBaO/file1aa3568c8725.mustache: Derives the ratio of the analysis
 #> value to the baseline value.
-#> Type: derivation
+#> Type: column
 #> Parameters:
 #> • domain: `character` Name of the domain
 #> • variable: `character` Name of the new ratio variable
 #> Depends:
-#> • {{domain}}.AVAL
-#> • {{domain}}.BASE
+#> • {{{domain}}}.AVAL
+#> • {{{domain}}}.BASE
 #> Outputs:
-#> • {{variable}}
+#> • {{{variable}}}
 ```
 
 ``` r
 
 r2base_rendered <- r2base$render(
-  domain = "adlb",
+  domain = "ADLB",
   variable = "R2BASE"
 )
 r2base_rendered$code
-#> [1] "adlb <- adlb |>"                                              
+#> [1] "ADLB <- ADLB |>"                                              
 #> [2] "  dplyr::mutate("                                             
 #> [3] "    R2BASE = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)"
 #> [4] "  )"
@@ -345,11 +369,11 @@ r2base_rendered$code
 
 ``` r
 
-adlb <- pharmaverseadam::adlb |>
+ADLB <- pharmaverseadam::adlb |>
   dplyr::filter(PARAMCD == "ALB") |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE)
 
-head(adlb)
+head(ADLB)
 #> # A tibble: 6 × 5
 #>   USUBJID     PARAMCD AVISIT                 AVAL  BASE
 #>   <chr>       <chr>   <chr>                 <dbl> <dbl>
@@ -363,10 +387,10 @@ head(adlb)
 r2base_rendered$eval()
 #> → Evaluating component Ratio to baseline
 #> ℹ Code:
-#> `adlb <- adlb |>`, ` dplyr::mutate(`, ` R2BASE = dplyr::if_else(BASE != 0, AVAL
+#> `ADLB <- ADLB |>`, ` dplyr::mutate(`, ` R2BASE = dplyr::if_else(BASE != 0, AVAL
 #> / BASE, NA_real_)`, and ` )`
 
-adlb |>
+ADLB |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE, R2BASE) |>
   head()
 #> # A tibble: 6 × 6
@@ -396,16 +420,16 @@ Here is a component that fails validation:
     #' @description Implicit join that will fail validation.
     #'
     #' @param domain `character` domain name
-    #' @type predecessor
-    #' @depends {{domain}} USUBJID
+    #' @type row
+    #' @depends {{{domain}}} USUBJID
     #' @outputs NEWCOL
     #' @code
-    {{domain}} <- {{domain}} |>
+    {{{domain}}} <- {{{domain}}} |>
       dplyr::left_join(other_data)
 
 ``` r
 
-get_rendered_component(bad_file, list(domain = "adae"))
+get_rendered_component(bad_file, list(domain = "ADAE"))
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
 #> 
@@ -420,17 +444,17 @@ The fix is to specify the join key explicitly:
     #' @description Explicit join that passes validation.
     #'
     #' @param domain `character` domain name
-    #' @type predecessor
-    #' @depends {{domain}} USUBJID
+    #' @type row
+    #' @depends {{{domain}}} USUBJID
     #' @outputs NEWCOL
     #' @code
-    {{domain}} <- {{domain}} |>
+    {{{domain}}} <- {{{domain}}} |>
       dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
 
 ``` r
 
-get_rendered_component(good_file, list(domain = "adae"))$code
-#> [1] "adae <- adae |>"                                             
+get_rendered_component(good_file, list(domain = "ADAE"))$code
+#> [1] "ADAE <- ADAE |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 ```
 
@@ -449,24 +473,28 @@ your actual tests.
 
 ``` r
 
+ady_path <- system.file(
+  "examples", "ady.mustache",
+  package = "mighty.component"
+)
 ady_test <- get_test_component(
-  component = "ady",
-  params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
-  # Remove this check_coverage or set it to TRUE in a real world scenario
-  check_coverage = FALSE
+  component = ady_path,
+  params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT"),
+  check_coverage = FALSE # set TRUE in real tests
 )
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
-#> ady: Derives the relative day compared to the treatment start date.
+#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
+#> the relative day compared to the treatment start date.
 #> Test Coverage: 0.00%
 #> Code: (✔ Covered, ✖ Uncovered)
-#> ✖ adae <- adae |>
+#> ✖ ADAE <- ADAE |>
 #> ✖   dplyr::mutate(
 #> ✖     ASTDY = admiral::compute_duration(
 #> ✖       start_date = TRTSDT,
 #> ✖       end_date = ASTDT,
-#> ✖       in_unit = "days",
-#> ✖       out_unit = "days",
+#> ✖       in_unit = 'days',
+#> ✖       out_unit = 'days',
 #> ✖       add_one = TRUE
 #> ✖     )
 #> ✖   )
@@ -476,12 +504,12 @@ Assign input data into the isolated session:
 
 ``` r
 
-adae_input <- pharmaverseadam::adae |>
+ADAE_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-ady_test$assign("adae", adae_input)
+ady_test$assign("ADAE", ADAE_input)
 ady_test$ls()
-#> [1] "adae"
+#> [1] "ADAE"
 ```
 
 Execute the component and retrieve the result:
@@ -489,7 +517,7 @@ Execute the component and retrieve the result:
 ``` r
 
 ady_test$eval()
-ady_test$get("adae") |> head()
+ady_test$get("ADAE") |> head()
 #> # A tibble: 6 × 4
 #>   USUBJID     ASTDT      TRTSDT     ASTDY
 #>   <chr>       <date>     <date>     <dbl>
@@ -509,16 +537,17 @@ executed:
 # Normal print method
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
-#> ady: Derives the relative day compared to the treatment start date.
+#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
+#> the relative day compared to the treatment start date.
 #> Test Coverage: 100.00%
 #> Code: (✔ Covered, ✖ Uncovered)
-#> ✔ adae <- adae |>
+#> ✔ ADAE <- ADAE |>
 #> ✔   dplyr::mutate(
 #> ✔     ASTDY = admiral::compute_duration(
 #> ✔       start_date = TRTSDT,
 #> ✔       end_date = ASTDT,
-#> ✔       in_unit = "days",
-#> ✔       out_unit = "days",
+#> ✔       in_unit = 'days',
+#> ✔       out_unit = 'days',
 #> ✔       add_one = TRUE
 #> ✔     )
 #> ✔   )
