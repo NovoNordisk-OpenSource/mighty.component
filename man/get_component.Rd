@@ -10,39 +10,32 @@ get_component(component)
 get_rendered_component(component, params = list())
 }
 \arguments{
-\item{component}{\code{character} specifying either a standard component name
-or path to a custom component file (R or Mustache template).}
+\item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }
 \description{
-Retrieve a mighty code component, supporting
-both built-in standards and custom components from local files.
+Retrieve a mighty code component from a local file.
 \itemize{
-\item \code{get_component()}: Returns an object of class \code{mighty_component}
-containing the standard or custom component.
-\item \code{get_rendered_component()}: Returns an object of class \code{mighty_component_rendered}
-containing the rendered code component
+\item \code{get_component()}: Returns an object of class \code{mighty_component}.
+\item \code{get_rendered_component()}: Returns an object of class \code{mighty_component_rendered}.
 }
 
 When rendering a component the required list of parameters depends on the individual component.
-Check the documentation of the specific standard, or the local component, for details.
+Check the documentation of the local component for details.
 }
 \details{
-Processes different component types based on file extension or
-component name:
+Processes different component types based on file extension:
 \itemize{
-\item \emph{No extension}: Looks for built-in standard components with that name.
 \item \code{.R}: Extracts and renders custom functions.
 \item \code{.mustache}: Creates components from the template files.
 }
 }
 \examples{
-get_component("ady")
-
-get_rendered_component("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+get_component(path)
 
 }
 \seealso{
-\code{\link[=get_standard]{get_standard()}}, \code{\link[=get_rendered_standard]{get_rendered_standard()}}, \link{mighty_component}, \link{mighty_component_rendered}
+\link{mighty_component}, \link{mighty_component_rendered}
 }

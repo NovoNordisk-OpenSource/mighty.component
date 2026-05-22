@@ -13,7 +13,7 @@ Once rendered a component can be used to:
 }
 }
 \seealso{
-\code{\link[=get_rendered_standard]{get_rendered_standard()}}, \code{\link[=get_rendered_component]{get_rendered_component()}}
+\code{\link[=get_rendered_component]{get_rendered_component()}}
 }
 \section{Super class}{
 \code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{mighty_component_rendered}
@@ -50,7 +50,7 @@ Create component from rendered template.
 \describe{
 \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
 
-\item{\code{id}}{\code{character} ID of the component. Either name of standard or path to local.}
+\item{\code{id}}{\code{character} ID of the component.}
 }
 \if{html}{\out{</div>}}
 }

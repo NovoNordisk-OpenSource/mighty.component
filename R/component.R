@@ -1,31 +1,24 @@
 #' Retrieve mighty code component
 #' @description
-#' Retrieve a mighty code component, supporting
-#' both built-in standards and custom components from local files.
+#' Retrieve a mighty code component from a local file.
 #'
-#' * `get_component()`: Returns an object of class `mighty_component`
-#' containing the standard or custom component.
-#' * `get_rendered_component()`: Returns an object of class `mighty_component_rendered`
-#' containing the rendered code component
+#' * `get_component()`: Returns an object of class `mighty_component`.
+#' * `get_rendered_component()`: Returns an object of class `mighty_component_rendered`.
 #'
 #' When rendering a component the required list of parameters depends on the individual component.
-#' Check the documentation of the specific standard, or the local component, for details.
+#' Check the documentation of the local component for details.
 #'
-#' @details Processes different component types based on file extension or
-#' component name:
+#' @details Processes different component types based on file extension:
 #'
-#' * *No extension*: Looks for built-in standard components with that name.
 #' * `.R`: Extracts and renders custom functions.
 #' * `.mustache`: Creates components from the template files.
 #'
-#' @param component `character` specifying either a standard component name
-#' or path to a custom component file (R or Mustache template).
+#' @param component `character` path to a component file (`.R` or `.mustache`).
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
-#' @seealso [get_standard()], [get_rendered_standard()], [mighty_component], [mighty_component_rendered]
+#' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
-#' get_component("ady")
-#'
-#' get_rendered_component("ady", list(domain = "advs", variable = "ASTDY", date = "ASTDT"))
+#' path <- system.file("examples", "ady.mustache", package = "mighty.component")
+#' get_component(path)
 #'
 #' @rdname get_component
 #' @export
@@ -40,7 +33,9 @@ get_component <- function(component) {
     file_type,
     "r" = get_custom_r(component),
     "mustache" = get_mustache(component),
-    get_standard(component)
+    cli::cli_abort(
+      "Component {.file {component}} not found. Provide a {.file .R} or {.file .mustache} file path."
+    )
   )
 }
 

@@ -7,7 +7,7 @@
 #' * Stream into an R script
 #' * Evaluate the generated code in an environment
 #'
-#' @seealso [get_rendered_standard()], [get_rendered_component()]
+#' @seealso [get_rendered_component()]
 #' @export
 mighty_component_rendered <- R6::R6Class(
   classname = "mighty_component_rendered",
@@ -16,7 +16,7 @@ mighty_component_rendered <- R6::R6Class(
     #' @description
     #' Create component from rendered template.
     #' @param template `character` Rendered template such as output from `mighty_component$render()`.
-    #' @param id `character` ID of the component. Either name of standard or path to local.
+    #' @param id `character` ID of the component.
     initialize = function(template, id) {
       msr_initialize(template, id, self, private, super)
     },

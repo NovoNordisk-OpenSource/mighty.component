@@ -11,7 +11,7 @@
       * x1: First input
       * x2: Second input
       Depends:
-      * {{domain}}.A
+      * {{{domain}}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -36,10 +36,10 @@
       
       ### Depends
       
-      |domain     |column |
-      |:----------|:------|
-      |{{domain}} |A      |
-      |Y          |B      |
+      |domain       |column |
+      |:------------|:------|
+      |{{{domain}}} |A      |
+      |Y            |B      |
       
       ### Outputs
       
@@ -48,7 +48,7 @@
       ### Code
       
       ```r
-      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 
@@ -83,7 +83,7 @@
       * x1: First input
       * x2: Second input
       Depends:
-      * {{domain}}.A
+      * {{{domain}}}.A
       * Y.B
       Outputs:
       * NEWVAR
@@ -118,10 +118,10 @@
       
       ### Depends
       
-      |domain     |column |
-      |:----------|:------|
-      |{{domain}} |A      |
-      |Y          |B      |
+      |domain       |column |
+      |:------------|:------|
+      |{{{domain}}} |A      |
+      |Y            |B      |
       
       ### Outputs
       
@@ -130,7 +130,7 @@
       ### Code
       
       ```r
-      {{domain}}$NEWVAR <- {{ x1 }} * Y$B + {{domain}}$A - {{ x2 }}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 
