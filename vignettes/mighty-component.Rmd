@@ -360,11 +360,14 @@ automatically verify coverage when a test finishes — use that default in your
 actual tests.
 
 ```{r test-create}
+ady_path <- system.file(
+  "examples", "ady.mustache",
+  package = "mighty.component"
+)
 ady_test <- get_test_component(
-  component = system.file("examples", "ady.mustache", package = "mighty.component"),
+  component = ady_path,
   params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
-  # Remove this check_coverage or set it to TRUE in a real world scenario
-  check_coverage = FALSE
+  check_coverage = FALSE # set TRUE in real tests
 )
 ady_test
 ```
