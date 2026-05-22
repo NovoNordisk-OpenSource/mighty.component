@@ -41,6 +41,10 @@ Think of components as reusable building blocks: each one handles a single
 derivation or transformation, and you compose several of them to build a
 complete program.
 
+In the broader mighty ecosystem, `mighty.metadata` provides study-level
+configuration (via `mighty_study()` and `study.json`) that can drive which
+components are rendered and with what parameters.
+
 ## Anatomy of a component template
 
 Below is a minimal component that doubles a column. Every tag is visible at a
