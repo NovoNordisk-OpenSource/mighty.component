@@ -150,7 +150,7 @@ responsibility; use `get_test_component()` (see [Testing components]) to verify
 components against real data.
 
 ```{r render-ady}
-ady_rendered <- ady$render(domain = "adae", variable = "ASTDY", date = "ASTDT")
+ady_rendered <- ady$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 ```
 
@@ -161,37 +161,37 @@ takes parameters as a named `list`, unlike `$render()` which takes `...`:
 ```{r shortcut}
 get_rendered_component(
   system.file("examples", "ady.mustache", package = "mighty.component"),
-  list(domain = "adae", variable = "ASTDY", date = "ASTDT")
+  list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 )
 ```
 
 If you omit a required parameter, you get an informative error:
 
 ```{r render-error, error=TRUE}
-ady$render(domain = "adae")
+ady$render(domain = "ADAE")
 ```
 
 ## Evaluate rendered code
 
 Once rendered, call `$eval()` to execute the code in your current environment.
-The component code contains an assignment (e.g., `adae <- adae |> ...`), and
+The component code contains an assignment (e.g., `ADAE <- ADAE |> ...`), and
 `$eval()` evaluates that code in the calling environment via
 `eval(envir = parent.frame())`. This means `$eval()` modifies the domain
 variable in place — no assignment of the return value is needed.
 
 ```{r eval-setup}
-adae <- pharmaverseadam::adae |>
+ADAE <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-names(adae)
+names(ADAE)
 ```
 
 The `ASTDY` column does not exist yet. Run the rendered component:
 
 ```{r eval-run}
 ady_rendered$eval()
-names(adae)
-head(adae)
+names(ADAE)
+head(ADAE)
 ```
 
 `$eval()` executes the rendered code in the calling environment by default. You
@@ -256,22 +256,22 @@ r2base
 
 ```{r custom-render}
 r2base_rendered <- r2base$render(
-  domain = "adlb",
+  domain = "ADLB",
   variable = "R2BASE"
 )
 r2base_rendered$code
 ```
 
 ```{r custom-eval}
-adlb <- pharmaverseadam::adlb |>
+ADLB <- pharmaverseadam::adlb |>
   dplyr::filter(PARAMCD == "ALB") |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE)
 
-head(adlb)
+head(ADLB)
 
 r2base_rendered$eval()
 
-adlb |>
+ADLB |>
   dplyr::select(USUBJID, PARAMCD, AVISIT, AVAL, BASE, R2BASE) |>
   head()
 ```
@@ -318,7 +318,7 @@ writeLines(bad_template, bad_file)
 ```
 
 ```{r validation-fail, error=TRUE}
-get_rendered_component(bad_file, list(domain = "adae"))
+get_rendered_component(bad_file, list(domain = "ADAE"))
 ```
 
 The fix is to specify the join key explicitly:
@@ -355,7 +355,7 @@ writeLines(good_template, good_file)
 ```
 
 ```{r validation-pass}
-get_rendered_component(good_file, list(domain = "adae"))$code
+get_rendered_component(good_file, list(domain = "ADAE"))$code
 ```
 
 ## Testing components
@@ -376,7 +376,7 @@ ady_path <- system.file(
 )
 ady_test <- get_test_component(
   component = ady_path,
-  params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+  params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT"),
   check_coverage = FALSE # set TRUE in real tests
 )
 ady_test
@@ -385,10 +385,10 @@ ady_test
 Assign input data into the isolated session:
 
 ```{r test-assign}
-adae_input <- pharmaverseadam::adae |>
+ADAE_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-ady_test$assign("adae", adae_input)
+ady_test$assign("ADAE", ADAE_input)
 ady_test$ls()
 ```
 
@@ -396,7 +396,7 @@ Execute the component and retrieve the result:
 
 ```{r test-eval}
 ady_test$eval()
-ady_test$get("adae") |> head()
+ady_test$get("ADAE") |> head()
 ```
 
 Check coverage — every line of the component code should have been executed:
