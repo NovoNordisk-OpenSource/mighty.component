@@ -203,14 +203,15 @@ lab parameter. Save the following template to a `.mustache` file:
 #'
 #' @param domain `character` Name of the domain
 #' @param variable `character` Name of the new ratio variable
-#' @type derivation
-#' @depends {{domain}} AVAL
-#' @depends {{domain}} BASE
-#' @outputs {{variable}}
+#' @type column
+#' @origin Derived
+#' @depends {{{domain}}} AVAL
+#' @depends {{{domain}}} BASE
+#' @outputs {{{variable}}}
 #' @code
-{{domain}} <- {{domain}} |>
+{{{domain}}} <- {{{domain}}} |>
   dplyr::mutate(
-    {{variable}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
+    {{{variable}}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)
   )
 ```
 
@@ -223,14 +224,15 @@ writeLines(c(
   "#'",
   "#' @param domain `character` Name of the domain",
   "#' @param variable `character` Name of the new ratio variable",
-  "#' @type derivation",
-  "#' @depends {{domain}} AVAL",
-  "#' @depends {{domain}} BASE",
-  "#' @outputs {{variable}}",
+  "#' @type column",
+  "#' @origin Derived",
+  "#' @depends {{{domain}}} AVAL",
+  "#' @depends {{{domain}}} BASE",
+  "#' @outputs {{{variable}}}",
   "#' @code",
-  "{{domain}} <- {{domain}} |>",
+  "{{{domain}}} <- {{{domain}}} |>",
   "  dplyr::mutate(",
-  "    {{variable}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)",
+  "    {{{variable}}} = dplyr::if_else(BASE != 0, AVAL / BASE, NA_real_)",
   "  )"
 ), r2base_file)
 ```
