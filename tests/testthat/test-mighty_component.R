@@ -12,7 +12,7 @@ test_that("mighty_component", {
 
   test_component$code |>
     expect_equal(
-      "{{{domain}}}$NEWVAR <- {{{ x1 }}} * Y$B + {{{domain}}}$A - {{{ x2 }}}"
+      "{{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}"
     )
 
   test_component$template |>

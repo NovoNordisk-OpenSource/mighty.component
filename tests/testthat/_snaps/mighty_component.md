@@ -48,7 +48,7 @@
       ### Code
       
       ```r
-      {{{domain}}}$NEWVAR <- {{{ x1 }}} * Y$B + {{{domain}}}$A - {{{ x2 }}}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 
@@ -130,7 +130,7 @@
       ### Code
       
       ```r
-      {{{domain}}}$NEWVAR <- {{{ x1 }}} * Y$B + {{{domain}}}$A - {{{ x2 }}}
+      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
       ``` 
       
 

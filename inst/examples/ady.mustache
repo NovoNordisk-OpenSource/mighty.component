@@ -7,15 +7,15 @@
 #' @param date `character` Name of date variable to use
 #' @type column
 #' @origin Derived
-#' @depends {{{domain}}} {{{ date }}}
+#' @depends {{{domain}}} {{{date}}}
 #' @depends {{{domain}}} TRTSDT
-#' @outputs {{{ variable }}}
+#' @outputs {{{variable}}}
 #' @code
 {{{domain}}} <- {{{domain}}} |>
   dplyr::mutate(
-    {{{ variable }}} = admiral::compute_duration(
+    {{{variable}}} = admiral::compute_duration(
       start_date = TRTSDT,
-      end_date = {{{ date }}},
+      end_date = {{{date}}},
       in_unit = 'days',
       out_unit = 'days',
       add_one = TRUE

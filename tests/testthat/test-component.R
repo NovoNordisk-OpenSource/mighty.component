@@ -53,9 +53,9 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @param variable",
     "#' @param date ",
     "#' @type column",
-    "#' @depends {{{ domain }}} {{{ date }}}",
-    "#' @depends {{{ domain }}} TRTSDT",
-    "#' @outputs {{{ variable }}}",
+    "#' @depends {{{domain}}} {{{date}}}",
+    "#' @depends {{{domain}}} TRTSDT",
+    "#' @outputs {{{variable}}}",
     "print('hello')"
   )
 
