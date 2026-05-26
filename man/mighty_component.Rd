@@ -80,119 +80,128 @@ the rendered code used in mighty becomes:
 \code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{id}}{Component ID.}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{id}}{Component ID.}
 
-\item{\code{title}}{Title for the component.}
+    \item{\code{title}}{Title for the component.}
 
-\item{\code{description}}{Description of the component.}
+    \item{\code{description}}{Description of the component.}
 
-\item{\code{code}}{The code block of the component.}
+    \item{\code{code}}{The code block of the component.}
 
-\item{\code{template}}{The complete template.}
+    \item{\code{template}}{The complete template.}
 
-\item{\code{type}}{The type of the component. Can be one of column, row, parameter, internal.}
+    \item{\code{type}}{The type of the component. Can be one of column, row, parameter, internal.}
 
-\item{\code{origin}}{CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or \code{NULL}.}
+    \item{\code{origin}}{CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or \code{NULL}.}
 
-\item{\code{depends}}{Data.frame listing all the components dependencies.}
+    \item{\code{depends}}{Data.frame listing all the components dependencies.}
 
-\item{\code{outputs}}{List of the new columns created by the component.}
+    \item{\code{outputs}}{List of the new columns created by the component.}
 
-\item{\code{params}}{Data.frame listing parameters that need to be supplied when rendering the component.}
-}
-\if{html}{\out{</div>}}
+    \item{\code{params}}{Data.frame listing parameters that need to be supplied when rendering the component.}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-mighty_component-new}{\code{mighty_component$new()}}
-\item \href{#method-mighty_component-print}{\code{mighty_component$print()}}
-\item \href{#method-mighty_component-render}{\code{mighty_component$render()}}
-\item \href{#method-mighty_component-document}{\code{mighty_component$document()}}
-\item \href{#method-mighty_component-clone}{\code{mighty_component$clone()}}
-}
+  \itemize{
+    \item \href{#method-mighty_component-initialize}{\code{mighty_component$new()}}
+    \item \href{#method-mighty_component-print}{\code{mighty_component$print()}}
+    \item \href{#method-mighty_component-render}{\code{mighty_component$render()}}
+    \item \href{#method-mighty_component-document}{\code{mighty_component$document()}}
+    \item \href{#method-mighty_component-clone}{\code{mighty_component$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component-new"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component-new}{}}}
-\subsection{Method \code{new()}}{
-Create component from template.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$new(template, id)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-mighty_component-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component-initialize}{}}}
+\subsection{\code{mighty_component$new()}}{
+  Create component from template.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component$new(template, id)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{template}}{\code{character} template code. See details for how to format.}
+      \item{\code{id}}{\code{character} ID of the component.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{template}}{\code{character} template code. See details for how to format.}
-
-\item{\code{id}}{\code{character} ID of the component.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-print}{}}}
-\subsection{Method \code{print()}}{
-Print method displaying the component information.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$print()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component$print()}}{
+  Print method displaying the component information.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component$print()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (\code{invisible}) self
+  }
 }
 
-\subsection{Returns}{
-(\code{invisible}) self
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-render"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-render}{}}}
-\subsection{Method \code{render()}}{
-Render component with supplied values.
+\subsection{\code{mighty_component$render()}}{
+  Render component with supplied values.
 Supports mustache templates and uses \code{whisker::whisker.render()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$render(...)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component$render(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{Parameters used to render the template.
+Must be named, and depends on the template.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Object of class \link{mighty_component_rendered}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Parameters used to render the template.
-Must be named, and depends on the template.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-Object of class \link{mighty_component_rendered}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-document"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-document}{}}}
-\subsection{Method \code{document()}}{
-Create standard documentation in markdown format.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$document()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component$document()}}{
+  Create standard documentation in markdown format.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component$document()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

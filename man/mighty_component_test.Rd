@@ -22,166 +22,178 @@ workflow is:
 Coverage is automatically checked at test teardown via \verb{$check_coverage()}.
 }
 \section{Super classes}{
-\code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty.component::mighty_component_rendered}} -> \code{mighty_component_test}
+\code{\link[mighty.component:mighty_component]{mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty_component_rendered}} -> \code{mighty_component_test}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{percent_coverage}}{\code{numeric} Percentage of lines covered (0-100).}
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{percent_coverage}}{\code{numeric} Percentage of lines covered (0-100).}
 
-\item{\code{line_coverage}}{\code{data.frame} with columns \code{line} and \code{value}
+    \item{\code{line_coverage}}{\code{data.frame} with columns \code{line} and \code{value}
 showing execution count per line.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-mighty_component_test-new}{\code{mighty_component_test$new()}}
-\item \href{#method-mighty_component_test-print}{\code{mighty_component_test$print()}}
-\item \href{#method-mighty_component_test-assign}{\code{mighty_component_test$assign()}}
-\item \href{#method-mighty_component_test-get}{\code{mighty_component_test$get()}}
-\item \href{#method-mighty_component_test-ls}{\code{mighty_component_test$ls()}}
-\item \href{#method-mighty_component_test-eval}{\code{mighty_component_test$eval()}}
-\item \href{#method-mighty_component_test-check_coverage}{\code{mighty_component_test$check_coverage()}}
-\item \href{#method-mighty_component_test-clone}{\code{mighty_component_test$clone()}}
+  \itemize{
+    \item \href{#method-mighty_component_test-initialize}{\code{mighty_component_test$new()}}
+    \item \href{#method-mighty_component_test-print}{\code{mighty_component_test$print()}}
+    \item \href{#method-mighty_component_test-assign}{\code{mighty_component_test$assign()}}
+    \item \href{#method-mighty_component_test-get}{\code{mighty_component_test$get()}}
+    \item \href{#method-mighty_component_test-ls}{\code{mighty_component_test$ls()}}
+    \item \href{#method-mighty_component_test-eval}{\code{mighty_component_test$eval()}}
+    \item \href{#method-mighty_component_test-check_coverage}{\code{mighty_component_test$check_coverage()}}
+    \item \href{#method-mighty_component_test-clone}{\code{mighty_component_test$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty.component::mighty_component$document()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty.component::mighty_component$render()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component_rendered" data-id="stream"><a href='../../mighty.component/html/mighty_component_rendered.html#method-mighty_component_rendered-stream'><code>mighty.component::mighty_component_rendered$stream()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty_component$document()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty_component$render()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component_rendered" data-id="stream"><a href='../../mighty.component/html/mighty_component_rendered.html#method-mighty_component_rendered-stream'><code>mighty_component_rendered$stream()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component_test-new"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component_test-new}{}}}
-\subsection{Method \code{new()}}{
-Create test component from rendered template.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$new(template, id)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-mighty_component_test-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_test-initialize}{}}}
+\subsection{\code{mighty_component_test$new()}}{
+  Create test component from rendered template.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$new(template, id)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+      \item{\code{id}}{\code{character} ID of the component.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
-
-\item{\code{id}}{\code{character} ID of the component.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-print}{}}}
-\subsection{Method \code{print()}}{
-Print method showing component and test coverage
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$print()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$print()}}{
+  Print method showing component and test coverage
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$print()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-assign"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-assign}{}}}
-\subsection{Method \code{assign()}}{
-Assign a variable in the isolated test session.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$assign(x, value)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$assign()}}{
+  Assign a variable in the isolated test session.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$assign(x, value)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{\code{character} Name of the variable to assign.}
+      \item{\code{value}}{Value to assign to the variable.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} invisibly, for method chaining.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{\code{character} Name of the variable to assign.}
-
-\item{\code{value}}{Value to assign to the variable.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{self} invisibly, for method chaining.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-get"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-get}{}}}
-\subsection{Method \code{get()}}{
-Retrieve a variable from the isolated test session.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$get(x)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$get()}}{
+  Retrieve a variable from the isolated test session.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$get(x)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{\code{character} Name of the variable to retrieve.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    The value of the variable.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{\code{character} Name of the variable to retrieve.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-The value of the variable.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
-\subsection{Method \code{ls()}}{
-List all objects in the isolated test session.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$ls()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$ls()}}{
+  List all objects in the isolated test session.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$ls()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{character} vector of variable names.
+  }
 }
 
-\subsection{Returns}{
-\code{character} vector of variable names.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-eval}{}}}
-\subsection{Method \code{eval()}}{
-Execute the component code and update coverage tracking.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$eval()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$eval()}}{
+  Execute the component code and update coverage tracking.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$eval()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} invisibly, for method chaining.
+  }
 }
 
-\subsection{Returns}{
-\code{self} invisibly, for method chaining.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-check_coverage"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-check_coverage}{}}}
-\subsection{Method \code{check_coverage()}}{
-Check that all lines in the component were executed at least once.
+\subsection{\code{mighty_component_test$check_coverage()}}{
+  Check that all lines in the component were executed at least once.
 Throws an error if any lines have zero coverage.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$check_coverage()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$check_coverage()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} invisibly if all lines are covered.
+  }
 }
 
-\subsection{Returns}{
-\code{self} invisibly if all lines are covered.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_test-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_test$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_test$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
