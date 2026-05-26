@@ -31,8 +31,10 @@ single derivation or transformation, and you compose several of them to
 build a complete program.
 
 In the broader mighty ecosystem, `mighty.metadata` provides study-level
-configuration (via `mighty_study()` and `study.json`) that can drive
-which components are rendered and with what parameters.
+configuration (via
+[`mighty_study()`](https://novonordisk-opensource.github.io/mighty.metadata/reference/mighty_study.html)
+and `_study.yml`) that can drive which components are rendered and with
+what parameters.
 
 ## Anatomy of a component template
 
@@ -64,7 +66,7 @@ at a glance:
 |----|----|
 | `@title` | One-line title (required) |
 | `@description` | Multi-line description (required) |
-| `@param name description` | Declares a Mustache placeholder the user must supply at render time |
+| `@param name description` | Declares a Mustache placeholder the user must provide in metadata specifications |
 | `@type` | Component type: `column`, `row`, `parameter`, or `internal` |
 | `@origin` | CDISC origin (optional): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
 | `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
@@ -87,10 +89,11 @@ The three patterns used in components are:
   literal R code (e.g., `{{{ value }}}` to insert `1`, `"text"`, or an
   expression).
 - **`{{#list}}...{{/list}}`** — repeats its body once for each element
-  of a vector parameter.
-
-See the [Mustache manual](https://mustache.github.io/mustache.5.html)
-for the full syntax reference.
+  of a vector parameter. Mustache template variables in double braces
+  `{{}}` are HTML escaped by default. Since mighty renders R code, we
+  recommend using triple braces `{{{}}}`. See the [Mustache
+  manual](https://mustache.github.io/mustache.5.html) for the full
+  syntax reference.
 
 ### Conventions
 
@@ -156,6 +159,8 @@ ady$depends
 #> 2 {{{domain}}}     TRTSDT
 ady$outputs
 #> [1] "{{{variable}}}"
+ady$origin
+#> [1] "Derived"
 ```
 
 ## Render a component
@@ -345,7 +350,7 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/Rtmppp1ypJ/file1a8c71fb9088.mustache: Derives the ratio of the analysis
+#> /tmp/RtmpTJQWBY/file1a861bbc2c4.mustache: Derives the ratio of the analysis
 #> value to the baseline value.
 #> Type: column
 #> Parameters:

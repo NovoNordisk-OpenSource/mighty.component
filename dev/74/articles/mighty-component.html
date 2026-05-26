@@ -93,9 +93,9 @@ produces.</li>
 single derivation or transformation, and you compose several of them to
 build a complete program.</p>
 <p>In the broader mighty ecosystem, <code>mighty.metadata</code>
-provides study-level configuration (via <code>mighty_study()</code> and
-<code>study.json</code>) that can drive which components are rendered
-and with what parameters.</p>
+provides study-level configuration (via <a href="https://novonordisk-opensource.github.io/mighty.metadata/reference/mighty_study.html" class="external-link"><code>mighty_study()</code></a>
+and <code>_study.yml</code>) that can drive which components are
+rendered and with what parameters.</p>
 </div>
 <div class="section level2">
 <h2 id="anatomy-of-a-component-template">Anatomy of a component template<a class="anchor" aria-label="anchor" href="#anatomy-of-a-component-template"></a>
@@ -141,8 +141,8 @@ visible at a glance:</p>
 </tr>
 <tr class="odd">
 <td><code>@param name description</code></td>
-<td>Declares a Mustache placeholder the user must supply at render
-time</td>
+<td>Declares a Mustache placeholder the user must provide in metadata
+specifications</td>
 </tr>
 <tr class="even">
 <td><code>@type</code></td>
@@ -194,10 +194,12 @@ replacement. Used when the value is literal R code (e.g.,
 <code>"text"</code>, or an expression).</li>
 <li>
 <strong><code>{{#list}}...{{/list}}</code></strong> — repeats its
-body once for each element of a vector parameter.</li>
+body once for each element of a vector parameter. Mustache template
+variables in double braces <code>{{}}</code> are HTML escaped by
+default. Since mighty renders R code, we recommend using triple braces
+<code>{{{}}}</code>. See the <a href="https://mustache.github.io/mustache.5.html" class="external-link">Mustache manual</a>
+for the full syntax reference.</li>
 </ul>
-<p>See the <a href="https://mustache.github.io/mustache.5.html" class="external-link">Mustache
-manual</a> for the full syntax reference.</p>
 </div>
 <div class="section level3">
 <h3 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a>
@@ -257,7 +259,9 @@ this is enforced by automatic validation (see <a href="#automatic-code-validatio
 <span><span class="co">#&gt; 1 {{{domain}}} {{{date}}}</span></span>
 <span><span class="co">#&gt; 2 {{{domain}}}     TRTSDT</span></span>
 <span><span class="va">ady</span><span class="op">$</span><span class="va">outputs</span></span>
-<span><span class="co">#&gt; [1] "{{{variable}}}"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "{{{variable}}}"</span></span>
+<span><span class="va">ady</span><span class="op">$</span><span class="va">origin</span></span>
+<span><span class="co">#&gt; [1] "Derived"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="render-a-component">Render a component<a class="anchor" aria-label="anchor" href="#render-a-component"></a>
@@ -420,7 +424,7 @@ render, and run it:</p>
 <code class="sourceCode R"><span><span class="va">r2base</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_component.html">get_component</a></span><span class="op">(</span><span class="va">r2base_file</span><span class="op">)</span></span>
 <span><span class="va">r2base</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/tmp/Rtmppp1ypJ/file1a8c71fb9088.mustache</span>: Derives the ratio of the analysis</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">/tmp/RtmpTJQWBY/file1a861bbc2c4.mustache</span>: Derives the ratio of the analysis</span></span>
 <span><span class="co">#&gt; value to the baseline value.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Parameters:</span></span></span>
