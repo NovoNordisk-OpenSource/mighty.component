@@ -17,7 +17,7 @@ Evaluate the generated code in an environment
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@ Evaluate the generated code in an environment
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/mighty-component.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NovoNordisk-OpenSource/mighty.component/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -55,61 +56,57 @@ Evaluate the generated code in an environment
     </div>
     <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="mighty_component.html">mighty.component::mighty_component</a></code> -&gt; <code>mighty_component_rendered</code></p>
+    <p><code><a href="mighty_component.html">mighty_component</a></code> -&gt; <code>mighty_component_rendered</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-mighty_component_rendered-new"><code>mighty_component_rendered$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-mighty_component_rendered-initialize"><code>mighty_component_rendered$new()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-print"><code>mighty_component_rendered$print()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-stream"><code>mighty_component_rendered$stream()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-eval"><code>mighty_component_rendered$eval()</code></a></p></li>
 <li><p><a href="#method-mighty_component_rendered-clone"><code>mighty_component_rendered$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href="mighty_component.html#method-document"><code>mighty.component::mighty_component$document()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href="mighty_component.html#method-render"><code>mighty.component::mighty_component$render()</code></a></span></li>
-</ul></details></p><hr><a id="method-mighty_component_rendered-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href="mighty_component.html#method-document"><code>mighty_component$document()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href="mighty_component.html#method-render"><code>mighty_component$render()</code></a></span></li>
+</ul></details></p><hr><a id="method-mighty_component_rendered-initialize"></a><div class="section">
+<h3 id="mighty-component-rendered-new-"><code>mighty_component_rendered$new()</code><a class="anchor" aria-label="anchor" href="#mighty-component-rendered-new-"></a></h3>
 <p>Create component from rendered template.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mighty_component_rendered.html">mighty_component_rendered</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">template</span>, <span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>template</code></dt>
 <dd><p><code>character</code> Rendered template such as output from <code>mighty_component$render()</code>.</p></dd>
 
-
-<dt><code>id</code></dt>
+      <dt><code>id</code></dt>
 <dd><p><code>character</code> ID of the component.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_rendered-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_rendered-print"></a><div class="section">
+<h3 id="mighty-component-rendered-print-"><code>mighty_component_rendered$print()</code><a class="anchor" aria-label="anchor" href="#mighty-component-rendered-print-"></a></h3>
 <p>Print rendered component</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>(<code>invisible</code>) self</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_rendered-stream"></a><div class="section">
-<h3 id="method-stream-">Method <code>stream()</code><a class="anchor" aria-label="anchor" href="#method-stream-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_rendered-stream"></a><div class="section">
+<h3 id="mighty-component-rendered-stream-"><code>mighty_component_rendered$stream()</code><a class="anchor" aria-label="anchor" href="#mighty-component-rendered-stream-"></a></h3>
 <p>Stream rendered code into a script (appended)</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">stream</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>path</code></dt>
 <dd><p><code>character(1)</code> path to the R script to stream code into.</p></dd>
@@ -118,14 +115,14 @@ Evaluate the generated code in an environment
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_rendered-eval"></a><div class="section">
-<h3 id="method-eval-">Method <code><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval()</a></code><a class="anchor" aria-label="anchor" href="#method-eval-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_rendered-eval"></a><div class="section">
+<h3 id="mighty-component-rendered-eval-"><code>mighty_component_rendered$eval()</code><a class="anchor" aria-label="anchor" href="#mighty-component-rendered-eval-"></a></h3>
 <p>Evaluate code in a specified environment.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">eval</span><span class="op">(</span>envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>envir</code></dt>
 <dd><p>Environment to evaluate in. Parsed to <code><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval()</a></code>.
@@ -135,14 +132,14 @@ Defaults to using the current environment with <code><a href="https://rdrr.io/r/
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_rendered-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_rendered-clone"></a><div class="section">
+<h3 id="mighty-component-rendered-clone-"><code>mighty_component_rendered$clone()</code><a class="anchor" aria-label="anchor" href="#mighty-component-rendered-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_rendered</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -152,6 +149,7 @@ Defaults to using the current environment with <code><a href="https://rdrr.io/r/
 </div>
 
 </div>
+
 
     </div>
 

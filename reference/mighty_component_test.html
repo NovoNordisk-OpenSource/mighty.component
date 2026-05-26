@@ -11,7 +11,7 @@ executed during testing."><meta property="og:image" content="https://novonordisk
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,6 +21,7 @@ executed during testing."><meta property="og:image" content="https://novonordisk
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/mighty-component.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NovoNordisk-OpenSource/mighty.component/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -55,7 +56,7 @@ workflow is:</p><ol><li><p>Create test component with <code><a href="get_test_co
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
-    <p><code><a href="mighty_component.html">mighty.component::mighty_component</a></code> -&gt; <code><a href="mighty_component_rendered.html">mighty.component::mighty_component_rendered</a></code> -&gt; <code>mighty_component_test</code></p>
+    <p><code><a href="mighty_component.html">mighty_component</a></code> -&gt; <code><a href="mighty_component_rendered.html">mighty_component_rendered</a></code> -&gt; <code>mighty_component_test</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
@@ -63,7 +64,7 @@ workflow is:</p><ol><li><p>Create test component with <code><a href="get_test_co
 <dd><p><code>numeric</code> Percentage of lines covered (0-100).</p></dd>
 
 
-<dt><code>line_coverage</code></dt>
+    <dt><code>line_coverage</code></dt>
 <dd><p><code>data.frame</code> with columns <code>line</code> and <code>value</code>
 showing execution count per line.</p></dd>
 
@@ -75,8 +76,7 @@ showing execution count per line.</p></dd>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-mighty_component_test-new"><code>mighty_component_test$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-mighty_component_test-initialize"><code>mighty_component_test$new()</code></a></p></li>
 <li><p><a href="#method-mighty_component_test-print"><code>mighty_component_test$print()</code></a></p></li>
 <li><p><a href="#method-mighty_component_test-assign"><code>mighty_component_test$assign()</code></a></p></li>
 <li><p><a href="#method-mighty_component_test-get"><code>mighty_component_test$get()</code></a></p></li>
@@ -84,126 +84,121 @@ showing execution count per line.</p></dd>
 <li><p><a href="#method-mighty_component_test-eval"><code>mighty_component_test$eval()</code></a></p></li>
 <li><p><a href="#method-mighty_component_test-check_coverage"><code>mighty_component_test$check_coverage()</code></a></p></li>
 <li><p><a href="#method-mighty_component_test-clone"><code>mighty_component_test$clone()</code></a></p></li>
-</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href="mighty_component.html#method-document"><code>mighty.component::mighty_component$document()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href="mighty_component.html#method-render"><code>mighty.component::mighty_component$render()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component_rendered" data-id="stream"><a href="mighty_component_rendered.html#method-stream"><code>mighty.component::mighty_component_rendered$stream()</code></a></span></li>
-</ul></details></p><hr><a id="method-mighty_component_test-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href="mighty_component.html#method-document"><code>mighty_component$document()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href="mighty_component.html#method-render"><code>mighty_component$render()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component_rendered" data-id="stream"><a href="mighty_component_rendered.html#method-stream"><code>mighty_component_rendered$stream()</code></a></span></li>
+</ul></details></p><hr><a id="method-mighty_component_test-initialize"></a><div class="section">
+<h3 id="mighty-component-test-new-"><code>mighty_component_test$new()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-new-"></a></h3>
 <p>Create test component from rendered template.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mighty_component_test.html">mighty_component_test</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">template</span>, <span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>template</code></dt>
 <dd><p><code>character</code> Rendered template such as output from <code>mighty_component$render()</code>.</p></dd>
 
-
-<dt><code>id</code></dt>
+      <dt><code>id</code></dt>
 <dd><p><code>character</code> ID of the component.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-print"></a><div class="section">
+<h3 id="mighty-component-test-print-"><code>mighty_component_test$print()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-print-"></a></h3>
 <p>Print method showing component and test coverage</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-mighty_component_test-assign"></a><div class="section">
-<h3 id="method-assign-">Method <code><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign()</a></code><a class="anchor" aria-label="anchor" href="#method-assign-"></a></h3>
+<p></p><hr><a id="method-mighty_component_test-assign"></a><div class="section">
+<h3 id="mighty-component-test-assign-"><code>mighty_component_test$assign()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-assign-"></a></h3>
 <p>Assign a variable in the isolated test session.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">assign</span><span class="op">(</span><span class="va">x</span>, <span class="va">value</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>x</code></dt>
 <dd><p><code>character</code> Name of the variable to assign.</p></dd>
 
-
-<dt><code>value</code></dt>
+      <dt><code>value</code></dt>
 <dd><p>Value to assign to the variable.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p><code>self</code> invisibly, for method chaining.</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-get"></a><div class="section">
-<h3 id="method-get-">Method <code><a href="https://rdrr.io/r/base/get.html" class="external-link">get()</a></code><a class="anchor" aria-label="anchor" href="#method-get-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-get"></a><div class="section">
+<h3 id="mighty-component-test-get-"><code>mighty_component_test$get()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-get-"></a></h3>
 <p>Retrieve a variable from the isolated test session.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>x</code></dt>
 <dd><p><code>character</code> Name of the variable to retrieve.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>The value of the variable.</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-ls"></a><div class="section">
-<h3 id="method-ls-">Method <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code><a class="anchor" aria-label="anchor" href="#method-ls-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-ls"></a><div class="section">
+<h3 id="mighty-component-test-ls-"><code>mighty_component_test$ls()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-ls-"></a></h3>
 <p>List all objects in the isolated test session.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">ls</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
 <p><code>character</code> vector of variable names.</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-eval"></a><div class="section">
-<h3 id="method-eval-">Method <code><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval()</a></code><a class="anchor" aria-label="anchor" href="#method-eval-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-eval"></a><div class="section">
+<h3 id="mighty-component-test-eval-"><code>mighty_component_test$eval()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-eval-"></a></h3>
 <p>Execute the component code and update coverage tracking.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">eval</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-3">Returns<a class="anchor" aria-label="anchor" href="#returns-3"></a></h4>
 <p><code>self</code> invisibly, for method chaining.</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-check_coverage"></a><div class="section">
-<h3 id="method-check-coverage-">Method <code>check_coverage()</code><a class="anchor" aria-label="anchor" href="#method-check-coverage-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-check_coverage"></a><div class="section">
+<h3 id="mighty-component-test-check-coverage-"><code>mighty_component_test$check_coverage()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-check-coverage-"></a></h3>
 <p>Check that all lines in the component were executed at least once.
 Throws an error if any lines have zero coverage.</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">check_coverage</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-4">Returns<a class="anchor" aria-label="anchor" href="#returns-4"></a></h4>
 <p><code>self</code> invisibly if all lines are covered.</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component_test-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component_test-clone"></a><div class="section">
+<h3 id="mighty-component-test-clone-"><code>mighty_component_test$clone()</code><a class="anchor" aria-label="anchor" href="#mighty-component-test-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component_test</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -213,6 +208,7 @@ Throws an error if any lines have zero coverage.</p><div class="section">
 </div>
 
 </div>
+
 
     </div>
 

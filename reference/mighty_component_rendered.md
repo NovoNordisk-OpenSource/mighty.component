@@ -14,14 +14,14 @@ Once rendered a component can be used to:
 
 ## Super class
 
-[`mighty.component::mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+[`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
 -\> `mighty_component_rendered`
 
 ## Methods
 
 ### Public methods
 
-- [`mighty_component_rendered$new()`](#method-mighty_component_rendered-new)
+- [`mighty_component_rendered$new()`](#method-mighty_component_rendered-initialize)
 
 - [`mighty_component_rendered$print()`](#method-mighty_component_rendered-print)
 
@@ -33,12 +33,12 @@ Once rendered a component can be used to:
 
 Inherited methods
 
-- [`mighty.component::mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
-- [`mighty.component::mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
+- [`mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
+- [`mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `mighty_component_rendered$new()`
 
 Create component from rendered template.
 
@@ -59,7 +59,7 @@ Create component from rendered template.
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `mighty_component_rendered$print()`
 
 Print rendered component
 
@@ -73,7 +73,7 @@ Print rendered component
 
 ------------------------------------------------------------------------
 
-### Method `stream()`
+### `mighty_component_rendered$stream()`
 
 Stream rendered code into a script (appended)
 
@@ -89,7 +89,7 @@ Stream rendered code into a script (appended)
 
 ------------------------------------------------------------------------
 
-### Method [`eval()`](https://rdrr.io/r/base/eval.html)
+### `mighty_component_rendered$eval()`
 
 Evaluate code in a specified environment.
 
@@ -108,7 +108,7 @@ Evaluate code in a specified environment.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `mighty_component_rendered$clone()`
 
 The objects of this class are cloneable with this method.
 

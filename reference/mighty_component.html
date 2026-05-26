@@ -15,7 +15,7 @@ facilitating their use inside mighty.'><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9020</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@ facilitating their use inside mighty.'><meta property="og:image" content="https:
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/mighty-component.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/NovoNordisk-OpenSource/mighty.component/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -112,39 +113,39 @@ the rendered code used in mighty becomes:</p>
 <dd><p>Component ID.</p></dd>
 
 
-<dt><code>title</code></dt>
+    <dt><code>title</code></dt>
 <dd><p>Title for the component.</p></dd>
 
 
-<dt><code>description</code></dt>
+    <dt><code>description</code></dt>
 <dd><p>Description of the component.</p></dd>
 
 
-<dt><code>code</code></dt>
+    <dt><code>code</code></dt>
 <dd><p>The code block of the component.</p></dd>
 
 
-<dt><code>template</code></dt>
+    <dt><code>template</code></dt>
 <dd><p>The complete template.</p></dd>
 
 
-<dt><code>type</code></dt>
+    <dt><code>type</code></dt>
 <dd><p>The type of the component. Can be one of column, row, parameter, internal.</p></dd>
 
 
-<dt><code>origin</code></dt>
+    <dt><code>origin</code></dt>
 <dd><p>CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or <code>NULL</code>.</p></dd>
 
 
-<dt><code>depends</code></dt>
+    <dt><code>depends</code></dt>
 <dd><p>Data.frame listing all the components dependencies.</p></dd>
 
 
-<dt><code>outputs</code></dt>
+    <dt><code>outputs</code></dt>
 <dd><p>List of the new columns created by the component.</p></dd>
 
 
-<dt><code>params</code></dt>
+    <dt><code>params</code></dt>
 <dd><p>Data.frame listing parameters that need to be supplied when rendering the component.</p></dd>
 
 
@@ -155,53 +156,49 @@ the rendered code used in mighty becomes:</p>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
-
-<ul><li><p><a href="#method-mighty_component-new"><code>mighty_component$new()</code></a></p></li>
+<p></p><ul><li><p><a href="#method-mighty_component-initialize"><code>mighty_component$new()</code></a></p></li>
 <li><p><a href="#method-mighty_component-print"><code>mighty_component$print()</code></a></p></li>
 <li><p><a href="#method-mighty_component-render"><code>mighty_component$render()</code></a></p></li>
 <li><p><a href="#method-mighty_component-document"><code>mighty_component$document()</code></a></p></li>
 <li><p><a href="#method-mighty_component-clone"><code>mighty_component$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-mighty_component-new"></a><div class="section">
-<h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
+</ul></div><p></p><hr><a id="method-mighty_component-initialize"></a><div class="section">
+<h3 id="mighty-component-new-"><code>mighty_component$new()</code><a class="anchor" aria-label="anchor" href="#mighty-component-new-"></a></h3>
 <p>Create component from template.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/mighty_component.html">mighty_component</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">template</span>, <span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>template</code></dt>
 <dd><p><code>character</code> template code. See details for how to format.</p></dd>
 
-
-<dt><code>id</code></dt>
+      <dt><code>id</code></dt>
 <dd><p><code>character</code> ID of the component.</p></dd>
 
 
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component-print"></a><div class="section">
+<h3 id="mighty-component-print-"><code>mighty_component$print()</code><a class="anchor" aria-label="anchor" href="#mighty-component-print-"></a></h3>
 <p>Print method displaying the component information.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
 <p>(<code>invisible</code>) self</p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component-render"></a><div class="section">
-<h3 id="method-render-">Method <code>render()</code><a class="anchor" aria-label="anchor" href="#method-render-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component-render"></a><div class="section">
+<h3 id="mighty-component-render-"><code>mighty_component$render()</code><a class="anchor" aria-label="anchor" href="#mighty-component-render-"></a></h3>
 <p>Render component with supplied values.
 Supports mustache templates and uses <code><a href="https://rdrr.io/pkg/whisker/man/whisker.render.html" class="external-link">whisker::whisker.render()</a></code>.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">render</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>Parameters used to render the template.
@@ -209,28 +206,28 @@ Must be named, and depends on the template.</p></dd>
 
 
 </dl><p></p></div>
-</div>
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
 <p>Object of class <a href="mighty_component_rendered.html">mighty_component_rendered</a></p>
 </div>
 
-</div><p></p><hr><a id="method-mighty_component-document"></a><div class="section">
-<h3 id="method-document-">Method <code>document()</code><a class="anchor" aria-label="anchor" href="#method-document-"></a></h3>
+</div>
+
+<p></p><hr><a id="method-mighty_component-document"></a><div class="section">
+<h3 id="mighty-component-document-"><code>mighty_component$document()</code><a class="anchor" aria-label="anchor" href="#mighty-component-document-"></a></h3>
 <p>Create standard documentation in markdown format.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+</div>
 
-</div><p></p><hr><a id="method-mighty_component-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p></p><hr><a id="method-mighty_component-clone"></a><div class="section">
+<h3 id="mighty-component-clone-"><code>mighty_component$clone()</code><a class="anchor" aria-label="anchor" href="#mighty-component-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">mighty_component</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
+</div><p></p><div class="section">
 <h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
@@ -240,6 +237,7 @@ Must be named, and depends on the template.</p></dd>
 </div>
 
 </div>
+
 
     </div>
 
