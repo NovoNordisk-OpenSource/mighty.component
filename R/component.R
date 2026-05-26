@@ -14,6 +14,7 @@
 #' * `.mustache`: Creates components from the template files.
 #'
 #' @param component `character` path to a component file (`.R` or `.mustache`).
+#' @param repos prioritised `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
@@ -22,7 +23,7 @@
 #'
 #' @rdname get_component
 #' @export
-get_component <- function(component) {
+get_component <- function(component, repos = NULL) {
   file_type <- tolower(tools::file_ext(component))
 
   if (file_type != "" && !file.exists(component)) {
@@ -37,6 +38,11 @@ get_component <- function(component) {
       "Component {.file {component}} not found. Provide a {.file .R} or {.file .mustache} file path."
     )
   )
+}
+
+#' @noRd
+find_component <- function(component, repos = NULL) {
+  1
 }
 
 #' @noRd
