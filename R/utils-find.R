@@ -102,15 +102,29 @@ search_github <- function(component, source) {
     error = \(e) NULL
   )
 
+  if (is.null(resp) && !is.null(parsed$subdir)) {
+    resp <- tryCatch(
+      expr = gh::gh(
+        "GET /repos/{owner}/{repo}/contents/{path}",
+        owner = parsed$username,
+        repo = parsed$repo,
+        path = parsed$subdir,
+        ref = parsed$ref
+      ),
+      error = \(e) NULL
+    )
+  }
+
   files <- vapply(resp, \(x) x[["name"]], character(1))
 
   pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
   keep <- grepl(pattern, files)
-  assert_single_match(files[keep])
 
   if (!any(keep)) {
     return(NULL)
   }
+
+  assert_single_match(files[keep])
 
   matched <- resp[keep][[1]]
   raw <- jsonlite::base64_dec(gh::gh(matched$url)$content)

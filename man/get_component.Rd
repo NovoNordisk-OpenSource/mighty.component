@@ -7,7 +7,7 @@
 \usage{
 get_component(component, repos = NULL)
 
-get_rendered_component(component, params = list())
+get_rendered_component(component, params = list(), repos = NULL)
 }
 \arguments{
 \item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
@@ -17,7 +17,7 @@ get_rendered_component(component, params = list())
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }
 \description{
-Retrieve a mighty code component from a local file.
+Retrieve a mighty code component.
 \itemize{
 \item \code{get_component()}: Returns an object of class \code{mighty_component}.
 \item \code{get_rendered_component()}: Returns an object of class \code{mighty_component_rendered}.
@@ -32,6 +32,11 @@ Processes different component types based on file extension:
 \item \code{.R}: Extracts and renders custom functions.
 \item \code{.mustache}: Creates components from the template files.
 }
+
+The \code{repos} parameter accepts a character vector of locations to search,
+in priority order. Each element is either a local directory path or a
+GitHub source in \code{owner/repo}, \code{owner/repo/subdir}, or \code{owner/repo@ref}
+format. The first match is returned. Defaults to the current directory.
 }
 \examples{
 path <- system.file("examples", "ady.mustache", package = "mighty.component")
