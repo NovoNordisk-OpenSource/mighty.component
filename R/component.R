@@ -1,6 +1,6 @@
 #' Retrieve mighty code component
 #' @description
-#' Retrieve a mighty code component from a local file.
+#' Retrieve a mighty code component.
 #'
 #' * `get_component()`: Returns an object of class `mighty_component`.
 #' * `get_rendered_component()`: Returns an object of class `mighty_component_rendered`.
@@ -13,7 +13,13 @@
 #' * `.R`: Extracts and renders custom functions.
 #' * `.mustache`: Creates components from the template files.
 #'
+#' The `repos` parameter accepts a character vector of locations to search,
+#' in priority order. Each element is either a local directory path or a
+#' GitHub source in `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref`
+#' format. The first match is returned. Defaults to the current directory.
+#'
 #' @param component `character` path to a component file (`.R` or `.mustache`).
+#' @param repos prioritised `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
@@ -22,35 +28,28 @@
 #'
 #' @rdname get_component
 #' @export
-get_component <- function(component) {
-  file_type <- tolower(tools::file_ext(component))
-
-  if (file_type != "" && !file.exists(component)) {
-    cli::cli_abort("Component {.file {component}} not found")
+get_component <- function(component, repos = NULL) {
+  if (is.null(repos)) {
+    repos <- "."
   }
 
-  switch(
-    file_type,
-    "r" = get_custom_r(component),
-    "mustache" = get_mustache(component),
-    cli::cli_abort(
-      "Component {.file {component}} not found. Provide a {.file .R} or {.file .mustache} file path."
-    )
-  )
-}
+  found <- find_component(component, repos)
 
-#' @noRd
-get_mustache <- function(component) {
-  mighty_component$new(
-    template = readLines(component),
-    id = component
+  switch(
+    found$type,
+    "r" = get_custom_r(found$content, found$name),
+    "mustache" = mighty_component$new(
+      template = found$content,
+      id = found$name
+    ),
+    cli::cli_abort("Component {.val {component}} has unsupported type {.val {found$type}}.")
   )
 }
 
 #' @rdname get_component
 #' @export
-get_rendered_component <- function(component, params = list()) {
-  x <- get_component(component)
+get_rendered_component <- function(component, params = list(), repos = NULL) {
+  x <- get_component(component, repos = repos)
   do.call(what = x$render, args = params)
 }
 
@@ -78,10 +77,11 @@ get_rendered_component <- function(component, params = list()) {
 get_test_component <- function(
   component,
   params = list(),
+  repos = NULL,
   check_coverage = TRUE,
   teardown_env = parent.frame()
 ) {
-  x <- get_rendered_component(component, params)
+  x <- get_rendered_component(component, params, repos = repos)
 
   test_component <- mighty_component_test$new(
     template = x$template,

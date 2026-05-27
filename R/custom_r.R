@@ -1,7 +1,5 @@
 #' @noRd
-get_custom_r <- function(path) {
-  code <- readLines(path)
-
+get_custom_r <- function(code, id) {
   if (any(grepl(pattern = "^#' @param", x = code))) {
     cli::cli_abort(
       c(
@@ -20,6 +18,6 @@ get_custom_r <- function(path) {
 
   mighty_component$new(
     template = code,
-    id = path
+    id = id
   )
 }

@@ -4,8 +4,7 @@
       x
     Message
       <mighty_component_rendered/mighty_component/R6>
-      _components/ady_local.R: Derives the relative day compared to the treatment
-      start date.
+      ady_local.R: Derives the relative day compared to the treatment start date.
       Type: column
       Depends:
       * domain.date_var
@@ -30,8 +29,8 @@
       x
     Message
       <mighty_component_rendered/mighty_component/R6>
-      _components/ady_local.mustache: Derives the relative day compared to the
-      treatment start date.
+      ady_local.mustache: Derives the relative day compared to the treatment start
+      date.
       Type: column
       Depends:
       * domain.date_var
