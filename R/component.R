@@ -24,6 +24,20 @@
 #' @rdname get_component
 #' @export
 get_component <- function(component, repos = NULL) {
+  if (!is.null(repos)) {
+    found <- find_component(component, repos)
+    file_type <- tolower(tools::file_ext(found$name))
+
+    return(switch(
+      file_type,
+      "r" = get_custom_r_from_lines(found$content, found$name),
+      "mustache" = mighty_component$new(
+        template = found$content,
+        id = found$name
+      )
+    ))
+  }
+
   file_type <- tolower(tools::file_ext(component))
 
   if (file_type != "" && !file.exists(component)) {
