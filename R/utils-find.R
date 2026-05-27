@@ -1,6 +1,16 @@
 #' @noRd
 find_component <- function(component, repos = ".") {
-  for (i in seq_along(repos)) {}
+  for (repo in repos) {
+    result <- if (dir.exists(repo)) {
+      search_folder(component, folder = repo)
+    } else {
+      search_github(component, source = repo)
+    }
+
+    if (!is.null(result)) {
+      return(result)
+    }
+  }
 
   cli::cli_abort("No component found for {component}")
 }
@@ -63,18 +73,21 @@ search_github <- function(component, source) {
     return(NULL)
   }
 
-  path <- if (!is.null(parsed$subdir)) {
-    paste0(parsed$subdir, "/", component)
-  } else {
-    component
-  }
+  path <- c(
+    parsed$subdir,
+    tools::file_path_sans_ext(component)
+  ) |>
+    paste(collapse = "/")
 
-  resp <- gh::gh(
-    "GET /repos/{owner}/{repo}/contents/{path}",
-    owner = parsed$username,
-    repo = parsed$repo,
-    ref = parsed$ref,
-    path = path
+  resp <- tryCatch(
+    expr = gh::gh(
+      "GET /repos/{owner}/{repo}/contents/{path}",
+      owner = parsed$username,
+      repo = parsed$repo,
+      path = path,
+      ref = parsed$ref
+    ),
+    error = \(e) NULL
   )
 
   files <- vapply(resp, \(x) x[["name"]], character(1))
