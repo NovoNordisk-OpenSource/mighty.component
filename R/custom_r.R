@@ -1,10 +1,5 @@
 #' @noRd
-get_custom_r <- function(path) {
-  get_custom_r_from_lines(readLines(path), id = path)
-}
-
-#' @noRd
-get_custom_r_from_lines <- function(code, id) {
+get_custom_r <- function(code, id) {
   if (any(grepl(pattern = "^#' @param", x = code))) {
     cli::cli_abort(
       c(

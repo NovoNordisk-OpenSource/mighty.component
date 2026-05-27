@@ -12,7 +12,7 @@ find_component <- function(component, repos = ".") {
     }
   }
 
-  cli::cli_abort("No component found for {component}")
+  cli::cli_abort("Component {.val {component}} not found.")
 }
 
 #' @noRd
@@ -26,6 +26,17 @@ assert_single_match <- function(x) {
 
 #' @noRd
 search_folder <- function(component, folder = ".") {
+  path <- if (file.exists(component)) component else file.path(folder, component)
+
+  if (file.exists(path)) {
+    return(list(
+      name = basename(path),
+      type = tolower(tools::file_ext(path)),
+      path = path,
+      content = readLines(path)
+    ))
+  }
+
   if (!dir.exists(folder)) {
     return(NULL)
   }
@@ -43,6 +54,7 @@ search_folder <- function(component, folder = ".") {
 
   list(
     name = basename(paths),
+    type = tolower(tools::file_ext(paths)),
     path = paths,
     content = readLines(paths)
   )
@@ -105,6 +117,7 @@ search_github <- function(component, source) {
 
   list(
     name = matched$name,
+    type = tolower(tools::file_ext(matched$name)),
     path = matched$download_url,
     content = strsplit(rawToChar(raw), "\n", fixed = TRUE)[[1]]
   )

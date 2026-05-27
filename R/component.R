@@ -24,41 +24,19 @@
 #' @rdname get_component
 #' @export
 get_component <- function(component, repos = NULL) {
-  if (!is.null(repos)) {
-    found <- find_component(component, repos)
-    file_type <- tolower(tools::file_ext(found$name))
-
-    return(switch(
-      file_type,
-      "r" = get_custom_r_from_lines(found$content, found$name),
-      "mustache" = mighty_component$new(
-        template = found$content,
-        id = found$name
-      )
-    ))
+  if (is.null(repos)) {
+    repos <- "."
   }
 
-  file_type <- tolower(tools::file_ext(component))
-
-  if (file_type != "" && !file.exists(component)) {
-    cli::cli_abort("Component {.file {component}} not found")
-  }
+  found <- find_component(component, repos)
 
   switch(
-    file_type,
-    "r" = get_custom_r(component),
-    "mustache" = get_mustache(component),
-    cli::cli_abort(
-      "Component {.file {component}} not found. Provide a {.file .R} or {.file .mustache} file path."
+    found$type,
+    "r" = get_custom_r(found$content, found$name),
+    "mustache" = mighty_component$new(
+      template = found$content,
+      id = found$name
     )
-  )
-}
-
-#' @noRd
-get_mustache <- function(component) {
-  mighty_component$new(
-    template = readLines(component),
-    id = component
   )
 }
 
