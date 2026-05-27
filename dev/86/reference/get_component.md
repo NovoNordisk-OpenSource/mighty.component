@@ -1,6 +1,6 @@
 # Retrieve mighty code component
 
-Retrieve a mighty code component from a local file.
+Retrieve a mighty code component.
 
 - `get_component()`: Returns an object of class `mighty_component`.
 
@@ -16,7 +16,7 @@ for details.
 ``` r
 get_component(component, repos = NULL)
 
-get_rendered_component(component, params = list())
+get_rendered_component(component, params = list(), repos = NULL)
 ```
 
 ## Arguments
@@ -42,6 +42,11 @@ Processes different component types based on file extension:
 - `.R`: Extracts and renders custom functions.
 
 - `.mustache`: Creates components from the template files.
+
+The `repos` parameter accepts a character vector of locations to search,
+in priority order. Each element is either a local directory path or a
+GitHub source in `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref`
+format. The first match is returned. Defaults to the current directory.
 
 ## See also
 

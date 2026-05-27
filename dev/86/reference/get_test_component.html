@@ -48,6 +48,7 @@ enabling structured unit testing with optional coverage checking.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_test_component</span><span class="op">(</span></span>
 <span>  <span class="va">component</span>,</span>
 <span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  repos <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check_coverage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  teardown_env <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -63,6 +64,10 @@ enabling structured unit testing with optional coverage checking.</p>
 
 <dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
 <dd><p>named <code>list</code> of input parameters. Passed along to <code>mighty_component$render()</code>.</p></dd>
+
+
+<dt id="arg-repos">repos<a class="anchor" aria-label="anchor" href="#arg-repos"></a></dt>
+<dd><p>prioritised <code>character</code> vector of locations to look for component in. See details.</p></dd>
 
 
 <dt id="arg-check-coverage">check_coverage<a class="anchor" aria-label="anchor" href="#arg-check-coverage"></a></dt>

@@ -13,6 +13,7 @@ for a description of the testing workflow.
 get_test_component(
   component,
   params = list(),
+  repos = NULL,
   check_coverage = TRUE,
   teardown_env = parent.frame()
 )
@@ -28,6 +29,11 @@ get_test_component(
 
   named `list` of input parameters. Passed along to
   `mighty_component$render()`.
+
+- repos:
+
+  prioritised `character` vector of locations to look for component in.
+  See details.
 
 - check_coverage:
 
