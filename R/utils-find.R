@@ -1,4 +1,11 @@
 #' @noRd
+find_component <- function(component, repos = ".") {
+  for (i in seq_along(repos)) {}
+
+  cli::cli_abort("No component found for {component}")
+}
+
+#' @noRd
 assert_single_match <- function(x) {
   if (length(x) > 1) {
     cli::cli_abort("Multiple matches found: {x}")
@@ -8,15 +15,17 @@ assert_single_match <- function(x) {
 }
 
 #' @noRd
-search_folder <- function(component, folder = NULL) {
-  if (is.null(folder)) {
-    folder <- "."
+search_folder <- function(component, folder = ".") {
+  if (!dir.exists(folder)) {
+    return(NULL)
   }
 
-  pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
-
-  paths <- list.files(path = folder, pattern = pattern, full.names = TRUE)
-  assert_single_match(paths)
+  paths <- list.files(
+    path = folder,
+    pattern = paste0("^", component, "(|\\.R|\\.mustache)$"),
+    full.names = TRUE
+  ) |>
+    assert_single_match()
 
   if (length(paths) == 0) {
     return(NULL)
@@ -33,13 +42,14 @@ search_folder <- function(component, folder = NULL) {
 parse_github_source <- function(source) {
   rlang::check_installed("remotes")
 
-  parsed <- remotes::parse_repo_spec(source)
-
-  list(
-    owner = parsed$username,
-    repo = parsed$repo,
-    ref = if (nzchar(parsed$ref)) parsed$ref else NULL,
-    path = if (nzchar(parsed$subdir)) parsed$subdir else ""
+  tryCatch(
+    expr = source |>
+      remotes::parse_repo_spec() |>
+      as.list() |>
+      lapply(\(x) {
+        if (nzchar(x)) x else NULL
+      }),
+    error = \(e) NULL
   )
 }
 
@@ -49,15 +59,19 @@ search_github <- function(component, source) {
 
   parsed <- parse_github_source(source)
 
-  path <- if (nzchar(parsed$path)) {
-    paste0(parsed$path, "/", component)
+  if (is.null(parsed)) {
+    return(NULL)
+  }
+
+  path <- if (!is.null(parsed$subdir)) {
+    paste0(parsed$subdir, "/", component)
   } else {
     component
   }
 
   resp <- gh::gh(
     "GET /repos/{owner}/{repo}/contents/{path}",
-    owner = parsed$owner,
+    owner = parsed$username,
     repo = parsed$repo,
     ref = parsed$ref,
     path = path
