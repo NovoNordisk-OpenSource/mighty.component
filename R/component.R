@@ -41,11 +41,6 @@ get_component <- function(component, repos = NULL) {
 }
 
 #' @noRd
-find_component <- function(component, repos = NULL) {
-  1
-}
-
-#' @noRd
 get_mustache <- function(component) {
   mighty_component$new(
     template = readLines(component),

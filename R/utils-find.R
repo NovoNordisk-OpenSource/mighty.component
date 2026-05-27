@@ -1,14 +1,10 @@
 #' @noRd
-assert_single_match <- function(names, paths, contents) {
-  if (length(names) == 0) {
-    return(NULL)
+assert_single_match <- function(x) {
+  if (length(x) > 1) {
+    cli::cli_abort("Multiple matches found: {x}")
   }
 
-  if (length(names) == 1) {
-    return(list(name = names, path = paths, content = contents[[1]]))
-  }
-
-  cli::cli_abort("Multiple matches found: {names}")
+  invisible(x)
 }
 
 #' @noRd
@@ -20,10 +16,17 @@ search_folder <- function(component, folder = NULL) {
   pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
 
   paths <- list.files(path = folder, pattern = pattern, full.names = TRUE)
-  names <- basename(paths)
-  contents <- lapply(paths, readLines)
+  assert_single_match(paths)
 
-  assert_single_match(names, paths, contents)
+  if (length(paths) == 0) {
+    return(NULL)
+  }
+
+  list(
+    name = basename(paths),
+    path = paths,
+    content = readLines(paths)
+  )
 }
 
 #' @noRd
@@ -34,9 +37,9 @@ parse_github_source <- function(source) {
 
   list(
     owner = parsed$username,
-    repo  = parsed$repo,
-    ref   = if (nzchar(parsed$ref)) parsed$ref else NULL,
-    path  = if (nzchar(parsed$subdir)) parsed$subdir else ""
+    repo = parsed$repo,
+    ref = if (nzchar(parsed$ref)) parsed$ref else NULL,
+    path = if (nzchar(parsed$subdir)) parsed$subdir else ""
   )
 }
 
@@ -55,22 +58,27 @@ search_github <- function(component, source) {
   resp <- gh::gh(
     "GET /repos/{owner}/{repo}/contents/{path}",
     owner = parsed$owner,
-    repo  = parsed$repo,
-    ref   = parsed$ref,
-    path  = path
+    repo = parsed$repo,
+    ref = parsed$ref,
+    path = path
   )
 
-  names <- vapply(resp, \(x) x[["name"]], character(1))
-  paths <- vapply(resp, \(x) x[["download_url"]], character(1))
-  urls <- vapply(resp, \(x) x[["url"]], character(1))
+  files <- vapply(resp, \(x) x[["name"]], character(1))
 
   pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
-  keep <- grepl(pattern, names)
+  keep <- grepl(pattern, files)
+  assert_single_match(files[keep])
 
-  contents <- lapply(urls[keep], \(url) {
-    raw <- jsonlite::base64_dec(gh::gh(url)$content)
-    strsplit(rawToChar(raw), "\n", fixed = TRUE)[[1]]
-  })
+  if (!any(keep)) {
+    return(NULL)
+  }
 
-  assert_single_match(names[keep], paths[keep], contents)
+  matched <- resp[keep][[1]]
+  raw <- jsonlite::base64_dec(gh::gh(matched$url)$content)
+
+  list(
+    name = matched$name,
+    path = matched$download_url,
+    content = strsplit(rawToChar(raw), "\n", fixed = TRUE)[[1]]
+  )
 }
