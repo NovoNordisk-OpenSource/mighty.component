@@ -19,7 +19,7 @@
 #' format. The first match is returned. Defaults to the current directory.
 #'
 #' @param component `character` path to a component file (`.R` or `.mustache`).
-#' @param repos prioritised `character` vector of locations to look for component in. See details.
+#' @param repos prioritized `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
