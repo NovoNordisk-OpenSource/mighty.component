@@ -115,7 +115,11 @@ search_github <- function(component, source) {
         path = parsed$subdir,
         ref = parsed$ref
       ),
-      error = \(e) NULL
+      http_error_404 = \(e) NULL,
+      error = \(e) {
+        cli::cli_warn("Failed to query {.val {source}}: {conditionMessage(e)}")
+        NULL
+      }
     )
   }
 
