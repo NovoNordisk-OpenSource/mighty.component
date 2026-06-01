@@ -115,6 +115,13 @@ search_github <- function(component, source) {
     )
   }
 
+# Error if repos points at a file.
+  if (!is.null(resp) && !is.null(resp$type)) {
+    cli::cli_abort(
+      "{.arg repos} source {.val {source}} is not a directory."
+    )
+  }
+
   files <- vapply(resp, \(x) x[["name"]], character(1))
 
   pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
