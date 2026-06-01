@@ -105,8 +105,7 @@ search_github <- function(component, source) {
     ),
     http_error_404 = \(e) NULL,
     error = \(e) {
-      cli::cli_warn("Failed to query {.val {source}}: {conditionMessage(e)}")
-      NULL
+      cli::cli_abort("Failed to query {.val {source}}: {conditionMessage(e)}")
     }
   )
 
@@ -121,8 +120,7 @@ search_github <- function(component, source) {
       ),
       http_error_404 = \(e) NULL,
       error = \(e) {
-        cli::cli_warn("Failed to query {.val {source}}: {conditionMessage(e)}")
-        NULL
+        cli::cli_abort("Failed to query {.val {source}}: {conditionMessage(e)}")
       }
     )
   }
