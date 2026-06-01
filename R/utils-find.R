@@ -26,7 +26,11 @@ assert_single_match <- function(x) {
 
 #' @noRd
 search_folder <- function(component, folder = ".") {
-  path <- if (file.exists(component)) component else file.path(folder, component)
+  path <- if (file.exists(component)) {
+    component
+  } else {
+    file.path(folder, component)
+  }
 
   if (file.exists(path)) {
     return(list(
@@ -123,7 +127,6 @@ search_github <- function(component, source) {
     )
   }
 
-# Error if repos points at a file.
   if (!is.null(resp) && !is.null(resp$type)) {
     cli::cli_abort(
       "{.arg repos} source {.val {source}} is not a directory."
