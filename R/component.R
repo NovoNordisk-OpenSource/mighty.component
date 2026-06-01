@@ -42,7 +42,10 @@ get_component <- function(component, repos = NULL) {
       template = found$content,
       id = found$name
     ),
-    cli::cli_abort("Component {.val {component}} has unsupported type {.val {found$type}}.")
+    cli::cli_abort(c(
+      "Component {.val {component}} has unsupported type {.val {found$type}}.",
+      "i" = "Provide a {.code .R} or {.code .mustache} file."
+    ))
   )
 }
 
