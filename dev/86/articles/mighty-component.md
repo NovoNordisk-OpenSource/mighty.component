@@ -347,7 +347,7 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> file1acb4fd473ec.mustache: Derives the ratio of the analysis value to the
+#> file19cc36d8572e.mustache: Derives the ratio of the analysis value to the
 #> baseline value.
 #> Type: column
 #> Parameters:
