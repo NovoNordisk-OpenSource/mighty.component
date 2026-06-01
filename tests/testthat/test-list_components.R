@@ -28,7 +28,7 @@ test_that("list_components as list returns component metadata", {
 
   expect_type(result, "list")
   expect_length(result, 1)
-  expect_equal(result[[1]]$id, file.path(path, "ady.mustache"))
+  expect_equal(result[[1]]$id, "ady.mustache")
   expect_true("title" %in% names(result[[1]]))
 })
 

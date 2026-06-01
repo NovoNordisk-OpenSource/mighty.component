@@ -7,6 +7,7 @@
 get_test_component(
   component,
   params = list(),
+  repos = NULL,
   check_coverage = TRUE,
   teardown_env = parent.frame()
 )
@@ -15,6 +16,8 @@ get_test_component(
 \item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
+
+\item{repos}{prioritised \code{character} vector of locations to look for component in. See details.}
 
 \item{check_coverage}{\code{logical(1)} Whether to automatically check test
 coverage when the test completes. If \code{TRUE} (default), coverage is
