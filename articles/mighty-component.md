@@ -126,8 +126,7 @@ ady <- get_component(
 )
 ady
 #> <mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
@@ -183,8 +182,7 @@ against real data.
 ady_rendered <- ady$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 #> <mighty_component_rendered/mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
 #> Depends:
 #> • ADAE.ASTDT
@@ -217,8 +215,7 @@ get_rendered_component(
   list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 )
 #> <mighty_component_rendered/mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
 #> Depends:
 #> • ADAE.ASTDT
@@ -350,8 +347,8 @@ it:
 r2base <- get_component(r2base_file)
 r2base
 #> <mighty_component/R6>
-#> /tmp/RtmppTQoKV/file19ea434b793.mustache: Derives the ratio of the analysis
-#> value to the baseline value.
+#> file1a9724a46300.mustache: Derives the ratio of the analysis value to the
+#> baseline value.
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of the domain
@@ -499,8 +496,7 @@ ady_test <- get_test_component(
 )
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Test Coverage: 0.00%
 #> Code: (✔ Covered, ✖ Uncovered)
 #> ✖ ADAE <- ADAE |>
@@ -552,8 +548,7 @@ executed:
 # Normal print method
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Test Coverage: 100.00%
 #> Code: (✔ Covered, ✖ Uncovered)
 #> ✔ ADAE <- ADAE |>

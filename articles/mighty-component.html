@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -232,8 +232,7 @@ this is enforced by automatic validation (see <a href="#automatic-code-validatio
 <span><span class="op">)</span></span>
 <span><span class="va">ady</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache</span>: Derives</span></span>
-<span><span class="co">#&gt; the relative day compared to the treatment start date.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">ady.mustache</span>: Derives the relative day compared to the treatment start date.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Parameters:</span></span></span>
 <span><span class="co">#&gt; • domain: `character` Name of new domain being created</span></span>
@@ -281,8 +280,7 @@ against real data.</p>
 <code class="sourceCode R"><span><span class="va">ady_rendered</span> <span class="op">&lt;-</span> <span class="va">ady</span><span class="op">$</span><span class="fu">render</span><span class="op">(</span>domain <span class="op">=</span> <span class="st">"ADAE"</span>, variable <span class="op">=</span> <span class="st">"ASTDY"</span>, date <span class="op">=</span> <span class="st">"ASTDT"</span><span class="op">)</span></span>
 <span><span class="va">ady_rendered</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component_rendered/mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache</span>: Derives</span></span>
-<span><span class="co">#&gt; the relative day compared to the treatment start date.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">ady.mustache</span>: Derives the relative day compared to the treatment start date.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Depends:</span></span></span>
 <span><span class="co">#&gt; • ADAE.ASTDT</span></span>
@@ -311,8 +309,7 @@ It returns the same rendered component as above. Note that
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>domain <span class="op">=</span> <span class="st">"ADAE"</span>, variable <span class="op">=</span> <span class="st">"ASTDY"</span>, date <span class="op">=</span> <span class="st">"ASTDT"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component_rendered/mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache</span>: Derives</span></span>
-<span><span class="co">#&gt; the relative day compared to the treatment start date.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">ady.mustache</span>: Derives the relative day compared to the treatment start date.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Depends:</span></span></span>
 <span><span class="co">#&gt; • ADAE.ASTDT</span></span>
@@ -425,8 +422,8 @@ render, and run it:</p>
 <code class="sourceCode R"><span><span class="va">r2base</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_component.html">get_component</a></span><span class="op">(</span><span class="va">r2base_file</span><span class="op">)</span></span>
 <span><span class="va">r2base</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/tmp/RtmppTQoKV/file19ea434b793.mustache</span>: Derives the ratio of the analysis</span></span>
-<span><span class="co">#&gt; value to the baseline value.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">file1a9724a46300.mustache</span>: Derives the ratio of the analysis value to the</span></span>
+<span><span class="co">#&gt; baseline value.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Type:</span> column</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Parameters:</span></span></span>
 <span><span class="co">#&gt; • domain: `character` Name of the domain</span></span>
@@ -552,8 +549,7 @@ your actual tests.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">ady_test</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component_test/mighty_component_rendered/mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache</span>: Derives</span></span>
-<span><span class="co">#&gt; the relative day compared to the treatment start date.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">ady.mustache</span>: Derives the relative day compared to the treatment start date.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Test Coverage:</span> <span style="font-weight: bold;">0.00%</span></span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Code: (</span><span style="color: #00BB00; font-style: italic;">✔</span><span style="font-style: italic;"> Covered, </span><span style="color: #BB0000; font-style: italic;">✖</span><span style="font-style: italic;"> Uncovered)</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> ADAE <span style="color: #D7AF00;">&lt;-</span> ADAE <span style="color: #D7AF00;">|&gt;</span></span></span>
@@ -593,8 +589,7 @@ executed:</p>
 <code class="sourceCode R"><span><span class="co"># Normal print method</span></span>
 <span><span class="va">ady_test</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">&lt;mighty_component_test/mighty_component_rendered/mighty_component/R6&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache</span>: Derives</span></span>
-<span><span class="co">#&gt; the relative day compared to the treatment start date.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">ady.mustache</span>: Derives the relative day compared to the treatment start date.</span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Test Coverage:</span> <span style="font-weight: bold;">100.00%</span></span></span>
 <span><span class="co">#&gt; <span style="font-style: italic;">Code: (</span><span style="color: #00BB00; font-style: italic;">✔</span><span style="font-style: italic;"> Covered, </span><span style="color: #BB0000; font-style: italic;">✖</span><span style="font-style: italic;"> Uncovered)</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAE <span style="color: #D7AF00;">&lt;-</span> ADAE <span style="color: #D7AF00;">|&gt;</span></span></span>

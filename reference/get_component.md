@@ -1,6 +1,6 @@
 # Retrieve mighty code component
 
-Retrieve a mighty code component from a local file.
+Retrieve a mighty code component.
 
 - `get_component()`: Returns an object of class `mighty_component`.
 
@@ -14,9 +14,9 @@ for details.
 ## Usage
 
 ``` r
-get_component(component)
+get_component(component, repos = NULL)
 
-get_rendered_component(component, params = list())
+get_rendered_component(component, params = list(), repos = NULL)
 ```
 
 ## Arguments
@@ -24,6 +24,11 @@ get_rendered_component(component, params = list())
 - component:
 
   `character` path to a component file (`.R` or `.mustache`).
+
+- repos:
+
+  prioritised `character` vector of locations to look for component in.
+  See details.
 
 - params:
 
@@ -38,6 +43,11 @@ Processes different component types based on file extension:
 
 - `.mustache`: Creates components from the template files.
 
+The `repos` parameter accepts a character vector of locations to search,
+in priority order. Each element is either a local directory path or a
+GitHub source in `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref`
+format. The first match is returned. Defaults to the current directory.
+
 ## See also
 
 [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md),
@@ -49,8 +59,7 @@ Processes different component types based on file extension:
 path <- system.file("examples", "ady.mustache", package = "mighty.component")
 get_component(path)
 #> <mighty_component/R6>
-#> /home/runner/work/_temp/Library/mighty.component/examples/ady.mustache: Derives
-#> the relative day compared to the treatment start date.
+#> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
