@@ -99,13 +99,18 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
     tarfile <- tempfile(fileext = ".tar.gz")
     on.exit(unlink(tarfile), add = TRUE)
 
-    gh::gh(
-      "GET /repos/{owner}/{repo}/tarball/{ref}",
+    args <- list(
+      endpoint = if (is.null(ref)) {
+        "GET /repos/{owner}/{repo}/tarball"
+      } else {
+        "GET /repos/{owner}/{repo}/tarball/{ref}"
+      },
       owner = owner,
       repo = repo,
-      ref = ref %||% "",
       .destfile = tarfile
     )
+    if (!is.null(ref)) args$ref <- ref
+    do.call(gh::gh, args)
 
     exdir <- tempfile("mighty_repo_")
     tar_result <- tryCatch(
