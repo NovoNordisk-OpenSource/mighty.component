@@ -34,7 +34,6 @@ test_that("search_github downloads tarball once for multiple components", {
     .package = "gh"
   )
 
-  # Simulate generate_adam_code() resolving multiple components from same source
   search_github("ady", source = "owner/repo/components")
   search_github("flat_comp.R", source = "owner/repo/components")
   search_github("ady", source = "owner/repo/components")
@@ -54,7 +53,6 @@ test_that("search_github with subdir scopes to subdirectory", {
 test_that("search_github falls back to flat listing when subdir is set", {
   local_mock_gh_tarball(test_path("_fixtures", "fake_repo_subdir.tar.gz"))
 
-  # flat_comp.R lives at components/ level, not in components/flat_comp/
   result <- search_github("flat_comp.R", source = "owner/repo/components")
 
   expect_type(result, "list")
@@ -98,7 +96,7 @@ test_that("search_github errors when gh writes HTML 404 page to destfile", {
   local_mocked_bindings(
     gh = function(...) {
       args <- list(...)
-      # Simulate what actually happens: gh silently writes HTML to .destfile
+      # Simulate what actually happens, gh silently writes HTML to .destfile
       writeLines("<html><body>404 Not Found</body></html>", args$.destfile)
     },
     .package = "gh"
@@ -111,7 +109,7 @@ test_that("search_github errors when gh writes HTML 404 page to destfile", {
 })
 
 test_that("search_github errors when gh writes empty file to destfile", {
-  # Another realistic failure: the destfile is created but empty or truncated
+  # The destfile is created but empty or truncated
   skip_if_not_installed("gh")
   skip_if_not_installed("remotes")
 
@@ -121,7 +119,6 @@ test_that("search_github errors when gh writes empty file to destfile", {
   local_mocked_bindings(
     gh = function(...) {
       args <- list(...)
-      # Simulate an empty/corrupt download
       file.create(args$.destfile)
     },
     .package = "gh"
@@ -169,7 +166,10 @@ test_that("ensure_repo_local caches by ref", {
 })
 
 test_that("search_github errors when component name resolves to a file, not a directory", {
-  local_mock_gh_tarball(test_path("_fixtures", "fake_repo_file_as_component.tar.gz"))
+  local_mock_gh_tarball(test_path(
+    "_fixtures",
+    "fake_repo_file_as_component.tar.gz"
+  ))
 
   expect_error(
     search_github("ady", source = "owner/repo"),
