@@ -87,8 +87,14 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
   key <- paste0(owner, "/", repo, "@", ref %||% "HEAD")
 
   if (exists(key, envir = repo_cache)) {
+    zephyr::msg_verbose(
+      message = c(">" = "Using cached repo {.val {key}}")
+    )
     path <- repo_cache[[key]]
   } else {
+    zephyr::msg_verbose(
+      message = c(">" = "Downloading repo {.val {key}}")
+    )
     tarfile <- tempfile(fileext = ".tar.gz")
     on.exit(unlink(tarfile), add = TRUE)
 
