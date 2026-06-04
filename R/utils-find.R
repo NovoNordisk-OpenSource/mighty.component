@@ -165,11 +165,16 @@ search_github <- function(component, source) {
     }
   )
 
+  # Guard: component name must resolve to a directory, not a file
+  component_dir <- file.path(local_path, tools::file_path_sans_ext(component))
+  if (file.exists(component_dir) && !dir.exists(component_dir)) {
+    cli::cli_abort(
+      "{.arg repos} source {.val {source}} is not a directory."
+    )
+  }
+
   # Try subdirectory convention: component lives in subdir/component_name/
-  result <- search_folder(
-    component,
-    folder = file.path(local_path, tools::file_path_sans_ext(component))
-  )
+  result <- search_folder(component, folder = component_dir)
 
   # Fall back to flat listing (only when subdir was specified, matching prior behavior)
   if (is.null(result) && !is.null(parsed$subdir)) {

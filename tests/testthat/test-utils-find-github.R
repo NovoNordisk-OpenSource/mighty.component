@@ -247,3 +247,26 @@ test_that("ensure_repo_local caches by ref", {
   expect_false(identical(path1, path3))
   expect_equal(call_count, 2L)
 })
+
+test_that("search_github errors when component name resolves to a file, not a directory", {
+  skip_if_not_installed("gh")
+  skip_if_not_installed("remotes")
+
+  clear_repo_cache()
+  withr::defer(clear_repo_cache())
+
+  tarball <- test_path("_fixtures", "fake_repo_file_as_component.tar.gz")
+
+  local_mocked_bindings(
+    gh = function(...) {
+      args <- list(...)
+      file.copy(tarball, args$.destfile)
+    },
+    .package = "gh"
+  )
+
+  expect_error(
+    search_github("ady", source = "owner/repo"),
+    "is not a directory"
+  )
+})
