@@ -213,7 +213,7 @@ test_that("search_github aborts on non-404 error", {
   )
 })
 
-test_that("search_github returns NULL for unparseable source", {
+test_that("search_github returns NULL for unparsable source", {
   skip_if_not_installed("gh")
   skip_if_not_installed("remotes")
 

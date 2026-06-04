@@ -27,11 +27,13 @@ CMD
 covr
 CRAN
 dbplyr
+destfile
 dplyr
 dtc
 emph
 enclos
 envir
+exdir
 fakepkg
 IDVARVAL
 kable
