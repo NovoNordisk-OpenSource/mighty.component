@@ -26,9 +26,9 @@ Coverage is automatically checked at test teardown via
 
 ## Super classes
 
-[`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+[`mighty.component::mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
 -\>
-[`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[`mighty.component::mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
 -\> `mighty_component_test`
 
 ## Active bindings
@@ -46,7 +46,7 @@ Coverage is automatically checked at test teardown via
 
 ### Public methods
 
-- [`mighty_component_test$new()`](#method-mighty_component_test-initialize)
+- [`mighty_component_test$new()`](#method-mighty_component_test-new)
 
 - [`mighty_component_test$print()`](#method-mighty_component_test-print)
 
@@ -64,13 +64,13 @@ Coverage is automatically checked at test teardown via
 
 Inherited methods
 
-- [`mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
-- [`mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
-- [`mighty_component_rendered$stream()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.html#method-stream)
+- [`mighty.component::mighty_component$document()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-document)
+- [`mighty.component::mighty_component$render()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.html#method-render)
+- [`mighty.component::mighty_component_rendered$stream()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.html#method-stream)
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$new()`
+### Method `new()`
 
 Create test component from rendered template.
 
@@ -91,7 +91,7 @@ Create test component from rendered template.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$print()`
+### Method [`print()`](https://rdrr.io/r/base/print.html)
 
 Print method showing component and test coverage
 
@@ -101,7 +101,7 @@ Print method showing component and test coverage
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$assign()`
+### Method [`assign()`](https://rdrr.io/r/base/assign.html)
 
 Assign a variable in the isolated test session.
 
@@ -125,7 +125,7 @@ Assign a variable in the isolated test session.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$get()`
+### Method [`get()`](https://rdrr.io/r/base/get.html)
 
 Retrieve a variable from the isolated test session.
 
@@ -145,7 +145,7 @@ The value of the variable.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$ls()`
+### Method [`ls()`](https://rdrr.io/r/base/ls.html)
 
 List all objects in the isolated test session.
 
@@ -159,7 +159,7 @@ List all objects in the isolated test session.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$eval()`
+### Method [`eval()`](https://rdrr.io/r/base/eval.html)
 
 Execute the component code and update coverage tracking.
 
@@ -173,7 +173,7 @@ Execute the component code and update coverage tracking.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$check_coverage()`
+### Method `check_coverage()`
 
 Check that all lines in the component were executed at least once.
 Throws an error if any lines have zero coverage.
@@ -188,7 +188,7 @@ Throws an error if any lines have zero coverage.
 
 ------------------------------------------------------------------------
 
-### `mighty_component_test$clone()`
+### Method `clone()`
 
 The objects of this class are cloneable with this method.
 

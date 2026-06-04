@@ -27,7 +27,7 @@ get_rendered_component(component, params = list(), repos = NULL)
 
 - repos:
 
-  prioritised `character` vector of locations to look for component in.
+  prioritized `character` vector of locations to look for component in.
   See details.
 
 - params:
