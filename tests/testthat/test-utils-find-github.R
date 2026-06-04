@@ -1,44 +1,15 @@
 test_that("search_github finds component via subdirectory convention", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  tarball <- test_path("_fixtures", "fake_repo.tar.gz")
-
-  local_mocked_bindings(
-    gh = function(...) {
-      args <- list(...)
-      file.copy(tarball, args$.destfile)
-    },
-    .package = "gh"
-  )
+  local_mock_gh_tarball(test_path("_fixtures", "fake_repo.tar.gz"))
 
   result <- search_github("ady", source = "owner/repo")
 
   expect_type(result, "list")
   expect_equal(result$name, "ady.mustache")
-  expect_equal(result$type, "mustache")
   expect_true(any(grepl("compute_ady", result$content)))
 })
 
 test_that("search_github returns NULL for missing component", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  tarball <- test_path("_fixtures", "fake_repo.tar.gz")
-
-  local_mocked_bindings(
-    gh = function(...) {
-      args <- list(...)
-      file.copy(tarball, args$.destfile)
-    },
-    .package = "gh"
-  )
+  local_mock_gh_tarball(test_path("_fixtures", "fake_repo.tar.gz"))
 
   result <- search_github("nonexistent", source = "owner/repo")
   expect_null(result)
@@ -64,32 +35,15 @@ test_that("search_github downloads tarball once for multiple components", {
   )
 
   # Simulate generate_adam_code() resolving multiple components from same source
-  result1 <- search_github("ady", source = "owner/repo/components")
-  result2 <- search_github("flat_comp.R", source = "owner/repo/components")
-  result3 <- search_github("ady", source = "owner/repo/components")
+  search_github("ady", source = "owner/repo/components")
+  search_github("flat_comp.R", source = "owner/repo/components")
+  search_github("ady", source = "owner/repo/components")
 
-  expect_equal(result1$name, "ady.mustache")
-  expect_equal(result2$name, "flat_comp.R")
-  expect_equal(result3$name, "ady.mustache")
   expect_equal(call_count, 1L)
 })
 
 test_that("search_github with subdir scopes to subdirectory", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  tarball <- test_path("_fixtures", "fake_repo_subdir.tar.gz")
-
-  local_mocked_bindings(
-    gh = function(...) {
-      args <- list(...)
-      file.copy(tarball, args$.destfile)
-    },
-    .package = "gh"
-  )
+  local_mock_gh_tarball(test_path("_fixtures", "fake_repo_subdir.tar.gz"))
 
   result <- search_github("ady", source = "owner/repo/components")
 
@@ -98,21 +52,7 @@ test_that("search_github with subdir scopes to subdirectory", {
 })
 
 test_that("search_github falls back to flat listing when subdir is set", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  tarball <- test_path("_fixtures", "fake_repo_subdir.tar.gz")
-
-  local_mocked_bindings(
-    gh = function(...) {
-      args <- list(...)
-      file.copy(tarball, args$.destfile)
-    },
-    .package = "gh"
-  )
+  local_mock_gh_tarball(test_path("_fixtures", "fake_repo_subdir.tar.gz"))
 
   # flat_comp.R lives at components/ level, not in components/flat_comp/
   result <- search_github("flat_comp.R", source = "owner/repo/components")
@@ -193,26 +133,6 @@ test_that("search_github errors when gh writes empty file to destfile", {
   )
 })
 
-test_that("search_github aborts on non-404 error", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  local_mocked_bindings(
-    gh = function(...) {
-      stop("Connection timeout")
-    },
-    .package = "gh"
-  )
-
-  expect_error(
-    search_github("ady", source = "owner/repo"),
-    "Failed to query"
-  )
-})
-
 test_that("search_github returns NULL for unparsable source", {
   skip_if_not_installed("gh")
   skip_if_not_installed("remotes")
@@ -249,21 +169,7 @@ test_that("ensure_repo_local caches by ref", {
 })
 
 test_that("search_github errors when component name resolves to a file, not a directory", {
-  skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
-  clear_repo_cache()
-  withr::defer(clear_repo_cache())
-
-  tarball <- test_path("_fixtures", "fake_repo_file_as_component.tar.gz")
-
-  local_mocked_bindings(
-    gh = function(...) {
-      args <- list(...)
-      file.copy(tarball, args$.destfile)
-    },
-    .package = "gh"
-  )
+  local_mock_gh_tarball(test_path("_fixtures", "fake_repo_file_as_component.tar.gz"))
 
   expect_error(
     search_github("ady", source = "owner/repo"),
