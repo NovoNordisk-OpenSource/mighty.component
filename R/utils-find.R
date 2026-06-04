@@ -108,10 +108,30 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
     )
 
     exdir <- tempfile("mighty_repo_")
-    utils::untar(tarfile, exdir = exdir)
+    invisible(capture.output(
+      tar_result <- utils::untar(tarfile, exdir = exdir),
+      type = "message"
+    ))
+
+    if (tar_result != 0L) {
+      cli::cli_abort(
+        "Failed to extract repository archive for
+        {.val {owner}/{repo}@{ref %||% 'HEAD'}}.
+        The repository may not exist or may require authentication."
+      )
+    }
 
     # Discover the top-level directory (don't assume naming)
     top_dir <- list.dirs(exdir, recursive = FALSE)
+
+    if (length(top_dir) == 0L) {
+      cli::cli_abort(
+        "Failed to extract repository archive for
+        {.val {owner}/{repo}@{ref %||% 'HEAD'}}.
+        The repository may not exist or may require authentication."
+      )
+    }
+
     path <- top_dir[[1]]
 
     repo_cache[[key]] <- path
@@ -137,15 +157,13 @@ search_github <- function(component, source) {
       subdir = parsed$subdir,
       ref = parsed$ref
     ),
-    http_error_404 = \(e) NULL,
     error = \(e) {
-      cli::cli_abort("Failed to query {.val {source}}: {conditionMessage(e)}")
+      cli::cli_abort(
+        "Failed to query {.val {source}}: {conditionMessage(e)}",
+        parent = e
+      )
     }
   )
-
-  if (is.null(local_path)) {
-    return(NULL)
-  }
 
   # Try subdirectory convention: component lives in subdir/component_name/
   result <- search_folder(

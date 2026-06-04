@@ -121,7 +121,7 @@ test_that("search_github falls back to flat listing when subdir is set", {
   expect_equal(result$name, "flat_comp.R")
 })
 
-test_that("search_github returns NULL on 404", {
+test_that("search_github errors on 404 (repo does not exist)", {
   skip_if_not_installed("gh")
   skip_if_not_installed("remotes")
 
@@ -139,8 +139,58 @@ test_that("search_github returns NULL on 404", {
     .package = "gh"
   )
 
-  result <- search_github("ady", source = "owner/repo")
-  expect_null(result)
+  expect_error(
+    search_github("ady", source = "owner/repo"),
+    "Failed to query"
+  )
+})
+
+test_that("search_github errors when gh writes HTML 404 page to destfile", {
+  # gh::gh with .destfile does NOT raise http_error_404 for non-existent repos.
+  # GitHub redirects to a 404 HTML page which gets saved as the .tar.gz file.
+  # The code must detect this corrupt tarball and error clearly.
+  skip_if_not_installed("gh")
+  skip_if_not_installed("remotes")
+
+  clear_repo_cache()
+  withr::defer(clear_repo_cache())
+
+  local_mocked_bindings(
+    gh = function(...) {
+      args <- list(...)
+      # Simulate what actually happens: gh silently writes HTML to .destfile
+      writeLines("<html><body>404 Not Found</body></html>", args$.destfile)
+    },
+    .package = "gh"
+  )
+
+  expect_error(
+    search_github("ady", source = "owner/nonexistent-repo"),
+    "Failed to query"
+  )
+})
+
+test_that("search_github errors when gh writes empty file to destfile", {
+  # Another realistic failure: the destfile is created but empty or truncated
+  skip_if_not_installed("gh")
+  skip_if_not_installed("remotes")
+
+  clear_repo_cache()
+  withr::defer(clear_repo_cache())
+
+  local_mocked_bindings(
+    gh = function(...) {
+      args <- list(...)
+      # Simulate an empty/corrupt download
+      file.create(args$.destfile)
+    },
+    .package = "gh"
+  )
+
+  expect_error(
+    search_github("ady", source = "owner/empty-tarball-repo"),
+    "Failed to query"
+  )
 })
 
 test_that("search_github aborts on non-404 error", {
