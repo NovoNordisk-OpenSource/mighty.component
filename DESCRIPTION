@@ -28,7 +28,6 @@ Suggests:
     covr,
     dplyr,
     gh,
-    jsonlite,
     knitr,
     pharmaverseadam,
     remotes,

@@ -34,7 +34,6 @@ enclos
 envir
 fakepkg
 IDVARVAL
-jsonlite
 kable
 knitr
 lintr
