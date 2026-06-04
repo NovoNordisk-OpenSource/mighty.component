@@ -108,10 +108,10 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
     )
 
     exdir <- tempfile("mighty_repo_")
-    invisible(capture.output(
-      tar_result <- utils::untar(tarfile, exdir = exdir),
-      type = "message"
-    ))
+    tar_result <- tryCatch(
+      suppressWarnings(utils::untar(tarfile, exdir = exdir)),
+      error = \(e) 1L
+    )
 
     if (tar_result != 0L) {
       cli::cli_abort(
