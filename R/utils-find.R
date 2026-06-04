@@ -83,13 +83,6 @@ parse_github_source <- function(source) {
 repo_cache <- new.env(parent = emptyenv())
 
 #' @noRd
-clear_repo_cache <- function() {
-  paths <- as.list(repo_cache)
-  unlink(unlist(paths), recursive = TRUE)
-  rm(list = ls(repo_cache), envir = repo_cache)
-}
-
-#' @noRd
 ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
   key <- paste0(owner, "/", repo, "@", ref %||% "HEAD")
 
