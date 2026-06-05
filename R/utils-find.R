@@ -8,6 +8,9 @@ find_component <- function(component, repos = ".") {
     }
 
     if (!is.null(result)) {
+      zephyr::msg_verbose(
+        message = c(">" = "Found {.val {component}} in {.val {repo}}")
+      )
       return(result)
     }
   }
@@ -137,6 +140,9 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
     path <- top_dir[[1]]
 
     repo_cache[[key]] <- path
+    zephyr::msg_verbose(
+      message = c(">" = "Successfully downloaded and cached {.val {key}}")
+    )
   }
 
   if (!is.null(subdir)) file.path(path, subdir) else path

@@ -101,7 +101,6 @@ test_that("search_github errors when gh writes HTML 404 page to destfile", {
     },
     .package = "gh"
   )
-
   expect_error(
     search_github("ady", source = "owner/nonexistent-repo"),
     "Failed to query"
