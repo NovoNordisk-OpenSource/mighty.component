@@ -12,7 +12,7 @@ get_rendered_component(component, params = list(), repos = NULL)
 \arguments{
 \item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
 
-\item{repos}{prioritised \code{character} vector of locations to look for component in. See details.}
+\item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }

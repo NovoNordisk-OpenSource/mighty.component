@@ -8,6 +8,9 @@ find_component <- function(component, repos = ".") {
     }
 
     if (!is.null(result)) {
+      zephyr::msg_verbose(
+        message = c(">" = "Found {.val {component}} in {.val {repo}}")
+      )
       return(result)
     }
   }
@@ -79,6 +82,74 @@ parse_github_source <- function(source) {
   )
 }
 
+# Package-level cache: maps "owner/repo@ref" -> local extracted path
+repo_cache <- new.env(parent = emptyenv())
+
+#' @noRd
+ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
+  key <- paste0(owner, "/", repo, "@", ref %||% "HEAD")
+
+  if (exists(key, envir = repo_cache)) {
+    zephyr::msg_verbose(
+      message = c(">" = "Using cached repo {.val {key}}")
+    )
+    path <- repo_cache[[key]]
+  } else {
+    zephyr::msg_verbose(
+      message = c(">" = "Downloading repo {.val {key}}")
+    )
+    tarfile <- tempfile(fileext = ".tar.gz")
+    on.exit(unlink(tarfile), add = TRUE)
+
+    args <- list(
+      endpoint = if (is.null(ref)) {
+        "GET /repos/{owner}/{repo}/tarball"
+      } else {
+        "GET /repos/{owner}/{repo}/tarball/{ref}"
+      },
+      owner = owner,
+      repo = repo,
+      .destfile = tarfile
+    )
+    if (!is.null(ref)) {
+      args$ref <- ref
+    }
+    do.call(gh::gh, args)
+
+    exdir <- tempfile("mighty_repo_")
+    tar_result <- tryCatch(
+      suppressWarnings(utils::untar(tarfile, exdir = exdir)),
+      error = \(e) 1L
+    )
+
+    if (tar_result != 0L) {
+      cli::cli_abort(
+        "Failed to extract repository archive for
+        {.val {owner}/{repo}@{ref %||% 'HEAD'}}.
+        The repository may not exist or may require authentication."
+      )
+    }
+
+    # Discover the top-level directory (don't assume naming)
+    top_dir <- list.dirs(exdir, recursive = FALSE)
+
+    if (length(top_dir) == 0L) {
+      cli::cli_abort(
+        "Repository archive for {.val {key}} extracted to an empty directory."
+      )
+    }
+
+    path <- top_dir[[1]]
+
+    repo_cache[[key]] <- path
+    zephyr::msg_verbose(
+      message = c(">" = "Successfully downloaded and cached {.val {key}}")
+    )
+  }
+
+  if (!is.null(subdir)) file.path(path, subdir) else path
+}
+
 #' @noRd
 search_github <- function(component, source) {
   rlang::check_installed("gh")
@@ -89,66 +160,36 @@ search_github <- function(component, source) {
     return(NULL)
   }
 
-  path <- c(
-    parsed$subdir,
-    tools::file_path_sans_ext(component)
-  ) |>
-    paste(collapse = "/")
-
-  resp <- tryCatch(
-    expr = gh::gh(
-      "GET /repos/{owner}/{repo}/contents/{path}",
+  local_path <- tryCatch(
+    ensure_repo_local(
       owner = parsed$username,
       repo = parsed$repo,
-      path = path,
+      subdir = parsed$subdir,
       ref = parsed$ref
     ),
-    http_error_404 = \(e) NULL,
     error = \(e) {
-      cli::cli_abort("Failed to query {.val {source}}: {conditionMessage(e)}")
+      cli::cli_abort(
+        "Failed to query {.val {source}}: {conditionMessage(e)}",
+        parent = e
+      )
     }
   )
 
-  if (is.null(resp) && !is.null(parsed$subdir)) {
-    resp <- tryCatch(
-      expr = gh::gh(
-        "GET /repos/{owner}/{repo}/contents/{path}",
-        owner = parsed$username,
-        repo = parsed$repo,
-        path = parsed$subdir,
-        ref = parsed$ref
-      ),
-      http_error_404 = \(e) NULL,
-      error = \(e) {
-        cli::cli_abort("Failed to query {.val {source}}: {conditionMessage(e)}")
-      }
-    )
-  }
-
-  if (!is.null(resp) && !is.null(resp$type)) {
+  # Guard: component name must resolve to a directory, not a file
+  component_dir <- file.path(local_path, tools::file_path_sans_ext(component))
+  if (file.exists(component_dir) && !dir.exists(component_dir)) {
     cli::cli_abort(
       "{.arg repos} source {.val {source}} is not a directory."
     )
   }
 
-  files <- vapply(resp, \(x) x[["name"]], character(1))
+  # Try subdirectory convention: component lives in subdir/component_name/
+  result <- search_folder(component, folder = component_dir)
 
-  pattern <- paste0("^", component, "(|\\.R|\\.mustache)$")
-  keep <- grepl(pattern, files)
-
-  if (!any(keep)) {
-    return(NULL)
+  # Fall back to flat listing (only when subdir was specified, matching prior behavior)
+  if (is.null(result) && !is.null(parsed$subdir)) {
+    result <- search_folder(component, folder = local_path)
   }
 
-  assert_single_match(files[keep])
-
-  matched <- resp[keep][[1]]
-  raw <- jsonlite::base64_dec(gh::gh(matched$url)$content)
-
-  list(
-    name = matched$name,
-    type = tolower(tools::file_ext(matched$name)),
-    path = matched$download_url,
-    content = strsplit(rawToChar(raw), "\n", fixed = TRUE)[[1]]
-  )
+  result
 }

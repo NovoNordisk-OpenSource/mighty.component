@@ -17,7 +17,7 @@ get_test_component(
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 
-\item{repos}{prioritised \code{character} vector of locations to look for component in. See details.}
+\item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
 
 \item{check_coverage}{\code{logical(1)} Whether to automatically check test
 coverage when the test completes. If \code{TRUE} (default), coverage is
