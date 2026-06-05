@@ -124,6 +124,7 @@ Retrieve one by file path:
 ady <- get_component(
   system.file("examples", "ady.mustache", package = "mighty.component")
 )
+#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 ady
 #> <mighty_component/R6>
 #> ady.mustache: Derives the relative day compared to the treatment start date.
@@ -214,6 +215,7 @@ get_rendered_component(
   system.file("examples", "ady.mustache", package = "mighty.component"),
   list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 )
+#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 #> <mighty_component_rendered/mighty_component/R6>
 #> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
@@ -345,9 +347,10 @@ it:
 ``` r
 
 r2base <- get_component(r2base_file)
+#> → Found "/tmp/Rtmpx8xL1w/file1b835819174b.mustache" in "."
 r2base
 #> <mighty_component/R6>
-#> file1b6623720539.mustache: Derives the ratio of the analysis value to the
+#> file1b835819174b.mustache: Derives the ratio of the analysis value to the
 #> baseline value.
 #> Type: column
 #> Parameters:
@@ -439,6 +442,7 @@ Here is a component that fails validation:
 ``` r
 
 get_rendered_component(bad_file, list(domain = "ADAE"))
+#> → Found "/tmp/Rtmpx8xL1w/file1b836c4c98a5.mustache" in "."
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
 #> 
@@ -466,6 +470,7 @@ The fix is to specify the join key explicitly:
 ``` r
 
 get_rendered_component(good_file, list(domain = "ADAE"))$code
+#> → Found "/tmp/Rtmpx8xL1w/file1b832651589c.mustache" in "."
 #> [1] "ADAE <- ADAE |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 ```
@@ -494,6 +499,7 @@ ady_test <- get_test_component(
   params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT"),
   check_coverage = FALSE # set TRUE in real tests
 )
+#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
 #> ady.mustache: Derives the relative day compared to the treatment start date.

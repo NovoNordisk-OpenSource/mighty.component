@@ -58,6 +58,7 @@ format. The first match is returned. Defaults to the current directory.
 ``` r
 path <- system.file("examples", "ady.mustache", package = "mighty.component")
 get_component(path)
+#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 #> <mighty_component/R6>
 #> ady.mustache: Derives the relative day compared to the treatment start date.
 #> Type: column
