@@ -32,7 +32,7 @@ get_test_component(
 
 - repos:
 
-  prioritised `character` vector of locations to look for component in.
+  prioritized `character` vector of locations to look for component in.
   See details.
 
 - check_coverage:

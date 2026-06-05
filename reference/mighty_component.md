@@ -129,7 +129,7 @@ rendered code used in mighty becomes:
 
 ### Public methods
 
-- [`mighty_component$new()`](#method-mighty_component-initialize)
+- [`mighty_component$new()`](#method-mighty_component-new)
 
 - [`mighty_component$print()`](#method-mighty_component-print)
 
@@ -141,7 +141,7 @@ rendered code used in mighty becomes:
 
 ------------------------------------------------------------------------
 
-### `mighty_component$new()`
+### Method `new()`
 
 Create component from template.
 
@@ -161,7 +161,7 @@ Create component from template.
 
 ------------------------------------------------------------------------
 
-### `mighty_component$print()`
+### Method [`print()`](https://rdrr.io/r/base/print.html)
 
 Print method displaying the component information.
 
@@ -175,7 +175,7 @@ Print method displaying the component information.
 
 ------------------------------------------------------------------------
 
-### `mighty_component$render()`
+### Method `render()`
 
 Render component with supplied values. Supports mustache templates and
 uses
@@ -199,7 +199,7 @@ Object of class
 
 ------------------------------------------------------------------------
 
-### `mighty_component$document()`
+### Method `document()`
 
 Create standard documentation in markdown format.
 
@@ -209,7 +209,7 @@ Create standard documentation in markdown format.
 
 ------------------------------------------------------------------------
 
-### `mighty_component$clone()`
+### Method `clone()`
 
 The objects of this class are cloneable with this method.
 

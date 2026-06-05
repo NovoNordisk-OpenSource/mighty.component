@@ -44,6 +44,7 @@ list_components(path)
 #> [1] "ady"
 
 list_components(path, as = "list") |> str(max.level = 1)
+#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 #> List of 1
 #>  $ :List of 7
 ```
