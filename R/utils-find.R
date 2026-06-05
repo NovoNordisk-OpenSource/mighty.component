@@ -130,9 +130,7 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
 
     if (length(top_dir) == 0L) {
       cli::cli_abort(
-        "Failed to extract repository archive for
-        {.val {owner}/{repo}@{ref %||% 'HEAD'}}.
-        The repository may not exist or may require authentication."
+        "Repository archive for {.val {key}} extracted to an empty directory." 
       )
     }
 
