@@ -131,8 +131,6 @@ test_that("search_github errors when gh writes empty file to destfile", {
 
 test_that("search_github returns NULL for unparsable source", {
   skip_if_not_installed("gh")
-  skip_if_not_installed("remotes")
-
   result <- search_github("ady", source = "notarepo")
   expect_null(result)
 })
