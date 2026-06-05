@@ -111,7 +111,9 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
       repo = repo,
       .destfile = tarfile
     )
-    if (!is.null(ref)) args$ref <- ref
+    if (!is.null(ref)) {
+      args$ref <- ref
+    }
     do.call(gh::gh, args)
 
     exdir <- tempfile("mighty_repo_")
@@ -133,7 +135,7 @@ ensure_repo_local <- function(owner, repo, subdir = NULL, ref = NULL) {
 
     if (length(top_dir) == 0L) {
       cli::cli_abort(
-        "Repository archive for {.val {key}} extracted to an empty directory." 
+        "Repository archive for {.val {key}} extracted to an empty directory."
       )
     }
 
