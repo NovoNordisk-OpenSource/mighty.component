@@ -14,12 +14,10 @@ name: All actions
 jobs:
   check-current-version:
     name: Check current version
-    uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
   check-nn-version:
     name: Check NN version
-    uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
   pkgdown:
     name: Pkgdown site
     uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
