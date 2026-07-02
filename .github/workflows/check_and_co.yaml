@@ -15,20 +15,20 @@ jobs:
   check-current-version:
     name: Check current version
     uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@feat/probe-disabled-linters
+      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
   check-nn-version:
     name: Check NN version
     uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@feat/probe-disabled-linters
+      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
   pkgdown:
     name: Pkgdown site
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@feat/probe-disabled-linters
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
   coverage:
     name: Coverage report
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/coverage.yaml@feat/probe-disabled-linters
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/coverage.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
     secrets: inherit
     with:
       use_codecov: true
   megalinter:
     name: Megalinter
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/megalinter.yaml@feat/probe-disabled-linters
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/megalinter.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
