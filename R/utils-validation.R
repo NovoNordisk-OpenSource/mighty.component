@@ -11,14 +11,29 @@ assert_type <- function(type) {
 }
 
 valid_origins <- function() {
-  c("Assigned", "Collected", "Derived", "Not Available", "Other", "Predecessor", "Protocol")
+  c(
+    "Assigned",
+    "Collected",
+    "Derived",
+    "Not Available",
+    "Other",
+    "Predecessor",
+    "Protocol"
+  )
 }
 
 assert_origin <- function(origin) {
-  if (is.null(origin)) return(NULL)
+  if (is.null(origin)) {
+    return(NULL)
+  }
   origins <- valid_origins()
   if (!origin %in% origins) {
     cli::cli_abort("@origin must be one of {.val {origins}}")
   }
   origin
+}
+
+#' @noRd
+is_absent <- function(x) {
+  is.null(x) || (length(x) == 1 && is.na(x))
 }

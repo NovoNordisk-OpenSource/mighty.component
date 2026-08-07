@@ -94,10 +94,15 @@ mighty_component <- R6::R6Class(
     #' Supports mustache templates and uses `whisker::whisker.render()`.
     #' @param ... Parameters used to render the template.
     #' Must be named, and depends on the template.
+    #' @param .subset `list` Optional, with elements `subset` (`character(1)` row-subsetting
+    #' condition, as an R expression evaluated with `with()`) and `domain` (`character(1)`
+    #' name of the data set `subset` applies to). Both must be supplied together. Only valid
+    #' for `@type row` components. Named `.subset` (not `subset`/`domain`) so it cannot
+    #' collide with a template's own `{{ domain }}`-style whisker parameter.
     #' @return Object of class [mighty_component_rendered]
-    render = function(...) {
+    render = function(..., .subset = NULL) {
       params <- rlang::list2(...)
-      ms_render(params, self)
+      ms_render(params, self, .subset)
     },
     #' @description
     #' Create standard documentation in markdown format.
@@ -297,7 +302,7 @@ create_bullets <- function(header, bullets) {
 }
 
 #' @noRd
-ms_render <- function(params, self) {
+ms_render <- function(params, self, .subset = NULL) {
   if (!rlang::is_named2(params)) {
     cli::cli_abort(
       c(
@@ -337,9 +342,74 @@ ms_render <- function(params, self) {
     template = self$template,
     data = params
   )
-  mighty_component_rendered$new(
+  rendered <- mighty_component_rendered$new(
     template = strsplit(x = template, split = "\n")[[1]],
     id = self$id
+  )
+  ms_wrap_subset(rendered, .subset, self)
+}
+
+#' @noRd
+ms_wrap_subset <- function(rendered, .subset, self) {
+  if (is.null(.subset)) {
+    return(rendered)
+  }
+
+  subset <- .subset$subset
+  domain <- .subset$domain
+
+  subset_absent <- is_absent(subset)
+  domain_absent <- is_absent(domain)
+
+  if (subset_absent != domain_absent) {
+    cli::cli_abort(
+      "{.arg subset} and {.arg domain} must be supplied together in {.arg .subset}"
+    )
+  }
+
+  if (subset_absent && domain_absent) {
+    return(rendered)
+  }
+
+  if (self$type != "row") {
+    cli::cli_abort(
+      "{.arg subset} is only supported for {.code @type row} components, not {.val {self$type}}"
+    )
+  }
+
+  prologue <- glue::glue(
+    "# subset prefixture: {subset} ----",
+    ".mighty_subset_keep <- {domain}[!with({domain}, {subset}), ]",
+    "{domain}             <- {domain}[with({domain}, {subset}), ]",
+    "# End subset prefixture",
+    "",
+    .sep = "\n"
+  )
+
+  epilogue <- glue::glue(
+    "# subset postfixture ----",
+    "{domain} <- rbind(.mighty_subset_keep, {domain})",
+    "rm(.mighty_subset_keep)",
+    "# end postfixture",
+    .sep = "\n"
+  )
+
+  wrapped_code <- c(
+    strsplit(x = as.character(prologue), split = "\n")[[1]],
+    "",
+    rendered$code,
+    "",
+    strsplit(x = as.character(epilogue), split = "\n")[[1]]
+  )
+
+  header <- utils::head(
+    x = rendered$template,
+    n = length(rendered$template) - length(rendered$code)
+  )
+
+  mighty_component_rendered$new(
+    template = c(header, wrapped_code),
+    id = rendered$id
   )
 }
 

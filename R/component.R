@@ -21,6 +21,8 @@
 #' @param component `character` path to a component file (`.R` or `.mustache`).
 #' @param repos prioritized `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
+#' @param .subset `list` Optional, with elements `subset` and `domain`. Passed along to
+#' `mighty_component$render()`. See its documentation for details.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples
 #' path <- system.file("examples", "ady.mustache", package = "mighty.component")
@@ -51,9 +53,14 @@ get_component <- function(component, repos = NULL) {
 
 #' @rdname get_component
 #' @export
-get_rendered_component <- function(component, params = list(), repos = NULL) {
+get_rendered_component <- function(
+  component,
+  params = list(),
+  repos = NULL,
+  .subset = NULL
+) {
   x <- get_component(component, repos = repos)
-  do.call(what = x$render, args = params)
+  do.call(what = x$render, args = c(params, list(.subset = .subset)))
 }
 
 #' Create a testable component for unit testing

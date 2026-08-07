@@ -1,0 +1,9 @@
+#' @title Add new column
+#' @description
+#' Adds a new column only to matching rows, without touching held-back rows.
+#' @type row
+#' @depends ADLB LBTEST
+#' @outputs FLAG
+#' @code
+ADLB <- ADLB |>
+  dplyr::mutate(FLAG = "Y")

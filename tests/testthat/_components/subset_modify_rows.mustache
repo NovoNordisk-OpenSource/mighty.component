@@ -1,0 +1,9 @@
+#' @title Modify rows
+#' @description
+#' Modifies existing rows in place without changing row count.
+#' @type row
+#' @depends ADLB LBTEST
+#' @outputs LBTEST
+#' @code
+ADLB <- ADLB |>
+  dplyr::mutate(LBTEST = paste0(LBTEST, " (modified)"))

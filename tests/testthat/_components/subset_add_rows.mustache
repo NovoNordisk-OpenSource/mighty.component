@@ -1,0 +1,13 @@
+#' @title Add rows
+#' @description
+#' Adds new rows derived from existing ones.
+#' @param label `character` Label for the newly added rows
+#' @type row
+#' @depends ADLB LBTEST
+#' @outputs LBTEST
+#' @code
+new_rows <- ADLB |>
+  dplyr::filter(LBTEST == "Microcytes") |>
+  dplyr::mutate(LBTEST = "{{{label}}}")
+
+ADLB <- rbind(ADLB, new_rows)

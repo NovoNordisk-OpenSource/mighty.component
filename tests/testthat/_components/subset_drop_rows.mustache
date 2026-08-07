@@ -1,0 +1,9 @@
+#' @title Drop rows
+#' @description
+#' Drops rows matching a condition.
+#' @type row
+#' @depends ADLB LBTEST
+#' @outputs LBTEST
+#' @code
+ADLB <- ADLB |>
+  dplyr::filter(LBTEST != "Microcytes")

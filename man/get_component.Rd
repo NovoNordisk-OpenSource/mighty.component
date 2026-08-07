@@ -7,7 +7,12 @@
 \usage{
 get_component(component, repos = NULL)
 
-get_rendered_component(component, params = list(), repos = NULL)
+get_rendered_component(
+  component,
+  params = list(),
+  repos = NULL,
+  .subset = NULL
+)
 }
 \arguments{
 \item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
@@ -15,6 +20,9 @@ get_rendered_component(component, params = list(), repos = NULL)
 \item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
+
+\item{.subset}{\code{list} Optional, with elements \code{subset} and \code{domain}. Passed along to
+\code{mighty_component$render()}. See its documentation for details.}
 }
 \description{
 Retrieve a mighty code component.
