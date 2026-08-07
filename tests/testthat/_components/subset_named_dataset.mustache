@@ -1,0 +1,15 @@
+#' @title Add rows via non-domain-named param
+#' @description
+#' Adds new rows, but the dataset parameter is deliberately not called `domain`
+#' to prove the marker isn't tied to that name.
+#' @param dataset `character` Name of new dataset being created
+#' @param label `character` Label for the newly added rows
+#' @type row
+#' @depends {{{dataset}}} LBTEST
+#' @outputs LBTEST
+#' @code
+new_rows <- {{{dataset}}} |>
+  dplyr::filter(LBTEST == "Microcytes") |>
+  dplyr::mutate(LBTEST = "{{{label}}}")
+
+{{{dataset}}} <- rbind({{{dataset}}}, new_rows)

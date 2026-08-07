@@ -333,13 +333,87 @@ ms_render <- function(params, self) {
     )
   }
 
+  markers <- Filter(Negate(is.null), lapply(params, parse_subset_marker))
+
+  if (length(markers) > 1) {
+    cli::cli_abort(
+      "Multiple parameters look like {.code .mighty_subset()} markers; expected exactly one."
+    )
+  }
+
+  marker <- if (length(markers) == 1) markers[[1]] else NULL
+
+  if (!is.null(marker)) {
+    if (self$type != "row") {
+      cli::cli_abort(
+        "{.code .mighty_subset()} is only supported for {.code @type row} components, not {.val {self$type}}"
+      )
+    }
+    params[[names(markers)]] <- marker$domain
+  }
+
   template <- whisker::whisker.render(
     template = self$template,
     data = params
   )
+  template <- strsplit(x = template, split = "\n")[[1]]
+
+  if (!is.null(marker)) {
+    template <- wrap_subset_marker(template, marker)
+  }
+
   mighty_component_rendered$new(
-    template = strsplit(x = template, split = "\n")[[1]],
+    template = template,
     id = self$id
+  )
+}
+
+#' @noRd
+parse_subset_marker <- function(domain) {
+  if (!is.character(domain) || length(domain) != 1) {
+    return(NULL)
+  }
+
+  parsed <- tryCatch(str2lang(domain), error = function(e) NULL)
+
+  if (is.null(parsed) || !is.call(parsed)) {
+    return(NULL)
+  }
+
+  if (
+    !identical(parsed[[1]], as.name(".mighty_subset")) || length(parsed) != 3
+  ) {
+    return(NULL)
+  }
+
+  list(domain = as.character(parsed[[2]]), subset = eval(parsed[[3]]))
+}
+
+#' @noRd
+wrap_subset_marker <- function(template, marker) {
+  code_start <- grep(pattern = "^#' @code", x = template)[[1]] + 1
+  header <- utils::head(x = template, n = code_start - 1)
+  code <- utils::tail(x = template, n = -(code_start - 1))
+
+  prologue <- glue::glue(
+    ".mighty_subset_keep <- {domain}[!with({domain}, {subset}), ]",
+    "{domain}             <- {domain}[with({domain}, {subset}), ]",
+    domain = marker$domain,
+    subset = marker$subset,
+    .sep = "\n"
+  )
+
+  epilogue <- glue::glue(
+    "{domain} <- rbind(.mighty_subset_keep, {domain})",
+    domain = marker$domain,
+    .sep = "\n"
+  )
+
+  c(
+    header,
+    strsplit(x = prologue, split = "\n")[[1]],
+    code,
+    strsplit(x = epilogue, split = "\n")[[1]]
   )
 }
 
