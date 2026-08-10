@@ -7,7 +7,7 @@ sample_adlb <- function() {
   )
 }
 
-test_that("marker in domain expands to bare identifier, wraps code with prologue/epilogue, and only affects rows within the subset", {
+test_that("marker in domain expands to bare identifier, wraps code, and affects subset rows only", {
   component <- test_path("_components", "subset_add_rows.mustache") |>
     get_component()
 
