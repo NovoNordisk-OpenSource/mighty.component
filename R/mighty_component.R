@@ -395,17 +395,23 @@ wrap_subset_marker <- function(template, marker) {
   header <- utils::head(x = template, n = code_start - 1)
   code <- utils::tail(x = template, n = -(code_start - 1))
 
+  domain_pattern <- paste0("\\b", marker$domain, "\\b")
+  selected <- paste0(marker$domain, "_selected")
+  code <- gsub(pattern = domain_pattern, replacement = selected, x = code)
+
   prologue <- glue::glue(
-    ".mighty_subset_keep <- {domain}[!with({domain}, {subset}), ]",
-    "{domain}             <- {domain}[with({domain}, {subset}), ]",
+    ".{domain}_remainder <- {domain}[!with({domain}, {subset}), ]",
+    "{selected}   <- {domain}[with({domain}, {subset}), ]",
     domain = marker$domain,
     subset = marker$subset,
+    selected = selected,
     .sep = "\n"
   )
 
   epilogue <- glue::glue(
-    "{domain} <- rbind(.mighty_subset_keep, {domain})",
+    "{domain} <- rbind(.{domain}_remainder, {selected})",
     domain = marker$domain,
+    selected = selected,
     .sep = "\n"
   )
 

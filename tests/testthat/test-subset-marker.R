@@ -28,14 +28,14 @@ test_that("marker in domain expands to bare identifier, wraps code, and affects 
   rendered$code |>
     expect_equal(
       c(
-        ".mighty_subset_keep <- ADLB[!with(ADLB, STUDYID == 'S1'), ]",
-        "ADLB             <- ADLB[with(ADLB, STUDYID == 'S1'), ]",
-        "new_rows <- ADLB |>",
+        ".ADLB_remainder <- ADLB[!with(ADLB, STUDYID == 'S1'), ]",
+        "ADLB_selected   <- ADLB[with(ADLB, STUDYID == 'S1'), ]",
+        "new_rows <- ADLB_selected |>",
         "  dplyr::filter(LBTEST == \"Microcytes\") |>",
         "  dplyr::mutate(LBTEST = \"Microcytes (new)\")",
         "",
-        "ADLB <- rbind(ADLB, new_rows)",
-        "ADLB <- rbind(.mighty_subset_keep, ADLB)"
+        "ADLB_selected <- rbind(ADLB_selected, new_rows)",
+        "ADLB <- rbind(.ADLB_remainder, ADLB_selected)"
       )
     )
 
@@ -131,7 +131,7 @@ test_that("domain values that aren't exact .mighty_subset() markers pass through
   call_shaped$depends |>
     expect_equal(data.frame(domain = "some_fn(ADLB,1)", column = "LBTEST"))
 
-  grepl(pattern = "mighty_subset_keep", x = call_shaped$code) |>
+  grepl(pattern = "_remainder", x = call_shaped$code) |>
     any() |>
     expect_false()
 })
@@ -171,7 +171,7 @@ test_that("marker is detected regardless of which parameter carries it", {
   rendered$depends |>
     expect_equal(data.frame(domain = "ADLB", column = "LBTEST"))
 
-  grepl(pattern = "mighty_subset_keep", x = rendered$code) |>
+  grepl(pattern = "_remainder", x = rendered$code) |>
     any() |>
     expect_true()
 })
