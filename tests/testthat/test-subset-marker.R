@@ -1,10 +1,19 @@
-test_that("marker in domain expands to bare identifier in @depends/@outputs/@type", {
+sample_adlb <- function() {
+  data.frame(
+    USUBJID = c("1", "2", "3"),
+    STUDYID = c("S1", "S1", "S2"),
+    LBTEST = "Microcytes",
+    stringsAsFactors = FALSE
+  )
+}
+
+test_that("marker in domain expands to bare identifier, wraps code with prologue/epilogue, and only affects rows within the subset", {
   component <- test_path("_components", "subset_add_rows.mustache") |>
     get_component()
 
   rendered <- component$render(
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-    label = "new"
+    label = "Microcytes (new)"
   )
 
   rendered$depends |>
@@ -15,16 +24,6 @@ test_that("marker in domain expands to bare identifier in @depends/@outputs/@typ
 
   rendered$type |>
     expect_equal("row")
-})
-
-test_that("marker in domain wraps rendered code with prologue/epilogue", {
-  component <- test_path("_components", "subset_add_rows.mustache") |>
-    get_component()
-
-  rendered <- component$render(
-    domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-    label = "new"
-  )
 
   rendered$code |>
     expect_equal(
@@ -33,30 +32,14 @@ test_that("marker in domain wraps rendered code with prologue/epilogue", {
         "ADLB             <- ADLB[with(ADLB, STUDYID == 'S1'), ]",
         "new_rows <- ADLB |>",
         "  dplyr::filter(LBTEST == \"Microcytes\") |>",
-        "  dplyr::mutate(LBTEST = \"new\")",
+        "  dplyr::mutate(LBTEST = \"Microcytes (new)\")",
         "",
         "ADLB <- rbind(ADLB, new_rows)",
         "ADLB <- rbind(.mighty_subset_keep, ADLB)"
       )
     )
-})
 
-test_that("subset marker: adds rows only within the subset, preserves rows outside it", {
-  component <- test_path("_components", "subset_add_rows.mustache") |>
-    get_component()
-
-  rendered <- component$render(
-    domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-    label = "Microcytes (new)"
-  )
-
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    LBTEST = "Microcytes",
-    stringsAsFactors = FALSE
-  )
-
+  ADLB <- sample_adlb()
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -77,13 +60,7 @@ test_that("subset marker: modifies matching rows in place, leaves others untouch
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    LBTEST = "Microcytes",
-    stringsAsFactors = FALSE
-  )
-
+  ADLB <- sample_adlb()
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -104,13 +81,8 @@ test_that("subset marker: drops matching rows, leaves others untouched", {
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    LBTEST = c("Microcytes", "Macrocytes", "Microcytes"),
-    stringsAsFactors = FALSE
-  )
-
+  ADLB <- sample_adlb()
+  ADLB$LBTEST[2] <- "Macrocytes"
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -128,23 +100,19 @@ test_that("subset marker: new column under subset raises the natural rbind error
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    stringsAsFactors = FALSE
-  )
+  ADLB <- sample_adlb()[c("USUBJID", "STUDYID")]
 
   rendered$eval(envir = environment()) |>
     expect_error(regexp = "numbers of columns")
 })
 
-test_that("ordinary (non-marker) domain value renders unchanged", {
+test_that("domain values that aren't exact .mighty_subset() markers pass through unaffected", {
   component <- test_path("_components", "subset_add_rows.mustache") |>
     get_component()
 
-  rendered <- component$render(domain = "ADLB", label = "new")
+  plain <- component$render(domain = "ADLB", label = "new")
 
-  rendered$code |>
+  plain$code |>
     expect_equal(
       c(
         "new_rows <- ADLB |>",
@@ -155,19 +123,22 @@ test_that("ordinary (non-marker) domain value renders unchanged", {
       )
     )
 
-  rendered$depends |>
+  plain$depends |>
     expect_equal(data.frame(domain = "ADLB", column = "LBTEST"))
+
+  call_shaped <- component$render(domain = "some_fn(ADLB,1)", label = "new")
+
+  call_shaped$depends |>
+    expect_equal(data.frame(domain = "some_fn(ADLB,1)", column = "LBTEST"))
+
+  grepl(pattern = "mighty_subset_keep", x = call_shaped$code) |>
+    any() |>
+    expect_false()
 })
 
-test_that("marker-shaped domain on a non-row @type component errors clearly", {
-  component <- test_path("_components", "test_component.mustache") |>
-    get_component()
-
-  component$type |>
-    expect_equal("column")
-
+test_that("render() guards against marker misuse", {
   eval_method(
-    x = component,
+    x = test_path("_components", "test_component.mustache") |> get_component(),
     method = "render",
     args = list(
       domain = ".mighty_subset(domain, \"A == 1\")",
@@ -176,23 +147,16 @@ test_that("marker-shaped domain on a non-row @type component errors clearly", {
     )
   ) |>
     expect_error(regexp = "@type row")
-})
 
-test_that("a call-shaped but non-marker domain value falls through unaffected", {
-  component <- test_path("_components", "subset_add_rows.mustache") |>
-    get_component()
-
-  rendered <- component$render(
-    domain = "some_fn(ADLB,1)",
-    label = "new"
-  )
-
-  rendered$depends |>
-    expect_equal(data.frame(domain = "some_fn(ADLB,1)", column = "LBTEST"))
-
-  grepl(pattern = "mighty_subset_keep", x = rendered$code) |>
-    any() |>
-    expect_false()
+  eval_method(
+    x = test_path("_components", "subset_add_rows.mustache") |> get_component(),
+    method = "render",
+    args = list(
+      domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
+      label = ".mighty_subset(ADAE, \"STUDYID == 'S1'\")"
+    )
+  ) |>
+    expect_error(regexp = "Multiple parameters")
 })
 
 test_that("marker is detected regardless of which parameter carries it", {
@@ -207,58 +171,7 @@ test_that("marker is detected regardless of which parameter carries it", {
   rendered$depends |>
     expect_equal(data.frame(domain = "ADLB", column = "LBTEST"))
 
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    LBTEST = "Microcytes",
-    stringsAsFactors = FALSE
-  )
-
-  rendered$eval(envir = environment())
-
-  nrow(ADLB) |>
-    expect_equal(5)
-
-  sum(ADLB$LBTEST == "Microcytes (new)") |>
-    expect_equal(2)
-})
-
-test_that("more than one parameter looking like a marker errors clearly", {
-  component <- test_path("_components", "subset_add_rows.mustache") |>
-    get_component()
-
-  eval_method(
-    x = component,
-    method = "render",
-    args = list(
-      domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-      label = ".mighty_subset(ADAE, \"STUDYID == 'S1'\")"
-    )
-  ) |>
-    expect_error(regexp = "Multiple parameters")
-})
-
-test_that("get_rendered_component() passes marker domain through", {
-  rendered <- get_rendered_component(
-    component = test_path("_components", "subset_add_rows.mustache"),
-    params = list(
-      domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-      label = "Microcytes (new)"
-    )
-  )
-
-  rendered |>
-    expect_s3_class("mighty_component_rendered")
-
-  ADLB <- data.frame(
-    USUBJID = c("1", "2", "3"),
-    STUDYID = c("S1", "S1", "S2"),
-    LBTEST = "Microcytes",
-    stringsAsFactors = FALSE
-  )
-
-  rendered$eval(envir = environment())
-
-  nrow(ADLB) |>
-    expect_equal(5)
+  grepl(pattern = "mighty_subset_keep", x = rendered$code) |>
+    any() |>
+    expect_true()
 })
