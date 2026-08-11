@@ -35,7 +35,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mightycomponent-development-version">mighty.component (development version)<a class="anchor" aria-label="anchor" href="#mightycomponent-development-version"></a></h2>
 <ul><li>
-<code>mighty_component$render()</code> now recognizes a <code>.mighty_subset(domain, subset)</code> marker call passed as the <code>domain</code> parameter. This lets callers (e.g. <code>mighty.metadata</code>’s pooling feature) restrict a <code>@type row</code> component’s derivation to a subset of rows without corrupting <code>@depends</code> parsing or silently dropping added rows. Ordinary <code>domain</code> values are unaffected.</li>
+<code>mighty_component$render()</code> now recognizes a <code>.mighty_subset(domain, subset)</code> marker call passed as the value of any parameter. This lets callers (e.g. <code>mighty.metadata</code>’s pooling feature) restrict a <code>@type row</code> component’s derivation to a subset of rows without corrupting <code>@depends</code>/<code>@outputs</code>/<code>@type</code> parsing or silently dropping added rows. Parameter values that aren’t an exact <code>.mighty_subset(...)</code> call are unaffected.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mightycomponent-010">mighty.component 0.1.0<a class="anchor" aria-label="anchor" href="#mightycomponent-010"></a></h2>
