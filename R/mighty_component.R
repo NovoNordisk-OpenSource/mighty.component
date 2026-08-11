@@ -333,15 +333,20 @@ ms_render <- function(params, self) {
     )
   }
 
-  markers <- Filter(Negate(is.null), lapply(params, parse_subset_marker))
+  other_markers <- Filter(
+    Negate(is.null),
+    lapply(params[setdiff(names(params), "domain")], parse_subset_marker)
+  )
 
-  if (length(markers) > 1) {
+  if (length(other_markers)) {
     cli::cli_abort(
-      "Multiple parameters look like {.code .mighty_subset()} markers; expected exactly one."
+      "{.code .mighty_subset()} markers are only recognized on the {.field domain} parameter, not {.field {names(other_markers)}}"
     )
   }
 
-  marker <- if (length(markers) == 1) markers[[1]] else NULL
+  marker <- parse_subset_marker(params$domain)
+
+  template <- self$template
 
   if (!is.null(marker)) {
     if (self$type != "row") {
@@ -349,18 +354,15 @@ ms_render <- function(params, self) {
         "{.code .mighty_subset()} is only supported for {.code @type row} components, not {.val {self$type}}"
       )
     }
-    params[[names(markers)]] <- marker$domain
+    params$domain <- marker$domain
+    template <- wrap_subset_marker(template, marker)
   }
 
   template <- whisker::whisker.render(
-    template = self$template,
+    template = template,
     data = params
   )
   template <- strsplit(x = template, split = "\n")[[1]]
-
-  if (!is.null(marker)) {
-    template <- wrap_subset_marker(template, marker)
-  }
 
   mighty_component_rendered$new(
     template = template,
@@ -395,9 +397,9 @@ wrap_subset_marker <- function(template, marker) {
   header <- utils::head(x = template, n = code_start - 1)
   code <- utils::tail(x = template, n = -(code_start - 1))
 
-  domain_pattern <- paste0("\\b", marker$domain, "\\b")
+  token_pattern <- "(\\{\\{\\{?\\s*domain\\s*\\}\\}\\}?)"
   selected <- paste0(marker$domain, "_selected")
-  code <- gsub(pattern = domain_pattern, replacement = selected, x = code)
+  code <- gsub(pattern = token_pattern, replacement = "\\1_selected", x = code)
 
   prologue <- glue::glue(
     ".{domain}_remainder <- {domain}[!with({domain}, {subset}), ]",

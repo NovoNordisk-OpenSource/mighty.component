@@ -147,31 +147,17 @@ test_that("render() guards against marker misuse", {
     )
   ) |>
     expect_error(regexp = "@type row")
-
-  eval_method(
-    x = test_path("_components", "subset_add_rows.mustache") |> get_component(),
-    method = "render",
-    args = list(
-      domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-      label = ".mighty_subset(ADAE, \"STUDYID == 'S1'\")"
-    )
-  ) |>
-    expect_error(regexp = "Multiple parameters")
 })
 
-test_that("marker is detected regardless of which parameter carries it", {
-  component <- test_path("_components", "subset_named_dataset.mustache") |>
-    get_component()
-
-  rendered <- component$render(
-    dataset = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
-    label = "Microcytes (new)"
-  )
-
-  rendered$depends |>
-    expect_equal(data.frame(domain = "ADLB", column = "LBTEST"))
-
-  grepl(pattern = "_remainder", x = rendered$code) |>
-    any() |>
-    expect_true()
+test_that("a marker on a parameter other than domain errors", {
+  eval_method(
+    x = test_path("_components", "subset_named_dataset.mustache") |>
+      get_component(),
+    method = "render",
+    args = list(
+      dataset = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")",
+      label = "Microcytes (new)"
+    )
+  ) |>
+    expect_error(regexp = "domain")
 })
