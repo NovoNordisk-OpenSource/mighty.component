@@ -1,0 +1,10 @@
+#' @title Drop rows
+#' @description
+#' Drops rows matching a condition.
+#' @param domain `character` Name of new domain being created
+#' @type row
+#' @depends {{{domain}}} LBTEST
+#' @outputs LBTEST
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::filter(LBTEST != "Microcytes")

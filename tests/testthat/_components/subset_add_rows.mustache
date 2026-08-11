@@ -1,0 +1,14 @@
+#' @title Add rows
+#' @description
+#' Adds new rows derived from existing ones.
+#' @param domain `character` Name of new domain being created
+#' @param label `character` Label for the newly added rows
+#' @type row
+#' @depends {{{domain}}} LBTEST
+#' @outputs LBTEST
+#' @code
+new_rows <- {{{domain}}} |>
+  dplyr::filter(LBTEST == "Microcytes") |>
+  dplyr::mutate(LBTEST = "{{{label}}}")
+
+{{{domain}}} <- rbind({{{domain}}}, new_rows)

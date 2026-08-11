@@ -1,0 +1,10 @@
+#' @title Add new column
+#' @description
+#' Adds a new column only to matching rows, without touching held-back rows.
+#' @param domain `character` Name of new domain being created
+#' @type row
+#' @depends {{{domain}}} LBTEST
+#' @outputs FLAG
+#' @code
+{{{domain}}} <- {{{domain}}} |>
+  dplyr::mutate(FLAG = "Y")

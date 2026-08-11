@@ -333,13 +333,96 @@ ms_render <- function(params, self) {
     )
   }
 
+  other_markers <- Filter(
+    Negate(is.null),
+    lapply(params[setdiff(names(params), "domain")], parse_subset_marker)
+  )
+
+  if (length(other_markers)) {
+    cli::cli_abort(
+      "{.code .mighty_subset()} is only valid on {.field domain}, not {.field {names(other_markers)}}"
+    )
+  }
+
+  marker <- parse_subset_marker(params$domain)
+
+  template <- self$template
+
+  if (!is.null(marker)) {
+    if (self$type != "row") {
+      cli::cli_abort(
+        "{.code .mighty_subset()} is only supported for {.code @type row} components, not {.val {self$type}}"
+      )
+    }
+    params$domain <- marker$domain
+    template <- wrap_subset_marker(template, marker)
+  }
+
   template <- whisker::whisker.render(
-    template = self$template,
+    template = template,
     data = params
   )
+  template <- strsplit(x = template, split = "\n")[[1]]
+
   mighty_component_rendered$new(
-    template = strsplit(x = template, split = "\n")[[1]],
+    template = template,
     id = self$id
+  )
+}
+
+#' @noRd
+parse_subset_marker <- function(domain) {
+  if (!is.character(domain) || length(domain) != 1) {
+    return(NULL)
+  }
+
+  parsed <- tryCatch(str2lang(domain), error = function(e) NULL)
+
+  if (is.null(parsed) || !is.call(parsed)) {
+    return(NULL)
+  }
+
+  if (
+    !identical(parsed[[1]], as.name(".mighty_subset")) || length(parsed) != 3
+  ) {
+    return(NULL)
+  }
+
+  list(domain = as.character(parsed[[2]]), subset = eval(parsed[[3]]))
+}
+
+#' @noRd
+wrap_subset_marker <- function(template, marker) {
+  code_start <- grep(pattern = "^#' @code", x = template)[[1]] + 1
+  header <- utils::head(x = template, n = code_start - 1)
+  code <- utils::tail(x = template, n = -(code_start - 1))
+
+  token_pattern <- "(\\{\\{\\{?\\s*domain\\s*\\}\\}\\}?)"
+  domain <- "{{{domain}}}"
+  selected <- paste0(domain, "_selected")
+  code <- gsub(pattern = token_pattern, replacement = "\\1_selected", x = code)
+
+  prologue <- glue::glue(
+    ".{domain}_remainder <- {domain}[!with({domain}, {subset}), ]",
+    "{selected}   <- {domain}[with({domain}, {subset}), ]",
+    domain = domain,
+    subset = marker$subset,
+    selected = selected,
+    .sep = "\n"
+  )
+
+  epilogue <- glue::glue(
+    "{domain} <- rbind(.{domain}_remainder, {selected})",
+    domain = domain,
+    selected = selected,
+    .sep = "\n"
+  )
+
+  c(
+    header,
+    strsplit(x = prologue, split = "\n")[[1]],
+    code,
+    strsplit(x = epilogue, split = "\n")[[1]]
   )
 }
 
