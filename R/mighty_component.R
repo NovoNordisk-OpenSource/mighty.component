@@ -340,7 +340,7 @@ ms_render <- function(params, self) {
 
   if (length(other_markers)) {
     cli::cli_abort(
-      "{.code .mighty_subset()} markers are only recognized on the {.field domain} parameter, not {.field {names(other_markers)}}"
+      "{.code .mighty_subset()} is only valid on {.field domain}, not {.field {names(other_markers)}}"
     )
   }
 
