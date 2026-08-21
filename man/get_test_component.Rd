@@ -13,7 +13,7 @@ get_test_component(
 )
 }
 \arguments{
-\item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
+\item{component}{\code{character} path or URL to a component file (\code{.R} or \code{.mustache}).}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 

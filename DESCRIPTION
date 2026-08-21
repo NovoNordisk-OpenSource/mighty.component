@@ -1,6 +1,6 @@
 Package: mighty.component
 Title: Mighty Components for ADaM Generation
-Version: 0.1.0.9003
+Version: 0.1.0.9004
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = "aut"),
@@ -28,6 +28,7 @@ Suggests:
     covr,
     dplyr,
     gh,
+    httr2,
     knitr,
     pharmaverseadam,
     remotes,
