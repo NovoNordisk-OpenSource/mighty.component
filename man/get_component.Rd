@@ -10,7 +10,7 @@ get_component(component, repos = NULL)
 get_rendered_component(component, params = list(), repos = NULL)
 }
 \arguments{
-\item{component}{\code{character} path to a component file (\code{.R} or \code{.mustache}).}
+\item{component}{\code{character} path or URL to a component file (\code{.R} or \code{.mustache}).}
 
 \item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
 
@@ -34,9 +34,13 @@ Processes different component types based on file extension:
 }
 
 The \code{repos} parameter accepts a character vector of locations to search,
-in priority order. Each element is either a local directory path or a
+in priority order. Each element is either a local directory path, a
 GitHub source in \code{owner/repo}, \code{owner/repo/subdir}, or \code{owner/repo@ref}
-format. The first match is returned. Defaults to the current directory.
+format, or a base URL. The first match is returned. Defaults to the
+current directory.
+
+The component itself may also be given as a URL. URL sources require the
+\code{httr2} package and must be publicly accessible.
 }
 \examples{
 path <- system.file("examples", "ady.mustache", package = "mighty.component")

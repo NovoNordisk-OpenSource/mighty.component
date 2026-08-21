@@ -14,11 +14,15 @@
 #' * `.mustache`: Creates components from the template files.
 #'
 #' The `repos` parameter accepts a character vector of locations to search,
-#' in priority order. Each element is either a local directory path or a
+#' in priority order. Each element is either a local directory path, a
 #' GitHub source in `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref`
-#' format. The first match is returned. Defaults to the current directory.
+#' format, or a base URL. The first match is returned. Defaults to the
+#' current directory.
 #'
-#' @param component `character` path to a component file (`.R` or `.mustache`).
+#' The component itself may also be given as a URL. URL sources require the
+#' `httr2` package and must be publicly accessible.
+#'
+#' @param component `character` path or URL to a component file (`.R` or `.mustache`).
 #' @param repos prioritized `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]

@@ -8,6 +8,8 @@ export(mighty_component)
 export(mighty_component_rendered)
 export(mighty_component_test)
 importFrom(R6,R6Class)
-importFrom(rlang,`%||%`)
-importFrom(rlang,list2)
+importFrom(rlang,
+  `%||%`,
+  list2
+)
 importFrom(whisker,whisker.render)

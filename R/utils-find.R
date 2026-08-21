@@ -1,7 +1,9 @@
 #' @noRd
 find_component <- function(component, repos = ".") {
   for (repo in repos) {
-    result <- if (dir.exists(repo)) {
+    result <- if (is_url(component) || is_url(repo)) {
+      search_url(component, source = repo)
+    } else if (dir.exists(repo)) {
       search_folder(component, folder = repo)
     } else {
       search_github(component, source = repo)
@@ -64,6 +66,59 @@ search_folder <- function(component, folder = ".") {
     type = tolower(tools::file_ext(paths)),
     path = paths,
     content = readLines(paths)
+  )
+}
+
+#' @noRd
+is_url <- function(x) {
+  grepl("^https?://", x)
+}
+
+#' @noRd
+fetch_url <- function(url) {
+  resp <- tryCatch(
+    expr = httr2::request(url) |>
+      httr2::req_error(is_error = \(resp) FALSE) |>
+      httr2::req_perform(),
+    error = \(e) {
+      cli::cli_abort(
+        "Failed to fetch {.val {url}}: {conditionMessage(e)}",
+        parent = e
+      )
+    }
+  )
+
+  if (httr2::resp_status(resp) != 200L) {
+    return(NULL)
+  }
+
+  strsplit(httr2::resp_body_string(resp), "\r?\n")[[1]]
+}
+
+#' @noRd
+search_url <- function(component, source = NULL) {
+  rlang::check_installed("httr2")
+
+  urls <- if (is_url(component)) {
+    component
+  } else {
+    paste0(sub("/$", "", source), "/", component, c("", ".R", ".mustache"))
+  }
+
+  contents <- lapply(urls, fetch_url)
+  found <- which(!vapply(contents, is.null, logical(1)))
+
+  assert_single_match(urls[found])
+
+  if (length(found) == 0) {
+    return(NULL)
+  }
+
+  list(
+    name = basename(urls[[found]]),
+    type = tolower(tools::file_ext(urls[[found]])),
+    path = urls[[found]],
+    content = contents[[found]]
   )
 }
 
