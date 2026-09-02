@@ -25,6 +25,7 @@ documenting functions using roxygen2:\tabular{lll}{
    \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
    \verb{@type} \tab Specifies type: column, row, parameter, internal \tab \verb{@type column} \cr
    \verb{@origin} \tab CDISC origin (optional) \tab \verb{@origin Derived} \cr
+   \verb{@method} \tab Free-text method description for define.xml (optional) \tab \verb{@method LOCF applied} \cr
    \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends \{\{ domain \}\} USUBJID} \cr
    \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
    \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
@@ -95,6 +96,8 @@ the rendered code used in mighty becomes:
 \item{\code{type}}{The type of the component. Can be one of column, row, parameter, internal.}
 
 \item{\code{origin}}{CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or \code{NULL}.}
+
+\item{\code{method}}{Free-text method description for define.xml, or \code{NULL}.}
 
 \item{\code{depends}}{Data.frame listing all the components dependencies.}
 

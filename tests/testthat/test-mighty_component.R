@@ -24,6 +24,9 @@ test_that("mighty_component", {
   test_component$origin |>
     expect_equal("Derived")
 
+  test_component$method |>
+    expect_equal("Some method text")
+
   test_component$depends |>
     expect_s3_class("data.frame") |>
     expect_equal(
@@ -79,6 +82,9 @@ test_that("mighty_component", {
 
   test_component_rendered$origin |>
     expect_equal("Derived")
+
+  test_component_rendered$method |>
+    expect_equal("Some method text")
 
   test_component_rendered$depends |>
     expect_s3_class("data.frame") |>

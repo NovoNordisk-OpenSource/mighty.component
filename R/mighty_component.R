@@ -24,6 +24,7 @@
 #' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
 #' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type column`           |
 #' | `@origin`      | CDISC origin (optional)                              | `@origin Derived`        |
+#' | `@method`      | Free-text method description for define.xml (optional) | `@method LOCF applied` |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
 #' | `@code`        | Everything under this tag defines the component code | `@code`                  |
@@ -120,6 +121,8 @@ mighty_component <- R6::R6Class(
     type = \() private$.type,
     #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
     origin = \() private$.origin,
+    #' @field method Free-text method description for define.xml, or `NULL`.
+    method = \() private$.method,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
@@ -133,6 +136,7 @@ mighty_component <- R6::R6Class(
     .description = character(1),
     .type = character(1),
     .origin = NULL,
+    .method = NULL,
     .params = data.frame(
       name = character(),
       description = character()
@@ -151,6 +155,7 @@ ms_initialize <- function(template, id, self, private) {
   private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type") |> assert_type()
   private$.origin <- get_optional_tag(template, "origin") |> assert_origin()
+  private$.method <- get_optional_tag(template, "method")
   private$.params <- get_tags(template, "param") |>
     tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
