@@ -205,6 +205,9 @@ get_optional_tag <- function(template, tag) {
   }
 
   if (length(tags) == 1L) {
+    if (identical(tags, "")) {
+      cli::cli_abort("@{tag} must not be empty if provided")
+    }
     return(tags)
   }
 
