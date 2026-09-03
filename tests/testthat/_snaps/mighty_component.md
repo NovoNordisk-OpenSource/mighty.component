@@ -24,6 +24,8 @@
     Output
       ## test: My test component
       *type: column*
+      *origin: Derived*
+      *method: Some method text*
       
       This is a test component used for unit testing
       
@@ -107,6 +109,8 @@
     Output
       ## test_component.mustache: My test component
       *type: column*
+      *origin: Derived*
+      *method: Some method text*
       
       This is a test component used for unit testing
       

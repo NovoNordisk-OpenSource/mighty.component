@@ -445,18 +445,13 @@ ms_document <- function(self) {
   ) |>
     readLines()
 
+  data <- mget(names(mighty_component$active), envir = self)
+  data$params <- as.character(knitr::kable(data$params))
+  data$depends <- as.character(knitr::kable(data$depends))
+
   docs <- whisker::whisker.render(
     template = template,
-    data = list(
-      id = self$id,
-      title = self$title,
-      description = self$description,
-      type = self$type,
-      params = as.character(knitr::kable(self$params)),
-      depends = as.character(knitr::kable(self$depends)),
-      outputs = self$outputs,
-      code = self$code
-    )
+    data = data
   )
 
   cat(docs, "\n\n")
