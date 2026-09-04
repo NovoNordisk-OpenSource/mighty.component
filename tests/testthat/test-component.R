@@ -53,6 +53,8 @@ test_that("Error when any parameter insufficiently parameterized", {
     "#' @param variable",
     "#' @param date ",
     "#' @type column",
+    "#' @origin Derived",
+    "#' @method Test placeholder method",
     "#' @depends {{{domain}}} {{{date}}}",
     "#' @depends {{{domain}}} TRTSDT",
     "#' @outputs {{{variable}}}",

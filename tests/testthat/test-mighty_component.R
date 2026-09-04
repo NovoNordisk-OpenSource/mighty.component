@@ -24,6 +24,9 @@ test_that("mighty_component", {
   test_component$origin |>
     expect_equal("Derived")
 
+  test_component$method |>
+    expect_equal("Some method text")
+
   test_component$depends |>
     expect_s3_class("data.frame") |>
     expect_equal(
@@ -80,6 +83,9 @@ test_that("mighty_component", {
   test_component_rendered$origin |>
     expect_equal("Derived")
 
+  test_component_rendered$method |>
+    expect_equal("Some method text")
+
   test_component_rendered$depends |>
     expect_s3_class("data.frame") |>
     expect_equal(
@@ -102,6 +108,34 @@ test_that("mighty_component", {
 
   test_component_rendered$render() |>
     expect_equal(test_component_rendered)
+})
+
+test_that("@origin and @method are required", {
+  template <- c(
+    "#' @title My test component",
+    "#' @description desc",
+    "#' @type column",
+    "#' @origin Derived",
+    "#' @method Some method text",
+    "#' @outputs NEWVAR",
+    "#' @code",
+    "{{{domain}}}$NEWVAR <- 1"
+  )
+
+  mighty_component$new(template = template, id = "test") |>
+    expect_no_condition()
+
+  mighty_component$new(
+    template = template[-grep("@origin", template)],
+    id = "test"
+  ) |>
+    expect_error(regexp = "Multiple or no matches found for tag: origin")
+
+  mighty_component$new(
+    template = template[-grep("@method", template)],
+    id = "test"
+  ) |>
+    expect_error(regexp = "Multiple or no matches found for tag: method")
 })
 
 test_that("get_tags", {
@@ -148,23 +182,12 @@ test_that("get_tag", {
     tag = "myothertag"
   ) |>
     expect_error(regexp = "Multiple or no matches found for tag")
-})
 
-test_that("get_optional_tag", {
-  get_optional_tag(template = "#' @mytag myvalue", tag = "mytag") |>
-    expect_equal("myvalue")
+  get_tag(template = "#' @mytag", tag = "mytag") |>
+    expect_error(regexp = "@mytag tag must not be empty")
 
-  get_optional_tag(
-    template = c("#' @myothertag content", "also unrelated"),
-    tag = "mytag"
-  ) |>
-    expect_null()
-
-  get_optional_tag(
-    template = c("#' @mytag myvalue", "#' @mytag myothervalue"),
-    tag = "mytag"
-  ) |>
-    expect_error(regexp = "Multiple matches found for tag")
+  get_tag(template = "#' @mytag   ", tag = "mytag") |>
+    expect_error(regexp = "@mytag tag must not be empty")
 })
 
 test_that("tags_to_params", {

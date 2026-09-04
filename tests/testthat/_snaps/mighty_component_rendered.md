@@ -5,7 +5,7 @@
       params = list(domain = "domain", x1 = 5, x2 = 3)))
     Message
       <mighty_component_rendered/mighty_component/R6>
-      test_component.mustache: This is a test component used for unit testing
+      test_component.mustache: My test component
       Type: column
       Depends:
       * domain.A

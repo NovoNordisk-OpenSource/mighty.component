@@ -3,6 +3,7 @@
 #' Derives the relative day compared to the treatment start date.
 #' @type column
 #' @origin Derived
+#' @method Duration computed from treatment start date
 #' @depends domain date_var
 #' @depends domain TRTSDT
 #' @outputs out_var

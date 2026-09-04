@@ -52,6 +52,8 @@ test_that("validation runs automatically when rendering component with invalid c
     "#' @param dataset The dataset to join",
     "#' @param join_type The type of join function",
     "#' @type column",
+    "#' @origin Derived",
+    "#' @method Test placeholder method",
     "#' @depends {{{domain}}} USUBJID",
     "#' @outputs NEWVAR",
     "#' @code",

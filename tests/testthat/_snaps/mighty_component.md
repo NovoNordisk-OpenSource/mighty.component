@@ -4,7 +4,7 @@
       test_component
     Message
       <mighty_component/R6>
-      test: This is a test component used for unit testing
+      test: My test component
       Type: column
       Parameters:
       * domain: `character` Name of new domain being created
@@ -23,6 +23,8 @@
     Output
       ## test: My test component
       *type: column*
+      *origin: Derived*
+      *method: Some method text*
       
       This is a test component used for unit testing
       
@@ -58,7 +60,7 @@
       test_component_rendered
     Message
       <mighty_component_rendered/mighty_component/R6>
-      test: This is a test component used for unit testing
+      test: My test component
       Type: column
       Depends:
       * domain.A
@@ -75,7 +77,7 @@
         "test_component.mustache")))), "mighty_component")
     Message
       <mighty_component/R6>
-      test_component.mustache: This is a test component used for unit testing
+      test_component.mustache: My test component
       Type: column
       Parameters:
       * domain: `character` Name of new domain being created
@@ -104,6 +106,8 @@
     Output
       ## test_component.mustache: My test component
       *type: column*
+      *origin: Derived*
+      *method: Some method text*
       
       This is a test component used for unit testing
       

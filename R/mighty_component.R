@@ -23,7 +23,8 @@
 #' | `@description` | Description of the component                         | `@description text text` |
 #' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
 #' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type column`           |
-#' | `@origin`      | CDISC origin (optional)                              | `@origin Derived`        |
+#' | `@origin`      | CDISC origin                                         | `@origin Derived`        |
+#' | `@method`      | Free-text method description for define.xml         | `@method LOCF applied`  |
 #' | `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
 #' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
 #' | `@code`        | Everything under this tag defines the component code | `@code`                  |
@@ -118,8 +119,10 @@ mighty_component <- R6::R6Class(
     template = \() private$.template,
     #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
     type = \() private$.type,
-    #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")` or `NULL`.
+    #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")`.
     origin = \() private$.origin,
+    #' @field method Free-text method description for define.xml.
+    method = \() private$.method,
     #' @field depends Data.frame listing all the components dependencies.
     depends = \() private$.depends,
     #' @field outputs List of the new columns created by the component.
@@ -133,6 +136,7 @@ mighty_component <- R6::R6Class(
     .description = character(1),
     .type = character(1),
     .origin = NULL,
+    .method = NULL,
     .params = data.frame(
       name = character(),
       description = character()
@@ -150,7 +154,8 @@ ms_initialize <- function(template, id, self, private) {
   private$.title <- get_tag(template, "title")
   private$.description <- get_tag(template, "description")
   private$.type <- get_tag(template, "type") |> assert_type()
-  private$.origin <- get_optional_tag(template, "origin") |> assert_origin()
+  private$.origin <- get_tag(template, "origin") |> assert_origin()
+  private$.method <- get_tag(template, "method")
   private$.params <- get_tags(template, "param") |>
     tags_to_params()
   private$.depends <- get_tags(template, "depends") |>
@@ -185,25 +190,13 @@ get_tag <- function(template, tag) {
   tags <- get_tags(template, tag)
 
   if (length(tags) == 1L) {
+    if (!nzchar(tags)) {
+      cli::cli_abort("@{tag} tag must not be empty")
+    }
     return(tags)
   }
 
   cli::cli_abort("Multiple or no matches found for tag: {tag}")
-}
-
-#' @noRd
-get_optional_tag <- function(template, tag) {
-  tags <- get_tags(template, tag)
-
-  if (length(tags) == 0L) {
-    return(NULL)
-  }
-
-  if (length(tags) == 1L) {
-    return(tags)
-  }
-
-  cli::cli_abort("Multiple matches found for tag: {tag}")
 }
 
 #' @noRd
@@ -262,7 +255,7 @@ tags_to_depends <- function(tags) {
 ms_print <- function(self) {
   cli::cli({
     cli::cli_text("{.cls {class(self)}}")
-    cli::cli_text("{.field {self$id}}: {self$description}")
+    cli::cli_text("{.field {self$id}}: {self$title}")
     cli::cli_text("{.emph Type:} {self$type}")
 
     create_bullets(
@@ -434,18 +427,13 @@ ms_document <- function(self) {
   ) |>
     readLines()
 
+  data <- mget(names(mighty_component$active), envir = self)
+  data$params <- as.character(knitr::kable(data$params))
+  data$depends <- as.character(knitr::kable(data$depends))
+
   docs <- whisker::whisker.render(
     template = template,
-    data = list(
-      id = self$id,
-      title = self$title,
-      description = self$description,
-      type = self$type,
-      params = as.character(knitr::kable(self$params)),
-      depends = as.character(knitr::kable(self$depends)),
-      outputs = self$outputs,
-      code = self$code
-    )
+    data = data
   )
 
   cat(docs, "\n\n")

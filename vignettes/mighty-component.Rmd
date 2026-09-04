@@ -59,6 +59,7 @@ glance:
 #' @param output `character` Name of the new column to create
 #' @type column
 #' @origin Derived
+#' @method Doubles input
 #' @depends {{{domain}}} {{{input}}}
 #' @outputs {{{output}}}
 #' @code
@@ -75,8 +76,9 @@ glance:
 | `@title` | One-line title (required) |
 | `@description` | Multi-line description (required) |
 | `@param name description` | Declares a Mustache placeholder the user must provide in metadata specifications |
-| `@type` | Component type: `column`, `row`, `parameter`, or `internal` |
-| `@origin` | CDISC origin (optional): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
+| `@type` | Component type (required): `column`, `row`, `parameter`, or `internal` |
+| `@origin` | CDISC origin (required): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
+| `@method` | Free-text method description for define.xml (required) |
 | `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
 | `@outputs variable` | Declares a column the code creates (repeat for each) |
 | `@code` | Everything below this tag is executable R code |
@@ -135,6 +137,7 @@ ady$params
 ady$depends
 ady$outputs
 ady$origin
+ady$method
 ```
 
 ## Render a component
@@ -222,6 +225,7 @@ lab parameter. Save the following template to a `.mustache` file:
 #' @param variable `character` Name of the new ratio variable
 #' @type column
 #' @origin Derived
+#' @method Ratio of AVAL to BASE
 #' @depends {{{domain}}} AVAL
 #' @depends {{{domain}}} BASE
 #' @outputs {{{variable}}}
@@ -243,6 +247,7 @@ writeLines(c(
   "#' @param variable `character` Name of the new ratio variable",
   "#' @type column",
   "#' @origin Derived",
+  "#' @method Ratio of AVAL to BASE",
   "#' @depends {{{domain}}} AVAL",
   "#' @depends {{{domain}}} BASE",
   "#' @outputs {{{variable}}}",
@@ -299,6 +304,8 @@ Here is a component that fails validation:
 #'
 #' @param domain `character` domain name
 #' @type row
+#' @origin Derived
+#' @method Implicit join on other_data
 #' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
@@ -313,6 +320,8 @@ bad_template <- c(
   "#'",
   "#' @param domain `character` domain name",
   "#' @type row",
+  "#' @origin Derived",
+  "#' @method Implicit join on other_data",
   "#' @depends {{{domain}}} USUBJID",
   "#' @outputs NEWCOL",
   "#' @code",
@@ -336,6 +345,8 @@ The fix is to specify the join key explicitly:
 #'
 #' @param domain `character` domain name
 #' @type row
+#' @origin Derived
+#' @method Explicit join on other_data by USUBJID
 #' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
@@ -350,6 +361,8 @@ good_template <- c(
   "#'",
   "#' @param domain `character` domain name",
   "#' @type row",
+  "#' @origin Derived",
+  "#' @method Explicit join on other_data by USUBJID",
   "#' @depends {{{domain}}} USUBJID",
   "#' @outputs NEWCOL",
   "#' @code",
