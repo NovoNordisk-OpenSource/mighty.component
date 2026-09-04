@@ -34,7 +34,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mightycomponent-development-version">mighty.component (development version)<a class="anchor" aria-label="anchor" href="#mightycomponent-development-version"></a></h2>
-<ul><li><p>New optional <code>@method</code> tag on component headers, exposed as <code>component$method</code> (<code>NULL</code> if absent). Intended to let mighty.metadata populate a column’s define.xml method description directly from the component (mighty.metadata#23).</p></li>
+<ul><li><p><code>@origin</code> is now a required tag on every component header, not optional.</p></li>
+<li><p>New required <code>@method</code> tag on component headers, exposed as <code>component$method</code>. Intended to let mighty.metadata populate a column’s define.xml method description directly from the component.</p></li>
 <li><p><code>mighty_component$render()</code> now recognizes a <code>.mighty_subset(domain, subset)</code> marker call passed as the value of the <code>domain</code> parameter. This lets callers (e.g. <code>mighty.metadata</code>’s pooling feature) restrict a <code>@type row</code> component’s derivation to a subset of rows without corrupting <code>@depends</code>/<code>@outputs</code>/<code>@type</code> parsing or silently dropping added rows. Parameter values that aren’t an exact <code>.mighty_subset(...)</code> call are unaffected. A marker on any parameter other than <code>domain</code> raises an error.</p></li>
 </ul></div>
     <div class="section level2">

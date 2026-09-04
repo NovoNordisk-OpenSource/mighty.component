@@ -59,7 +59,7 @@ framework. Dynamic parameters are specified using <code>{{ variable_name }}</cod
 
 
 <p>A template is required to be documented with the following tags similar to when
-documenting functions using roxygen2:</p><table class="table table"><tr><td>Tag</td><td>Description</td><td>Example</td></tr><tr><td><code>@title</code></td><td>Title of the component</td><td><code>@title My component</code></td></tr><tr><td><code>@description</code></td><td>Description of the component</td><td><code>@description text text</code></td></tr><tr><td><code>@param</code></td><td>Specifies input used to render the component</td><td><code>@param variable new var</code></td></tr><tr><td><code>@type</code></td><td>Specifies type: column, row, parameter, internal</td><td><code>@type column</code></td></tr><tr><td><code>@origin</code></td><td>CDISC origin (optional)</td><td><code>@origin Derived</code></td></tr><tr><td><code>@method</code></td><td>Free-text method description for define.xml (optional)</td><td><code>@method LOCF applied</code></td></tr><tr><td><code>@depends</code></td><td>Required input variable (repeat if several)</td><td><code>@depends {{ domain }} USUBJID</code></td></tr><tr><td><code>@outputs</code></td><td>Variables created (repeat if several)</td><td><code>@outputs NEWVAR</code></td></tr><tr><td><code>@code</code></td><td>Everything under this tag defines the component code</td><td><code>@code</code></td></tr></table></div>
+documenting functions using roxygen2:</p><table class="table table"><tr><td>Tag</td><td>Description</td><td>Example</td></tr><tr><td><code>@title</code></td><td>Title of the component</td><td><code>@title My component</code></td></tr><tr><td><code>@description</code></td><td>Description of the component</td><td><code>@description text text</code></td></tr><tr><td><code>@param</code></td><td>Specifies input used to render the component</td><td><code>@param variable new var</code></td></tr><tr><td><code>@type</code></td><td>Specifies type: column, row, parameter, internal</td><td><code>@type column</code></td></tr><tr><td><code>@origin</code></td><td>CDISC origin</td><td><code>@origin Derived</code></td></tr><tr><td><code>@method</code></td><td>Free-text method description for define.xml</td><td><code>@method LOCF applied</code></td></tr><tr><td><code>@depends</code></td><td>Required input variable (repeat if several)</td><td><code>@depends {{ domain }} USUBJID</code></td></tr><tr><td><code>@outputs</code></td><td>Variables created (repeat if several)</td><td><code>@outputs NEWVAR</code></td></tr><tr><td><code>@code</code></td><td>Everything under this tag defines the component code</td><td><code>@code</code></td></tr></table></div>
 
 <div class="section">
 <h3 id="conventions">Conventions<a class="anchor" aria-label="anchor" href="#conventions"></a></h3>
@@ -134,11 +134,11 @@ the rendered code used in mighty becomes:</p>
 
 
 <dt><code>origin</code></dt>
-<dd><p>CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol or <code>NULL</code>.</p></dd>
+<dd><p>CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol.</p></dd>
 
 
 <dt><code>method</code></dt>
-<dd><p>Free-text method description for define.xml, or <code>NULL</code>.</p></dd>
+<dd><p>Free-text method description for define.xml.</p></dd>
 
 
 <dt><code>depends</code></dt>

@@ -51,6 +51,7 @@ at a glance:
 #' @param output `character` Name of the new column to create
 #' @type column
 #' @origin Derived
+#' @method Doubles input
 #' @depends {{{domain}}} {{{input}}}
 #' @outputs {{{output}}}
 #' @code
@@ -67,8 +68,9 @@ at a glance:
 | `@title` | One-line title (required) |
 | `@description` | Multi-line description (required) |
 | `@param name description` | Declares a Mustache placeholder the user must provide in metadata specifications |
-| `@type` | Component type: `column`, `row`, `parameter`, or `internal` |
-| `@origin` | CDISC origin (optional): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
+| `@type` | Component type (required): `column`, `row`, `parameter`, or `internal` |
+| `@origin` | CDISC origin (required): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
+| `@method` | Free-text method description for define.xml (required) |
 | `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
 | `@outputs variable` | Declares a column the code creates (repeat for each) |
 | `@code` | Everything below this tag is executable R code |
@@ -127,7 +129,7 @@ ady <- get_component(
 #> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 ady
 #> <mighty_component/R6>
-#> ady.mustache: Derives the relative day compared to the treatment start date.
+#> ady.mustache: Analysis relative day
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
@@ -161,6 +163,8 @@ ady$outputs
 #> [1] "{{{variable}}}"
 ady$origin
 #> [1] "Derived"
+ady$method
+#> [1] "Relative day computed from treatment start date"
 ```
 
 ## Render a component
@@ -183,7 +187,7 @@ against real data.
 ady_rendered <- ady$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 #> <mighty_component_rendered/mighty_component/R6>
-#> ady.mustache: Derives the relative day compared to the treatment start date.
+#> ady.mustache: Analysis relative day
 #> Type: column
 #> Depends:
 #> • ADAE.ASTDT
@@ -217,7 +221,7 @@ get_rendered_component(
 )
 #> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 #> <mighty_component_rendered/mighty_component/R6>
-#> ady.mustache: Derives the relative day compared to the treatment start date.
+#> ady.mustache: Analysis relative day
 #> Type: column
 #> Depends:
 #> • ADAE.ASTDT
@@ -331,6 +335,7 @@ realistic example that derives a ratio of the current value to baseline
 #' @param variable `character` Name of the new ratio variable
 #' @type column
 #' @origin Derived
+#' @method Ratio of AVAL to BASE
 #' @depends {{{domain}}} AVAL
 #' @depends {{{domain}}} BASE
 #' @outputs {{{variable}}}
@@ -347,11 +352,10 @@ it:
 ``` r
 
 r2base <- get_component(r2base_file)
-#> → Found "/tmp/RtmpgGoVVr/file1a7c22f816f3.mustache" in "."
+#> → Found "/tmp/Rtmpzlzkvv/file1a0222ea3332.mustache" in "."
 r2base
 #> <mighty_component/R6>
-#> file1a7c22f816f3.mustache: Derives the ratio of the analysis value to the
-#> baseline value.
+#> file1a0222ea3332.mustache: Ratio to baseline
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of the domain
@@ -432,6 +436,8 @@ Here is a component that fails validation:
 #'
 #' @param domain `character` domain name
 #' @type row
+#' @origin Derived
+#' @method Implicit join on other_data
 #' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
@@ -442,7 +448,7 @@ Here is a component that fails validation:
 ``` r
 
 get_rendered_component(bad_file, list(domain = "ADAE"))
-#> → Found "/tmp/RtmpgGoVVr/file1a7c484e66ea.mustache" in "."
+#> → Found "/tmp/Rtmpzlzkvv/file1a021b911f79.mustache" in "."
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
 #> 
@@ -460,6 +466,8 @@ The fix is to specify the join key explicitly:
 #'
 #' @param domain `character` domain name
 #' @type row
+#' @origin Derived
+#' @method Explicit join on other_data by USUBJID
 #' @depends {{{domain}}} USUBJID
 #' @outputs NEWCOL
 #' @code
@@ -470,7 +478,7 @@ The fix is to specify the join key explicitly:
 ``` r
 
 get_rendered_component(good_file, list(domain = "ADAE"))$code
-#> → Found "/tmp/RtmpgGoVVr/file1a7c67762fa2.mustache" in "."
+#> → Found "/tmp/Rtmpzlzkvv/file1a022d6620e.mustache" in "."
 #> [1] "ADAE <- ADAE |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 ```

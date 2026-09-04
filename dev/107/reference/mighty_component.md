@@ -26,8 +26,8 @@ to when documenting functions using roxygen2:
 | `@description` | Description of the component | `@description text text` |
 | `@param` | Specifies input used to render the component | `@param variable new var` |
 | `@type` | Specifies type: column, row, parameter, internal | `@type column` |
-| `@origin` | CDISC origin (optional) | `@origin Derived` |
-| `@method` | Free-text method description for define.xml (optional) | `@method LOCF applied` |
+| `@origin` | CDISC origin | `@origin Derived` |
+| `@method` | Free-text method description for define.xml | `@method LOCF applied` |
 | `@depends` | Required input variable (repeat if several) | `@depends {{ domain }} USUBJID` |
 | `@outputs` | Variables created (repeat if several) | `@outputs NEWVAR` |
 | `@code` | Everything under this tag defines the component code | `@code` |
@@ -111,11 +111,11 @@ rendered code used in mighty becomes:
 - `origin`:
 
   CDISC origin. One of Assigned, Collected, Derived, Not Available,
-  Other, Predecessor, Protocol or `NULL`.
+  Other, Predecessor, Protocol.
 
 - `method`:
 
-  Free-text method description for define.xml, or `NULL`.
+  Free-text method description for define.xml.
 
 - `depends`:
 

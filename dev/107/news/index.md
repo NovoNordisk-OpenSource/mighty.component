@@ -2,10 +2,12 @@
 
 ## mighty.component (development version)
 
-- New optional `@method` tag on component headers, exposed as
-  `component$method` (`NULL` if absent). Intended to let mighty.metadata
-  populate a column’s define.xml method description directly from the
-  component (mighty.metadata#23).
+- `@origin` is now a required tag on every component header, not
+  optional.
+
+- New required `@method` tag on component headers, exposed as
+  `component$method`. Intended to let mighty.metadata populate a
+  column’s define.xml method description directly from the component.
 
 - `mighty_component$render()` now recognizes a
   `.mighty_subset(domain, subset)` marker call passed as the value of
