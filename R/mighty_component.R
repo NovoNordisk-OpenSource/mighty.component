@@ -190,6 +190,9 @@ get_tag <- function(template, tag) {
   tags <- get_tags(template, tag)
 
   if (length(tags) == 1L) {
+    if (!nzchar(tags)) {
+      cli::cli_abort("@{tag} tag must not be empty")
+    }
     return(tags)
   }
 

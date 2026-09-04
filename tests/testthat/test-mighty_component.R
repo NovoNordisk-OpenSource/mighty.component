@@ -182,6 +182,12 @@ test_that("get_tag", {
     tag = "myothertag"
   ) |>
     expect_error(regexp = "Multiple or no matches found for tag")
+
+  get_tag(template = "#' @mytag", tag = "mytag") |>
+    expect_error(regexp = "@mytag tag must not be empty")
+
+  get_tag(template = "#' @mytag   ", tag = "mytag") |>
+    expect_error(regexp = "@mytag tag must not be empty")
 })
 
 test_that("tags_to_params", {
