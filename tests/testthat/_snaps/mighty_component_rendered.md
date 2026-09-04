@@ -7,7 +7,6 @@
       <mighty_component_rendered/mighty_component/R6>
       test_component.mustache: My test component
       Type: column
-      Origin: Derived
       Depends:
       * domain.A
       * Y.B

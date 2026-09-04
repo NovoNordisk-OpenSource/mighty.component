@@ -6,7 +6,6 @@
       <mighty_component_rendered/mighty_component/R6>
       ady_local.R: Analysis relative day
       Type: column
-      Origin: Derived
       Depends:
       * domain.date_var
       * domain.TRTSDT
@@ -32,7 +31,6 @@
       <mighty_component_rendered/mighty_component/R6>
       ady_local.mustache: Analysis relative day
       Type: column
-      Origin: Derived
       Depends:
       * domain.date_var
       * domain.TRTSDT

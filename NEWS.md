@@ -1,14 +1,9 @@
 # mighty.component (development version)
 
 * `@origin` is now a required tag on every component header, not optional.
-  Components without an `@origin` tag now fail to load. This is a breaking
-  change for components written against 0.1.0.
-
 * New required `@method` tag on component headers, exposed as
   `component$method`. Intended to let mighty.metadata populate a column's
-  define.xml method description directly from the component
-  (mighty.metadata#23). `$document()` and `print()` now also show `origin` and
-  `method`.
+  define.xml method description directly from the component.
 
 * `mighty_component$render()` now recognizes a `.mighty_subset(domain, subset)`
   marker call passed as the value of the `domain` parameter. This lets callers

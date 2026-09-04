@@ -6,7 +6,6 @@
       <mighty_component/R6>
       test: My test component
       Type: column
-      Origin: Derived
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input
@@ -63,7 +62,6 @@
       <mighty_component_rendered/mighty_component/R6>
       test: My test component
       Type: column
-      Origin: Derived
       Depends:
       * domain.A
       * Y.B
@@ -81,7 +79,6 @@
       <mighty_component/R6>
       test_component.mustache: My test component
       Type: column
-      Origin: Derived
       Parameters:
       * domain: `character` Name of new domain being created
       * x1: First input

@@ -254,9 +254,6 @@ ms_print <- function(self) {
     cli::cli_text("{.cls {class(self)}}")
     cli::cli_text("{.field {self$id}}: {self$title}")
     cli::cli_text("{.emph Type:} {self$type}")
-    if (!is.null(self$origin)) {
-      cli::cli_text("{.emph Origin:} {self$origin}")
-    }
 
     create_bullets(
       header = "Parameters:",
