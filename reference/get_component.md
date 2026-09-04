@@ -60,7 +60,7 @@ path <- system.file("examples", "ady.mustache", package = "mighty.component")
 get_component(path)
 #> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
 #> <mighty_component/R6>
-#> ady.mustache: Derives the relative day compared to the treatment start date.
+#> ady.mustache: Analysis relative day
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created
