@@ -1,3 +1,12 @@
+#' @noRd
+assert_single_match <- function(x) {
+  if (length(x) > 1) {
+    cli::cli_abort("Multiple matches found: {x}")
+  }
+
+  invisible(x)
+}
+
 valid_types <- function() {
   c("column", "row", "parameter", "internal")
 }

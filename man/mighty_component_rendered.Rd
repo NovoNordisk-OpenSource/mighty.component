@@ -16,108 +16,115 @@ Once rendered a component can be used to:
 \code{\link[=get_rendered_component]{get_rendered_component()}}
 }
 \section{Super class}{
-\code{\link[mighty.component:mighty_component]{mighty.component::mighty_component}} -> \code{mighty_component_rendered}
+\code{\link[mighty.component:mighty_component]{mighty_component}} -> \code{mighty_component_rendered}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-mighty_component_rendered-new}{\code{mighty_component_rendered$new()}}
-\item \href{#method-mighty_component_rendered-print}{\code{mighty_component_rendered$print()}}
-\item \href{#method-mighty_component_rendered-stream}{\code{mighty_component_rendered$stream()}}
-\item \href{#method-mighty_component_rendered-eval}{\code{mighty_component_rendered$eval()}}
-\item \href{#method-mighty_component_rendered-clone}{\code{mighty_component_rendered$clone()}}
+  \itemize{
+    \item \href{#method-mighty_component_rendered-initialize}{\code{mighty_component_rendered$new()}}
+    \item \href{#method-mighty_component_rendered-print}{\code{mighty_component_rendered$print()}}
+    \item \href{#method-mighty_component_rendered-stream}{\code{mighty_component_rendered$stream()}}
+    \item \href{#method-mighty_component_rendered-eval}{\code{mighty_component_rendered$eval()}}
+    \item \href{#method-mighty_component_rendered-clone}{\code{mighty_component_rendered$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty.component::mighty_component$document()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty.component::mighty_component$render()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="document"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-document'><code>mighty_component$document()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mighty.component" data-topic="mighty_component" data-id="render"><a href='../../mighty.component/html/mighty_component.html#method-mighty_component-render'><code>mighty_component$render()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mighty_component_rendered-new"></a>}}
-\if{latex}{\out{\hypertarget{method-mighty_component_rendered-new}{}}}
-\subsection{Method \code{new()}}{
-Create component from rendered template.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$new(template, id)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-mighty_component_rendered-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_rendered-initialize}{}}}
+\subsection{\code{mighty_component_rendered$new()}}{
+  Create component from rendered template.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_rendered$new(template, id)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
+      \item{\code{id}}{\code{character} ID of the component.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
-
-\item{\code{id}}{\code{character} ID of the component.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-print}{}}}
-\subsection{Method \code{print()}}{
-Print rendered component
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$print()}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_rendered$print()}}{
+  Print rendered component
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_rendered$print()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (\code{invisible}) self
+  }
 }
 
-\subsection{Returns}{
-(\code{invisible}) self
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-stream"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-stream}{}}}
-\subsection{Method \code{stream()}}{
-Stream rendered code into a script (appended)
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$stream(path)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_rendered$stream()}}{
+  Stream rendered code into a script (appended)
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_rendered$stream(path)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{path}}{\code{character(1)} path to the R script to stream code into.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{path}}{\code{character(1)} path to the R script to stream code into.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-eval}{}}}
-\subsection{Method \code{eval()}}{
-Evaluate code in a specified environment.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$eval(envir = parent.frame())}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_rendered$eval()}}{
+  Evaluate code in a specified environment.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_rendered$eval(envir = parent.frame())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}.
+Defaults to using the current environment with \code{parent.frame()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}.
-Defaults to using the current environment with \code{parent.frame()}.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-mighty_component_rendered-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{mighty_component_rendered$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{mighty_component_rendered$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_rendered$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
