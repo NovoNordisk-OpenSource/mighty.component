@@ -12,6 +12,7 @@ mighty_repo <- function(spec) {
   switch(
     EXPR = type,
     local = mighty_repo_local(path = path),
+    github = mighty_repo_github(spec = path),
     cli::cli_abort("Unknown repo type {.val {type}} in {.val {spec}}.")
   )
 }
