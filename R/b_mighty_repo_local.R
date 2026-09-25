@@ -25,6 +25,11 @@ validate_local <- function(self) {
 }
 
 #' @noRd
+S7::method(format, mighty_repo_local) <- function(x, ...) {
+  paste0("local::", x@path)
+}
+
+#' @noRd
 component_files <- function(path) {
   list.files(path = path, pattern = "\\.(R|mustache)$")
 }

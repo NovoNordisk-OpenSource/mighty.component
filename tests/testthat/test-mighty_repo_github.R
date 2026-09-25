@@ -50,6 +50,20 @@ test_that("mighty_repo_github scopes to subdir and resolves ref", {
     expect_setequal(c("ady", "flat_comp"))
 })
 
+test_that("format returns github spec pinned to sha", {
+  local_mock_gh_tarball(
+    tarball = local_github_tarball(files = file.path("components", repo_files))
+  )
+
+  mighty_repo_github(spec = "owner/repo/components@v1") |>
+    format() |>
+    expect_equal("github::owner/repo/components@sha-v1")
+
+  mighty_repo_github(spec = "owner/repo") |>
+    format() |>
+    expect_equal("github::owner/repo@sha-HEAD")
+})
+
 test_that("mighty_repo_github errors on invalid spec", {
   skip_if_not_installed("remotes")
 

@@ -51,11 +51,6 @@ mighty_repo_class <- S7::new_class(
 )
 
 #' @noRd
-S7::method(format, mighty_repo_class) <- function(x, ...) {
-  x@path
-}
-
-#' @noRd
 validate_string <- function(value) {
   if (length(value) != 1) {
     "has to be of length 1"

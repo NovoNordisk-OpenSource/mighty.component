@@ -61,6 +61,16 @@ mighty_repo_github <- S7::new_class(
 )
 
 #' @noRd
+S7::method(format, mighty_repo_github) <- function(x, ...) {
+  paste0(
+    "github::",
+    paste(c(x@owner, x@repo, x@subdir), collapse = "/"),
+    "@",
+    x@sha
+  )
+}
+
+#' @noRd
 parse_github_source <- function(spec) {
   rlang::check_installed("remotes")
 

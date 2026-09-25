@@ -54,10 +54,10 @@ test_that("mighty_repo_class requires path of length 1", {
     expect_error("length 1")
 })
 
-test_that("format returns repo path", {
+test_that("format returns local spec", {
   path <- local_component_repo(files = "ady.R")
 
   mighty_repo_local(path = path) |>
     format() |>
-    expect_equal(path)
+    expect_equal(paste0("local::", path))
 })
