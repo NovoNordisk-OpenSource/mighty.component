@@ -2,36 +2,35 @@
 % Please edit documentation in R/a_list_components.R
 \name{list_components}
 \alias{list_components}
-\title{List components in directories}
+\title{List components in repos}
 \usage{
 list_components(repos, ...)
 }
 \arguments{
-\item{path}{\code{character} vector of directory paths to search for components.}
+\item{repos}{Where to look. One of:
+\itemize{
+\item \code{character} vector of repo specs. See \code{\link[=mighty_repo]{mighty_repo()}}.
+\item A \code{mighty_repo_class} object.
+\item A \code{list} of repo specs or \code{mighty_repo_class} objects.
+}}
 
-\item{as}{Format to list the components in.
-Default \code{character} lists component IDs (filenames without extension),
-while \code{list} and \code{tibble} show detailed component metadata.}
+\item{...}{Not used.}
 }
 \value{
-Depending on \code{as}:
-\itemize{
-\item \code{character}: vector of component IDs
-\item \code{list}: list of component metadata
-(id, title, description, params, depends, outputs, code)
-\item \code{tibble}: tibble with one row per component
-}
+\code{character} vector of unique component names (without extension).
 }
 \description{
 List all available mighty components (\code{.R} and \code{.mustache} files)
-in the specified directories.
+in the given repos.
+
+A component is either a file directly in the repo, or a file named after
+its directory one level down (\verb{<name>/<name>.R}). Files starting with
+\verb{test-} are not listed.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")
 list_components(path)
-
-list_components(path, as = "list") |> str(max.level = 1)
 }
 \seealso{
-\code{\link[=get_component]{get_component()}}
+\code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=mighty_repo]{mighty_repo()}}
 }
