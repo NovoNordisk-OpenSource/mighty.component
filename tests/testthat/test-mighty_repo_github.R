@@ -230,3 +230,26 @@ test_that("parse_github_source returns NULL for invalid source", {
   parse_github_source(spec = "notarepo") |>
     expect_null()
 })
+
+test_that("mighty_repo_github downloads a live GitHub repo", {
+  skip_on_cran()
+  skip_if_offline(host = "api.github.com")
+  skip_if_not_installed("gh")
+  skip_if_not_installed("remotes")
+  skip_if(!nzchar(gh::gh_token()), "No GitHub token available")
+  clear_repo_cache()
+  withr::defer(clear_repo_cache())
+
+  repo <- mighty_repo(
+    spec = "github::NovoNordisk-OpenSource/mighty.standards/components@main"
+  )
+
+  expect_s7_class(repo, mighty_repo_github)
+  expect_match(repo@sha, "^[0-9a-f]{40}$")
+  expect_true(dir.exists(repo@path))
+
+  components <- list_components(repos = repo)
+
+  expect_gt(length(components), 0)
+  expect_false(any(startsWith(x = components, prefix = "test-")))
+})
