@@ -5,7 +5,14 @@ reference:
   - title: Use components
     contents:
       - get_component
+      - find_component
       - list_components
+  - title: Component repos
+    contents:
+      - mighty_repo
+      - mighty_repo_local
+      - mighty_repo_github
+      - mighty_repos
   - title: Test components
     contents:
       - get_test_component
