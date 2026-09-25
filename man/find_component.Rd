@@ -6,6 +6,33 @@
 \usage{
 find_component(component, repos, ...)
 }
+\arguments{
+\item{component}{\code{character} component name, or path to a component file
+(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL} or missing.}
+
+\item{repos}{Where to look. One of:
+\itemize{
+\item \code{NULL} or missing: \code{component} is a file path.
+\item \code{character} vector of repo specs, in priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
+\item A \code{mighty_repo_class} object.
+\item A \code{list} of repo specs or \code{mighty_repo_class} objects, in priority order.
+}}
+
+\item{...}{Not used.}
+}
+\value{
+A \link{mighty_component} object, or \code{NULL} if not found.
+}
 \description{
-Find mighty code component
+Look up a component in one or more repos. Unlike \code{\link[=get_component]{get_component()}},
+returns \code{NULL} instead of raising an error when the component is not found.
+}
+\examples{
+path <- system.file("examples", package = "mighty.component")
+find_component("ady", repos = path)
+
+find_component("does_not_exist", repos = path)
+}
+\seealso{
+\code{\link[=get_component]{get_component()}}, \code{\link[=list_components]{list_components()}}
 }
