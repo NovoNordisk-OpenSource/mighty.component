@@ -56,6 +56,6 @@ S7::method(
 
   mighty_component$new(
     template = template,
-    id = component
+    id = file
   )
 }
