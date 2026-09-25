@@ -1,4 +1,13 @@
 #' Local component repo
+#' @description
+#' A component repo in a local directory. Components are `.R` or `.mustache`
+#' files directly in `path`, or in a directory named after the component
+#' (`<path>/<name>/<name>.R`).
+#' @param path `character(1)` path to an existing directory.
+#' @examples
+#' path <- system.file("examples", package = "mighty.component")
+#' mighty_repo_local(path = path)
+#' @seealso [mighty_repo()]
 #' @export
 mighty_repo_local <- S7::new_class(
   name = "mighty_repo_local",

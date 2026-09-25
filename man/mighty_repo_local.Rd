@@ -6,6 +6,18 @@
 \usage{
 mighty_repo_local(path = character(0))
 }
+\arguments{
+\item{path}{\code{character(1)} path to an existing directory.}
+}
 \description{
-Local component repo
+A component repo in a local directory. Components are \code{.R} or \code{.mustache}
+files directly in \code{path}, or in a directory named after the component
+(\verb{<path>/<name>/<name>.R}).
+}
+\examples{
+path <- system.file("examples", package = "mighty.component")
+mighty_repo_local(path = path)
+}
+\seealso{
+\code{\link[=mighty_repo]{mighty_repo()}}
 }

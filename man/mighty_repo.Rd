@@ -3,14 +3,39 @@
 \name{mighty_repo}
 \alias{mighty_repo}
 \alias{mighty_repo_class}
-\title{Common generator function}
+\title{Component repos}
 \usage{
 mighty_repo(spec)
 
 mighty_repo_class(path = character(0))
 }
-\description{
-Common generator function
+\arguments{
+\item{spec}{\code{character(1)} repo spec. See description.}
 
-Component repo
+\item{path}{\code{character(1)} path to the directory holding the components.}
+}
+\value{
+\code{mighty_repo()}: An object inheriting from \code{mighty_repo_class}.
+}
+\description{
+\itemize{
+\item \code{mighty_repo()}: Create a component repo from a spec.
+\item \code{mighty_repo_class}: Abstract parent class of all component repos.
+}
+
+Specs have the form \code{type::path}. Supported types:
+\itemize{
+\item \code{local}: A local directory, e.g. \code{local::inst/examples}.
+A spec without a prefix is treated as local.
+\item \code{github}: A GitHub repository, e.g. \code{github::owner/repo/subdir@ref}.
+See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.
+}
+}
+\examples{
+path <- system.file("examples", package = "mighty.component")
+mighty_repo(path)
+mighty_repo(paste0("local::", path))
+}
+\seealso{
+\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}
 }

@@ -2,10 +2,13 @@
 % Please edit documentation in R/b_mighty_repos.R
 \name{mighty_repos}
 \alias{mighty_repos}
-\title{Component repos}
+\title{Collection of component repos}
 \usage{
 mighty_repos(.data = list())
 }
+\arguments{
+\item{.data}{\code{list} of repos.}
+}
 \description{
-Component repos
+A \code{list} of component repos.
 }
