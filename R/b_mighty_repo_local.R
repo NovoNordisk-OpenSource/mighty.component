@@ -16,20 +16,16 @@ validate_local <- function(self) {
 }
 
 #' @noRd
-S7::method(list_components, mighty_repo_local) <- function(
-  repos,
-  remove_ext = TRUE
-) {
-  files <- repos@path |>
-    list.files(
-      pattern = "\\.(R|mustache)$"
-    )
+component_files <- function(path) {
+  list.files(path = path, pattern = "\\.(R|mustache)$")
+}
 
-  if (remove_ext) {
-    files <- tools::file_path_sans_ext(files)
-  }
+#' @noRd
+S7::method(list_components, mighty_repo_local) <- function(repos) {
+  files <- component_files(path = repos@path)
+  files <- files[!startsWith(x = files, prefix = "test-")]
 
-  files
+  tools::file_path_sans_ext(files)
 }
 
 #' @noRd
@@ -37,10 +33,11 @@ S7::method(
   find_component,
   list(S7::class_character, mighty_repo_local)
 ) <- function(component, repos) {
-  file <- grep(
-    pattern = paste0("^", component, "(|\\.R|\\.mustache)$"),
-    x = list_components(repos = repos, remove_ext = FALSE),
-    value = TRUE
+  candidates <- c(component, paste0(component, c(".R", ".mustache")))
+
+  file <- intersect(
+    x = candidates,
+    y = component_files(path = repos@path)
   ) |>
     assert_single_match()
 
