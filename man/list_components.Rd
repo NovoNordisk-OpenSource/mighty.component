@@ -12,7 +12,10 @@ list_components(repos, ...)
 \item \code{character} vector of repo specs. See \code{\link[=mighty_repo]{mighty_repo()}}.
 \item A \code{mighty_repo_class} object.
 \item A \code{list} of repo specs or \code{mighty_repo_class} objects.
-}}
+\item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
+}
+
+Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
 \item{...}{Not used.}
 }

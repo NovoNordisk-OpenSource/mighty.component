@@ -16,7 +16,12 @@ find_component(component, repos, ...)
 \item \code{character} vector of repo specs, in priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
 \item A \code{mighty_repo_class} object.
 \item A \code{list} of repo specs or \code{mighty_repo_class} objects, in priority order.
-}}
+\item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
+}
+
+Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. To look up
+several components, create the collection once and reuse it, so GitHub
+refs are only resolved once.}
 
 \item{...}{Not used.}
 }

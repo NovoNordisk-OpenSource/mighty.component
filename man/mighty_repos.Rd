@@ -4,11 +4,28 @@
 \alias{mighty_repos}
 \title{Collection of component repos}
 \usage{
-mighty_repos(.data = list())
+mighty_repos(repos = character(0))
 }
 \arguments{
-\item{.data}{\code{list} of repos.}
+\item{repos}{\code{character} vector of repo specs, or a \code{list} of repo specs
+and \code{mighty_repo_class} objects.}
 }
 \description{
-A \code{list} of component repos.
+An ordered collection of component repos. Lookups search the repos in
+order, and the first match wins.
+
+Each element of \code{repos} is either a repo spec, passed to \code{\link[=mighty_repo]{mighty_repo()}},
+or an object inheriting from \code{mighty_repo_class}. Repos are created once
+when the collection is created, so reusing a \code{mighty_repos} object avoids
+resolving GitHub refs again.
+}
+\examples{
+path <- system.file("examples", package = "mighty.component")
+repos <- mighty_repos(repos = c(path, paste0("local::", path)))
+repos
+
+find_component(component = "ady", repos = repos)
+}
+\seealso{
+\code{\link[=mighty_repo]{mighty_repo()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=list_components]{list_components()}}
 }

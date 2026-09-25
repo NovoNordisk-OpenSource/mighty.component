@@ -10,6 +10,11 @@
 #' * `character` vector of repo specs, in priority order. See [mighty_repo()].
 #' * A `mighty_repo_class` object.
 #' * A `list` of repo specs or `mighty_repo_class` objects, in priority order.
+#' * A [mighty_repos()] collection.
+#'
+#' Character vectors and lists are converted with [mighty_repos()]. To look up
+#' several components, create the collection once and reuse it, so GitHub
+#' refs are only resolved once.
 #' @param ... Not used.
 #' @returns A [mighty_component] object, or `NULL` if not found.
 #' @examples
@@ -48,21 +53,7 @@ S7::method(
   find_component,
   list(S7::class_character, S7::class_list)
 ) <- function(component, repos) {
-  for (i in seq_along(repos)) {
-    res <- find_component(
-      component = component,
-      repos = repos[[i]]
-    )
-
-    if (!is.null(res)) {
-      zephyr::msg_verbose(
-        message = c(
-          ">" = "Found {.val {component}} in {.val {format(repos[[i]])}}"
-        )
-      )
-      return(res)
-    }
-  }
+  find_component(component = component, repos = mighty_repos(repos = repos))
 }
 
 #' @noRd
@@ -70,17 +61,5 @@ S7::method(
   find_component,
   list(S7::class_character, S7::class_character)
 ) <- function(component, repos) {
-  if (length(repos) > 1L) {
-    return(
-      find_component(
-        component = component,
-        repos = as.list(repos)
-      )
-    )
-  }
-
-  find_component(
-    component = component,
-    repos = mighty_repo(repos)
-  )
+  find_component(component = component, repos = mighty_repos(repos = repos))
 }
