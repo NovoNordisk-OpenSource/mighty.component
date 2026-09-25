@@ -122,10 +122,8 @@ cached_download <- function(owner, repo, sha) {
 download_repo <- function(owner, repo, sha) {
   rlang::check_installed("gh")
 
-  key <- paste0(owner, "/", repo, "@", sha)
-
   zephyr::msg_verbose(
-    message = c(">" = "Downloading repo {.val {key}}")
+    message = c(">" = "Downloading repo {.val {owner}/{repo}@{sha}}")
   )
 
   tarfile <- tempfile(fileext = ".tar.gz")
@@ -141,7 +139,7 @@ download_repo <- function(owner, repo, sha) {
     ),
     error = \(e) {
       cli::cli_abort(
-        "Failed to query {.val {key}}: {conditionMessage(e)}",
+        "Failed to query {.val {owner}/{repo}@{sha}}: {conditionMessage(e)}",
         parent = e
       )
     }
@@ -155,7 +153,7 @@ download_repo <- function(owner, repo, sha) {
 
   if (tar_result != 0L) {
     cli::cli_abort(
-      "Failed to extract repository archive for {.val {key}}.
+      "Failed to extract repository archive for {.val {owner}/{repo}@{sha}}.
       The repository may not exist or may require authentication."
     )
   }
@@ -165,7 +163,8 @@ download_repo <- function(owner, repo, sha) {
 
   if (length(top_dir) == 0L) {
     cli::cli_abort(
-      "Repository archive for {.val {key}} extracted to an empty directory."
+      "Repository archive for {.val {owner}/{repo}@{sha}}
+      extracted to an empty directory."
     )
   }
 
