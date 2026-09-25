@@ -37,10 +37,10 @@ test_that("get_rendered_component custom local mustache template with params", {
 
 test_that("error handling", {
   get_component("my/fake/file.mustache") |>
-    expect_error("not found")
+    expect_error("does not exist")
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
-    expect_error("not found")
+    expect_error("does not exist")
 
   get_component("no_extension") |>
     expect_error("not found")
