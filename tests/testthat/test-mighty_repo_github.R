@@ -236,7 +236,6 @@ test_that("mighty_repo_github downloads a live GitHub repo", {
   skip_if_offline(host = "api.github.com")
   skip_if_not_installed("gh")
   skip_if_not_installed("remotes")
-  skip_if(!nzchar(gh::gh_token()), "No GitHub token available")
   clear_repo_cache()
   withr::defer(clear_repo_cache())
 
