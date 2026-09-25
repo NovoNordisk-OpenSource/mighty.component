@@ -10,9 +10,10 @@ mighty_repo_github(spec)
 \item{spec}{\code{character(1)} GitHub repository reference. See description.}
 }
 \description{
-A component repo hosted on GitHub. The repository tarball is downloaded and
-extracted to a temporary directory when the object is created, so all
-lookups afterwards are local.
+A component repo hosted on GitHub. When the object is created, \code{ref} is
+resolved to a commit SHA and the repository tarball for that commit is
+downloaded and extracted to a temporary directory. Tarballs are cached per
+commit for the session, so all lookups afterwards are local.
 
 \code{spec} is a \code{remotes}-style repository reference: \code{owner/repo},
 \code{owner/repo/subdir}, \code{owner/repo@ref} or a combination.
