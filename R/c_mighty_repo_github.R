@@ -61,51 +61,6 @@ mighty_repo_github <- S7::new_class(
 )
 
 #' @noRd
-S7::method(list_components, mighty_repo_github) <- function(
-  repos,
-  remove_ext = TRUE
-) {
-  files <- repos@path |>
-    list.files(
-      pattern = "\\.(R|mustache)$",
-      recursive = TRUE
-    ) |>
-    basename()
-
-  files <- files[!startsWith(x = files, prefix = "test-")]
-
-  if (remove_ext) {
-    files <- tools::file_path_sans_ext(files)
-  }
-
-  unique(files)
-}
-
-#' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, mighty_repo_github)
-) <- function(component, repos) {
-  nested <- file.path(repos@path, component)
-
-  if (dir.exists(nested)) {
-    found <- find_component(
-      component = component,
-      repos = mighty_repo_local(path = nested)
-    )
-
-    if (!is.null(found)) {
-      return(found)
-    }
-  }
-
-  find_component(
-    component = component,
-    repos = mighty_repo_local(path = repos@path)
-  )
-}
-
-#' @noRd
 parse_github_source <- function(spec) {
   rlang::check_installed("remotes")
 

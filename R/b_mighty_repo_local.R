@@ -21,11 +21,25 @@ component_files <- function(path) {
 }
 
 #' @noRd
-S7::method(list_components, mighty_repo_local) <- function(repos) {
-  files <- component_files(path = repos@path)
-  files <- files[!startsWith(x = files, prefix = "test-")]
+match_files <- function(component, path) {
+  candidates <- c(component, paste0(component, c(".R", ".mustache")))
+  intersect(x = candidates, y = component_files(path = path))
+}
 
-  tools::file_path_sans_ext(files)
+#' @noRd
+S7::method(list_components, mighty_repo_local) <- function(repos) {
+  flat <- component_files(path = repos@path) |>
+    tools::file_path_sans_ext()
+
+  dirs <- list.dirs(path = repos@path, full.names = FALSE, recursive = FALSE)
+  nested <- dirs[vapply(
+    X = dirs,
+    FUN = \(dir) length(match_files(dir, file.path(repos@path, dir))) > 0,
+    FUN.VALUE = logical(1)
+  )]
+
+  ids <- c(flat, nested)
+  unique(ids[!startsWith(x = ids, prefix = "test-")])
 }
 
 #' @noRd
@@ -33,11 +47,14 @@ S7::method(
   find_component,
   list(S7::class_character, mighty_repo_local)
 ) <- function(component, repos) {
-  candidates <- c(component, paste0(component, c(".R", ".mustache")))
+  name <- tools::file_path_sans_ext(component)
 
-  file <- intersect(
-    x = candidates,
-    y = component_files(path = repos@path)
+  file <- c(
+    match_files(component = component, path = repos@path),
+    file.path(
+      name,
+      match_files(component = component, path = file.path(repos@path, name))
+    )
   ) |>
     assert_single_match()
 
@@ -53,6 +70,6 @@ S7::method(
 
   mighty_component$new(
     template = template,
-    id = file
+    id = basename(file)
   )
 }
