@@ -17,7 +17,7 @@ test_that("mighty_repo strips local:: prefix", {
 })
 
 test_that("mighty_repo creates github repo from github:: prefix", {
-  local_mock_gh_tarball(tarball = test_path("_fixtures", "fake_repo.tar.gz"))
+  local_mock_gh_tarball(tarball = local_github_tarball(files = "ady.R"))
 
   repo <- mighty_repo(spec = "github::owner/repo")
 

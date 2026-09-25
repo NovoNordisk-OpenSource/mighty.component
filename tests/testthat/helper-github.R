@@ -4,6 +4,26 @@ clear_repo_cache <- function() {
   rm(list = ls(repo_cache), envir = repo_cache)
 }
 
+local_github_tarball <- function(
+  files,
+  top_dir = "owner-repo-abc1234",
+  env = parent.frame()
+) {
+  tarball <- withr::local_tempfile(fileext = ".tar.gz", .local_envir = env)
+
+  withr::with_dir(
+    new = local_component_repo(files = file.path(top_dir, files), env = env),
+    code = utils::tar(
+      tarfile = tarball,
+      files = list.files(recursive = TRUE),
+      compression = "gzip",
+      tar = "internal"
+    )
+  )
+
+  tarball
+}
+
 local_mock_gh_tarball <- function(
   tarball,
   sha = \(ref) paste0("sha-", ref),
