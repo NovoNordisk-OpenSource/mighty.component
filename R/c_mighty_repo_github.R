@@ -35,9 +35,6 @@ mighty_repo_github <- S7::new_class(
 )
 
 #' Parse `spec`, resolve the sha and download the repo
-#'
-#' `S7::new_object()` must be called directly from the constructor, so this
-#' returns the properties instead of the object.
 #' @noRd
 github_repo_properties <- function(spec, call = rlang::caller_env()) {
   parsed <- parse_github_source(spec)
