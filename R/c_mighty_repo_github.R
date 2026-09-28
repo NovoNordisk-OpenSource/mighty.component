@@ -21,53 +21,78 @@ mighty_repo_github <- S7::new_class(
     sha = S7::class_character
   ),
   constructor = function(spec) {
-    parsed <- parse_github_source(spec)
-
-    if (is.null(parsed)) {
-      cli::cli_abort("{.arg spec} {.val {spec}} is not a valid GitHub source.")
-    }
-
-    if (!is.null(parsed$pull) || !is.null(parsed$release)) {
-      cli::cli_abort(c(
-        "Pull request and release references are not supported in
-        {.val {spec}}.",
-        i = "Use {.code @<ref>} with a branch, tag, or commit."
-      ))
-    }
-
-    sha <- cached_sha(
-      owner = parsed$username,
-      repo = parsed$repo,
-      ref = parsed$ref
-    )
-
-    path <- cached_download(
-      owner = parsed$username,
-      repo = parsed$repo,
-      sha = sha
-    )
-
-    if (!is.null(parsed$subdir)) {
-      path <- file.path(path, parsed$subdir)
-
-      if (!dir.exists(path)) {
-        cli::cli_abort(
-          "Subdirectory {.path {parsed$subdir}} not found in
-          {.val {parsed$username}/{parsed$repo}@{sha}}."
-        )
-      }
-    }
+    props <- github_repo_properties(spec = spec)
 
     S7::new_object(
-      mighty_repo_local(path = path),
-      owner = parsed$username,
-      repo = parsed$repo,
-      subdir = parsed$subdir %||% character(0),
-      ref = parsed$ref %||% character(0),
-      sha = sha
+      mighty_repo_local(path = props$path),
+      owner = props$owner,
+      repo = props$repo,
+      subdir = props$subdir,
+      ref = props$ref,
+      sha = props$sha
     )
   }
 )
+
+#' Parse `spec`, resolve the sha and download the repo
+#'
+#' `S7::new_object()` must be called directly from the constructor, so this
+#' returns the properties instead of the object.
+#' @noRd
+github_repo_properties <- function(spec, call = rlang::caller_env()) {
+  parsed <- parse_github_source(spec)
+
+  if (is.null(parsed)) {
+    cli::cli_abort(
+      "{.arg spec} {.val {spec}} is not a valid GitHub source.",
+      call = call
+    )
+  }
+
+  if (!is.null(parsed$pull) || !is.null(parsed$release)) {
+    cli::cli_abort(
+      c(
+        "Pull request and release references are not supported in
+        {.val {spec}}.",
+        i = "Use {.code @<ref>} with a branch, tag, or commit."
+      ),
+      call = call
+    )
+  }
+
+  sha <- cached_sha(
+    owner = parsed$username,
+    repo = parsed$repo,
+    ref = parsed$ref
+  )
+
+  path <- cached_download(
+    owner = parsed$username,
+    repo = parsed$repo,
+    sha = sha
+  )
+
+  if (!is.null(parsed$subdir)) {
+    path <- file.path(path, parsed$subdir)
+
+    if (!dir.exists(path)) {
+      cli::cli_abort(
+        "Subdirectory {.path {parsed$subdir}} not found in
+        {.val {parsed$username}/{parsed$repo}@{sha}}.",
+        call = call
+      )
+    }
+  }
+
+  list(
+    path = path,
+    owner = parsed$username,
+    repo = parsed$repo,
+    subdir = parsed$subdir %||% character(0),
+    ref = parsed$ref %||% character(0),
+    sha = sha
+  )
+}
 
 #' @noRd
 S7::method(format, mighty_repo_github) <- function(x, ...) {
