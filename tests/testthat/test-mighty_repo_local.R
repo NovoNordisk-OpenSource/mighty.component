@@ -45,6 +45,15 @@ test_that("list_components ignores deeper nesting and mismatched names", {
     expect_equal("ady")
 })
 
+test_that("list_components ignores directories with component extension", {
+  repo <- mighty_repo_local(
+    path = local_component_repo(files = c("x.R/other.R", "foo/foo.R"))
+  )
+
+  list_components(repos = repo) |>
+    expect_equal("foo")
+})
+
 test_that("list_components returns character(0) for empty repo", {
   repo <- mighty_repo_local(path = withr::local_tempdir())
 
@@ -120,6 +129,21 @@ test_that("find_component returns NULL when not found", {
 
   find_component(component = "missing", repos = repo) |>
     expect_null()
+})
+
+test_that("find_component ignores directories with component extension", {
+  repo <- mighty_repo_local(
+    path = local_component_repo(files = c("x.R/other.R", "foo/foo.R"))
+  )
+
+  find_component(component = "x", repos = repo) |>
+    expect_null()
+
+  find_component(component = "x.R", repos = repo) |>
+    expect_null()
+
+  find_component(component = "foo", repos = repo)$id |>
+    expect_equal("foo.R")
 })
 
 test_that("find_component matches names literally", {

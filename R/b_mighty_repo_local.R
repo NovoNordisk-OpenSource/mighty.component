@@ -31,7 +31,8 @@ S7::method(format, mighty_repo_local) <- function(x, ...) {
 
 #' @noRd
 component_files <- function(path) {
-  list.files(path = path, pattern = "\\.(R|mustache)$")
+  files <- list.files(path = path, pattern = "\\.(R|mustache)$")
+  files[!dir.exists(file.path(path, files))]
 }
 
 #' @noRd
