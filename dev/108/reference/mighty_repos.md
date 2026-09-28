@@ -6,8 +6,7 @@ order, and the first match wins.
 Each element of `repos` is either a repo spec, passed to
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
 or an object inheriting from `mighty_repo_class`. Repos are created once
-when the collection is created, so reusing a `mighty_repos` object
-avoids resolving GitHub refs again.
+when the collection is created.
 
 ## Usage
 
@@ -19,8 +18,8 @@ mighty_repos(repos = character(0))
 
 - repos:
 
-  `character` vector of repo specs, or a `list` of repo specs and
-  `mighty_repo_class` objects.
+  `character` vector of repo specs, a single `mighty_repo_class` object,
+  or a `list` of repo specs and `mighty_repo_class` objects.
 
 ## See also
 

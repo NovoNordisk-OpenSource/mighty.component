@@ -38,8 +38,8 @@ find_component(component, repos, ...)
 
   Character vectors and lists are converted with
   [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
-  To look up several components, create the collection once and reuse
-  it, so GitHub refs are only resolved once.
+  GitHub refs are resolved once per session. See
+  [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md).
 
 - ...:
 

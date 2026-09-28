@@ -60,9 +60,8 @@ returns <code>NULL</code> instead of raising an error when the component is not 
 <li><p>A <code>mighty_repo_class</code> object.</p></li>
 <li><p>A <code>list</code> of repo specs or <code>mighty_repo_class</code> objects, in priority order.</p></li>
 <li><p>A <code><a href="mighty_repos.html">mighty_repos()</a></code> collection.</p></li>
-</ul><p>Character vectors and lists are converted with <code><a href="mighty_repos.html">mighty_repos()</a></code>. To look up
-several components, create the collection once and reuse it, so GitHub
-refs are only resolved once.</p></dd>
+</ul><p>Character vectors and lists are converted with <code><a href="mighty_repos.html">mighty_repos()</a></code>. GitHub
+refs are resolved once per session. See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

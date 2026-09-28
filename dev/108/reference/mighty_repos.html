@@ -3,13 +3,11 @@
 order, and the first match wins.
 Each element of repos is either a repo spec, passed to mighty_repo(),
 or an object inheriting from mighty_repo_class. Repos are created once
-when the collection is created, so reusing a mighty_repos object avoids
-resolving GitHub refs again."><meta property="og:description" content="An ordered collection of component repos. Lookups search the repos in
+when the collection is created."><meta property="og:description" content="An ordered collection of component repos. Lookups search the repos in
 order, and the first match wins.
 Each element of repos is either a repo spec, passed to mighty_repo(),
 or an object inheriting from mighty_repo_class. Repos are created once
-when the collection is created, so reusing a mighty_repos object avoids
-resolving GitHub refs again."><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
+when the collection is created."><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -48,8 +46,7 @@ resolving GitHub refs again."><meta property="og:image" content="https://novonor
 order, and the first match wins.</p>
 <p>Each element of <code>repos</code> is either a repo spec, passed to <code><a href="mighty_repo.html">mighty_repo()</a></code>,
 or an object inheriting from <code>mighty_repo_class</code>. Repos are created once
-when the collection is created, so reusing a <code>mighty_repos</code> object avoids
-resolving GitHub refs again.</p>
+when the collection is created.</p>
     </div>
 
     <div class="section level2">
@@ -62,8 +59,9 @@ resolving GitHub refs again.</p>
 
 
 <dl><dt id="arg-repos">repos<a class="anchor" aria-label="anchor" href="#arg-repos"></a></dt>
-<dd><p><code>character</code> vector of repo specs, or a <code>list</code> of repo specs
-and <code>mighty_repo_class</code> objects.</p></dd>
+<dd><p><code>character</code> vector of repo specs, a single
+<code>mighty_repo_class</code> object, or a <code>list</code> of repo specs and
+<code>mighty_repo_class</code> objects.</p></dd>
 
 </dl></div>
     <div class="section level2">
