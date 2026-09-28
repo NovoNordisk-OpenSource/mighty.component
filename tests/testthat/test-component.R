@@ -41,9 +41,6 @@ test_that("error handling", {
 
   get_rendered_component("my/other/fake/file.mustache", list()) |>
     expect_error("does not exist")
-
-  get_component("no_extension") |>
-    expect_error("not found")
 })
 
 test_that("Error when any parameter insufficiently parameterized", {

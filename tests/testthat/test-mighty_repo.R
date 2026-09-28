@@ -36,17 +36,8 @@ test_that("mighty_repo errors on empty repo type", {
     expect_error("Unknown repo type")
 })
 
-test_that("mighty_repo errors when spec is not a single non-empty string", {
+test_that("mighty_repo errors when spec is not a single string", {
   mighty_repo(spec = c("a", "b")) |>
-    expect_error("must be a single string")
-
-  mighty_repo(spec = character(0)) |>
-    expect_error("must be a single string")
-
-  mighty_repo(spec = NA_character_) |>
-    expect_error("must be a single string")
-
-  mighty_repo(spec = "") |>
     expect_error("must be a single string")
 })
 

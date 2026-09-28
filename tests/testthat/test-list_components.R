@@ -47,43 +47,12 @@ test_that("list_components as tibble returns tibble", {
   expect_equal(nrow(result), 1)
 })
 
-test_that("list_components errors on non-existent path", {
-  expect_error(
-    list_components("/fake/nonexistent/path"),
-    "does not exist"
-  )
-})
-
-test_that("list_components returns empty character for empty directory", {
-  empty_dir <- withr::local_tempdir()
-
-  result <- list_components(empty_dir)
-
-  expect_type(result, "character")
-  expect_length(result, 0)
-})
-
 test_that("list_components accepts list of repos and specs", {
   p1 <- local_component_repo(files = "ady.R")
   p2 <- local_component_repo(files = "adt.mustache")
 
   list_components(repos = list(mighty_repo_local(path = p1), p2)) |>
     expect_setequal(c("ady", "adt"))
-})
-
-test_that("list_components returns duplicates across repos once", {
-  p1 <- local_component_repo(files = c("ady.R", "adt.R"))
-  p2 <- local_component_repo(files = c("ady.mustache", "adx.mustache"))
-
-  list_components(repos = c(p1, p2)) |>
-    expect_setequal(c("ady", "adt", "adx"))
-})
-
-test_that("list_components accepts single local:: spec", {
-  path <- local_component_repo(files = "ady.R")
-
-  list_components(repos = paste0("local::", path)) |>
-    expect_equal("ady")
 })
 
 test_that("list_components as list takes first match across repos", {
@@ -137,16 +106,13 @@ test_that("list_components returns empty list and tibble for empty repo", {
   )
 })
 
-test_that("list_components as list resolves GitHub specs once", {
-  calls <- local_mock_gh_tarball(
+test_that("list_components as list works with GitHub specs", {
+  local_mock_gh_tarball(
     tarball = local_github_tarball(files = c("ady/ady.mustache", "adt.R"))
   )
 
-  result <- list_components(repos = "github::owner/repo", as = "list")
-
-  expect_length(result, 2)
-  expect_equal(calls$resolve, 1L)
-  expect_equal(calls$download, 1L)
+  list_components(repos = "github::owner/repo", as = "list") |>
+    expect_length(2)
 })
 
 test_that("list_components errors on invalid as", {

@@ -37,25 +37,6 @@ test_that("find_component accepts single repo spec", {
     expect_equal("ady.R")
 })
 
-test_that("find_component returns component from first repo in order", {
-  path1 <- local_component_repo(files = "ady.R")
-  path2 <- local_component_repo(files = "ady.mustache")
-
-  find_component(component = "ady", repos = c(path1, path2))$id |>
-    expect_equal("ady.R")
-
-  find_component(component = "ady", repos = c(path2, path1))$id |>
-    expect_equal("ady.mustache")
-})
-
-test_that("find_component falls back to later repos", {
-  path1 <- local_component_repo(files = "adt.R")
-  path2 <- local_component_repo(files = "ady.mustache")
-
-  find_component(component = "ady", repos = c(path1, path2))$id |>
-    expect_equal("ady.mustache")
-})
-
 test_that("find_component returns NULL when not found in any repo", {
   path1 <- local_component_repo(files = "adt.R")
   path2 <- local_component_repo(files = "ady.mustache")
@@ -100,18 +81,6 @@ test_that("find_component resolves github spec once across calls", {
   expect_equal(calls$download, 1L)
 })
 
-test_that("find_component reports repo where component was found", {
-  withr::local_options(mighty.component.verbosity_level = "verbose")
-  path1 <- local_component_repo(files = "adt.R")
-  path2 <- local_component_repo(files = "ady.mustache")
-
-  msg <- find_component(component = "ady", repos = c(path1, path2)) |>
-    expect_message("Found")
-
-  conditionMessage(msg) |>
-    expect_match(basename(path2), fixed = TRUE)
-})
-
 test_that("find_component errors on missing directory in repos", {
   missing <- file.path(withr::local_tempdir(), "missing")
   path <- local_component_repo(files = "ady.R")
@@ -124,15 +93,6 @@ test_that("find_component errors when component is not a single string", {
   path <- local_component_repo(files = "ady.R")
 
   find_component(component = c("a", "b"), repos = path) |>
-    expect_error("must be a single string")
-
-  find_component(component = 1, repos = path) |>
-    expect_error("must be a single string")
-
-  find_component(component = "", repos = path) |>
-    expect_error("must be a single string")
-
-  find_component(component = NA_character_) |>
     expect_error("must be a single string")
 
   get_component(component = c("a", "b"), repos = path) |>

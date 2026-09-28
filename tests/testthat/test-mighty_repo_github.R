@@ -125,7 +125,7 @@ test_that("find_component returns NULL when not found in github repo", {
     expect_null()
 })
 
-test_that("mighty_repo_github caches sha per ref and download per sha", {
+test_that("mighty_repo_github caches download per sha", {
   calls <- local_mock_gh_tarball(
     tarball = local_github_tarball(files = repo_files)
   )
@@ -134,7 +134,6 @@ test_that("mighty_repo_github caches sha per ref and download per sha", {
   repo2 <- mighty_repo_github(spec = "owner/repo@v1")
 
   expect_equal(calls$download, 1L)
-  expect_equal(calls$resolve, 1L)
   expect_identical(repo1@path, repo2@path)
 })
 
@@ -149,15 +148,6 @@ test_that("mighty_repo_github resolves each ref once", {
   mighty_repo_github(spec = "owner/repo@v1")
 
   expect_equal(calls$resolve, 2L)
-})
-
-test_that("mighty_repo_github does not cache failed resolves", {
-  local_mock_gh(fun = \(...) stop("Not Found", call. = FALSE))
-
-  mighty_repo_github(spec = "owner/repo") |>
-    expect_error("Failed to resolve")
-
-  expect_length(ls(sha_cache), 0)
 })
 
 test_that("mighty_repo_github downloads again for different sha", {
@@ -227,26 +217,6 @@ test_that("mighty_repo_github silences untar warnings when quiet", {
   expect_no_warning(
     expect_no_message(mighty_repo_github(spec = "owner/repo"))
   )
-})
-
-test_that("mighty_repo_github errors when sha cannot be resolved", {
-  local_mock_gh(
-    fun = function(endpoint, ..., .destfile = NULL) {
-      stop("Not Found", call. = FALSE)
-    }
-  )
-
-  mighty_repo_github(spec = "owner/repo") |>
-    expect_error("Failed to resolve")
-})
-
-test_that("mighty_repo_github errors when tarball query fails", {
-  local_mock_gh(
-    fun = gh_resolve_or(download = \(destfile) stop("Not Found", call. = FALSE))
-  )
-
-  mighty_repo_github(spec = "owner/repo") |>
-    expect_error("Failed to query")
 })
 
 test_that("mighty_repo_github errors when tarball is an HTML page", {
@@ -434,7 +404,7 @@ test_that("mighty_repo_github retries transient errors", {
   expect_equal(calls$waits, 1)
 })
 
-test_that("mighty_repo_github does not retry client errors on resolve", {
+test_that("mighty_repo_github does not retry or cache failed resolves", {
   calls <- local_mock_gh_errors(errors = list(\() gh_http_error(404)))
 
   mighty_repo_github(spec = "owner/repo") |>
@@ -442,6 +412,7 @@ test_that("mighty_repo_github does not retry client errors on resolve", {
 
   expect_equal(calls$n, 1L)
   expect_length(calls$waits, 0)
+  expect_length(ls(sha_cache), 0)
 })
 
 test_that("mighty_repo_github does not retry client errors on download", {

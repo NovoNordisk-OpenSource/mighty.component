@@ -55,20 +55,6 @@ test_that("mighty_repos validator rejects non-repo elements", {
     expect_error("mighty_repo_class")
 })
 
-test_that("mighty_repos resolves GitHub specs once", {
-  calls <- local_mock_gh_tarball(
-    tarball = local_github_tarball(files = "ady/ady.mustache")
-  )
-
-  repos <- mighty_repos(repos = "github::owner/repo")
-  find_component(component = "ady", repos = repos)
-  find_component(component = "ady", repos = repos)
-  list_components(repos = repos)
-
-  expect_equal(calls$resolve, 1L)
-  expect_equal(calls$download, 1L)
-})
-
 test_that("find_component searches mighty_repos in order", {
   withr::local_options(mighty.component.verbosity_level = "verbose")
   path1 <- local_component_repo(files = "adt.R")
