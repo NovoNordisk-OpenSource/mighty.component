@@ -4,7 +4,7 @@
 \alias{find_component}
 \title{Find mighty code component}
 \usage{
-find_component(component, repos, ...)
+find_component(component, repos)
 }
 \arguments{
 \item{component}{\code{character} component name, or path to a component file
@@ -21,8 +21,6 @@ find_component(component, repos, ...)
 
 Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. GitHub
 refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.}
-
-\item{...}{Not used.}
 }
 \value{
 A \link{mighty_component} object, or \code{NULL} if not found.

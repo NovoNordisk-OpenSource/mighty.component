@@ -14,7 +14,6 @@
 #'
 #' Character vectors and lists are converted with [mighty_repos()]. GitHub
 #' refs are resolved once per session. See [mighty_repo_github()].
-#' @param ... Not used.
 #' @returns A [mighty_component] object, or `NULL` if not found.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
@@ -26,7 +25,7 @@
 find_component <- S7::new_generic(
   name = "find_component",
   dispatch_args = c("component", "repos"),
-  fun = function(component, repos, ...) {
+  fun = function(component, repos) {
     check_string(component)
     S7::S7_dispatch()
   }
