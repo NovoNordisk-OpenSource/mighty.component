@@ -26,6 +26,14 @@ mighty_repo_github <- S7::new_class(
       cli::cli_abort("{.arg spec} {.val {spec}} is not a valid GitHub source.")
     }
 
+    if (!is.null(parsed$pull) || !is.null(parsed$release)) {
+      cli::cli_abort(c(
+        "Pull request and release references are not supported in
+        {.val {spec}}.",
+        i = "Use {.code @<ref>} with a branch, tag, or commit."
+      ))
+    }
+
     sha <- resolve_sha(
       owner = parsed$username,
       repo = parsed$repo,

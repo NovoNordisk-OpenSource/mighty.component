@@ -71,6 +71,21 @@ test_that("mighty_repo_github errors on invalid spec", {
     expect_error("not a valid GitHub source")
 })
 
+test_that("mighty_repo_github errors on pull request and release specs", {
+  calls <- local_mock_gh_tarball(
+    tarball = local_github_tarball(files = repo_files)
+  )
+
+  mighty_repo_github(spec = "owner/repo#12") |>
+    expect_error("not supported")
+
+  mighty_repo_github(spec = "owner/repo@*release") |>
+    expect_error("not supported")
+
+  expect_equal(calls$resolve, 0L)
+  expect_equal(calls$download, 0L)
+})
+
 test_that("mighty_repo_github errors on missing subdir", {
   local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
 
