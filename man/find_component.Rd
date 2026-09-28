@@ -19,9 +19,8 @@ find_component(component, repos, ...)
 \item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
 }
 
-Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. To look up
-several components, create the collection once and reuse it, so GitHub
-refs are only resolved once.}
+Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. GitHub
+refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.}
 
 \item{...}{Not used.}
 }

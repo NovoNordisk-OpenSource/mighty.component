@@ -2,6 +2,7 @@ clear_repo_cache <- function() {
   paths <- as.list(repo_cache)
   unlink(unlist(paths), recursive = TRUE)
   rm(list = ls(repo_cache), envir = repo_cache)
+  rm(list = ls(sha_cache), envir = sha_cache)
 }
 
 local_github_tarball <- function(

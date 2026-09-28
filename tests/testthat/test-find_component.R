@@ -88,6 +88,18 @@ test_that("find_component finds component in github spec in list", {
     expect_equal("ady.mustache")
 })
 
+test_that("find_component resolves github spec once across calls", {
+  calls <- local_mock_gh_tarball(
+    tarball = local_github_tarball(files = "ady/ady.mustache")
+  )
+
+  find_component(component = "ady", repos = "github::owner/repo")
+  find_component(component = "ady", repos = "github::owner/repo")
+
+  expect_equal(calls$resolve, 1L)
+  expect_equal(calls$download, 1L)
+})
+
 test_that("find_component reports repo where component was found", {
   withr::local_options(mighty.component.verbosity_level = "verbose")
   path1 <- local_component_repo(files = "adt.R")

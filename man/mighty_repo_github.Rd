@@ -12,8 +12,9 @@ mighty_repo_github(spec)
 \description{
 A component repo hosted on GitHub. When the object is created, \code{ref} is
 resolved to a commit SHA and the repository tarball for that commit is
-downloaded and extracted to a temporary directory. Tarballs are cached per
-commit for the session, so all lookups afterwards are local.
+downloaded and extracted to a temporary directory. Resolved SHAs are cached
+per ref and tarballs per commit for the session, so all lookups afterwards
+are local. Restart the session to pick up new commits on a branch.
 
 \code{spec} is a \code{remotes}-style repository reference: \code{owner/repo},
 \code{owner/repo/subdir}, \code{owner/repo@ref} or a combination.

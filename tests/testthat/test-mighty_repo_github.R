@@ -125,7 +125,7 @@ test_that("find_component returns NULL when not found in github repo", {
     expect_null()
 })
 
-test_that("mighty_repo_github caches download per sha", {
+test_that("mighty_repo_github caches sha per ref and download per sha", {
   calls <- local_mock_gh_tarball(
     tarball = local_github_tarball(files = repo_files)
   )
@@ -134,8 +134,30 @@ test_that("mighty_repo_github caches download per sha", {
   repo2 <- mighty_repo_github(spec = "owner/repo@v1")
 
   expect_equal(calls$download, 1L)
-  expect_equal(calls$resolve, 2L)
+  expect_equal(calls$resolve, 1L)
   expect_identical(repo1@path, repo2@path)
+})
+
+test_that("mighty_repo_github resolves each ref once", {
+  calls <- local_mock_gh_tarball(
+    tarball = local_github_tarball(files = repo_files)
+  )
+
+  mighty_repo_github(spec = "owner/repo")
+  mighty_repo_github(spec = "owner/repo@v1")
+  mighty_repo_github(spec = "owner/repo")
+  mighty_repo_github(spec = "owner/repo@v1")
+
+  expect_equal(calls$resolve, 2L)
+})
+
+test_that("mighty_repo_github does not cache failed resolves", {
+  local_mock_gh(fun = \(...) stop("Not Found", call. = FALSE))
+
+  mighty_repo_github(spec = "owner/repo") |>
+    expect_error("Failed to resolve")
+
+  expect_length(ls(sha_cache), 0)
 })
 
 test_that("mighty_repo_github downloads again for different sha", {

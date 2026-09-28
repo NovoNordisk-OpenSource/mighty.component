@@ -2,8 +2,9 @@
 #' @description
 #' A component repo hosted on GitHub. When the object is created, `ref` is
 #' resolved to a commit SHA and the repository tarball for that commit is
-#' downloaded and extracted to a temporary directory. Tarballs are cached per
-#' commit for the session, so all lookups afterwards are local.
+#' downloaded and extracted to a temporary directory. Resolved SHAs are cached
+#' per ref and tarballs per commit for the session, so all lookups afterwards
+#' are local. Restart the session to pick up new commits on a branch.
 #'
 #' `spec` is a `remotes`-style repository reference: `owner/repo`,
 #' `owner/repo/subdir`, `owner/repo@ref` or a combination.
@@ -34,7 +35,7 @@ mighty_repo_github <- S7::new_class(
       ))
     }
 
-    sha <- resolve_sha(
+    sha <- cached_sha(
       owner = parsed$username,
       repo = parsed$repo,
       ref = parsed$ref
@@ -95,6 +96,20 @@ parse_github_source <- function(spec) {
 
 # Session cache: maps "owner/repo@sha" -> extracted repo root
 repo_cache <- new.env(parent = emptyenv())
+
+# Session cache: maps "owner/repo@ref" -> resolved sha
+sha_cache <- new.env(parent = emptyenv())
+
+#' @noRd
+cached_sha <- function(owner, repo, ref = NULL) {
+  key <- paste0(owner, "/", repo, "@", ref %||% "HEAD")
+
+  if (is.null(sha_cache[[key]])) {
+    sha_cache[[key]] <- resolve_sha(owner = owner, repo = repo, ref = ref)
+  }
+
+  sha_cache[[key]]
+}
 
 #' @noRd
 resolve_sha <- function(owner, repo, ref = NULL) {

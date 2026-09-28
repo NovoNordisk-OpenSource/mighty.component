@@ -12,9 +12,8 @@
 #' * A `list` of repo specs or `mighty_repo_class` objects, in priority order.
 #' * A [mighty_repos()] collection.
 #'
-#' Character vectors and lists are converted with [mighty_repos()]. To look up
-#' several components, create the collection once and reuse it, so GitHub
-#' refs are only resolved once.
+#' Character vectors and lists are converted with [mighty_repos()]. GitHub
+#' refs are resolved once per session. See [mighty_repo_github()].
 #' @param ... Not used.
 #' @returns A [mighty_component] object, or `NULL` if not found.
 #' @examples
