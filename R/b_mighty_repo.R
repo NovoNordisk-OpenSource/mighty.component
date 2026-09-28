@@ -19,11 +19,13 @@
 #' @seealso [mighty_repo_local()], [mighty_repo_github()]
 #' @export
 mighty_repo <- function(spec) {
-  type <- ifelse(
-    test = grepl(pattern = "::", x = spec, fixed = TRUE),
-    yes = sub(pattern = "::.*", replacement = "", x = spec),
-    no = "local"
-  )
+  rlang::check_string(spec, allow_empty = FALSE)
+
+  type <- if (grepl(pattern = "::", x = spec, fixed = TRUE)) {
+    sub(pattern = "::.*", replacement = "", x = spec)
+  } else {
+    "local"
+  }
 
   path <- sub(pattern = "^[^:]*::", replacement = "", x = spec)
 
@@ -52,7 +54,7 @@ mighty_repo_class <- S7::new_class(
 
 #' @noRd
 validate_string <- function(value) {
-  if (length(value) != 1) {
-    "has to be of length 1"
+  if (length(value) != 1 || is.na(value) || !nzchar(value)) {
+    "must be a single non-empty string"
   }
 }

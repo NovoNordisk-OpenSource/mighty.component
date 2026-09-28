@@ -36,22 +36,42 @@ test_that("mighty_repo errors on empty repo type", {
     expect_error("Unknown repo type")
 })
 
+test_that("mighty_repo errors when spec is not a single non-empty string", {
+  mighty_repo(spec = c("a", "b")) |>
+    expect_error("must be a single string")
+
+  mighty_repo(spec = character(0)) |>
+    expect_error("must be a single string")
+
+  mighty_repo(spec = NA_character_) |>
+    expect_error("must be a single string")
+
+  mighty_repo(spec = "") |>
+    expect_error("must be a single string")
+})
+
 test_that("mighty_repo_class is abstract", {
   mighty_repo_class(path = tempdir()) |>
     expect_error("abstract")
 })
 
-test_that("mighty_repo_class requires path of length 1", {
+test_that("mighty_repo_class requires path to be a single non-empty string", {
   paths <- c(
     local_component_repo(files = "ady.R"),
     local_component_repo(files = "ady.R")
   )
 
   mighty_repo_local(path = paths) |>
-    expect_error("length 1")
+    expect_error("must be a single non-empty string")
 
   mighty_repo_local(path = character(0)) |>
-    expect_error("length 1")
+    expect_error("must be a single non-empty string")
+
+  mighty_repo_local(path = NA_character_) |>
+    expect_error("must be a single non-empty string")
+
+  mighty_repo_local(path = "") |>
+    expect_error("must be a single non-empty string")
 })
 
 test_that("format returns local spec", {
