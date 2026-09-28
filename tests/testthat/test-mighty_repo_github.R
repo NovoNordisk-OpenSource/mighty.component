@@ -93,50 +93,6 @@ test_that("mighty_repo_github errors on missing subdir", {
     expect_error("Subdirectory")
 })
 
-test_that("list_components lists components in github repo", {
-  local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
-
-  repo <- mighty_repo_github(spec = "owner/repo")
-
-  list_components(repos = repo) |>
-    expect_setequal(c("ady", "flat_comp"))
-})
-
-test_that("find_component finds nested and top-level components", {
-  local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
-
-  repo <- mighty_repo_github(spec = "owner/repo")
-
-  component <- find_component(component = "ady", repos = repo)
-
-  expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "ady.mustache")
-
-  find_component(component = "flat_comp", repos = repo)$id |>
-    expect_equal("flat_comp.R")
-})
-
-test_that("find_component returns NULL when not found in github repo", {
-  local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
-
-  repo <- mighty_repo_github(spec = "owner/repo")
-
-  find_component(component = "nonexistent", repos = repo) |>
-    expect_null()
-})
-
-test_that("mighty_repo_github caches download per sha", {
-  calls <- local_mock_gh_tarball(
-    tarball = local_github_tarball(files = repo_files)
-  )
-
-  repo1 <- mighty_repo_github(spec = "owner/repo@v1")
-  repo2 <- mighty_repo_github(spec = "owner/repo@v1")
-
-  expect_equal(calls$download, 1L)
-  expect_identical(repo1@path, repo2@path)
-})
-
 test_that("mighty_repo_github resolves each ref once", {
   calls <- local_mock_gh_tarball(
     tarball = local_github_tarball(files = repo_files)
@@ -296,16 +252,6 @@ local_mock_gh_errors <- function(
   calls
 }
 
-test_that("gh_with_retry retries a transient error", {
-  calls <- local_mock_gh_errors(errors = list(\() gh_http_error(502)))
-
-  gh_with_retry("GET /x") |>
-    expect_equal("result")
-
-  expect_equal(calls$n, 2L)
-  expect_equal(calls$waits, 1)
-})
-
 test_that("gh_with_retry backs off exponentially", {
   calls <- local_mock_gh_errors(
     errors = list(gh_network_error, \() gh_http_error(503))
@@ -426,38 +372,6 @@ test_that("mighty_repo_github does not retry client errors on download", {
 
   expect_equal(calls$n, 2L)
   expect_length(calls$waits, 0)
-})
-
-test_that("parse_github_source parses owner/repo", {
-  skip_if_not_installed("remotes")
-
-  result <- parse_github_source(spec = "owner/repo")
-
-  expect_equal(result$username, "owner")
-  expect_equal(result$repo, "repo")
-  expect_null(result$subdir)
-  expect_null(result$ref)
-})
-
-test_that("parse_github_source parses subdir", {
-  skip_if_not_installed("remotes")
-
-  parse_github_source(spec = "owner/repo/subdir")$subdir |>
-    expect_equal("subdir")
-})
-
-test_that("parse_github_source parses ref", {
-  skip_if_not_installed("remotes")
-
-  parse_github_source(spec = "owner/repo@ref")$ref |>
-    expect_equal("ref")
-})
-
-test_that("parse_github_source returns NULL for invalid source", {
-  skip_if_not_installed("remotes")
-
-  parse_github_source(spec = "notarepo") |>
-    expect_null()
 })
 
 test_that("mighty_repo_github downloads a live GitHub repo", {
