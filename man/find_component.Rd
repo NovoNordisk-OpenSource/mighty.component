@@ -4,15 +4,15 @@
 \alias{find_component}
 \title{Find mighty code component}
 \usage{
-find_component(component, repos)
+find_component(component, repos = NULL)
 }
 \arguments{
 \item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL} or missing.}
+(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}.}
 
 \item{repos}{Where to look. One of:
 \itemize{
-\item \code{NULL} or missing: \code{component} is a file path.
+\item \code{NULL} (default): \code{component} is a file path.
 \item \code{character} vector of repo specs, in priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
 \item A \code{mighty_repo_class} object.
 \item A \code{list} of repo specs or \code{mighty_repo_class} objects, in priority order.

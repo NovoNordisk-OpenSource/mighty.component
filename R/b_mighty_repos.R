@@ -84,12 +84,9 @@ S7::method(print, mighty_repos) <- function(x, ...) {
 }
 
 #' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, mighty_repos)
-) <- function(component, repos) {
+S7::method(repo_find_component, mighty_repos) <- function(repos, component) {
   for (repo in repos) {
-    res <- find_component(component = component, repos = repo)
+    res <- repo_find_component(repos = repo, component = component)
 
     if (!is.null(res)) {
       zephyr::msg_verbose(

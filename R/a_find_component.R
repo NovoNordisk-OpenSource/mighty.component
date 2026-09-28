@@ -4,9 +4,9 @@
 #' returns `NULL` instead of raising an error when the component is not found.
 #'
 #' @param component `character` component name, or path to a component file
-#' (`.R` or `.mustache`) when `repos` is `NULL` or missing.
+#' (`.R` or `.mustache`) when `repos` is `NULL`.
 #' @param repos Where to look. One of:
-#' * `NULL` or missing: `component` is a file path.
+#' * `NULL` (default): `component` is a file path.
 #' * `character` vector of repo specs, in priority order. See [mighty_repo()].
 #' * A `mighty_repo_class` object.
 #' * A `list` of repo specs or `mighty_repo_class` objects, in priority order.
@@ -22,46 +22,30 @@
 #' find_component("does_not_exist", repos = path)
 #' @seealso [get_component()], [list_components()]
 #' @export
-find_component <- S7::new_generic(
-  name = "find_component",
-  dispatch_args = c("component", "repos"),
-  fun = function(component, repos) {
-    check_string(component)
+find_component <- function(component, repos = NULL) {
+  check_string(component)
+
+  if (is.null(repos)) {
+    repos <- dirname(component)
+    component <- basename(component)
+  }
+
+  if (
+    !S7::S7_inherits(repos, mighty_repo_class) &&
+      !S7::S7_inherits(repos, mighty_repos)
+  ) {
+    repos <- mighty_repos(repos = repos)
+  }
+
+  repo_find_component(repos = repos, component = component)
+}
+
+#' Find a component in repos
+#' @noRd
+repo_find_component <- S7::new_generic(
+  name = "repo_find_component",
+  dispatch_args = "repos",
+  fun = function(repos, component) {
     S7::S7_dispatch()
   }
 )
-
-#' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, S7::new_S3_class("NULL"))
-) <- function(component, repos) {
-  find_component(
-    component = basename(component),
-    repos = dirname(component)
-  )
-}
-
-#' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, S7::class_missing)
-) <- function(component, repos) {
-  find_component(component = component, repos = NULL)
-}
-
-#' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, S7::class_list)
-) <- function(component, repos) {
-  find_component(component = component, repos = mighty_repos(repos = repos))
-}
-
-#' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, S7::class_character)
-) <- function(component, repos) {
-  find_component(component = component, repos = mighty_repos(repos = repos))
-}

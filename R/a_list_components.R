@@ -62,7 +62,7 @@ list_components <- function(repos, as = c("character", "list", "tibble")) {
     code = lapply(
       X = ids,
       FUN = \(id) {
-        find_component(component = id, repos = repos) |>
+        repo_find_component(repos = repos, component = id) |>
           component_fields()
       }
     )

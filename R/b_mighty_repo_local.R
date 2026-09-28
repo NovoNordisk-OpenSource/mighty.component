@@ -61,10 +61,10 @@ S7::method(component_ids, mighty_repo_local) <- function(repos) {
 }
 
 #' @noRd
-S7::method(
-  find_component,
-  list(S7::class_character, mighty_repo_local)
-) <- function(component, repos) {
+S7::method(repo_find_component, mighty_repo_local) <- function(
+  repos,
+  component
+) {
   name <- tools::file_path_sans_ext(component)
 
   file <- c(

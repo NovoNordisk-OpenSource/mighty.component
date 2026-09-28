@@ -99,6 +99,11 @@ test_that("find_component errors when component is not a single string", {
     expect_error("must be a single string")
 })
 
+test_that("find_component errors on invalid repos", {
+  find_component(component = "ady", repos = 1) |>
+    expect_error("must be a string")
+})
+
 test_that("get_component errors when component is not found", {
   path <- local_component_repo(files = "ady.R")
 
