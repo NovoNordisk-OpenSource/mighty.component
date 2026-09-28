@@ -12,6 +12,9 @@
 mighty_repo_local <- S7::new_class(
   name = "mighty_repo_local",
   parent = mighty_repo_class,
+  constructor = function(path) {
+    S7::new_object(S7::S7_object(), path = path)
+  },
   validator = \(self) {
     validate_local(self)
   }

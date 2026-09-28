@@ -6,13 +6,9 @@
 \title{Component repos}
 \usage{
 mighty_repo(spec)
-
-mighty_repo_class(path = character(0))
 }
 \arguments{
 \item{spec}{\code{character(1)} repo spec. See description.}
-
-\item{path}{\code{character(1)} path to the directory holding the components.}
 }
 \value{
 \code{mighty_repo()}: An object inheriting from \code{mighty_repo_class}.
@@ -20,7 +16,9 @@ mighty_repo_class(path = character(0))
 \description{
 \itemize{
 \item \code{mighty_repo()}: Create a component repo from a spec.
-\item \code{mighty_repo_class}: Abstract parent class of all component repos.
+\item \code{mighty_repo_class}: Abstract parent class of all component repos. It has
+one property, \verb{@path}: the directory holding the components, as a single
+non-empty string. It cannot be created directly.
 }
 
 Specs have the form \code{type::path}. Supported types:

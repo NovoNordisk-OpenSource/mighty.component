@@ -4,7 +4,7 @@
 \alias{mighty_repo_local}
 \title{Local component repo}
 \usage{
-mighty_repo_local(path = character(0))
+mighty_repo_local(path)
 }
 \arguments{
 \item{path}{\code{character(1)} path to an existing directory.}
