@@ -8,7 +8,7 @@ found.
 ## Usage
 
 ``` r
-find_component(component, repos, ...)
+find_component(component, repos)
 ```
 
 ## Arguments
@@ -40,10 +40,6 @@ find_component(component, repos, ...)
   [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
   GitHub refs are resolved once per session. See
   [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md).
-
-- ...:
-
-  Not used.
 
 ## Value
 
