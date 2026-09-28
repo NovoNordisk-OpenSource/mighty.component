@@ -21,7 +21,6 @@ ASTDTF
 ASTDY
 AVAL
 AVISIT
-backticked
 callr
 CDISC
 CMD
@@ -35,11 +34,9 @@ emph
 enclos
 envir
 exdir
-externalptr
 fakepkg
 httr
 IDVARVAL
-jonthegeek
 kable
 knitr
 LBTEST
@@ -47,8 +44,6 @@ lintr
 LOCF
 Macrocytes
 magrittr
-martaalcalde
-mgirlich
 multiarch
 myothertag
 myothervalue
@@ -68,7 +63,6 @@ OLDV
 PARAMCD
 pharmaverseadam
 qnam
-quosure
 QVAL
 rdname
 rlang
@@ -85,7 +79,6 @@ STUDYID
 suppae
 Sweave
 testthat
-teunbrand
 Thomsen
 tibble
 tidylog
@@ -94,8 +87,6 @@ TRTEDT
 TRTEMFL
 TRTSDT
 useatmos
-usethis
 USUBJID
-weakref
 withr
 xmlparsedata

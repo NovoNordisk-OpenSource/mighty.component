@@ -1,4 +1,43 @@
 #' @noRd
+check_string <- function(
+  x,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
+  if (rlang::is_string(x) && nzchar(x)) {
+    return(invisible(NULL))
+  }
+
+  cli::cli_abort(
+    "{.arg {arg}} must be a single string, not {.obj_type_friendly {x}}.",
+    call = call
+  )
+}
+
+#' @noRd
+check_number_whole <- function(
+  x,
+  min,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
+  is_whole <- is.numeric(x) &&
+    length(x) == 1 &&
+    is.finite(x) &&
+    x == trunc(x)
+
+  if (is_whole && x >= min) {
+    return(invisible(NULL))
+  }
+
+  cli::cli_abort(
+    "{.arg {arg}} must be a whole number larger than or equal to {min},
+    not {.obj_type_friendly {x}}.",
+    call = call
+  )
+}
+
+#' @noRd
 assert_single_match <- function(x) {
   if (length(x) > 1) {
     cli::cli_abort("Multiple matches found: {x}")

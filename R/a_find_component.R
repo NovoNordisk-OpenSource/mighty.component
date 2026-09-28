@@ -28,7 +28,7 @@ find_component <- S7::new_generic(
   name = "find_component",
   dispatch_args = c("component", "repos"),
   fun = function(component, repos, ...) {
-    check_string(component, allow_empty = FALSE)
+    check_string(component)
     S7::S7_dispatch()
   }
 )

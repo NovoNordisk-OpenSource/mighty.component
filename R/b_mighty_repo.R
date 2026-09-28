@@ -19,7 +19,7 @@
 #' @seealso [mighty_repo_local()], [mighty_repo_github()]
 #' @export
 mighty_repo <- function(spec) {
-  check_string(spec, allow_empty = FALSE)
+  check_string(spec)
 
   type <- if (grepl(pattern = "::", x = spec, fixed = TRUE)) {
     sub(pattern = "::.*", replacement = "", x = spec)
