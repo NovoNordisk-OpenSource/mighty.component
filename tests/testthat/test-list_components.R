@@ -153,3 +153,14 @@ test_that("list_components errors on invalid as", {
   list_components(repos = withr::local_tempdir(), as = "data.frame") |>
     expect_error("must be one of")
 })
+
+test_that("list_components as list does not report each lookup", {
+  withr::local_options(mighty.component.verbosity_level = "verbose")
+  path <- local_component_repo(files = c("ady.R", "adt.mustache"))
+
+  list_components(repos = path, as = "list") |>
+    expect_no_message()
+
+  getOption("mighty.component.verbosity_level") |>
+    expect_equal("verbose")
+})

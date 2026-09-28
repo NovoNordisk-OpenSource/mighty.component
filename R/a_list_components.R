@@ -57,12 +57,15 @@ list_components <- function(repos, as = c("character", "list", "tibble")) {
     rlang::check_installed(c("tibble", "tidyr"))
   }
 
-  components <- lapply(
-    X = ids,
-    FUN = \(id) {
-      find_component(component = id, repos = repos) |>
-        component_fields()
-    }
+  components <- withr::with_options(
+    new = list(mighty.component.verbosity_level = "quiet"),
+    code = lapply(
+      X = ids,
+      FUN = \(id) {
+        find_component(component = id, repos = repos) |>
+          component_fields()
+      }
+    )
   )
 
   if (as == "list") {
