@@ -13,7 +13,6 @@
 ## Component repos
 
 - [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
-  [`mighty_repo_class()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
   : Component repos
 - [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md)
   : Local component repo

@@ -7,7 +7,7 @@ component (`<path>/<name>/<name>.R`).
 ## Usage
 
 ``` r
-mighty_repo_local(path = character(0))
+mighty_repo_local(path)
 ```
 
 ## Arguments

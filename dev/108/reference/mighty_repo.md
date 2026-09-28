@@ -2,7 +2,9 @@
 
 - `mighty_repo()`: Create a component repo from a spec.
 
-- `mighty_repo_class`: Abstract parent class of all component repos.
+- `mighty_repo_class`: Abstract parent class of all component repos. It
+  has one property, `@path`: the directory holding the components, as a
+  single non-empty string. It cannot be created directly.
 
 Specs have the form `type::path`. Supported types:
 
@@ -17,8 +19,6 @@ Specs have the form `type::path`. Supported types:
 
 ``` r
 mighty_repo(spec)
-
-mighty_repo_class(path = character(0))
 ```
 
 ## Arguments
@@ -26,10 +26,6 @@ mighty_repo_class(path = character(0))
 - spec:
 
   `character(1)` repo spec. See description.
-
-- path:
-
-  `character(1)` path to the directory holding the components.
 
 ## Value
 
