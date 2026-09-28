@@ -246,7 +246,7 @@ test_that("mighty_repo_github errors when tarball is empty", {
   )
 
   mighty_repo_github(spec = "owner/repo") |>
-    expect_error("empty directory")
+    expect_error("Failed to extract")
 })
 
 test_that("mighty_repo_github errors when tarball has no top-level dir", {

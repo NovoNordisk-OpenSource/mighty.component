@@ -174,13 +174,17 @@ download_repo <- function(owner, repo, sha) {
   )
 
   exdir <- tempfile("mighty_repo_")
-  tar_result <- tryCatch(
-    expr = withCallingHandlers(
-      expr = utils::untar(tarfile = tarfile, exdir = exdir),
-      warning = muffle_warning_verbose
-    ),
-    error = \(e) 1L
-  )
+  tar_result <- if (isTRUE(file.size(tarfile) > 0)) {
+    tryCatch(
+      expr = withCallingHandlers(
+        expr = utils::untar(tarfile = tarfile, exdir = exdir),
+        warning = muffle_warning_verbose
+      ),
+      error = \(e) 1L
+    )
+  } else {
+    1L
+  }
 
   if (tar_result != 0L) {
     cli::cli_abort(
