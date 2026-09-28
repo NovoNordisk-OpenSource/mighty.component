@@ -17,3 +17,9 @@ zephyr::create_option(
   default = NA_character_,
   desc = "Verbosity level for functions in mighty.component. See [zephyr::verbosity_level] for details." # nolint: line_length_linter
 )
+
+zephyr::create_option(
+  name = "github_max_tries",
+  default = 3L,
+  desc = "Maximum number of attempts for GitHub API calls. Transient errors (HTTP 5xx and network failures) are retried; other errors are not." # nolint: line_length_linter
+)

@@ -103,7 +103,7 @@ resolve_sha <- function(owner, repo, ref = NULL) {
   ref <- ref %||% "HEAD"
 
   res <- tryCatch(
-    expr = gh::gh(
+    expr = gh_with_retry(
       endpoint = "GET /repos/{owner}/{repo}/commits/{ref}",
       owner = owner,
       repo = repo,
@@ -157,12 +157,13 @@ download_repo <- function(owner, repo, sha) {
   on.exit(unlink(tarfile), add = TRUE)
 
   tryCatch(
-    expr = gh::gh(
+    expr = gh_with_retry(
       endpoint = "GET /repos/{owner}/{repo}/tarball/{ref}",
       owner = owner,
       repo = repo,
       ref = sha,
-      .destfile = tarfile
+      .destfile = tarfile,
+      .overwrite = TRUE
     ),
     error = \(e) {
       cli::cli_abort(
@@ -199,4 +200,68 @@ download_repo <- function(owner, repo, sha) {
   }
 
   top_dir[[1]]
+}
+
+#' Call `gh::gh()` and retry transient errors
+#'
+#' Waits `2^(attempt - 1)` seconds between attempts. The number of attempts is
+#' set by the `github_max_tries` option.
+#' @noRd
+gh_with_retry <- function(...) {
+  max_tries <- github_max_tries()
+
+  for (attempt in seq_len(max_tries)) {
+    res <- tryCatch(expr = gh::gh(...), error = identity)
+
+    if (!inherits(res, "error")) {
+      return(res)
+    }
+
+    if (attempt == max_tries || !is_transient_gh_error(res)) {
+      stop(res)
+    }
+
+    wait <- 2^(attempt - 1)
+    report_retry(e = res, wait = wait, attempt = attempt, max_tries = max_tries)
+    retry_wait(seconds = wait)
+  }
+}
+
+#' @noRd
+github_max_tries <- function() {
+  max_tries <- zephyr::get_option(
+    name = "github_max_tries",
+    .envir = "mighty.component"
+  )
+
+  rlang::check_number_whole(
+    x = max_tries,
+    min = 1,
+    arg = "mighty.component.github_max_tries"
+  )
+
+  max_tries
+}
+
+#' Transient errors are HTTP 5xx responses and network failures
+#' @noRd
+is_transient_gh_error <- function(e) {
+  inherits(e, "httr2_failure") ||
+    any(grepl(pattern = "^http_error_5[0-9]{2}$", x = class(e)))
+}
+
+#' Defined at package level so zephyr resolves the package verbosity option.
+#' @noRd
+report_retry <- function(e, wait, attempt, max_tries) {
+  zephyr::msg_verbose(
+    message = c(
+      "!" = "GitHub request failed ({conditionMessage(e)}).
+      Retrying in {wait}s (attempt {attempt + 1}/{max_tries})."
+    )
+  )
+}
+
+#' @noRd
+retry_wait <- function(seconds) {
+  Sys.sleep(seconds)
 }

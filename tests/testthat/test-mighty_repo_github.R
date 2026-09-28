@@ -261,6 +261,180 @@ test_that("mighty_repo_github errors when tarball has no top-level dir", {
     expect_error("empty directory")
 })
 
+gh_http_error <- function(status) {
+  rlang::abort(
+    message = paste0("GitHub API error (", status, ")"),
+    class = c("github_error", paste0("http_error_", status))
+  )
+}
+
+gh_network_error <- function() {
+  rlang::abort(
+    message = "Failed to perform HTTP request.",
+    class = c("httr2_failure", "httr2_error")
+  )
+}
+
+local_mock_gh_errors <- function(
+  errors,
+  success = \(...) "result",
+  env = parent.frame()
+) {
+  calls <- new.env(parent = emptyenv())
+  calls$n <- 0L
+  calls$waits <- numeric(0)
+
+  local_mock_gh(
+    fun = function(...) {
+      calls$n <- calls$n + 1L
+      if (calls$n <= length(errors)) {
+        errors[[calls$n]]()
+      }
+      success(...)
+    },
+    env = env
+  )
+  local_mocked_bindings(
+    retry_wait = \(seconds) {
+      calls$waits <- c(calls$waits, seconds)
+    },
+    .env = env
+  )
+
+  calls
+}
+
+test_that("gh_with_retry retries a transient error", {
+  calls <- local_mock_gh_errors(errors = list(\() gh_http_error(502)))
+
+  gh_with_retry("GET /x") |>
+    expect_equal("result")
+
+  expect_equal(calls$n, 2L)
+  expect_equal(calls$waits, 1)
+})
+
+test_that("gh_with_retry backs off exponentially", {
+  calls <- local_mock_gh_errors(
+    errors = list(gh_network_error, \() gh_http_error(503))
+  )
+
+  gh_with_retry("GET /x") |>
+    expect_equal("result")
+
+  expect_equal(calls$n, 3L)
+  expect_equal(calls$waits, c(1, 2))
+})
+
+test_that("gh_with_retry does not retry client errors", {
+  calls <- local_mock_gh_errors(errors = list(\() gh_http_error(404)))
+
+  gh_with_retry("GET /x") |>
+    expect_error(class = "http_error_404")
+
+  expect_equal(calls$n, 1L)
+  expect_length(calls$waits, 0)
+})
+
+test_that("gh_with_retry gives up after max tries", {
+  calls <- local_mock_gh_errors(errors = rep(list(gh_network_error), 5))
+
+  gh_with_retry("GET /x") |>
+    expect_error(class = "httr2_failure")
+
+  expect_equal(calls$n, 3L)
+  expect_equal(calls$waits, c(1, 2))
+})
+
+test_that("gh_with_retry respects github_max_tries option", {
+  calls <- local_mock_gh_errors(errors = list(\() gh_http_error(500)))
+  withr::local_options(mighty.component.github_max_tries = 1)
+
+  gh_with_retry("GET /x") |>
+    expect_error(class = "http_error_500")
+
+  expect_equal(calls$n, 1L)
+  expect_length(calls$waits, 0)
+})
+
+test_that("gh_with_retry errors on invalid github_max_tries option", {
+  calls <- local_mock_gh_errors(errors = list())
+
+  withr::with_options(
+    new = list(mighty.component.github_max_tries = 0),
+    code = gh_with_retry("GET /x")
+  ) |>
+    expect_error("github_max_tries")
+
+  withr::with_options(
+    new = list(mighty.component.github_max_tries = "a"),
+    code = gh_with_retry("GET /x")
+  ) |>
+    expect_error("github_max_tries")
+
+  expect_equal(calls$n, 0L)
+})
+
+test_that("gh_with_retry reports retries when verbose", {
+  local_mock_gh_errors(errors = list(\() gh_http_error(502)))
+  withr::local_options(mighty.component.verbosity_level = "verbose")
+
+  gh_with_retry("GET /x") |>
+    expect_message("Retrying in 1s \\(attempt 2/3\\)")
+})
+
+test_that("gh_with_retry is silent on retries when quiet", {
+  local_mock_gh_errors(errors = list(\() gh_http_error(502)))
+
+  gh_with_retry("GET /x") |>
+    expect_no_message()
+})
+
+test_that("retry_wait sleeps", {
+  retry_wait(seconds = 0) |>
+    expect_null()
+})
+
+test_that("mighty_repo_github retries transient errors", {
+  tarball <- local_github_tarball(files = repo_files)
+  calls <- local_mock_gh_errors(
+    errors = list(\() gh_http_error(502)),
+    success = gh_resolve_or(
+      download = \(destfile) file.copy(from = tarball, to = destfile)
+    )
+  )
+
+  repo <- mighty_repo_github(spec = "owner/repo")
+
+  expect_equal(repo@sha, "sha")
+  expect_true(dir.exists(file.path(repo@path, "ady")))
+  expect_equal(calls$n, 3L)
+  expect_equal(calls$waits, 1)
+})
+
+test_that("mighty_repo_github does not retry client errors on resolve", {
+  calls <- local_mock_gh_errors(errors = list(\() gh_http_error(404)))
+
+  mighty_repo_github(spec = "owner/repo") |>
+    expect_error("Failed to resolve")
+
+  expect_equal(calls$n, 1L)
+  expect_length(calls$waits, 0)
+})
+
+test_that("mighty_repo_github does not retry client errors on download", {
+  calls <- local_mock_gh_errors(
+    errors = list(),
+    success = gh_resolve_or(download = \(destfile) gh_http_error(404))
+  )
+
+  mighty_repo_github(spec = "owner/repo") |>
+    expect_error("Failed to query")
+
+  expect_equal(calls$n, 2L)
+  expect_length(calls$waits, 0)
+})
+
 test_that("parse_github_source parses owner/repo", {
   skip_if_not_installed("remotes")
 
