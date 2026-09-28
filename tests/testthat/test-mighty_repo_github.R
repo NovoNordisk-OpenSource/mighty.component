@@ -470,7 +470,8 @@ test_that("parse_github_source returns NULL for invalid source", {
 test_that("mighty_repo_github downloads a live GitHub repo", {
   skip_on_cran()
   skip_if_offline(host = "api.github.com")
-  skip_if_not_installed("gh")
+  # gh < 1.6.0 rejects GitHub App tokens (ghs_ prefix) used on CI
+  skip_if_not_installed("gh", minimum_version = "1.6.0")
   skip_if_not_installed("remotes")
   clear_repo_cache()
   withr::defer(clear_repo_cache())
