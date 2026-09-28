@@ -40,6 +40,10 @@
 list_components <- function(repos, as = c("character", "list", "tibble")) {
   as <- rlang::arg_match(as)
 
+  if (as == "tibble") {
+    rlang::check_installed(c("tibble", "tidyr"))
+  }
+
   if (
     !S7::S7_inherits(repos, mighty_repo_class) &&
       !S7::S7_inherits(repos, mighty_repos)
@@ -51,10 +55,6 @@ list_components <- function(repos, as = c("character", "list", "tibble")) {
 
   if (as == "character") {
     return(ids)
-  }
-
-  if (as == "tibble") {
-    rlang::check_installed(c("tibble", "tidyr"))
   }
 
   components <- withr::with_options(
