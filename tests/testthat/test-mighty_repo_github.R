@@ -174,6 +174,39 @@ test_that("mighty_repo_github reports download and cache use", {
     expect_message("Using cached repo")
 })
 
+local_mock_untar_warning <- function(env = parent.frame()) {
+  real_untar <- utils::untar
+  local_mocked_bindings(
+    untar = function(tarfile, exdir, ...) {
+      warning("tar warning {x}")
+      real_untar(tarfile = tarfile, exdir = exdir, ...)
+    },
+    .package = "utils",
+    .env = env
+  )
+}
+
+test_that("mighty_repo_github reports untar warnings when verbose", {
+  local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
+  local_mock_untar_warning()
+  withr::local_options(mighty.component.verbosity_level = "verbose")
+
+  expect_no_warning(
+    mighty_repo_github(spec = "owner/repo") |>
+      expect_message("tar warning {x}", fixed = TRUE) |>
+      expect_message("Downloading repo")
+  )
+})
+
+test_that("mighty_repo_github silences untar warnings when quiet", {
+  local_mock_gh_tarball(tarball = local_github_tarball(files = repo_files))
+  local_mock_untar_warning()
+
+  expect_no_warning(
+    expect_no_message(mighty_repo_github(spec = "owner/repo"))
+  )
+})
+
 test_that("mighty_repo_github errors when sha cannot be resolved", {
   local_mock_gh(
     fun = function(endpoint, ..., .destfile = NULL) {

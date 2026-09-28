@@ -136,6 +136,15 @@ cached_download <- function(owner, repo, sha) {
   repo_cache[[key]]
 }
 
+#' Report a warning via `zephyr::msg_verbose()` and muffle it
+#'
+#' Defined at package level so zephyr resolves the package verbosity option.
+#' @noRd
+muffle_warning_verbose <- function(w) {
+  zephyr::msg_verbose(message = c("!" = "{conditionMessage(w)}"))
+  invokeRestart("muffleWarning")
+}
+
 #' @noRd
 download_repo <- function(owner, repo, sha) {
   rlang::check_installed("gh")
@@ -165,7 +174,10 @@ download_repo <- function(owner, repo, sha) {
 
   exdir <- tempfile("mighty_repo_")
   tar_result <- tryCatch(
-    expr = suppressWarnings(utils::untar(tarfile, exdir = exdir)),
+    expr = withCallingHandlers(
+      expr = utils::untar(tarfile = tarfile, exdir = exdir),
+      warning = muffle_warning_verbose
+    ),
     error = \(e) 1L
   )
 
