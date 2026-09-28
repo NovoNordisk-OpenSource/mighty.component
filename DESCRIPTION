@@ -17,7 +17,7 @@ Imports:
     cli,
     glue,
     R6 (>= 2.4.0),
-    rlang,
+    rlang (>= 1.1.0),
     S7,
     whisker,
     withr,

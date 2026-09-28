@@ -234,7 +234,7 @@ github_max_tries <- function() {
     .envir = "mighty.component"
   )
 
-  rlang::check_number_whole(
+  check_number_whole(
     x = max_tries,
     min = 1,
     arg = "mighty.component.github_max_tries"
