@@ -21,6 +21,15 @@ test_that("mighty_repos accepts list of specs and repo objects", {
   expect_equal(repos[[2]]@path, path2)
 })
 
+test_that("mighty_repos accepts a single repo object", {
+  repo <- mighty_repo_local(path = local_component_repo(files = "ady.R"))
+
+  repos <- mighty_repos(repos = repo)
+
+  expect_length(repos, 1)
+  expect_identical(repos[[1]], repo)
+})
+
 test_that("mighty_repos allows empty collection", {
   repos <- mighty_repos()
 

@@ -5,11 +5,11 @@
 #'
 #' Each element of `repos` is either a repo spec, passed to [mighty_repo()],
 #' or an object inheriting from `mighty_repo_class`. Repos are created once
-#' when the collection is created, so reusing a `mighty_repos` object avoids
-#' resolving GitHub refs again.
+#' when the collection is created.
 #'
-#' @param repos `character` vector of repo specs, or a `list` of repo specs
-#' and `mighty_repo_class` objects.
+#' @param repos `character` vector of repo specs, a single
+#' `mighty_repo_class` object, or a `list` of repo specs and
+#' `mighty_repo_class` objects.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
 #' repos <- mighty_repos(repos = c(path, paste0("local::", path)))
@@ -22,6 +22,10 @@ mighty_repos <- S7::new_class(
   name = "mighty_repos",
   parent = S7::class_list,
   constructor = function(repos = character(0)) {
+    if (S7::S7_inherits(repos, mighty_repo_class)) {
+      repos <- list(repos)
+    }
+
     repos <- lapply(
       X = as.list(repos),
       FUN = as_mighty_repo,

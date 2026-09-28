@@ -7,8 +7,9 @@
 mighty_repos(repos = character(0))
 }
 \arguments{
-\item{repos}{\code{character} vector of repo specs, or a \code{list} of repo specs
-and \code{mighty_repo_class} objects.}
+\item{repos}{\code{character} vector of repo specs, a single
+\code{mighty_repo_class} object, or a \code{list} of repo specs and
+\code{mighty_repo_class} objects.}
 }
 \description{
 An ordered collection of component repos. Lookups search the repos in
@@ -16,8 +17,7 @@ order, and the first match wins.
 
 Each element of \code{repos} is either a repo spec, passed to \code{\link[=mighty_repo]{mighty_repo()}},
 or an object inheriting from \code{mighty_repo_class}. Repos are created once
-when the collection is created, so reusing a \code{mighty_repos} object avoids
-resolving GitHub refs again.
+when the collection is created.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")
