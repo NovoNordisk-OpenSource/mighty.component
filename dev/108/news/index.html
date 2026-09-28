@@ -34,36 +34,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mightycomponent-development-version">mighty.component (development version)<a class="anchor" aria-label="anchor" href="#mightycomponent-development-version"></a></h2>
-<div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
-<ul><li>GitHub component repos now need a <code>github::</code> prefix, e.g. <code>"github::NovoNordisk-OpenSource/mighty.standards/components@main"</code>. Specs without a prefix are treated as local paths, and a missing local directory now aborts instead of being skipped (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/108" class="external-link">#108</a>).</li>
-<li>
-<code><a href="../reference/list_components.html">list_components()</a></code> takes <code>repos</code> instead of <code>path</code>, accepting the same inputs as <code><a href="../reference/get_component.html">get_component()</a></code>.</li>
-<li>A component’s <code>id</code> is always the matched filename including extension (e.g. <code>"ady.mustache"</code>), however the component was looked up.</li>
-<li>Component names are matched exactly, not as regular expressions.</li>
-<li>Pull request (<code>owner/repo#12</code>) and release (<code>owner/repo@*release</code>) specs are not supported and raise an error.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Component lookup is built on S7 repo classes: <code><a href="../reference/mighty_repo.html">mighty_repo()</a></code> creates a repo from a <code>type::path</code> spec, with <code><a href="../reference/mighty_repo_local.html">mighty_repo_local()</a></code> and <code><a href="../reference/mighty_repo_github.html">mighty_repo_github()</a></code> as the supported types (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/108" class="external-link">#108</a>).</li>
-<li>
-<code><a href="../reference/mighty_repos.html">mighty_repos()</a></code> holds an ordered collection of repos. Create it once and reuse it to resolve GitHub refs only once for many lookups.</li>
-<li>
-<code><a href="../reference/find_component.html">find_component()</a></code> is exported. Unlike <code><a href="../reference/get_component.html">get_component()</a></code> it returns <code>NULL</code> when the component is not found.</li>
-<li>
-<code><a href="../reference/list_components.html">list_components()</a></code> supports GitHub repos (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103" class="external-link">#103</a>) and again supports <code>as = "list"</code> and <code>as = "tibble"</code>, now including <code>type</code>, <code>origin</code> and <code>method</code>.</li>
-<li>Components can live in a directory named after them (<code>&lt;repo&gt;/&lt;name&gt;/&lt;name&gt;.R</code>), in local and GitHub repos. Files starting with <code>test-</code> are not listed.</li>
-<li>GitHub repos are resolved to a commit SHA and downloaded once per commit per session, so a moving branch is always current (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93" class="external-link">#93</a>).</li>
-<li>Transient GitHub API errors (HTTP 5xx, network failures) are retried. Set the number of attempts with the <code>mighty.component.github_max_tries</code> option (default 3) (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95" class="external-link">#95</a>).</li>
-<li>Warnings from extracting GitHub tarballs are shown with verbose output instead of being dropped (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/92" class="external-link">#92</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="other-changes-development-version">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-development-version"></a></h3>
-<ul><li><p><code>@origin</code> is now a required tag on every component header, not optional.</p></li>
+<ul><li><p>Component repos are S7 classes: <code><a href="../reference/mighty_repo.html">mighty_repo()</a></code>, <code><a href="../reference/mighty_repo_local.html">mighty_repo_local()</a></code>, <code><a href="../reference/mighty_repo_github.html">mighty_repo_github()</a></code> and <code><a href="../reference/mighty_repos.html">mighty_repos()</a></code>. GitHub repos use the <code>github::</code> prefix (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/108" class="external-link">#108</a>).</p></li>
+<li><p><code><a href="../reference/find_component.html">find_component()</a></code> is exported, and <code><a href="../reference/list_components.html">list_components()</a></code> works with all repo types (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103" class="external-link">#103</a>).</p></li>
+<li><p>GitHub repos are cached per commit, and transient API errors are retried (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93" class="external-link">#93</a>, <a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95" class="external-link">#95</a>).</p></li>
+<li><p><code>@origin</code> is now a required tag on every component header, not optional.</p></li>
 <li><p>New required <code>@method</code> tag on component headers, exposed as <code>component$method</code>. Intended to let mighty.metadata populate a column’s define.xml method description directly from the component.</p></li>
 <li><p><code>mighty_component$render()</code> now recognizes a <code>.mighty_subset(domain, subset)</code> marker call passed as the value of the <code>domain</code> parameter. This lets callers (e.g. <code>mighty.metadata</code>’s pooling feature) restrict a <code>@type row</code> component’s derivation to a subset of rows without corrupting <code>@depends</code>/<code>@outputs</code>/<code>@type</code> parsing or silently dropping added rows. Parameter values that aren’t an exact <code>.mighty_subset(...)</code> call are unaffected. A marker on any parameter other than <code>domain</code> raises an error.</p></li>
 </ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mightycomponent-010">mighty.component 0.1.0<a class="anchor" aria-label="anchor" href="#mightycomponent-010"></a></h2>
 <ul><li>Initial GitHub release.</li>
