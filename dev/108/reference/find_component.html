@@ -42,7 +42,7 @@ returns <code>NULL</code> instead of raising an error when the component is not 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_component</span><span class="op">(</span><span class="va">component</span>, <span class="va">repos</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_component</span><span class="op">(</span><span class="va">component</span>, repos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -51,11 +51,11 @@ returns <code>NULL</code> instead of raising an error when the component is not 
 
 <dl><dt id="arg-component">component<a class="anchor" aria-label="anchor" href="#arg-component"></a></dt>
 <dd><p><code>character</code> component name, or path to a component file
-(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code> or missing.</p></dd>
+(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code>.</p></dd>
 
 
 <dt id="arg-repos">repos<a class="anchor" aria-label="anchor" href="#arg-repos"></a></dt>
-<dd><p>Where to look. One of:</p><ul><li><p><code>NULL</code> or missing: <code>component</code> is a file path.</p></li>
+<dd><p>Where to look. One of:</p><ul><li><p><code>NULL</code> (default): <code>component</code> is a file path.</p></li>
 <li><p><code>character</code> vector of repo specs, in priority order. See <code><a href="mighty_repo.html">mighty_repo()</a></code>.</p></li>
 <li><p>A <code>mighty_repo_class</code> object.</p></li>
 <li><p>A <code>list</code> of repo specs or <code>mighty_repo_class</code> objects, in priority order.</p></li>

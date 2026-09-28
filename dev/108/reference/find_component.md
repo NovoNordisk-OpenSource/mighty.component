@@ -8,7 +8,7 @@ found.
 ## Usage
 
 ``` r
-find_component(component, repos)
+find_component(component, repos = NULL)
 ```
 
 ## Arguments
@@ -16,13 +16,13 @@ find_component(component, repos)
 - component:
 
   `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL` or missing.
+  `.mustache`) when `repos` is `NULL`.
 
 - repos:
 
   Where to look. One of:
 
-  - `NULL` or missing: `component` is a file path.
+  - `NULL` (default): `component` is a file path.
 
   - `character` vector of repo specs, in priority order. See
     [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
