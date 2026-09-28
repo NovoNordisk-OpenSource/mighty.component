@@ -97,8 +97,8 @@ S7::method(
 }
 
 #' @noRd
-S7::method(list_components, mighty_repos) <- function(repos) {
-  lapply(X = repos, FUN = \(repo) list_components(repos = repo)) |>
+S7::method(component_ids, mighty_repos) <- function(repos) {
+  lapply(X = repos, FUN = \(repo) component_ids(repos = repo)) |>
     unlist() |>
     unique() |>
     as.character()

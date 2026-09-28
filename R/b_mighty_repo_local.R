@@ -42,7 +42,7 @@ match_files <- function(component, path) {
 }
 
 #' @noRd
-S7::method(list_components, mighty_repo_local) <- function(repos) {
+S7::method(component_ids, mighty_repo_local) <- function(repos) {
   flat <- component_files(path = repos@path) |>
     tools::file_path_sans_ext()
 

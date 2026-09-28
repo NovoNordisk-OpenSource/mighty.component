@@ -4,7 +4,7 @@
 \alias{list_components}
 \title{List components in repos}
 \usage{
-list_components(repos, ...)
+list_components(repos, as = c("character", "list", "tibble"))
 }
 \arguments{
 \item{repos}{Where to look. One of:
@@ -15,12 +15,29 @@ list_components(repos, ...)
 \item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
 }
 
-Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}.}
+Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}, so
+GitHub refs are only resolved once.}
 
-\item{...}{Not used.}
+\item{as}{Format to list the components in:
+\itemize{
+\item \code{"character"}: component names (filenames without extension).
+\item \code{"list"}: metadata for each component.
+\item \code{"tibble"}: metadata for each component as a tibble. Requires the
+\code{tibble} and \code{tidyr} packages.
+}
+
+When a component exists in several repos, the metadata is taken from the
+first repo, as in \code{\link[=find_component]{find_component()}}.}
 }
 \value{
-\code{character} vector of unique component names (without extension).
+Depending on \code{as}:
+\itemize{
+\item \code{"character"}: \code{character} vector of unique component names.
+\item \code{"list"}: \code{list} with one element per component, each a named \code{list} with
+\code{id}, \code{title}, \code{description}, \code{type}, \code{origin}, \code{method}, \code{params},
+\code{depends}, \code{outputs} and \code{code}.
+\item \code{"tibble"}: tibble with one row per component and the same columns.
+}
 }
 \description{
 List all available mighty components (\code{.R} and \code{.mustache} files)
@@ -33,6 +50,9 @@ its directory one level down (\verb{<name>/<name>.R}). Files starting with
 \examples{
 path <- system.file("examples", package = "mighty.component")
 list_components(path)
+
+list_components(path, as = "list") |>
+  str(max.level = 2)
 }
 \seealso{
 \code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=mighty_repo]{mighty_repo()}}
