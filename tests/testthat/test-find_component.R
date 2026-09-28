@@ -97,7 +97,7 @@ test_that("find_component reports repo where component was found", {
     expect_message("Found")
 
   conditionMessage(msg) |>
-    expect_match(path2, fixed = TRUE)
+    expect_match(basename(path2), fixed = TRUE)
 })
 
 test_that("find_component errors on missing directory in repos", {

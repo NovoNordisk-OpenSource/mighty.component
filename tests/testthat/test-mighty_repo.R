@@ -3,7 +3,7 @@ test_that("mighty_repo treats spec without prefix as local", {
 
   repo <- mighty_repo(spec = path)
 
-  expect_s7_class(repo, mighty_repo_local)
+  expect_true(S7::S7_inherits(repo, mighty_repo_local))
   expect_equal(repo@path, path)
 })
 
@@ -12,7 +12,7 @@ test_that("mighty_repo strips local:: prefix", {
 
   repo <- mighty_repo(spec = paste0("local::", path))
 
-  expect_s7_class(repo, mighty_repo_local)
+  expect_true(S7::S7_inherits(repo, mighty_repo_local))
   expect_equal(repo@path, path)
 })
 
@@ -21,7 +21,7 @@ test_that("mighty_repo creates github repo from github:: prefix", {
 
   repo <- mighty_repo(spec = "github::owner/repo")
 
-  expect_s7_class(repo, mighty_repo_github)
+  expect_true(S7::S7_inherits(repo, mighty_repo_github))
   expect_equal(repo@owner, "owner")
   expect_equal(repo@repo, "repo")
 })

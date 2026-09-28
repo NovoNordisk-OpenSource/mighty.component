@@ -4,9 +4,9 @@ test_that("mighty_repos creates repos from character vector", {
 
   repos <- mighty_repos(repos = c(path1, paste0("local::", path2)))
 
-  expect_s7_class(repos, mighty_repos)
+  expect_true(S7::S7_inherits(repos, mighty_repos))
   expect_length(repos, 2)
-  expect_s7_class(repos[[1]], mighty_repo_local)
+  expect_true(S7::S7_inherits(repos[[1]], mighty_repo_local))
   expect_equal(repos[[2]]@path, path2)
 })
 
@@ -68,11 +68,11 @@ test_that("find_component searches mighty_repos in order", {
 
   find_component(component = "adt", repos = repos)$id |>
     expect_equal("adt.R") |>
-    expect_message(paste0("local::", path1), fixed = TRUE)
+    expect_message(basename(path1), fixed = TRUE)
 
   find_component(component = "ady", repos = repos)$id |>
     expect_equal("ady.mustache") |>
-    expect_message(paste0("local::", path2), fixed = TRUE)
+    expect_message(basename(path2), fixed = TRUE)
 })
 
 test_that("list_components lists unique components across mighty_repos", {

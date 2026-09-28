@@ -23,8 +23,8 @@ test_that("mighty_repo_github creates repo from owner/repo", {
 
   repo <- mighty_repo_github(spec = "owner/repo")
 
-  expect_s7_class(repo, mighty_repo_github)
-  expect_s7_class(repo, mighty_repo_local)
+  expect_true(S7::S7_inherits(repo, mighty_repo_github))
+  expect_true(S7::S7_inherits(repo, mighty_repo_local))
   expect_equal(repo@owner, "owner")
   expect_equal(repo@repo, "repo")
   expect_equal(repo@subdir, character(0))
@@ -479,7 +479,7 @@ test_that("mighty_repo_github downloads a live GitHub repo", {
     spec = "github::NovoNordisk-OpenSource/mighty.standards/components@main"
   )
 
-  expect_s7_class(repo, mighty_repo_github)
+  expect_true(S7::S7_inherits(repo, mighty_repo_github))
   expect_match(repo@sha, "^[0-9a-f]{40}$")
   expect_true(dir.exists(repo@path))
 
