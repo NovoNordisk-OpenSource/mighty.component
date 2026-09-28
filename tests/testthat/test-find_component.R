@@ -108,6 +108,25 @@ test_that("find_component errors on missing directory in repos", {
     expect_error("does not exist")
 })
 
+test_that("find_component errors when component is not a single string", {
+  path <- local_component_repo(files = "ady.R")
+
+  find_component(component = c("a", "b"), repos = path) |>
+    expect_error("must be a single string")
+
+  find_component(component = 1, repos = path) |>
+    expect_error("must be a single string")
+
+  find_component(component = "", repos = path) |>
+    expect_error("must be a single string")
+
+  find_component(component = NA_character_) |>
+    expect_error("must be a single string")
+
+  get_component(component = c("a", "b"), repos = path) |>
+    expect_error("must be a single string")
+})
+
 test_that("get_component errors when component is not found", {
   path <- local_component_repo(files = "ady.R")
 
