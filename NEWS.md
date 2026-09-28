@@ -1,5 +1,44 @@
 # mighty.component (development version)
 
+## Breaking changes
+
+* GitHub component repos now need a `github::` prefix, e.g.
+  `"github::NovoNordisk-OpenSource/mighty.standards/components@main"`.
+  Specs without a prefix are treated as local paths, and a missing local
+  directory now aborts instead of being skipped (#108).
+* `list_components()` takes `repos` instead of `path`, accepting the same
+  inputs as `get_component()`.
+* A component's `id` is always the matched filename including extension
+  (e.g. `"ady.mustache"`), however the component was looked up.
+* Component names are matched exactly, not as regular expressions.
+* Pull request (`owner/repo#12`) and release (`owner/repo@*release`) specs
+  are not supported and raise an error.
+
+## New features
+
+* Component lookup is built on S7 repo classes: `mighty_repo()` creates a repo
+  from a `type::path` spec, with `mighty_repo_local()` and
+  `mighty_repo_github()` as the supported types (#108).
+* `mighty_repos()` holds an ordered collection of repos. Create it once and
+  reuse it to resolve GitHub refs only once for many lookups.
+* `find_component()` is exported. Unlike `get_component()` it returns `NULL`
+  when the component is not found.
+* `list_components()` supports GitHub repos (#103) and again supports
+  `as = "list"` and `as = "tibble"`, now including `type`, `origin` and
+  `method`.
+* Components can live in a directory named after them
+  (`<repo>/<name>/<name>.R`), in local and GitHub repos. Files starting with
+  `test-` are not listed.
+* GitHub repos are resolved to a commit SHA and downloaded once per commit per
+  session, so a moving branch is always current (#93).
+* Transient GitHub API errors (HTTP 5xx, network failures) are retried. Set the
+  number of attempts with the `mighty.component.github_max_tries` option
+  (default 3) (#95).
+* Warnings from extracting GitHub tarballs are shown with verbose output
+  instead of being dropped (#92).
+
+## Other changes
+
 * `@origin` is now a required tag on every component header, not optional.
 * New required `@method` tag on component headers, exposed as
   `component$method`. Intended to let mighty.metadata populate a column's
