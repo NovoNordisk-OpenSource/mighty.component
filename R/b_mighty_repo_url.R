@@ -90,7 +90,8 @@ url_repo_properties <- function(url, call = rlang::caller_env()) {
     )
   }
 
-  path <- httr2::url_modify(url = request$url, query = NULL) |>
+  # Not httr2::url_modify(), which is missing in httr2 < 1.1.0
+  path <- sub(pattern = "\\?[^#]*", replacement = "", x = request$url) |>
     sub(pattern = "/+$", replacement = "")
 
   list(path = path, request = request)
@@ -187,7 +188,8 @@ index_links <- function(request, call = rlang::caller_env()) {
     )
   }
 
-  if (!httr2::resp_has_body(resp = resp)) {
+  # Not httr2::resp_has_body(), which is missing in httr2 < 1.0.0
+  if (!length(resp$body)) {
     return(character(0))
   }
 
