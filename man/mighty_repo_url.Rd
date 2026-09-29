@@ -30,6 +30,15 @@ status 404 or 410 are treated as not found; other errors are raised.
 Any query string in \code{url} is kept on all requests. Responses are not
 cached.
 
+Listing components (see \code{\link[=list_components]{list_components()}}) requires the server to
+provide an HTML directory index, e.g. Apache or nginx autoindex, or
+\verb{python -m http.server}. The index at \verb{<url>/} is parsed for relative links
+to entries directly in the directory. Links to files (\verb{<file>}) are
+flat components. Links to directories (\verb{<dir>/}) are listed through their
+own index at \verb{<url>/<dir>/}, and hold nested components. Absolute links,
+links with a query or fragment, and \verb{../} are ignored. Listing aborts if
+an index is unavailable or not HTML.
+
 Unless the request already has a retry policy (see \code{\link[httr2:req_retry]{httr2::req_retry()}}),
 transient errors (HTTP 5xx and network failures) are retried. The number of
 attempts is set by the \code{max_tries} option. See \link{mighty.component-options}.

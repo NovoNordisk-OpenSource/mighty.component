@@ -281,6 +281,139 @@ test_that("fetch_url errors on missing with allow_missing = FALSE", {
   expect_s3_class(err$parent, "httr2_http_404")
 })
 
+test_that("component_ids lists Apache-style directory index", {
+  calls <- local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = url_index_apache),
+      `nested/` = url_html_response(body = url_index_nested)
+    )
+  )
+
+  component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_equal(c("ady", "my comp", "nested"))
+
+  expect_equal(calls$urls, paste0(url_base, c("/", "/nested/")))
+})
+
+test_that("component_ids lists python http.server-style directory index", {
+  calls <- local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = url_index_python),
+      `nested/` = url_html_response(body = url_index_nested)
+    )
+  )
+
+  component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_equal(c("ady", "nested"))
+
+  expect_equal(calls$urls, paste0(url_base, c("/", "/nested/")))
+})
+
+test_that("component_ids requests one trailing slash and keeps query", {
+  index <- '<a href="ady.R">ady.R</a><a href="my%20dir/">my dir/</a>'
+  calls <- local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = index),
+      `my%20dir/` = url_html_response(body = "<p>empty</p>")
+    )
+  )
+
+  component_ids(repos = mighty_repo_url(url = paste0(url_base, "//?t=1"))) |>
+    expect_equal("ady")
+
+  expect_equal(
+    calls$urls,
+    paste0(url_base, c("/?t=1", "/my%20dir/?t=1"))
+  )
+})
+
+test_that("component_ids returns empty for index without components", {
+  local_mock_url(routes = list(`/` = url_html_response(body = "<p>none</p>")))
+
+  component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_equal(character(0))
+
+  local_mock_url(routes = list(`/` = url_html_response(body = "")))
+
+  component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_equal(character(0))
+})
+
+test_that("component_ids errors when base index is unavailable", {
+  for (status in c(404L, 403L)) {
+    local_mock_url(routes = list(`/` = status))
+
+    err <- component_ids(repos = mighty_repo_url(url = url_base)) |>
+      expect_error("Failed to list components at.*/components/")
+
+    expect_match(conditionMessage(err), "may not provide a directory index")
+    expect_s3_class(err$parent, paste0("httr2_http_", status))
+  }
+})
+
+test_that("component_ids errors on non-HTML index", {
+  local_mock_url(
+    routes = list(`/` = url_html_response(body = "[]", type = "text/plain"))
+  )
+
+  err <- component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_error("Failed to list components at.*/components/")
+
+  expect_match(conditionMessage(err), "may not provide a directory index")
+  expect_null(err$parent)
+
+  local_mock_url(routes = list(`/` = url_body_response(body = "<p></p>")))
+
+  component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_error("Failed to list components at")
+})
+
+test_that("component_ids errors when subdirectory index is unavailable", {
+  local_mock_url(
+    routes = list(`/` = url_html_response(body = url_index_apache))
+  )
+
+  err <- component_ids(repos = mighty_repo_url(url = url_base)) |>
+    expect_error("Failed to list components at.*/components/nested/")
+
+  expect_s3_class(err$parent, "httr2_http_404")
+})
+
+test_that("list_components lists url repo components", {
+  index <- '<a href="ady.mustache">ady</a><a href="nested/">nested/</a>'
+  local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = index),
+      `nested/` = url_html_response(body = url_index_nested),
+      ady.mustache = url_component_response(ext = "mustache"),
+      `nested/nested.mustache` = url_component_response(ext = "mustache")
+    )
+  )
+  repo <- mighty_repo_url(url = url_base)
+
+  list_components(repos = repo) |>
+    expect_equal(c("ady", "nested"))
+
+  components <- list_components(repos = repo, as = "list")
+
+  expect_length(components, 2)
+  expect_equal(components[[1]]$id, "ady.mustache")
+  expect_equal(components[[2]]$id, "nested.mustache")
+})
+
+test_that("list_components combines url and local repos", {
+  path <- local_component_repo(files = c("ady.R", "local.R"))
+  local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = url_index_python),
+      `nested/` = url_html_response(body = url_index_nested)
+    )
+  )
+
+  list_components(repos = list(mighty_repo_url(url = url_base), path)) |>
+    expect_equal(c("ady", "nested", "local"))
+})
+
 test_that("find_component finds a live URL component", {
   skip_on_cran()
   skip_if_offline(host = "raw.githubusercontent.com")
