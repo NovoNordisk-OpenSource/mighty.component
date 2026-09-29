@@ -23,7 +23,8 @@ get_test_component(
 
 - component:
 
-  `character` path to a component file (`.R` or `.mustache`).
+  `character` component name, or path to a component file (`.R` or
+  `.mustache`) when `repos` is `NULL`.
 
 - params:
 

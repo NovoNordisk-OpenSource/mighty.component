@@ -126,7 +126,7 @@ Retrieve one by file path:
 ady <- get_component(
   system.file("examples", "ady.mustache", package = "mighty.component")
 )
-#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 ady
 #> <mighty_component/R6>
 #> ady.mustache: Analysis relative day
@@ -219,7 +219,7 @@ get_rendered_component(
   system.file("examples", "ady.mustache", package = "mighty.component"),
   list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 )
-#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 #> <mighty_component_rendered/mighty_component/R6>
 #> ady.mustache: Analysis relative day
 #> Type: column
@@ -352,10 +352,10 @@ it:
 ``` r
 
 r2base <- get_component(r2base_file)
-#> → Found "/tmp/Rtmp8ompVH/file1b59268cb543.mustache" in "."
+#> → Found "file1bd5470958f5.mustache" in "local::/tmp/RtmpVwK50d"
 r2base
 #> <mighty_component/R6>
-#> file1b59268cb543.mustache: Ratio to baseline
+#> file1bd5470958f5.mustache: Ratio to baseline
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of the domain
@@ -448,7 +448,7 @@ Here is a component that fails validation:
 ``` r
 
 get_rendered_component(bad_file, list(domain = "ADAE"))
-#> → Found "/tmp/Rtmp8ompVH/file1b59c875753.mustache" in "."
+#> → Found "file1bd578e7ff96.mustache" in "local::/tmp/RtmpVwK50d"
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
 #> 
@@ -478,7 +478,7 @@ The fix is to specify the join key explicitly:
 ``` r
 
 get_rendered_component(good_file, list(domain = "ADAE"))$code
-#> → Found "/tmp/Rtmp8ompVH/file1b59773e5b5.mustache" in "."
+#> → Found "file1bd5623d85b6.mustache" in "local::/tmp/RtmpVwK50d"
 #> [1] "ADAE <- ADAE |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 ```
@@ -507,7 +507,7 @@ ady_test <- get_test_component(
   params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT"),
   check_coverage = FALSE # set TRUE in real tests
 )
-#> → Found "/home/runner/work/_temp/Library/mighty.component/examples/ady.mustache" in "."
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 ady_test
 #> <mighty_component_test/mighty_component_rendered/mighty_component/R6>
 #> ady.mustache: Derives the relative day compared to the treatment start date.

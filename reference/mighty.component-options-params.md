@@ -10,6 +10,12 @@ Internal parameters for reuse in functions
   [zephyr::verbosity_level](https://novonordisk-opensource.github.io/zephyr/reference/verbosity_level.html)
   for details.. Default: `NA_character_`.
 
+- github_max_tries:
+
+  Maximum number of attempts for GitHub API calls. Transient errors
+  (HTTP 5xx and network failures) are retried; other errors are not..
+  Default: `3L`.
+
 ## Details
 
 See
