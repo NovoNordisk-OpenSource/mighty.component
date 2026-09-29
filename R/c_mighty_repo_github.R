@@ -249,7 +249,7 @@ download_repo <- function(owner, repo, sha) {
 #' set by the `max_tries` option.
 #' @noRd
 gh_with_retry <- function(...) {
-  max_tries <- max_tries()
+  max_tries <- get_max_tries()
 
   for (attempt in seq_len(max_tries)) {
     res <- tryCatch(expr = gh::gh(...), error = identity)
@@ -266,22 +266,6 @@ gh_with_retry <- function(...) {
     report_retry(e = res, wait = wait, attempt = attempt, max_tries = max_tries)
     retry_wait(seconds = wait)
   }
-}
-
-#' @noRd
-max_tries <- function() {
-  max_tries <- zephyr::get_option(
-    name = "max_tries",
-    .envir = "mighty.component"
-  )
-
-  check_number_whole(
-    x = max_tries,
-    min = 1,
-    arg = "mighty.component.max_tries"
-  )
-
-  max_tries
 }
 
 #' Transient errors are HTTP 5xx responses and network failures
