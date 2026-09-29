@@ -2,8 +2,8 @@
 
 Look up a component in one or more repos. Unlike
 [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-returns `NULL` instead of raising an error when the component is not
-found.
+returns `NULL` instead of raising an error when no repo contains the
+component. Each repo directory must exist, otherwise an error is raised.
 
 ## Usage
 
@@ -16,7 +16,8 @@ find_component(component, repos = NULL)
 - component:
 
   `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL`.
+  `.mustache`) when `repos` is `NULL`. The directory of the path must
+  exist.
 
 - repos:
 
@@ -45,7 +46,7 @@ find_component(component, repos = NULL)
 
 A
 [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
-object, or `NULL` if not found.
+object, or `NULL` if no repo contains the component.
 
 ## See also
 
