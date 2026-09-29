@@ -5,6 +5,53 @@ test_that("mighty_repo_local errors when path does not exist", {
     expect_error("Directory .* does not exist")
 })
 
+test_that("ids_from_files returns flat files without extension", {
+  ids_from_files(files = c("ady.R", "adt.mustache", "notes.txt")) |>
+    expect_equal(c("ady", "adt"))
+})
+
+test_that("ids_from_files returns nested components by directory name", {
+  ids_from_files(files = c("foo/foo.R", "bar/bar.mustache")) |>
+    expect_equal(c("foo", "bar"))
+})
+
+test_that("ids_from_files ignores non-matching nested files", {
+  ids_from_files(
+    files = c("x/other.R", "y/y.txt", "z/z.R.bak", "a/b/b.R")
+  ) |>
+    expect_equal(character(0))
+})
+
+test_that("ids_from_files lists flat before nested", {
+  ids_from_files(files = c("foo/foo.R", "ady.mustache")) |>
+    expect_equal(c("ady", "foo"))
+})
+
+test_that("ids_from_files drops test- files", {
+  ids_from_files(
+    files = c("ady.R", "test-ady.R", "foo/test-foo.R", "test-y/test-y.R")
+  ) |>
+    expect_equal("ady")
+})
+
+test_that("ids_from_files removes duplicates", {
+  ids_from_files(
+    files = c(
+      "ady.R",
+      "ady.mustache",
+      "ady/ady.R",
+      "foo/foo.R",
+      "foo/foo.mustache"
+    )
+  ) |>
+    expect_equal(c("ady", "foo"))
+})
+
+test_that("ids_from_files returns character(0) for empty input", {
+  ids_from_files(files = character(0)) |>
+    expect_equal(character(0))
+})
+
 test_that("list_components lists top-level files without extension", {
   repo <- mighty_repo_local(
     path = local_component_repo(files = c("ady.R", "adt.mustache"))

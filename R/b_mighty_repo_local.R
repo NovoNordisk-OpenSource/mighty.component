@@ -44,20 +44,37 @@ match_files <- function(component, path) {
   intersect(x = candidates, y = component_files(path = path))
 }
 
+#' Component ids from relative file paths
+#'
+#' Flat components are `<name>.R|.mustache`. Nested components are
+#' `<name>/<name>.R|.mustache`. Files starting with `test-` are dropped.
 #' @noRd
-S7::method(component_ids, mighty_repo_local) <- function(repos) {
-  flat <- component_files(path = repos@path) |>
-    tools::file_path_sans_ext()
+ids_from_files <- function(files) {
+  is_flat <- !grepl(pattern = "/", x = files, fixed = TRUE) &
+    grepl(pattern = "\\.(R|mustache)$", x = files)
+  flat <- tools::file_path_sans_ext(files[is_flat])
 
-  dirs <- list.dirs(path = repos@path, full.names = FALSE, recursive = FALSE)
-  nested <- dirs[vapply(
-    X = dirs,
-    FUN = \(dir) length(match_files(dir, file.path(repos@path, dir))) > 0,
-    FUN.VALUE = logical(1)
-  )]
+  paths <- files[grepl(pattern = "^[^/]+/[^/]+$", x = files)]
+  dirs <- dirname(paths)
+  is_nested <- basename(paths) == paste0(dirs, ".R") |
+    basename(paths) == paste0(dirs, ".mustache")
+  nested <- dirs[is_nested]
 
   ids <- c(flat, nested)
   unique(ids[!startsWith(x = ids, prefix = "test-")])
+}
+
+#' @noRd
+S7::method(component_ids, mighty_repo_local) <- function(repos) {
+  dirs <- list.dirs(path = repos@path, full.names = FALSE, recursive = FALSE)
+  nested <- lapply(
+    X = dirs,
+    FUN = \(dir) {
+      file.path(dir, component_files(path = file.path(repos@path, dir)))
+    }
+  )
+
+  ids_from_files(files = c(component_files(path = repos@path), unlist(nested)))
 }
 
 #' @noRd
