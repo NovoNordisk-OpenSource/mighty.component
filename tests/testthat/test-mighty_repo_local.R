@@ -2,7 +2,7 @@ test_that("mighty_repo_local errors when path does not exist", {
   path <- file.path(withr::local_tempdir(), "missing")
 
   mighty_repo_local(path = path) |>
-    expect_error("does not exist")
+    expect_error("Directory .* does not exist")
 })
 
 test_that("list_components lists top-level files without extension", {

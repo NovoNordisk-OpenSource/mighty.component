@@ -23,7 +23,7 @@ mighty_repo_local <- S7::new_class(
 #' @noRd
 validate_local <- function(self) {
   if (!dir.exists(self@path)) {
-    paste("@path", self@path, "does not exist")
+    paste("Directory", self@path, "does not exist")
   }
 }
 
