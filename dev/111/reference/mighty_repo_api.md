@@ -23,6 +23,8 @@ Responses are not cached.
 Requests are created, and transient errors retried, as in
 [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
+Requires httr2 \>= 1.2.2 and jsonlite.
+
 ## Usage
 
 ``` r

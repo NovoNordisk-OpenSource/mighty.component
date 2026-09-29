@@ -17,7 +17,8 @@ with status 404 or 410 means the component is not found; other errors are
 raised. Any query string in url is kept on all requests. Responses are
 not cached.
 Requests are created, and transient errors retried, as in
-mighty_repo_url().'><meta property="og:description" content='A component repo served by a JSON API under a base URL, e.g.
+mighty_repo_url().
+Requires httr2 &amp;gt;= 1.2.2 and jsonlite.'><meta property="og:description" content='A component repo served by a JSON API under a base URL, e.g.
 https://host/api/components. The API has two endpoints:
 GET &amp;lt;url&amp;gt; lists the components as a JSON array of component names,
 e.g. ["ady", "adsl"]. Names are listed as returned, without removing
@@ -35,7 +36,8 @@ with status 404 or 410 means the component is not found; other errors are
 raised. Any query string in url is kept on all requests. Responses are
 not cached.
 Requests are created, and transient errors retried, as in
-mighty_repo_url().'><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
+mighty_repo_url().
+Requires httr2 &amp;gt;= 1.2.2 and jsonlite.'><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -86,6 +88,7 @@ raised. Any query string in <code>url</code> is kept on all requests. Responses 
 not cached.</p>
 <p>Requests are created, and transient errors retried, as in
 <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code>.</p>
+<p>Requires httr2 &gt;= 1.2.2 and jsonlite.</p>
     </div>
 
     <div class="section level2">

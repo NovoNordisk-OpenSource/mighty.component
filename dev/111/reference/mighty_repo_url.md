@@ -38,6 +38,8 @@ transient errors (HTTP 5xx and network failures) are retried. The number
 of attempts is set by the `max_tries` option. See
 [mighty.component-options](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md).
 
+Requires httr2 \>= 1.2.2.
+
 ## Usage
 
 ``` r
