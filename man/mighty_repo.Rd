@@ -17,8 +17,8 @@ mighty_repo(spec)
 \itemize{
 \item \code{mighty_repo()}: Create a component repo from a spec.
 \item \code{mighty_repo_class}: Abstract parent class of all component repos. It has
-one property, \verb{@path}: the directory holding the components, as a single
-non-empty string. It cannot be created directly.
+one property, \verb{@path}: the location holding the components (directory or
+base URL), as a single non-empty string. It cannot be created directly.
 }
 
 Specs have the form \code{type::path}. Supported types:
@@ -27,6 +27,8 @@ Specs have the form \code{type::path}. Supported types:
 A spec without a prefix is treated as local.
 \item \code{github}: A GitHub repository, e.g. \code{github::owner/repo/subdir@ref}.
 See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.
+\item \code{url}: Raw files under a base URL, e.g. \verb{url::https://host/components}.
+See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
 }
 }
 \examples{
@@ -35,5 +37,5 @@ mighty_repo(path)
 mighty_repo(paste0("local::", path))
 }
 \seealso{
-\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}
+\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}, \code{\link[=mighty_repo_url]{mighty_repo_url()}}
 }

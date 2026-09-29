@@ -16,7 +16,8 @@ list_components(repos, as = c("character", "list", "tibble"))
 }
 
 Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}, so
-GitHub refs are only resolved once.}
+GitHub refs are only resolved once. URL repos need an HTML directory index
+(see \code{\link[=mighty_repo_url]{mighty_repo_url()}}).}
 
 \item{as}{Format to list the components in:
 \itemize{

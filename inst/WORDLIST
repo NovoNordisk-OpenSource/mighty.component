@@ -19,6 +19,7 @@ asis
 ASTDT
 ASTDTF
 ASTDY
+autoindex
 AVAL
 AVISIT
 callr
@@ -54,6 +55,7 @@ myvalue
 NEWCOL
 NEWVAR
 NEWWAR
+nginx
 nocov
 Nordisk
 notarepo
@@ -74,10 +76,14 @@ Roxygenize
 Rtemplate
 sdtm
 seealso
+SHA
+SHAs
 stringr
 STUDYID
 suppae
 Sweave
+teardown
+templating
 testthat
 Thomsen
 tibble
@@ -86,6 +92,7 @@ tidyr
 TRTEDT
 TRTEMFL
 TRTSDT
+unescaped
 useatmos
 USUBJID
 withr

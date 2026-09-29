@@ -21,7 +21,8 @@ exist.}
 }
 
 Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. GitHub
-refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.}
+refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}. URL repos
+request the component on every call. See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.}
 }
 \value{
 A \link{mighty_component} object, or \code{NULL} if no repo contains the
