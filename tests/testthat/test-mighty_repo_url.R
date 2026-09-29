@@ -212,6 +212,42 @@ test_that("find_component keeps query string on candidate URLs", {
   )
 })
 
+test_that("find_component percent-encodes component names", {
+  calls <- local_mock_url()
+
+  find_component(
+    component = "my comp",
+    repos = mighty_repo_url(url = url_base)
+  ) |>
+    expect_null()
+
+  expect_equal(
+    calls$urls,
+    paste0(
+      url_base,
+      c(
+        "/my%20comp.R",
+        "/my%20comp.mustache",
+        "/my%20comp/my%20comp.R",
+        "/my%20comp/my%20comp.mustache"
+      )
+    )
+  )
+
+  calls <- local_mock_url()
+
+  find_component(
+    component = "100%.R",
+    repos = mighty_repo_url(url = paste0(url_base, "?t=1"))
+  ) |>
+    expect_null()
+
+  expect_equal(
+    calls$urls,
+    paste0(url_base, c("/100%25.R", "/100%25/100%25.R"), "?t=1")
+  )
+})
+
 test_that("find_component splits CRLF line endings", {
   body <- paste(url_fixture(ext = "mustache"), collapse = "\r\n")
   local_mock_url(routes = list(ady.mustache = url_body_response(body = body)))
@@ -399,6 +435,42 @@ test_that("list_components lists url repo components", {
   expect_length(components, 2)
   expect_equal(components[[1]]$id, "ady.mustache")
   expect_equal(components[[2]]$id, "nested.mustache")
+})
+
+test_that("list_components round-trips percent-encoded names", {
+  index <- '<a href="my%20comp.R">my comp.R</a>
+  <a href="100%25.mustache">100%.mustache</a>
+  <a href="my%20dir/">my dir/</a>'
+  calls <- local_mock_url(
+    routes = list(
+      `/` = url_html_response(body = index),
+      `my%20dir/` = url_html_response(
+        body = '<a href="my%20dir.mustache">my dir.mustache</a>'
+      ),
+      `my%20comp.R` = url_component_response(ext = "R"),
+      `100%25.mustache` = url_component_response(ext = "mustache"),
+      `my%20dir/my%20dir.mustache` = url_component_response(ext = "mustache")
+    )
+  )
+
+  components <- list_components(
+    repos = mighty_repo_url(url = url_base),
+    as = "list"
+  )
+
+  expect_equal(
+    vapply(X = components, FUN = \(x) x$id, FUN.VALUE = character(1)),
+    c("my comp.R", "100%.mustache", "my dir.mustache")
+  )
+  expect_true(
+    all(
+      paste0(
+        url_base,
+        c("/my%20comp.R", "/100%25.mustache", "/my%20dir/my%20dir.mustache")
+      ) %in%
+        calls$urls
+    )
+  )
 })
 
 test_that("list_components combines url and local repos", {

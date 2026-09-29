@@ -14,8 +14,8 @@
 #' If `name` has a `.R` or `.mustache` extension, only that file is requested,
 #' flat and nested. The first successful response is used. Responses with
 #' status 404 or 410 are treated as not found; other errors are raised.
-#' Any query string in `url` is kept on all requests. Responses are not
-#' cached.
+#' `name` is percent-encoded in the requested URLs. Any query string in `url`
+#' is kept on all requests. Responses are not cached.
 #'
 #' Listing components (see [list_components()]) requires the server to
 #' provide an HTML directory index, e.g. Apache or nginx autoindex, or
@@ -134,6 +134,22 @@ fetch_url <- function(
   )
 }
 
+#' Percent-encode each segment of a relative path, keeping the `/`
+#'
+#' Already encoded input is encoded again, as names are decoded.
+#' @noRd
+encode_path <- function(path) {
+  strsplit(x = path, split = "/", fixed = TRUE)[[1]] |>
+    vapply(
+      FUN = utils::URLencode,
+      FUN.VALUE = character(1),
+      reserved = TRUE,
+      repeated = TRUE,
+      USE.NAMES = FALSE
+    ) |>
+    paste(collapse = "/")
+}
+
 #' Request with exactly one trailing `/` on the URL path
 #' @noRd
 dir_request <- function(request) {
@@ -239,7 +255,7 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
 
   for (file in c(files, file.path(name, files))) {
     resp <- repos@request |>
-      httr2::req_url_path_append(file) |>
+      httr2::req_url_path_append(encode_path(path = file)) |>
       fetch_url()
 
     if (!is.null(resp)) {
