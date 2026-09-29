@@ -12,6 +12,7 @@ export(mighty_repo)
 export(mighty_repo_class)
 export(mighty_repo_github)
 export(mighty_repo_local)
+export(mighty_repo_url)
 export(mighty_repos)
 importFrom(R6,R6Class)
 importFrom(rlang,

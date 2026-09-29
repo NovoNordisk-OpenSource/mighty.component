@@ -30,6 +30,7 @@ Suggests:
     covr,
     dplyr,
     gh,
+    httr2 (>= 1.1.0),
     knitr,
     pharmaverseadam,
     remotes,
