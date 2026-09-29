@@ -19,7 +19,7 @@ zephyr::create_option(
 )
 
 zephyr::create_option(
-  name = "github_max_tries",
+  name = "max_tries",
   default = 3L,
-  desc = "Maximum number of attempts for GitHub API calls. Transient errors (HTTP 5xx and network failures) are retried; other errors are not." # nolint: line_length_linter
+  desc = "Maximum number of attempts for GitHub and URL requests. Transient errors (HTTP 5xx and network failures) are retried; other errors are not." # nolint: line_length_linter
 )

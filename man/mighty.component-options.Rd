@@ -14,13 +14,13 @@ Verbosity level for functions in mighty.component. See \link[zephyr:verbosity_le
 }
 }
 
-\subsection{github_max_tries}{
+\subsection{max_tries}{
 
-Maximum number of attempts for GitHub API calls. Transient errors (HTTP 5xx and network failures) are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. Transient errors (HTTP 5xx and network failures) are retried; other errors are not.
 \itemize{
 \item Default: \code{3L}
-\item Option: \code{mighty.component.github_max_tries}
-\item Environment: \code{R_MIGHTY.COMPONENT_GITHUB_MAX_TRIES}
+\item Option: \code{mighty.component.max_tries}
+\item Environment: \code{R_MIGHTY.COMPONENT_MAX_TRIES}
 }
 }
 }

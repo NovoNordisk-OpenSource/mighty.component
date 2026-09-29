@@ -246,10 +246,10 @@ download_repo <- function(owner, repo, sha) {
 #' Call `gh::gh()` and retry transient errors
 #'
 #' Waits `2^(attempt - 1)` seconds between attempts. The number of attempts is
-#' set by the `github_max_tries` option.
+#' set by the `max_tries` option.
 #' @noRd
 gh_with_retry <- function(...) {
-  max_tries <- github_max_tries()
+  max_tries <- max_tries()
 
   for (attempt in seq_len(max_tries)) {
     res <- tryCatch(expr = gh::gh(...), error = identity)
@@ -269,16 +269,16 @@ gh_with_retry <- function(...) {
 }
 
 #' @noRd
-github_max_tries <- function() {
+max_tries <- function() {
   max_tries <- zephyr::get_option(
-    name = "github_max_tries",
+    name = "max_tries",
     .envir = "mighty.component"
   )
 
   check_number_whole(
     x = max_tries,
     min = 1,
-    arg = "mighty.component.github_max_tries"
+    arg = "mighty.component.max_tries"
   )
 
   max_tries
