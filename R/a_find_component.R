@@ -1,10 +1,12 @@
 #' Find mighty code component
 #' @description
 #' Look up a component in one or more repos. Unlike [get_component()],
-#' returns `NULL` instead of raising an error when the component is not found.
+#' returns `NULL` instead of raising an error when no repo contains the
+#' component. Each repo directory must exist, otherwise an error is raised.
 #'
 #' @param component `character` component name, or path to a component file
-#' (`.R` or `.mustache`) when `repos` is `NULL`.
+#' (`.R` or `.mustache`) when `repos` is `NULL`. The directory of the path must
+#' exist.
 #' @param repos Where to look. One of:
 #' * `NULL` (default): `component` is a file path.
 #' * `character` vector of repo specs, in priority order. See [mighty_repo()].
@@ -14,7 +16,8 @@
 #'
 #' Character vectors and lists are converted with [mighty_repos()]. GitHub
 #' refs are resolved once per session. See [mighty_repo_github()].
-#' @returns A [mighty_component] object, or `NULL` if not found.
+#' @returns A [mighty_component] object, or `NULL` if no repo contains the
+#' component.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
 #' find_component("ady", repos = path)

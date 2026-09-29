@@ -8,7 +8,8 @@ find_component(component, repos = NULL)
 }
 \arguments{
 \item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}.}
+(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
+exist.}
 
 \item{repos}{Where to look. One of:
 \itemize{
@@ -23,11 +24,13 @@ Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty
 refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.}
 }
 \value{
-A \link{mighty_component} object, or \code{NULL} if not found.
+A \link{mighty_component} object, or \code{NULL} if no repo contains the
+component.
 }
 \description{
 Look up a component in one or more repos. Unlike \code{\link[=get_component]{get_component()}},
-returns \code{NULL} instead of raising an error when the component is not found.
+returns \code{NULL} instead of raising an error when no repo contains the
+component. Each repo directory must exist, otherwise an error is raised.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")
