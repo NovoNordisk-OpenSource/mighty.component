@@ -35,6 +35,7 @@ enclos
 envir
 exdir
 fakepkg
+httr
 IDVARVAL
 kable
 knitr

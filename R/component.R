@@ -14,11 +14,17 @@
 #' * `.mustache`: Creates components from the template files.
 #'
 #' The `repos` parameter accepts a character vector of locations to search,
-#' in priority order. Each element is either a local directory path or a
-#' GitHub source in `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref`
-#' format. The first match is returned. Defaults to the current directory.
+#' in priority order. Each element is a repo spec passed to [mighty_repo()]:
+#' a local directory path, or a GitHub source prefixed with `github::` in
+#' `owner/repo`, `owner/repo/subdir`, or `owner/repo@ref` format.
+#' The first match is returned.
 #'
-#' @param component `character` path to a component file (`.R` or `.mustache`).
+#' When `repos` is `NULL`, `component` is a path to a component file.
+#' Otherwise `component` is a component name, with or without extension,
+#' looked up in `repos`.
+#'
+#' @param component `character` component name, or path to a component file
+#' (`.R` or `.mustache`) when `repos` is `NULL`.
 #' @param repos prioritized `character` vector of locations to look for component in. See details.
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
@@ -29,24 +35,13 @@
 #' @rdname get_component
 #' @export
 get_component <- function(component, repos = NULL) {
-  if (is.null(repos)) {
-    repos <- "."
-  }
-
   found <- find_component(component, repos)
 
-  switch(
-    found$type,
-    "r" = get_custom_r(found$content, found$name),
-    "mustache" = mighty_component$new(
-      template = found$content,
-      id = found$name
-    ),
-    cli::cli_abort(c(
-      "Component {.val {component}} has unsupported type {.val {found$type}}.",
-      "i" = "Provide a {.code .R} or {.code .mustache} file."
-    ))
-  )
+  if (!is.null(found)) {
+    return(found)
+  }
+
+  cli::cli_abort("Component {.code {component}} not found")
 }
 
 #' @rdname get_component

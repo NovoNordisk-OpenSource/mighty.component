@@ -1,5 +1,5 @@
 #' @noRd
-get_custom_r <- function(code, id) {
+check_custom_r <- function(code) {
   if (any(grepl(pattern = "^#' @param", x = code))) {
     cli::cli_abort(
       c(
@@ -16,8 +16,5 @@ get_custom_r <- function(code, id) {
     )
   }
 
-  mighty_component$new(
-    template = code,
-    id = id
-  )
+  invisible(code)
 }
