@@ -26,7 +26,7 @@ test_that("list_components lists nested components by directory name", {
 test_that("list_components hides test- files", {
   repo <- mighty_repo_local(
     path = local_component_repo(
-      files = c("ady.R", "test-ady.R", "foo/test-foo.R")
+      files = c("ady.R", "test-ady.R", "test-foo/test-foo.R")
     )
   )
 
