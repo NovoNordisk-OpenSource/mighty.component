@@ -1,4 +1,4 @@
-skip_if_not_installed("httr2")
+skip_if_not_installed("httr2", minimum_version = "1.2.2")
 
 test_that("mighty_repo_url creates repo from string URL", {
   repo <- mighty_repo_url(url = paste0(url_base, "/?token=abc"))

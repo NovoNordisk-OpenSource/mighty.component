@@ -42,6 +42,8 @@ an index is unavailable or not HTML.
 Unless the request already has a retry policy (see \code{\link[httr2:req_retry]{httr2::req_retry()}}),
 transient errors (HTTP 5xx and network failures) are retried. The number of
 attempts is set by the \code{max_tries} option. See \link{mighty.component-options}.
+
+Requires httr2 >= 1.2.2.
 }
 \seealso{
 \code{\link[=mighty_repo]{mighty_repo()}}

@@ -29,6 +29,8 @@
 #' Unless the request already has a retry policy (see [httr2::req_retry()]),
 #' transient errors (HTTP 5xx and network failures) are retried. The number of
 #' attempts is set by the `max_tries` option. See [mighty.component-options].
+#'
+#' Requires httr2 >= 1.2.2.
 #' @param url `character(1)` base URL starting with `http://` or `https://`,
 #' or an `httr2_request` for the base URL.
 #' @seealso [mighty_repo()]
@@ -53,7 +55,8 @@ mighty_repo_url <- S7::new_class(
 #' Validate `url`, build the request and derive `@path`
 #' @noRd
 url_repo_properties <- function(url, call = rlang::caller_env()) {
-  rlang::check_installed("httr2", call = call)
+  # httr2 < 1.2.2 encodes already encoded URL paths again
+  rlang::check_installed("httr2", version = "1.2.2", call = call)
 
   request <- if (inherits(url, "httr2_request")) {
     url
