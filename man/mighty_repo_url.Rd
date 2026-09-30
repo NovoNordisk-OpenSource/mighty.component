@@ -10,18 +10,16 @@ mighty_repo_url(url)
 \item{url}{\code{character(1)} base URL starting with \verb{http://} or \verb{https://}.}
 }
 \description{
-A component repo served as raw files under a base URL, e.g.
-\verb{https://example.com/components}. Authentication is only possible through
-the query string, e.g. a token or signed URL. The query string is kept on
-all requests. The query string and fragment are left out when the repo is
-printed. Custom headers are not supported.
+A component repo served as raw files under a base URL. Authentication is
+only possible through the query string, e.g. a token or signed URL. It is
+kept on all requests, but left out with the fragment when the repo is
+printed.
 
 See \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. Files directly under \code{url}
-are tried before \verb{<name>/}, and \code{.mustache} before \code{.R}. The first
-successful response is used. Responses with status 404 or 410 are treated
-as not found; other errors are raised. \code{name} is percent-encoded in the
-requested URLs, and names containing \code{/} are not found. Responses are not
-cached.
+are tried before \verb{<name>/}, and \code{.mustache} before \code{.R}. The first found is
+used. Status 404 and 410 count as not found; other errors are raised.
+\code{name} is percent-encoded, and names containing \code{/} are not found.
+Responses are not cached.
 
 Listing components (see \code{\link[=list_components]{list_components()}}) requires an HTML directory
 index at \verb{<url>/}, and at \verb{<url>/<dir>/} for nested components, e.g. Apache
@@ -29,15 +27,12 @@ or nginx autoindex, or \verb{python -m http.server}. Listing aborts if an index
 is unavailable or not HTML.
 
 Transient errors (see \code{\link[httr2:req_retry]{httr2::req_retry()}}) and network failures are
-retried. The number of attempts is set by the \code{max_tries} option. See
-\link{mighty.component-options}.
+retried. The number of attempts is set by the \code{max_tries} option (see
+\link{mighty.component-options}).
 }
 \examples{
 \dontrun{
 repo <- mighty_repo_url(url = "https://example.com/components")
 find_component(component = "ady", repos = repo)
 }
-}
-\seealso{
-\code{\link[=mighty_repo]{mighty_repo()}}
 }

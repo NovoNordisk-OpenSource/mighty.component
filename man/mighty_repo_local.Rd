@@ -18,6 +18,3 @@ component.
 path <- system.file("examples", package = "mighty.component")
 mighty_repo_local(path = path)
 }
-\seealso{
-\code{\link[=mighty_repo]{mighty_repo()}}
-}
