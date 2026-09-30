@@ -189,7 +189,7 @@ index_links <- function(request, call = rlang::caller_env()) {
     abort_url(message = message, request = request, call = call)
   }
 
-  if (!httr2::resp_has_body(resp = resp)) {
+  if (!length(resp$body)) {
     return(character(0))
   }
 
