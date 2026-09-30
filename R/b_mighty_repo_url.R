@@ -176,15 +176,11 @@ index_links <- function(request, call = rlang::caller_env()) {
     )
   }
 
-  # Not httr2::resp_has_body(), which is missing in httr2 < 1.0.0
-  if (!length(resp$body)) {
+  if (!httr2::resp_has_body(resp = resp)) {
     return(character(0))
   }
 
-  # Raw input, as xml2 reads a string without markup as a file path
-  links <- httr2::resp_body_string(resp = resp) |>
-    charToRaw() |>
-    xml2::read_html(encoding = "UTF-8") |>
+  links <- httr2::resp_body_html(resp = resp, check_type = FALSE) |>
     xml2::xml_find_all(xpath = "//a[@href]") |>
     xml2::xml_attr(attr = "href")
 
@@ -210,25 +206,21 @@ decode_links <- function(links) {
 S7::method(component_ids, mighty_repo_url) <- function(repos) {
   request <- dir_request(request = repos@request)
   links <- index_links(request = request)
-  is_dir <- endsWith(x = links, suffix = "/")
 
   nested <- lapply(
-    X = links[is_dir],
+    X = links[endsWith(x = links, suffix = "/")],
     FUN = \(dir) {
       files <- request |>
         httr2::req_url_path_append(dir) |>
         index_links()
 
-      file.path(
-        decode_links(links = sub(pattern = "/$", replacement = "", x = dir)),
-        decode_links(links = files[!endsWith(x = files, suffix = "/")])
-      )
+      paste0(dir, files)
     }
   )
 
-  ids_from_files(
-    files = c(decode_links(links = links[!is_dir]), unlist(nested))
-  )
+  c(links, unlist(nested)) |>
+    decode_links() |>
+    ids_from_files()
 }
 
 #' @noRd
