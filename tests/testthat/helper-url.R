@@ -78,8 +78,6 @@ url_index_nested <- '<html><body><pre>
 #' without trailing `/`) is `"/"`. Unknown paths return 404.
 #' Returns an environment recording the requested URLs in `urls`.
 local_mock_url <- function(routes = list(), env = parent.frame()) {
-  skip_if_not_installed("httr2", minimum_version = "1.2.2")
-
   calls <- new.env(parent = emptyenv())
   calls$urls <- character(0)
 

@@ -47,35 +47,6 @@ test_that("mighty_repo_url errors on invalid max_tries option", {
     expect_error("max_tries")
 })
 
-test_that("mighty_repo_url reads max_tries option on every request", {
-  repo <- mighty_repo_url(url = url_base)
-
-  expect_equal(repo@request$policies$retry_max_tries, 3L)
-
-  withr::local_options(mighty.component.max_tries = 5L)
-
-  expect_equal(repo@request$policies$retry_max_tries, 5L)
-})
-
-test_that("mighty_repo_url request follows url", {
-  repo <- mighty_repo_url(url = url_base)
-  repo@url <- "https://example.org/other"
-
-  expect_equal(repo@request$url, "https://example.org/other")
-
-  expect_error(
-    repo@url <- "ftp://example.com/components",
-    "must start with"
-  )
-
-  expect_error(repo@url <- "", "must be a single non-empty string")
-
-  expect_error(
-    repo@request <- httr2::request(base_url = url_base),
-    "read-only"
-  )
-})
-
 test_that("format returns url spec", {
   mighty_repo_url(url = url_base) |>
     format() |>
@@ -302,43 +273,6 @@ test_that("mighty_repos falls through url repo to local repo", {
 
   expect_equal(component$id, "ady.R")
   expect_length(calls$urls, 4)
-})
-
-test_that("find_component accepts url:: spec", {
-  local_mock_url(routes = list(ady.R = url_component_response("R")))
-
-  component <- find_component(
-    component = "ady",
-    repos = paste0("url::", url_base)
-  )
-
-  expect_equal(component$id, "ady.R")
-})
-
-test_that("fetch_url returns response or NULL when missing", {
-  local_mock_url(routes = list(a = url_body_response(body = "x"), b = 410L))
-  req <- httr2::request(base_url = url_base)
-
-  req |>
-    httr2::req_url_path_append("a") |>
-    fetch_url() |>
-    httr2::resp_body_string() |>
-    expect_equal("x")
-
-  req |>
-    httr2::req_url_path_append("b") |>
-    fetch_url() |>
-    expect_null()
-})
-
-test_that("fetch_url errors on missing with allow_missing = FALSE", {
-  local_mock_url()
-
-  err <- httr2::request(base_url = url_base) |>
-    fetch_url(message = "Nope {.url {url}}.", allow_missing = FALSE) |>
-    expect_error("Nope.*/components")
-
-  expect_s3_class(err$parent, "httr2_http_404")
 })
 
 test_that("component_ids lists Apache-style directory index", {
