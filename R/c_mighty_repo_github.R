@@ -13,6 +13,7 @@
 #' number of attempts is set by the `max_tries` option. See
 #' [mighty.component-options].
 #' @param spec `character(1)` GitHub repository reference. See description.
+#' @seealso [mighty_repo()]
 #' @export
 mighty_repo_github <- S7::new_class(
   name = "mighty_repo_github",

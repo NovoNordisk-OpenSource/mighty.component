@@ -23,3 +23,6 @@ Transient API errors (HTTP 5xx and network failures) are retried. The
 number of attempts is set by the \code{max_tries} option. See
 \link{mighty.component-options}.
 }
+\seealso{
+\code{\link[=mighty_repo]{mighty_repo()}}
+}
