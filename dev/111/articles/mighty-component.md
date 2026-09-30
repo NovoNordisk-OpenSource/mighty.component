@@ -352,10 +352,10 @@ it:
 ``` r
 
 r2base <- get_component(r2base_file)
-#> → Found "file1bf9296ed953.mustache" in "local::/tmp/RtmpYO33Pu"
+#> → Found "file1b7cc660fee.mustache" in "local::/tmp/RtmpkCXhAQ"
 r2base
 #> <mighty_component/R6>
-#> file1bf9296ed953.mustache: Ratio to baseline
+#> file1b7cc660fee.mustache: Ratio to baseline
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of the domain
@@ -448,7 +448,7 @@ Here is a component that fails validation:
 ``` r
 
 get_rendered_component(bad_file, list(domain = "ADAE"))
-#> → Found "file1bf916706216.mustache" in "local::/tmp/RtmpYO33Pu"
+#> → Found "file1b7c7d8812ab.mustache" in "local::/tmp/RtmpkCXhAQ"
 #> Error in `abort_validation_errors()`:
 #> ! Component validation failed:
 #> 
@@ -478,7 +478,7 @@ The fix is to specify the join key explicitly:
 ``` r
 
 get_rendered_component(good_file, list(domain = "ADAE"))$code
-#> → Found "file1bf958e52328.mustache" in "local::/tmp/RtmpYO33Pu"
+#> → Found "file1b7c31945b3c.mustache" in "local::/tmp/RtmpkCXhAQ"
 #> [1] "ADAE <- ADAE |>"                                             
 #> [2] "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 ```
