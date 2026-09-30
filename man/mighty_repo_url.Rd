@@ -21,6 +21,8 @@ A component \code{name} is looked up by requesting, in order:
 \item \verb{<url>/<name>/<name>.mustache}
 }
 
+Names containing \code{/} are not found.
+
 If \code{name} has a \code{.R} or \code{.mustache} extension, only that file is requested,
 flat and nested. The first successful response is used. Responses with
 status 404 or 410 are treated as not found; other errors are raised.

@@ -229,6 +229,19 @@ test_that("find_component percent-encodes component names", {
   )
 })
 
+test_that("find_component returns NULL for names with a slash", {
+  calls <- local_mock_url()
+  repo <- mighty_repo_url(url = url_base)
+
+  find_component(component = "nested/nested", repos = repo) |>
+    expect_null()
+
+  find_component(component = "../x", repos = repo) |>
+    expect_null()
+
+  expect_length(calls$urls, 0)
+})
+
 test_that("find_component splits CRLF line endings", {
   body <- paste(url_fixture(ext = "mustache"), collapse = "\r\n")
   local_mock_url(routes = list(ady.mustache = url_body_response(body = body)))

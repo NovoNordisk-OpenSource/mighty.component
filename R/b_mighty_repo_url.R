@@ -9,6 +9,8 @@
 #' 1. `<url>/<name>/<name>.R`
 #' 1. `<url>/<name>/<name>.mustache`
 #'
+#' Names containing `/` are not found.
+#'
 #' If `name` has a `.R` or `.mustache` extension, only that file is requested,
 #' flat and nested. The first successful response is used. Responses with
 #' status 404 or 410 are treated as not found; other errors are raised.
@@ -120,7 +122,7 @@ fetch_url <- function(
   )
 }
 
-#' Percent-encode each segment of a relative path, keeping the `/`
+#' Percent-encode the segments of `<name>/<file>`
 #'
 #' Already encoded input is encoded again, as names are decoded.
 #' @noRd
@@ -233,6 +235,10 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
   repos,
   component
 ) {
+  if (grepl(pattern = "/", x = component, fixed = TRUE)) {
+    return(NULL)
+  }
+
   files <- if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
     component
   } else {
