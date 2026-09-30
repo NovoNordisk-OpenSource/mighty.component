@@ -2,8 +2,7 @@
 #' @description
 #' * `mighty_repo()`: Create a component repo from a spec.
 #' * `mighty_repo_class`: Abstract parent class of all component repos. It has
-#'   one property, `@path`: the location holding the components (directory or
-#'   base URL), as a single non-empty string. It cannot be created directly.
+#'   no properties and cannot be created directly.
 #'
 #' Specs have the form `type::path`. Supported types:
 #' * `local`: A local directory, e.g. `local::inst/examples`.
@@ -46,14 +45,6 @@ mighty_repo <- function(spec) {
 #' @export
 mighty_repo_class <- S7::new_class(
   name = "mighty_repo_class",
-  properties = list(
-    path = S7::new_property(
-      class = S7::class_character,
-      validator = \(value) {
-        validate_string(value)
-      }
-    )
-  ),
   abstract = TRUE
 )
 

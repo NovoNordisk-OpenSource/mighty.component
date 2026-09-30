@@ -17,8 +17,7 @@ mighty_repo(spec)
 \itemize{
 \item \code{mighty_repo()}: Create a component repo from a spec.
 \item \code{mighty_repo_class}: Abstract parent class of all component repos. It has
-one property, \verb{@path}: the location holding the components (directory or
-base URL), as a single non-empty string. It cannot be created directly.
+no properties and cannot be created directly.
 }
 
 Specs have the form \code{type::path}. Supported types:

@@ -5,6 +5,25 @@ test_that("mighty_repo_local errors when path does not exist", {
     expect_error("Directory .* does not exist")
 })
 
+test_that("mighty_repo_local requires path to be a single non-empty string", {
+  paths <- c(
+    local_component_repo(files = "ady.R"),
+    local_component_repo(files = "ady.R")
+  )
+
+  mighty_repo_local(path = paths) |>
+    expect_error("must be a single non-empty string")
+
+  mighty_repo_local(path = character(0)) |>
+    expect_error("must be a single non-empty string")
+
+  mighty_repo_local(path = NA_character_) |>
+    expect_error("must be a single non-empty string")
+
+  mighty_repo_local(path = "") |>
+    expect_error("must be a single non-empty string")
+})
+
 test_that("ids_from_files returns flat files without extension", {
   ids_from_files(files = c("ady.R", "adt.mustache", "notes.txt")) |>
     expect_equal(c("ady", "adt"))

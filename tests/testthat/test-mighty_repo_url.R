@@ -6,7 +6,7 @@ test_that("mighty_repo_url creates repo from string URL", {
   expect_true(S7::S7_inherits(repo, mighty_repo_url))
   expect_true(S7::S7_inherits(repo, mighty_repo_class))
   expect_s3_class(repo@request, "httr2_request")
-  expect_equal(repo@path, url_base)
+  expect_equal(repo@url, paste0(url_base, "/?token=abc"))
   expect_equal(repo@request$url, paste0(url_base, "/?token=abc"))
 })
 
@@ -47,7 +47,7 @@ test_that("mighty_repo_url errors on invalid max_tries option", {
 })
 
 test_that("format returns url spec", {
-  mighty_repo_url(url = paste0(url_base, "/")) |>
+  mighty_repo_url(url = url_base) |>
     format() |>
     expect_equal(paste0("url::", url_base))
 })
@@ -56,7 +56,7 @@ test_that("mighty_repo creates url repo from url:: prefix", {
   repo <- mighty_repo(spec = paste0("url::", url_base))
 
   expect_true(S7::S7_inherits(repo, mighty_repo_url))
-  expect_equal(repo@path, url_base)
+  expect_equal(repo@url, url_base)
 })
 
 test_that("find_component finds flat .mustache component", {

@@ -35,22 +35,26 @@ mighty_repo_url <- S7::new_class(
   name = "mighty_repo_url",
   parent = mighty_repo_class,
   properties = list(
+    url = S7::new_property(
+      class = S7::class_character,
+      validator = \(value) {
+        validate_string(value)
+      }
+    ),
     request = S7::new_S3_class("httr2_request")
   ),
   constructor = function(url) {
-    props <- url_repo_properties(url = url)
-
     S7::new_object(
       S7::S7_object(),
-      path = props$path,
-      request = props$request
+      url = url,
+      request = url_request(url = url)
     )
   }
 )
 
-#' Validate `url`, build the request and derive `@path`
+#' Validate `url` and build the request
 #' @noRd
-url_repo_properties <- function(url, call = rlang::caller_env()) {
+url_request <- function(url, call = rlang::caller_env()) {
   # httr2 < 1.2.2 encodes already encoded URL paths again
   rlang::check_installed("httr2", version = "1.2.2", call = call)
 
@@ -67,23 +71,17 @@ url_repo_properties <- function(url, call = rlang::caller_env()) {
     )
   }
 
-  request <- httr2::request(base_url = url) |>
+  httr2::request(base_url = url) |>
     httr2::req_retry(
       max_tries = get_max_tries(),
       retry_on_failure = TRUE,
       is_transient = \(resp) httr2::resp_status(resp = resp) >= 500
     )
-
-  # Not httr2::url_modify(), which is missing in httr2 < 1.1.0
-  path <- sub(pattern = "\\?[^#]*", replacement = "", x = request$url) |>
-    sub(pattern = "/+$", replacement = "")
-
-  list(path = path, request = request)
 }
 
 #' @noRd
 S7::method(format, mighty_repo_url) <- function(x, ...) {
-  paste0("url::", x@path)
+  paste0("url::", x@url)
 }
 
 #' Perform a request
