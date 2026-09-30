@@ -37,6 +37,7 @@ mighty_repo <- function(spec) {
     local = mighty_repo_local(path = path),
     github = mighty_repo_github(spec = path),
     url = mighty_repo_url(url = path),
+    api = mighty_repo_api(url = path),
     cli::cli_abort("Unknown repo type {.val {type}} in {.val {spec}}.")
   )
 }

@@ -38,6 +38,7 @@ exdir
 fakepkg
 httr
 IDVARVAL
+jsonlite
 kable
 knitr
 LBTEST
