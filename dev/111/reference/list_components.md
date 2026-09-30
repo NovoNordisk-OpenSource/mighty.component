@@ -28,9 +28,7 @@ list_components(repos, as = c("character", "list", "tibble"))
     collection.
 
   Character vectors and lists are converted once with
-  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md),
-  so GitHub refs are only resolved once. See
-  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
+  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
 
 - as:
 
@@ -62,8 +60,7 @@ Depending on `as`:
 ## See also
 
 [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-[`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md),
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
+[`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md)
 
 ## Examples
 

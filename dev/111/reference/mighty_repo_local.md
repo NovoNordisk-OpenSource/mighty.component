@@ -17,10 +17,6 @@ mighty_repo_local(path)
 
   `character(1)` path to an existing directory.
 
-## See also
-
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
-
 ## Examples
 
 ``` r

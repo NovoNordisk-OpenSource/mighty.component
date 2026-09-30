@@ -24,12 +24,29 @@ get_rendered_component(component, params = list(), repos = NULL)
 - component:
 
   `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL`.
+  `.mustache`) when `repos` is `NULL`. The directory of the path must
+  exist.
 
 - repos:
 
-  prioritized `character` vector of locations to look for component in.
-  See details.
+  Where to look. One of:
+
+  - `NULL` (default): `component` is a file path.
+
+  - `character` vector of repo specs, in priority order. See
+    [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
+
+  - A `mighty_repo_class` object.
+
+  - A `list` of repo specs or `mighty_repo_class` objects, in priority
+    order.
+
+  - A
+    [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md)
+    collection.
+
+  Character vectors and lists are converted once with
+  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
 
 - params:
 
@@ -43,14 +60,6 @@ Processes different component types based on file extension:
 - `.R`: Extracts and renders custom functions.
 
 - `.mustache`: Creates components from the template files.
-
-The `repos` parameter accepts a character vector of repo specs, in
-priority order. See
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
-
-When `repos` is `NULL`, `component` is a path to a component file.
-Otherwise `component` is a component name, with or without extension,
-looked up in `repos`.
 
 ## See also
 

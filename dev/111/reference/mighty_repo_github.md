@@ -25,3 +25,7 @@ mighty_repo_github(spec)
 - spec:
 
   `character(1)` GitHub repository reference. See description.
+
+## See also
+
+[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)

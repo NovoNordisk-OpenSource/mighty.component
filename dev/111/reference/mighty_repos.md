@@ -23,7 +23,6 @@ mighty_repos(repos = character(0))
 
 ## See also
 
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
 [`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md),
 [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
 
