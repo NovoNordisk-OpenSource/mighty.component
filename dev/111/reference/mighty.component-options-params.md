@@ -12,9 +12,9 @@ Internal parameters for reuse in functions
 
 - max_tries:
 
-  Maximum number of attempts for GitHub and URL requests. Transient
-  errors (HTTP 5xx and network failures) are retried; other errors are
-  not.. Default: `3L`.
+  Maximum number of attempts for GitHub and URL requests. Network
+  failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are
+  retried; other errors are not.. Default: `3L`.
 
 ## Details
 

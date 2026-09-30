@@ -3,9 +3,7 @@
 - `mighty_repo()`: Create a component repo from a spec.
 
 - `mighty_repo_class`: Abstract parent class of all component repos. It
-  has one property, `@path`: the location holding the components
-  (directory or base URL), as a single non-empty string. It cannot be
-  created directly.
+  has no properties and cannot be created directly.
 
 Specs have the form `type::path`. Supported types:
 
