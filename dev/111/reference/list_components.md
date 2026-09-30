@@ -35,8 +35,6 @@ list_components(repos, as = c("character", "list", "tibble"))
   so GitHub refs are only resolved once. URL repos need an HTML
   directory index (see
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)).
-  API repos list via `GET` on the base URL (see
-  [`mighty_repo_api()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_api.md)).
 
 - as:
 

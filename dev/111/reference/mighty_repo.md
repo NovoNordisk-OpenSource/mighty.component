@@ -20,10 +20,6 @@ Specs have the form `type::path`. Supported types:
   `url::https://host/components`. See
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
-- `api`: A JSON API under a base URL, e.g.
-  `api::https://host/api/components`. See
-  [`mighty_repo_api()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_api.md).
-
 ## Usage
 
 ``` r
@@ -44,8 +40,7 @@ mighty_repo(spec)
 
 [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md),
 [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md),
-[`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md),
-[`mighty_repo_api()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_api.md)
+[`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
 
 ## Examples
 

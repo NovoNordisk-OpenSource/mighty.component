@@ -41,10 +41,8 @@ find_component(component, repos = NULL)
   [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
   GitHub refs are resolved once per session. See
   [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md).
-  URL and API repos request the component on every call. See
-  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
-  and
-  [`mighty_repo_api()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_api.md).
+  URL repos request the component on every call. See
+  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
 ## Value
 

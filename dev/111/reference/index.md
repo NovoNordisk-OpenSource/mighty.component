@@ -20,8 +20,6 @@
   : GitHub component repo
 - [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
   : URL component repo
-- [`mighty_repo_api()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_api.md)
-  : API component repo
 - [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md)
   : Collection of component repos
 
