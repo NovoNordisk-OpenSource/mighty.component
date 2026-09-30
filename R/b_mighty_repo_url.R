@@ -1,3 +1,15 @@
+#' @noRd
+validate_url <- function(value) {
+  msg <- validate_string(value)
+  if (!is.null(msg)) {
+    return(msg)
+  }
+
+  if (!grepl(pattern = "^https?://", x = value)) {
+    "must start with http:// or https://" # DevSkim: ignore DS137138
+  }
+}
+
 #' URL component repo
 #' @description
 #' A component repo served as raw files under a base URL, e.g.
@@ -43,9 +55,7 @@ mighty_repo_url <- S7::new_class(
   properties = list(
     url = S7::new_property(
       class = S7::class_character,
-      validator = \(value) {
-        validate_url(value)
-      }
+      validator = validate_url
     ),
     request = S7::new_property(
       class = S7::new_S3_class("httr2_request"),
@@ -55,23 +65,10 @@ mighty_repo_url <- S7::new_class(
   constructor = function(url) {
     # httr2 < 1.2.2 encodes already encoded URL paths again
     rlang::check_installed("httr2", version = "1.2.2")
-    check_string(x = url)
 
     S7::new_object(S7::S7_object(), url = url)
   }
 )
-
-#' @noRd
-validate_url <- function(value) {
-  msg <- validate_string(value)
-  if (!is.null(msg)) {
-    return(msg)
-  }
-
-  if (!grepl(pattern = "^https?://", x = value)) {
-    "must start with http:// or https://" # DevSkim: ignore DS137138
-  }
-}
 
 #' Request for `url` with retry policy
 #' @noRd
@@ -115,28 +112,19 @@ fetch_url <- function(
     return(NULL)
   }
 
+  abort_url(message = message, request = request, parent = resp, call = call)
+}
+
+#' Abort with `message`, a cli message interpolated with `url` (the request
+#' URL) in scope
+#' @noRd
+abort_url <- function(message, request, parent = NULL, call) {
   cli::cli_abort(
     message = message,
-    parent = resp,
+    parent = parent,
     call = call,
     .envir = rlang::env(url = request$url)
   )
-}
-
-#' Percent-encode the segments of `<name>/<file>`
-#'
-#' Already encoded input is encoded again, as names are decoded.
-#' @noRd
-encode_path <- function(path) {
-  strsplit(x = path, split = "/", fixed = TRUE)[[1]] |>
-    vapply(
-      FUN = utils::URLencode,
-      FUN.VALUE = character(1),
-      reserved = TRUE,
-      repeated = TRUE,
-      USE.NAMES = FALSE
-    ) |>
-    paste(collapse = "/")
 }
 
 #' Request with exactly one trailing `/` on the URL path
@@ -169,11 +157,7 @@ index_links <- function(request, call = rlang::caller_env()) {
   )
 
   if (!identical(httr2::resp_content_type(resp = resp), "text/html")) {
-    cli::cli_abort(
-      message = message,
-      call = call,
-      .envir = rlang::env(url = request$url)
-    )
+    abort_url(message = message, request = request, call = call)
   }
 
   if (!httr2::resp_has_body(resp = resp)) {
@@ -189,17 +173,6 @@ index_links <- function(request, call = rlang::caller_env()) {
     !links %in% c("./", "../")
 
   links[keep]
-}
-
-#' Decode percent-encoded links
-#' @noRd
-decode_links <- function(links) {
-  vapply(
-    X = links,
-    FUN = utils::URLdecode,
-    FUN.VALUE = character(1),
-    USE.NAMES = FALSE
-  )
 }
 
 #' @noRd
@@ -219,7 +192,7 @@ S7::method(component_ids, mighty_repo_url) <- function(repos) {
   )
 
   c(links, unlist(nested)) |>
-    decode_links() |>
+    utils::URLdecode() |>
     ids_from_files()
 }
 
@@ -232,12 +205,15 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
     return(NULL)
   }
 
-  files <- component_candidates(component = component)
-  name <- tools::file_path_sans_ext(component)
+  # Already encoded input is encoded again, as names are decoded
+  files <- component_candidates(component = component) |>
+    utils::URLencode(reserved = TRUE, repeated = TRUE)
+  name <- tools::file_path_sans_ext(component) |>
+    utils::URLencode(reserved = TRUE, repeated = TRUE)
 
-  for (file in c(files, file.path(name, files))) {
+  for (path in c(files, paste0(name, "/", files))) {
     resp <- repos@request |>
-      httr2::req_url_path_append(encode_path(path = file)) |>
+      httr2::req_url_path_append(path) |>
       fetch_url()
 
     if (!is.null(resp)) {
@@ -246,7 +222,9 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
         split = "\r?\n"
       )[[1]]
 
-      return(new_component(template = template, file = file))
+      return(
+        new_component(template = template, file = utils::URLdecode(path))
+      )
     }
   }
 }

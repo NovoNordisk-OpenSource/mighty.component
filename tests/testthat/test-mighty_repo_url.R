@@ -12,13 +12,13 @@ test_that("mighty_repo_url creates repo from string URL", {
 
 test_that("mighty_repo_url errors on invalid url", {
   mighty_repo_url(url = 1) |>
-    expect_error("must be a single string")
+    expect_error("must be <character>, not <double>")
 
   mighty_repo_url(url = c("https://example.com", "https://example.org")) |>
-    expect_error("must be a single string")
+    expect_error("must be a single non-empty string")
 
   mighty_repo_url(url = "") |>
-    expect_error("must be a single string")
+    expect_error("must be a single non-empty string")
 
   mighty_repo_url(url = "ftp://example.com/components") |>
     expect_error("must start with")
