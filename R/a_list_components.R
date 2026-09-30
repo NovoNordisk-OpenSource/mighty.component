@@ -10,8 +10,7 @@
 #' * A `list` of repo specs or `mighty_repo_class` objects.
 #' * A [mighty_repos()] collection.
 #'
-#' Character vectors and lists are converted once with [mighty_repos()], so
-#' GitHub refs are only resolved once. See [mighty_repo_url()].
+#' Character vectors and lists are converted once with [mighty_repos()].
 #' @param as Format to list the components in:
 #' * `"character"`: component names (filenames without extension).
 #' * `"list"`: metadata for each component.
