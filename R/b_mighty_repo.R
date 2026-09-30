@@ -23,7 +23,8 @@
 #' path <- system.file("examples", package = "mighty.component")
 #' mighty_repo(path)
 #' mighty_repo(paste0("local::", path))
-#' @seealso [mighty_repo_local()], [mighty_repo_github()], [mighty_repo_url()]
+#' @seealso [mighty_repo_local()], [mighty_repo_github()], [mighty_repo_url()],
+#'   [mighty_repos()]
 #' @export
 mighty_repo <- function(spec) {
   check_string(spec)

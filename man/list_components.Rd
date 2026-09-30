@@ -51,5 +51,5 @@ list_components(path, as = "list") |>
   str(max.level = 2)
 }
 \seealso{
-\code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=mighty_repo]{mighty_repo()}}
+\code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}
 }

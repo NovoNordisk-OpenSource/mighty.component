@@ -31,7 +31,7 @@
 #'
 #' list_components(path, as = "list") |>
 #'   str(max.level = 2)
-#' @seealso [get_component()], [find_component()], [mighty_repo()]
+#' @seealso [get_component()], [find_component()]
 #' @export
 list_components <- function(repos, as = c("character", "list", "tibble")) {
   as <- rlang::arg_match(as)

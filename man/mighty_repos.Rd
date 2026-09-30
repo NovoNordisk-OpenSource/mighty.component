@@ -27,5 +27,5 @@ repos
 find_component(component = "ady", repos = repos)
 }
 \seealso{
-\code{\link[=mighty_repo]{mighty_repo()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=list_components]{list_components()}}
+\code{\link[=find_component]{find_component()}}, \code{\link[=list_components]{list_components()}}
 }

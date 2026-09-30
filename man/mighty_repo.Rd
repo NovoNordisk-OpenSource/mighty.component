@@ -41,5 +41,6 @@ mighty_repo(path)
 mighty_repo(paste0("local::", path))
 }
 \seealso{
-\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}, \code{\link[=mighty_repo_url]{mighty_repo_url()}}
+\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}, \code{\link[=mighty_repo_url]{mighty_repo_url()}},
+\code{\link[=mighty_repos]{mighty_repos()}}
 }
