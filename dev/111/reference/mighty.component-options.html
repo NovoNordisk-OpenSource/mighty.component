@@ -16,7 +16,7 @@ Environment: R_MIGHTY.COMPONENT_VERBOSITY_LEVEL
 max_tries
 
 
-Maximum number of attempts for GitHub and URL requests. Network failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. See mighty_repo_github() and mighty_repo_url() for which errors are retried.
 Default: 3L
 Option: mighty.component.max_tries
 Environment: R_MIGHTY.COMPONENT_MAX_TRIES
@@ -40,7 +40,7 @@ Environment: R_MIGHTY.COMPONENT_VERBOSITY_LEVEL
 max_tries
 
 
-Maximum number of attempts for GitHub and URL requests. Network failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. See mighty_repo_github() and mighty_repo_url() for which errors are retried.
 Default: 3L
 Option: mighty.component.max_tries
 Environment: R_MIGHTY.COMPONENT_MAX_TRIES
@@ -96,7 +96,7 @@ Environment: R_MIGHTY.COMPONENT_MAX_TRIES
 <h3 id="max-tries">max_tries<a class="anchor" aria-label="anchor" href="#max-tries"></a></h3>
 
 
-<p>Maximum number of attempts for GitHub and URL requests. Network failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are retried; other errors are not.</p><ul><li><p>Default: <code>3L</code></p></li>
+<p>Maximum number of attempts for GitHub and URL requests. See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code> and <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code> for which errors are retried.</p><ul><li><p>Default: <code>3L</code></p></li>
 <li><p>Option: <code>mighty.component.max_tries</code></p></li>
 <li><p>Environment: <code>R_MIGHTY.COMPONENT_MAX_TRIES</code></p></li>
 </ul></div>

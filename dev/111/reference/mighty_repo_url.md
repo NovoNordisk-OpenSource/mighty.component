@@ -2,8 +2,9 @@
 
 A component repo served as raw files under a base URL, e.g.
 `https://example.com/components`. Authentication is only possible
-through the query string, e.g. a token or signed URL. Custom headers are
-not supported.
+through the query string, e.g. a token or signed URL. The query string
+is kept on all requests, but left out when the repo is printed. Custom
+headers are not supported.
 
 A component `name` is looked up by requesting, in order:
 
@@ -20,26 +21,21 @@ Names containing `/` are not found.
 If `name` has a `.R` or `.mustache` extension, only that file is
 requested, flat and nested. The first successful response is used.
 Responses with status 404 or 410 are treated as not found; other errors
-are raised. `name` is percent-encoded in the requested URLs. Any query
-string in `url` is kept on all requests, but left out when the repo is
-printed. Responses are not cached.
+are raised. `name` is percent-encoded in the requested URLs. Responses
+are not cached.
 
 Listing components (see
 [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md))
-requires the server to provide an HTML directory index, e.g. Apache or
-nginx autoindex, or `python -m http.server`. The index at `<url>/` is
-parsed for relative links to entries directly in the directory. Links to
-files (`<file>`) are flat components. Links to directories (`<dir>/`)
-are listed through their own index at `<url>/<dir>/`, and hold nested
-components. Absolute links, links with a query or fragment, and `../`
-are ignored. Listing aborts if an index is unavailable or not HTML.
+requires an HTML directory index at `<url>/`, and at `<url>/<dir>/` for
+nested components, e.g. Apache or nginx autoindex, or
+`python -m http.server`. Listing aborts if an index is unavailable or
+not HTML.
 
-Transient errors (HTTP 429 and 503, and network failures) are retried.
-The number of attempts is set by the `max_tries` option. See
+Transient errors (see
+[`httr2::req_retry()`](https://httr2.r-lib.org/reference/req_retry.html))
+and network failures are retried. The number of attempts is set by the
+`max_tries` option. See
 [mighty.component-options](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md).
-The option is read on every request.
-
-Requires httr2 \>= 1.2.2.
 
 ## Usage
 

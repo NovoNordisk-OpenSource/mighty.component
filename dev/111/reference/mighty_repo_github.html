@@ -5,13 +5,19 @@ downloaded and extracted to a temporary directory. Resolved SHAs are cached
 per ref and tarballs per commit for the session, so all lookups afterwards
 are local. Restart the session to pick up new commits on a branch.
 spec is a remotes-style repository reference: owner/repo,
-owner/repo/subdir, owner/repo@ref or a combination."><meta property="og:description" content="A component repo hosted on GitHub. When the object is created, ref is
+owner/repo/subdir, owner/repo@ref or a combination.
+Transient API errors (HTTP 5xx and network failures) are retried. The
+number of attempts is set by the max_tries option. See
+mighty.component-options."><meta property="og:description" content="A component repo hosted on GitHub. When the object is created, ref is
 resolved to a commit SHA and the repository tarball for that commit is
 downloaded and extracted to a temporary directory. Resolved SHAs are cached
 per ref and tarballs per commit for the session, so all lookups afterwards
 are local. Restart the session to pick up new commits on a branch.
 spec is a remotes-style repository reference: owner/repo,
-owner/repo/subdir, owner/repo@ref or a combination."><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
+owner/repo/subdir, owner/repo@ref or a combination.
+Transient API errors (HTTP 5xx and network failures) are retried. The
+number of attempts is set by the max_tries option. See
+mighty.component-options."><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -53,6 +59,9 @@ per ref and tarballs per commit for the session, so all lookups afterwards
 are local. Restart the session to pick up new commits on a branch.</p>
 <p><code>spec</code> is a <code>remotes</code>-style repository reference: <code>owner/repo</code>,
 <code>owner/repo/subdir</code>, <code>owner/repo@ref</code> or a combination.</p>
+<p>Transient API errors (HTTP 5xx and network failures) are retried. The
+number of attempts is set by the <code>max_tries</code> option. See
+<a href="mighty.component-options.html">mighty.component-options</a>.</p>
     </div>
 
     <div class="section level2">

@@ -10,6 +10,10 @@ branch.
 `spec` is a `remotes`-style repository reference: `owner/repo`,
 `owner/repo/subdir`, `owner/repo@ref` or a combination.
 
+Transient API errors (HTTP 5xx and network failures) are retried. The
+number of attempts is set by the `max_tries` option. See
+[mighty.component-options](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md).
+
 ## Usage
 
 ``` r

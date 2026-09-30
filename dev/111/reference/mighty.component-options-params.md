@@ -12,9 +12,11 @@ Internal parameters for reuse in functions
 
 - max_tries:
 
-  Maximum number of attempts for GitHub and URL requests. Network
-  failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are
-  retried; other errors are not.. Default: `3L`.
+  Maximum number of attempts for GitHub and URL requests. See
+  [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md)
+  and
+  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
+  for which errors are retried.. Default: `3L`.
 
 ## Details
 

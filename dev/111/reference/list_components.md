@@ -32,9 +32,8 @@ list_components(repos, as = c("character", "list", "tibble"))
 
   Character vectors and lists are converted once with
   [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md),
-  so GitHub refs are only resolved once. URL repos need an HTML
-  directory index (see
-  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)).
+  so GitHub refs are only resolved once. See
+  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
 - as:
 

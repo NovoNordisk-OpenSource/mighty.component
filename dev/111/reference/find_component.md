@@ -40,8 +40,8 @@ find_component(component, repos = NULL)
   Character vectors and lists are converted with
   [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
   GitHub refs are resolved once per session. See
-  [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md).
-  URL repos request the component on every call. See
+  [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md)
+  and
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
 ## Value
