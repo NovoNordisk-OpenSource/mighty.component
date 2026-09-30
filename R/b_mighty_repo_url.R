@@ -13,7 +13,8 @@
 #' flat and nested. The first successful response is used. Responses with
 #' status 404 or 410 are treated as not found; other errors are raised.
 #' `name` is percent-encoded in the requested URLs. Any query string in `url`
-#' is kept on all requests. Responses are not cached.
+#' is kept on all requests, but left out when the repo is printed. Responses are
+#' not cached.
 #'
 #' Listing components (see [list_components()]) requires the server to
 #' provide an HTML directory index, e.g. Apache or nginx autoindex, or
@@ -79,9 +80,11 @@ url_request <- function(url, call = rlang::caller_env()) {
     )
 }
 
+#' Query and fragment are dropped, as they may hold credentials
 #' @noRd
 S7::method(format, mighty_repo_url) <- function(x, ...) {
-  paste0("url::", x@url)
+  url <- httr2::url_modify(url = x@url, query = NULL, fragment = NULL)
+  paste0("url::", url)
 }
 
 #' Perform a request

@@ -25,7 +25,8 @@ If \code{name} has a \code{.R} or \code{.mustache} extension, only that file is 
 flat and nested. The first successful response is used. Responses with
 status 404 or 410 are treated as not found; other errors are raised.
 \code{name} is percent-encoded in the requested URLs. Any query string in \code{url}
-is kept on all requests. Responses are not cached.
+is kept on all requests, but left out when the repo is printed. Responses are
+not cached.
 
 Listing components (see \code{\link[=list_components]{list_components()}}) requires the server to
 provide an HTML directory index, e.g. Apache or nginx autoindex, or
