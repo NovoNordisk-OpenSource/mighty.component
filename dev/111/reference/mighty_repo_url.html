@@ -4,18 +4,18 @@ https://example.com/components. Authentication is only possible through
 the query string, e.g. a token or signed URL. The query string is kept on
 all requests, but left out when the repo is printed. Custom headers are not
 supported.
-A component name is looked up by requesting, in order:
+Components follow the layout in mighty_repo(). A component name is
+looked up by requesting, in order:
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;.R
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;.mustache
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.R
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.mustache
 
 
-Names containing / are not found.
-If name has a .R or .mustache extension, only that file is requested,
-flat and nested. The first successful response is used. Responses with
-status 404 or 410 are treated as not found; other errors are raised.
-name is percent-encoded in the requested URLs. Responses are not cached.
+The first successful response is used. Responses with status 404 or 410
+are treated as not found; other errors are raised. name is
+percent-encoded in the requested URLs, and names containing / are not
+found. Responses are not cached.
 Listing components (see list_components()) requires an HTML directory
 index at &amp;lt;url&amp;gt;/, and at &amp;lt;url&amp;gt;/&amp;lt;dir&amp;gt;/ for nested components, e.g. Apache
 or nginx autoindex, or python -m http.server. Listing aborts if an index
@@ -27,18 +27,18 @@ https://example.com/components. Authentication is only possible through
 the query string, e.g. a token or signed URL. The query string is kept on
 all requests, but left out when the repo is printed. Custom headers are not
 supported.
-A component name is looked up by requesting, in order:
+Components follow the layout in mighty_repo(). A component name is
+looked up by requesting, in order:
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;.R
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;.mustache
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.R
 &amp;lt;url&amp;gt;/&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.mustache
 
 
-Names containing / are not found.
-If name has a .R or .mustache extension, only that file is requested,
-flat and nested. The first successful response is used. Responses with
-status 404 or 410 are treated as not found; other errors are raised.
-name is percent-encoded in the requested URLs. Responses are not cached.
+The first successful response is used. Responses with status 404 or 410
+are treated as not found; other errors are raised. name is
+percent-encoded in the requested URLs, and names containing / are not
+found. Responses are not cached.
 Listing components (see list_components()) requires an HTML directory
 index at &amp;lt;url&amp;gt;/, and at &amp;lt;url&amp;gt;/&amp;lt;dir&amp;gt;/ for nested components, e.g. Apache
 or nginx autoindex, or python -m http.server. Listing aborts if an index
@@ -85,15 +85,15 @@ mighty.component-options."><meta property="og:image" content="https://novonordis
 the query string, e.g. a token or signed URL. The query string is kept on
 all requests, but left out when the repo is printed. Custom headers are not
 supported.</p>
-<p>A component <code>name</code> is looked up by requesting, in order:</p><ol><li><p><code>&lt;url&gt;/&lt;name&gt;.R</code></p></li>
+<p>Components follow the layout in <code><a href="mighty_repo.html">mighty_repo()</a></code>. A component <code>name</code> is
+looked up by requesting, in order:</p><ol><li><p><code>&lt;url&gt;/&lt;name&gt;.R</code></p></li>
 <li><p><code>&lt;url&gt;/&lt;name&gt;.mustache</code></p></li>
 <li><p><code>&lt;url&gt;/&lt;name&gt;/&lt;name&gt;.R</code></p></li>
 <li><p><code>&lt;url&gt;/&lt;name&gt;/&lt;name&gt;.mustache</code></p></li>
-</ol><p>Names containing <code>/</code> are not found.</p>
-<p>If <code>name</code> has a <code>.R</code> or <code>.mustache</code> extension, only that file is requested,
-flat and nested. The first successful response is used. Responses with
-status 404 or 410 are treated as not found; other errors are raised.
-<code>name</code> is percent-encoded in the requested URLs. Responses are not cached.</p>
+</ol><p>The first successful response is used. Responses with status 404 or 410
+are treated as not found; other errors are raised. <code>name</code> is
+percent-encoded in the requested URLs, and names containing <code>/</code> are not
+found. Responses are not cached.</p>
 <p>Listing components (see <code><a href="list_components.html">list_components()</a></code>) requires an HTML directory
 index at <code>&lt;url&gt;/</code>, and at <code>&lt;url&gt;/&lt;dir&gt;/</code> for nested components, e.g. Apache
 or nginx autoindex, or <code>python -m http.server</code>. Listing aborts if an index

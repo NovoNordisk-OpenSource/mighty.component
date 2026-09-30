@@ -6,6 +6,8 @@ through the query string, e.g. a token or signed URL. The query string
 is kept on all requests, but left out when the repo is printed. Custom
 headers are not supported.
 
+Components follow the layout in
+[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
 A component `name` is looked up by requesting, in order:
 
 1.  `<url>/<name>.R`
@@ -16,13 +18,10 @@ A component `name` is looked up by requesting, in order:
 
 4.  `<url>/<name>/<name>.mustache`
 
-Names containing `/` are not found.
-
-If `name` has a `.R` or `.mustache` extension, only that file is
-requested, flat and nested. The first successful response is used.
-Responses with status 404 or 410 are treated as not found; other errors
-are raised. `name` is percent-encoded in the requested URLs. Responses
-are not cached.
+The first successful response is used. Responses with status 404 or 410
+are treated as not found; other errors are raised. `name` is
+percent-encoded in the requested URLs, and names containing `/` are not
+found. Responses are not cached.
 
 Listing components (see
 [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md))

@@ -44,12 +44,9 @@ Processes different component types based on file extension:
 
 - `.mustache`: Creates components from the template files.
 
-The `repos` parameter accepts a character vector of locations to search,
-in priority order. Each element is a repo spec passed to
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md):
-a local directory path, or a GitHub source prefixed with `github::` in
-`owner/repo`, `owner/repo/subdir`, or `owner/repo@ref` format. The first
-match is returned.
+The `repos` parameter accepts a character vector of repo specs, in
+priority order. See
+[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
 
 When `repos` is `NULL`, `component` is a path to a component file.
 Otherwise `component` is a component name, with or without extension,

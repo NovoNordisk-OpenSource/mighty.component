@@ -1,8 +1,9 @@
 # Local component repo
 
-A component repo in a local directory. Components are `.R` or
-`.mustache` files directly in `path`, or in a directory named after the
-component (`<path>/<name>/<name>.R`).
+A component repo in a local directory. See
+[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
+for the component layout. An error is raised if more than one file
+matches a component.
 
 ## Usage
 

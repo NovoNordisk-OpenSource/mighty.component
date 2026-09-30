@@ -80,11 +80,8 @@ Check the documentation of the local component for details.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Processes different component types based on file extension:</p><ul><li><p><code>.R</code>: Extracts and renders custom functions.</p></li>
 <li><p><code>.mustache</code>: Creates components from the template files.</p></li>
-</ul><p>The <code>repos</code> parameter accepts a character vector of locations to search,
-in priority order. Each element is a repo spec passed to <code><a href="mighty_repo.html">mighty_repo()</a></code>:
-a local directory path, or a GitHub source prefixed with <code>github::</code> in
-<code>owner/repo</code>, <code>owner/repo/subdir</code>, or <code>owner/repo@ref</code> format.
-The first match is returned.</p>
+</ul><p>The <code>repos</code> parameter accepts a character vector of repo specs, in
+priority order. See <code><a href="mighty_repo.html">mighty_repo()</a></code>.</p>
 <p>When <code>repos</code> is <code>NULL</code>, <code>component</code> is a path to a component file.
 Otherwise <code>component</code> is a component name, with or without extension,
 looked up in <code>repos</code>.</p>

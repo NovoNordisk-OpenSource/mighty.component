@@ -18,6 +18,11 @@ Specs have the form `type::path`. Supported types:
   `url::https://example.com/components`. See
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
+All repo types share one layout. A component `name` is the file
+`<name>.R` or `<name>.mustache`, either directly in the repo or in a
+directory named after the component (`<name>/<name>.R`). A name with an
+extension only matches that file.
+
 ## Usage
 
 ``` r
