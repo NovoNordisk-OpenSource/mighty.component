@@ -1,8 +1,8 @@
 #' Local component repo
 #' @description
-#' A component repo in a local directory. Components are `.R` or `.mustache`
-#' files directly in `path`, or in a directory named after the component
-#' (`<path>/<name>/<name>.R`).
+#' A component repo in a local directory. See [mighty_repo()] for the
+#' component layout. An error is raised if more than one file matches a
+#' component.
 #' @param path `character(1)` path to an existing directory.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")

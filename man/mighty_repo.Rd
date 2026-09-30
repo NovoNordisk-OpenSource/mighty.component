@@ -29,6 +29,11 @@ See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.
 \item \code{url}: Raw files under a base URL, e.g.
 \verb{url::https://example.com/components}. See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
 }
+
+All repo types share one layout. A component \code{name} is the file
+\verb{<name>.R} or \verb{<name>.mustache}, either directly in the repo or in a
+directory named after the component (\verb{<name>/<name>.R}). A name with an
+extension only matches that file.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")

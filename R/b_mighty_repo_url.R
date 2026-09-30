@@ -18,18 +18,17 @@ validate_url <- function(value) {
 #' all requests, but left out when the repo is printed. Custom headers are not
 #' supported.
 #'
-#' A component `name` is looked up by requesting, in order:
+#' Components follow the layout in [mighty_repo()]. A component `name` is
+#' looked up by requesting, in order:
 #' 1. `<url>/<name>.R`
 #' 1. `<url>/<name>.mustache`
 #' 1. `<url>/<name>/<name>.R`
 #' 1. `<url>/<name>/<name>.mustache`
 #'
-#' Names containing `/` are not found.
-#'
-#' If `name` has a `.R` or `.mustache` extension, only that file is requested,
-#' flat and nested. The first successful response is used. Responses with
-#' status 404 or 410 are treated as not found; other errors are raised.
-#' `name` is percent-encoded in the requested URLs. Responses are not cached.
+#' The first successful response is used. Responses with status 404 or 410
+#' are treated as not found; other errors are raised. `name` is
+#' percent-encoded in the requested URLs, and names containing `/` are not
+#' found. Responses are not cached.
 #'
 #' Listing components (see [list_components()]) requires an HTML directory
 #' index at `<url>/`, and at `<url>/<dir>/` for nested components, e.g. Apache

@@ -12,6 +12,11 @@
 #' * `url`: Raw files under a base URL, e.g.
 #'   `url::https://example.com/components`. See [mighty_repo_url()].
 #'
+#' All repo types share one layout. A component `name` is the file
+#' `<name>.R` or `<name>.mustache`, either directly in the repo or in a
+#' directory named after the component (`<name>/<name>.R`). A name with an
+#' extension only matches that file.
+#'
 #' @param spec `character(1)` repo spec. See description.
 #' @returns `mighty_repo()`: An object inheriting from `mighty_repo_class`.
 #' @examples

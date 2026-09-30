@@ -10,9 +10,9 @@ mighty_repo_local(path)
 \item{path}{\code{character(1)} path to an existing directory.}
 }
 \description{
-A component repo in a local directory. Components are \code{.R} or \code{.mustache}
-files directly in \code{path}, or in a directory named after the component
-(\verb{<path>/<name>/<name>.R}).
+A component repo in a local directory. See \code{\link[=mighty_repo]{mighty_repo()}} for the
+component layout. An error is raised if more than one file matches a
+component.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")

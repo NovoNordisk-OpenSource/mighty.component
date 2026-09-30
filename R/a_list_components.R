@@ -1,11 +1,8 @@
 #' List components in repos
 #' @description
-#' List all available mighty components (`.R` and `.mustache` files)
-#' in the given repos.
-#'
-#' A component is either a file directly in the repo, or a file named after
-#' its directory one level down (`<name>/<name>.R`). Files starting with
-#' `test-` are not listed.
+#' List all available mighty components in the given repos. See
+#' [mighty_repo()] for the component layout. Files starting with `test-` are
+#' not listed.
 #'
 #' @param repos Where to look. One of:
 #' * `character` vector of repo specs. See [mighty_repo()].

@@ -34,11 +34,8 @@ Processes different component types based on file extension:
 \item \code{.mustache}: Creates components from the template files.
 }
 
-The \code{repos} parameter accepts a character vector of locations to search,
-in priority order. Each element is a repo spec passed to \code{\link[=mighty_repo]{mighty_repo()}}:
-a local directory path, or a GitHub source prefixed with \verb{github::} in
-\code{owner/repo}, \code{owner/repo/subdir}, or \code{owner/repo@ref} format.
-The first match is returned.
+The \code{repos} parameter accepts a character vector of repo specs, in
+priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
 
 When \code{repos} is \code{NULL}, \code{component} is a path to a component file.
 Otherwise \code{component} is a component name, with or without extension,

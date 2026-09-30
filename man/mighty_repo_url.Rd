@@ -16,7 +16,8 @@ the query string, e.g. a token or signed URL. The query string is kept on
 all requests, but left out when the repo is printed. Custom headers are not
 supported.
 
-A component \code{name} is looked up by requesting, in order:
+Components follow the layout in \code{\link[=mighty_repo]{mighty_repo()}}. A component \code{name} is
+looked up by requesting, in order:
 \enumerate{
 \item \verb{<url>/<name>.R}
 \item \verb{<url>/<name>.mustache}
@@ -24,12 +25,10 @@ A component \code{name} is looked up by requesting, in order:
 \item \verb{<url>/<name>/<name>.mustache}
 }
 
-Names containing \code{/} are not found.
-
-If \code{name} has a \code{.R} or \code{.mustache} extension, only that file is requested,
-flat and nested. The first successful response is used. Responses with
-status 404 or 410 are treated as not found; other errors are raised.
-\code{name} is percent-encoded in the requested URLs. Responses are not cached.
+The first successful response is used. Responses with status 404 or 410
+are treated as not found; other errors are raised. \code{name} is
+percent-encoded in the requested URLs, and names containing \code{/} are not
+found. Responses are not cached.
 
 Listing components (see \code{\link[=list_components]{list_components()}}) requires an HTML directory
 index at \verb{<url>/}, and at \verb{<url>/<dir>/} for nested components, e.g. Apache
