@@ -65,8 +65,11 @@ url_repo_properties <- function(url, call = rlang::caller_env()) {
 
     if (!grepl(pattern = "^https?://", x = url)) {
       cli::cli_abort(
-        "{.arg url} must start with {.val http://} or {.val https://},
-        not {.val {url}}.",
+        paste(
+          "{.arg url} must start with",
+          "{.val http://} or {.val https://},", # DevSkim: ignore DS137138
+          "not {.val {url}}."
+        ),
         call = call
       )
     }
@@ -197,17 +200,17 @@ index_links <- function(request, call = rlang::caller_env()) {
   }
 
   # Raw input, as xml2 reads a string without markup as a file path
-  hrefs <- httr2::resp_body_string(resp = resp) |>
+  links <- httr2::resp_body_string(resp = resp) |>
     charToRaw() |>
     xml2::read_html(encoding = "UTF-8") |>
     xml2::xml_find_all(xpath = "//a[@href]") |>
     xml2::xml_attr(attr = "href")
 
-  keep <- grepl(pattern = "^[^/?#]+/?$", x = hrefs) &
-    !grepl(pattern = "^[A-Za-z][A-Za-z0-9+.-]*:", x = hrefs) &
-    !hrefs %in% c("./", "../")
+  keep <- grepl(pattern = "^[^/?#]+/?$", x = links) &
+    !grepl(pattern = "^[A-Za-z][A-Za-z0-9+.-]*:", x = links) &
+    !links %in% c("./", "../")
 
-  hrefs[keep]
+  links[keep]
 }
 
 #' Decode percent-encoded links
