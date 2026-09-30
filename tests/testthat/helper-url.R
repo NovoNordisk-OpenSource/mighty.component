@@ -20,6 +20,16 @@ url_html_response <- function(body, type = "text/html; charset=utf-8") {
   )
 }
 
+url_json_response <- function(body, type = "application/json") {
+  url_html_response(body = body, type = type)
+}
+
+url_api_component_response <- function(ext, id = paste0("ady.", ext)) {
+  list(id = id, content = paste(url_fixture(ext = ext), collapse = "\n")) |>
+    jsonlite::toJSON(auto_unbox = TRUE) |>
+    url_json_response()
+}
+
 url_index_apache <- '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
 <head><title>Index of /components</title></head>
