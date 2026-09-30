@@ -7,14 +7,11 @@
 mighty_repo_url(url)
 }
 \arguments{
-\item{url}{\code{character(1)} base URL starting with \verb{http://} or \verb{https://},
-or an \code{httr2_request} for the base URL.}
+\item{url}{\code{character(1)} base URL starting with \verb{http://} or \verb{https://}.}
 }
 \description{
 A component repo served as raw files under a base URL, e.g.
-\verb{https://example.com/components}. Only public URLs are supported. To add
-headers, pass an \code{httr2_request} created with \code{\link[httr2:request]{httr2::request()}} instead of
-a string.
+\verb{https://example.com/components}. Only public URLs are supported.
 
 A component \code{name} is looked up by requesting, in order:
 \enumerate{
@@ -39,8 +36,7 @@ own index at \verb{<url>/<dir>/}, and hold nested components. Absolute links,
 links with a query or fragment, and \verb{../} are ignored. Listing aborts if
 an index is unavailable or not HTML.
 
-Unless the request already has a retry policy (see \code{\link[httr2:req_retry]{httr2::req_retry()}}),
-transient errors (HTTP 5xx and network failures) are retried. The number of
+Transient errors (HTTP 5xx and network failures) are retried. The number of
 attempts is set by the \code{max_tries} option. See \link{mighty.component-options}.
 
 Requires httr2 >= 1.2.2.

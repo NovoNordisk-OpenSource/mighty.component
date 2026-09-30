@@ -1,9 +1,7 @@
 #' URL component repo
 #' @description
 #' A component repo served as raw files under a base URL, e.g.
-#' `https://example.com/components`. Only public URLs are supported. To add
-#' headers, pass an `httr2_request` created with [httr2::request()] instead of
-#' a string.
+#' `https://example.com/components`. Only public URLs are supported.
 #'
 #' A component `name` is looked up by requesting, in order:
 #' 1. `<url>/<name>.R`
@@ -26,13 +24,11 @@
 #' links with a query or fragment, and `../` are ignored. Listing aborts if
 #' an index is unavailable or not HTML.
 #'
-#' Unless the request already has a retry policy (see [httr2::req_retry()]),
-#' transient errors (HTTP 5xx and network failures) are retried. The number of
+#' Transient errors (HTTP 5xx and network failures) are retried. The number of
 #' attempts is set by the `max_tries` option. See [mighty.component-options].
 #'
 #' Requires httr2 >= 1.2.2.
-#' @param url `character(1)` base URL starting with `http://` or `https://`,
-#' or an `httr2_request` for the base URL.
+#' @param url `character(1)` base URL starting with `http://` or `https://`.
 #' @seealso [mighty_repo()]
 #' @export
 mighty_repo_url <- S7::new_class(
@@ -58,43 +54,25 @@ url_repo_properties <- function(url, call = rlang::caller_env()) {
   # httr2 < 1.2.2 encodes already encoded URL paths again
   rlang::check_installed("httr2", version = "1.2.2", call = call)
 
-  request <- if (inherits(url, "httr2_request")) {
-    url
-  } else if (is.character(url)) {
-    check_string(x = url, call = call)
+  check_string(x = url, call = call)
 
-    if (!grepl(pattern = "^https?://", x = url)) {
-      cli::cli_abort(
-        paste(
-          "{.arg url} must start with",
-          "{.val http://} or {.val https://},", # DevSkim: ignore DS137138
-          "not {.val {url}}."
-        ),
-        call = call
-      )
-    }
-
-    httr2::request(base_url = url)
-  } else {
+  if (!grepl(pattern = "^https?://", x = url)) {
     cli::cli_abort(
-      "{.arg url} must be a single string or an {.cls httr2_request},
-      not {.obj_type_friendly {url}}.",
+      paste(
+        "{.arg url} must start with",
+        "{.val http://} or {.val https://},", # DevSkim: ignore DS137138
+        "not {.val {url}}."
+      ),
       call = call
     )
   }
 
-  # httr2 has no getter for policies, so check the internal fields
-  has_retry <- !is.null(request$policies$retry_max_tries) ||
-    !is.null(request$policies$retry_max_wait)
-
-  if (!has_retry) {
-    request <- httr2::req_retry(
-      req = request,
+  request <- httr2::request(base_url = url) |>
+    httr2::req_retry(
       max_tries = get_max_tries(),
       retry_on_failure = TRUE,
       is_transient = \(resp) httr2::resp_status(resp = resp) >= 500
     )
-  }
 
   # Not httr2::url_modify(), which is missing in httr2 < 1.1.0
   path <- sub(pattern = "\\?[^#]*", replacement = "", x = request$url) |>

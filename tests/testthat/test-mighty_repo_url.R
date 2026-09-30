@@ -10,19 +10,9 @@ test_that("mighty_repo_url creates repo from string URL", {
   expect_equal(repo@request$url, paste0(url_base, "/?token=abc"))
 })
 
-test_that("mighty_repo_url accepts an httr2_request", {
-  req <- httr2::request(base_url = url_base) |>
-    httr2::req_headers(`X-Token` = "abc")
-
-  repo <- mighty_repo_url(url = req)
-
-  expect_equal(repo@path, url_base)
-  expect_equal(repo@request$headers$`X-Token`, "abc")
-})
-
 test_that("mighty_repo_url errors on invalid url", {
   mighty_repo_url(url = 1) |>
-    expect_error("must be a single string or an <httr2_request>")
+    expect_error("must be a single string")
 
   mighty_repo_url(url = c("https://example.com", "https://example.org")) |>
     expect_error("must be a single string")
@@ -47,21 +37,6 @@ test_that("mighty_repo_url adds retry policy from max_tries option", {
 
   mighty_repo_url(url = url_base)@request$policies$retry_max_tries |>
     expect_equal(5L)
-})
-
-test_that("mighty_repo_url keeps user retry policy", {
-  req <- httr2::request(base_url = url_base) |>
-    httr2::req_retry(max_tries = 7)
-
-  mighty_repo_url(url = req)@request$policies$retry_max_tries |>
-    expect_equal(7)
-
-  req <- httr2::request(base_url = url_base) |>
-    httr2::req_retry(max_seconds = 10)
-  policies <- mighty_repo_url(url = req)@request$policies
-
-  expect_null(policies$retry_max_tries)
-  expect_equal(policies$retry_max_wait, 10)
 })
 
 test_that("mighty_repo_url errors on invalid max_tries option", {
