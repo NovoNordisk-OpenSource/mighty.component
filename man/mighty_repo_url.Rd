@@ -39,9 +39,9 @@ own index at \verb{<url>/<dir>/}, and hold nested components. Absolute links,
 links with a query or fragment, and \verb{../} are ignored. Listing aborts if
 an index is unavailable or not HTML.
 
-Transient errors (HTTP 5xx and network failures) are retried. The number of
-attempts is set by the \code{max_tries} option. See \link{mighty.component-options}.
-The option is read on every request.
+Transient errors (HTTP 429 and 503, and network failures) are retried. The
+number of attempts is set by the \code{max_tries} option. See
+\link{mighty.component-options}. The option is read on every request.
 
 Requires httr2 >= 1.2.2.
 }

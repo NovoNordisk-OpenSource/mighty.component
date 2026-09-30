@@ -27,9 +27,9 @@
 #' links with a query or fragment, and `../` are ignored. Listing aborts if
 #' an index is unavailable or not HTML.
 #'
-#' Transient errors (HTTP 5xx and network failures) are retried. The number of
-#' attempts is set by the `max_tries` option. See [mighty.component-options].
-#' The option is read on every request.
+#' Transient errors (HTTP 429 and 503, and network failures) are retried. The
+#' number of attempts is set by the `max_tries` option. See
+#' [mighty.component-options]. The option is read on every request.
 #'
 #' Requires httr2 >= 1.2.2.
 #' @param url `character(1)` base URL starting with `http://` or `https://`.
@@ -77,8 +77,7 @@ url_request <- function(url) {
   httr2::request(base_url = url) |>
     httr2::req_retry(
       max_tries = get_max_tries(),
-      retry_on_failure = TRUE,
-      is_transient = \(resp) httr2::resp_status(resp = resp) >= 500
+      retry_on_failure = TRUE
     )
 }
 

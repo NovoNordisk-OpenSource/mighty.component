@@ -30,8 +30,7 @@ test_that("mighty_repo_url adds retry policy from max_tries option", {
 
   expect_equal(policies$retry_max_tries, 3L)
   expect_true(policies$retry_on_failure)
-  expect_true(policies$retry_is_transient(httr2::response(status_code = 503)))
-  expect_false(policies$retry_is_transient(httr2::response(status_code = 404)))
+  expect_null(policies$retry_is_transient)
 
   withr::local_options(mighty.component.max_tries = 5L)
 

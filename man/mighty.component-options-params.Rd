@@ -6,7 +6,7 @@
 \arguments{
 \item{verbosity_level}{Verbosity level for functions in mighty.component. See \link[zephyr:verbosity_level]{zephyr::verbosity_level} for details.. Default: \code{NA_character_}.}
 
-\item{max_tries}{Maximum number of attempts for GitHub and URL requests. Transient errors (HTTP 5xx and network failures) are retried; other errors are not.. Default: \code{3L}.}
+\item{max_tries}{Maximum number of attempts for GitHub and URL requests. Network failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are retried; other errors are not.. Default: \code{3L}.}
 }
 \description{
 Internal parameters for reuse in functions
