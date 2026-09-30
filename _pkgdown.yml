@@ -13,6 +13,7 @@ reference:
       - mighty_repo_local
       - mighty_repo_github
       - mighty_repo_url
+      - mighty_repo_api
       - mighty_repos
   - title: Test components
     contents:

@@ -29,6 +29,8 @@ A spec without a prefix is treated as local.
 See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.
 \item \code{url}: Raw files under a base URL, e.g. \verb{url::https://host/components}.
 See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
+\item \code{api}: A JSON API under a base URL, e.g.
+\verb{api::https://host/api/components}. See \code{\link[=mighty_repo_api]{mighty_repo_api()}}.
 }
 }
 \examples{
@@ -37,5 +39,6 @@ mighty_repo(path)
 mighty_repo(paste0("local::", path))
 }
 \seealso{
-\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}, \code{\link[=mighty_repo_url]{mighty_repo_url()}}
+\code{\link[=mighty_repo_local]{mighty_repo_local()}}, \code{\link[=mighty_repo_github]{mighty_repo_github()}}, \code{\link[=mighty_repo_url]{mighty_repo_url()}},
+\code{\link[=mighty_repo_api]{mighty_repo_api()}}
 }
