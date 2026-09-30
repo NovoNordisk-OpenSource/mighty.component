@@ -46,7 +46,6 @@ component_files <- function(path) {
   files[!dir.exists(file.path(path, files))]
 }
 
-#' File names to look up for `component`
 #' @noRd
 component_candidates <- function(component) {
   if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
@@ -63,7 +62,6 @@ match_files <- function(component, path) {
   )
 }
 
-#' Component from `template` read from `file`
 #' @noRd
 new_component <- function(template, file) {
   if (tools::file_ext(file) == "R") {
@@ -73,10 +71,6 @@ new_component <- function(template, file) {
   mighty_component$new(template = template, id = basename(file))
 }
 
-#' Component ids from relative file paths
-#'
-#' Flat components are `<name>.R|.mustache`. Nested components are
-#' `<name>/<name>.R|.mustache`. Files starting with `test-` are dropped.
 #' @noRd
 ids_from_files <- function(files) {
   ids <- files[grepl(pattern = "\\.(R|mustache)$", x = files)] |>

@@ -62,7 +62,6 @@ mighty_repo_url <- S7::new_class(
   }
 )
 
-#' Request for `url` with retry policy
 #' @noRd
 url_request <- function(url) {
   httr2::request(base_url = url) |>
@@ -79,11 +78,8 @@ S7::method(format, mighty_repo_url) <- function(x, ...) {
   paste0("url::", url)
 }
 
-#' Perform a request
-#'
 #' Returns the response, or `NULL` for status 404 and 410 when
-#' `allow_missing` is `TRUE`. Other errors abort with `message`, a cli message
-#' interpolated with `url` (the request URL) in scope.
+#' `allow_missing` is `TRUE`. Other errors abort with `abort_url()`.
 #' @noRd
 fetch_url <- function(
   request,
@@ -107,8 +103,6 @@ fetch_url <- function(
   abort_url(message = message, request = request, parent = resp, call = call)
 }
 
-#' Abort with `message`, a cli message interpolated with `url` (the request
-#' URL) in scope
 #' @noRd
 abort_url <- function(message, request, parent = NULL, call) {
   cli::cli_abort(
@@ -119,7 +113,6 @@ abort_url <- function(message, request, parent = NULL, call) {
   )
 }
 
-#' Request with exactly one trailing `/` on the URL path
 #' @noRd
 dir_request <- function(request) {
   path <- httr2::url_parse(url = request$url)$path |>
@@ -128,12 +121,6 @@ dir_request <- function(request) {
   httr2::req_url_path(req = request, paste0(path, "/"))
 }
 
-#' Links to entries in an HTML directory index
-#'
-#' Returns the `href` of links to entries directly in the directory. Links
-#' with a scheme, query or fragment, links starting with `/`, links with a `/`
-#' other than one trailing, and `./` and `../` are dropped. Aborts if the
-#' request fails or the response is not HTML.
 #' @noRd
 index_links <- function(request, call = rlang::caller_env()) {
   message <- c(
