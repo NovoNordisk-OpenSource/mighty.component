@@ -17,7 +17,7 @@ Specs have the form `type::path`. Supported types:
   [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md).
 
 - `url`: Raw files under a base URL, e.g.
-  `url::https://host/components`. See
+  `url::https://example.com/components`. See
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
 
 ## Usage

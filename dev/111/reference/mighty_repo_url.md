@@ -1,7 +1,7 @@
 # URL component repo
 
 A component repo served as raw files under a base URL, e.g.
-`https://host/components`. Only public URLs are supported. To add
+`https://example.com/components`. Only public URLs are supported. To add
 headers, pass an `httr2_request` created with
 [`httr2::request()`](https://httr2.r-lib.org/reference/request.html)
 instead of a string.
