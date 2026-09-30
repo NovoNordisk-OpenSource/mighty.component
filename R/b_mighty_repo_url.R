@@ -20,10 +20,10 @@ validate_url <- function(value) {
 #'
 #' Components follow the layout in [mighty_repo()]. A component `name` is
 #' looked up by requesting, in order:
-#' 1. `<url>/<name>.R`
 #' 1. `<url>/<name>.mustache`
-#' 1. `<url>/<name>/<name>.R`
+#' 1. `<url>/<name>.R`
 #' 1. `<url>/<name>/<name>.mustache`
+#' 1. `<url>/<name>/<name>.R`
 #'
 #' The first successful response is used. Responses with status 404 or 410
 #' are treated as not found; other errors are raised. `name` is

@@ -19,10 +19,10 @@ supported.
 Components follow the layout in \code{\link[=mighty_repo]{mighty_repo()}}. A component \code{name} is
 looked up by requesting, in order:
 \enumerate{
-\item \verb{<url>/<name>.R}
 \item \verb{<url>/<name>.mustache}
-\item \verb{<url>/<name>/<name>.R}
+\item \verb{<url>/<name>.R}
 \item \verb{<url>/<name>/<name>.mustache}
+\item \verb{<url>/<name>/<name>.R}
 }
 
 The first successful response is used. Responses with status 404 or 410

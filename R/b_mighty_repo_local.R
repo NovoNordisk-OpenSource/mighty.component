@@ -51,7 +51,7 @@ component_candidates <- function(component) {
   if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
     return(component)
   }
-  paste0(component, c(".R", ".mustache"))
+  paste0(component, c(".mustache", ".R"))
 }
 
 #' @noRd
