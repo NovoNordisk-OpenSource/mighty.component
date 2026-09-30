@@ -1,7 +1,9 @@
 #' URL component repo
 #' @description
 #' A component repo served as raw files under a base URL, e.g.
-#' `https://example.com/components`. Only public URLs are supported.
+#' `https://example.com/components`. Authentication is only possible through
+#' the query string, e.g. a token or signed URL. Custom headers are not
+#' supported.
 #'
 #' A component `name` is looked up by requesting, in order:
 #' 1. `<url>/<name>.R`

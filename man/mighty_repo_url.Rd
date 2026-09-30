@@ -11,7 +11,9 @@ mighty_repo_url(url)
 }
 \description{
 A component repo served as raw files under a base URL, e.g.
-\verb{https://example.com/components}. Only public URLs are supported.
+\verb{https://example.com/components}. Authentication is only possible through
+the query string, e.g. a token or signed URL. Custom headers are not
+supported.
 
 A component \code{name} is looked up by requesting, in order:
 \enumerate{
