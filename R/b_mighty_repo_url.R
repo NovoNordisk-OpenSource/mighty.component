@@ -29,6 +29,7 @@
 #'
 #' Transient errors (HTTP 5xx and network failures) are retried. The number of
 #' attempts is set by the `max_tries` option. See [mighty.component-options].
+#' The option is read on every request.
 #'
 #' Requires httr2 >= 1.2.2.
 #' @param url `character(1)` base URL starting with `http://` or `https://`.
@@ -41,39 +42,38 @@ mighty_repo_url <- S7::new_class(
     url = S7::new_property(
       class = S7::class_character,
       validator = \(value) {
-        validate_string(value)
+        validate_url(value)
       }
     ),
-    request = S7::new_S3_class("httr2_request")
+    request = S7::new_property(
+      class = S7::new_S3_class("httr2_request"),
+      getter = \(self) url_request(url = self@url)
+    )
   ),
   constructor = function(url) {
-    S7::new_object(
-      S7::S7_object(),
-      url = url,
-      request = url_request(url = url)
-    )
+    # httr2 < 1.2.2 encodes already encoded URL paths again
+    rlang::check_installed("httr2", version = "1.2.2")
+    check_string(x = url)
+
+    S7::new_object(S7::S7_object(), url = url)
   }
 )
 
-#' Validate `url` and build the request
 #' @noRd
-url_request <- function(url, call = rlang::caller_env()) {
-  # httr2 < 1.2.2 encodes already encoded URL paths again
-  rlang::check_installed("httr2", version = "1.2.2", call = call)
-
-  check_string(x = url, call = call)
-
-  if (!grepl(pattern = "^https?://", x = url)) {
-    cli::cli_abort(
-      paste(
-        "{.arg url} must start with",
-        "{.val http://} or {.val https://},", # DevSkim: ignore DS137138
-        "not {.val {url}}."
-      ),
-      call = call
-    )
+validate_url <- function(value) {
+  msg <- validate_string(value)
+  if (!is.null(msg)) {
+    return(msg)
   }
 
+  if (!grepl(pattern = "^https?://", x = value)) {
+    "must start with http:// or https://" # DevSkim: ignore DS137138
+  }
+}
+
+#' Request for `url` with retry policy
+#' @noRd
+url_request <- function(url) {
   httr2::request(base_url = url) |>
     httr2::req_retry(
       max_tries = get_max_tries(),

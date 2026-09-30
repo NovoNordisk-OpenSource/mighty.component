@@ -42,8 +42,39 @@ test_that("mighty_repo_url adds retry policy from max_tries option", {
 test_that("mighty_repo_url errors on invalid max_tries option", {
   withr::local_options(mighty.component.max_tries = 0)
 
-  mighty_repo_url(url = url_base) |>
+  repo <- mighty_repo_url(url = url_base)
+
+  repo@request |>
     expect_error("max_tries")
+})
+
+test_that("mighty_repo_url reads max_tries option on every request", {
+  repo <- mighty_repo_url(url = url_base)
+
+  expect_equal(repo@request$policies$retry_max_tries, 3L)
+
+  withr::local_options(mighty.component.max_tries = 5L)
+
+  expect_equal(repo@request$policies$retry_max_tries, 5L)
+})
+
+test_that("mighty_repo_url request follows url", {
+  repo <- mighty_repo_url(url = url_base)
+  repo@url <- "https://example.org/other"
+
+  expect_equal(repo@request$url, "https://example.org/other")
+
+  expect_error(
+    repo@url <- "ftp://example.com/components",
+    "must start with"
+  )
+
+  expect_error(repo@url <- "", "must be a single non-empty string")
+
+  expect_error(
+    repo@request <- httr2::request(base_url = url_base),
+    "read-only"
+  )
 })
 
 test_that("format returns url spec", {
