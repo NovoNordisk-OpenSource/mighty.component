@@ -12,9 +12,9 @@ or an \code{httr2_request} for the base URL.}
 }
 \description{
 A component repo served as raw files under a base URL, e.g.
-\verb{https://host/components}. Only public URLs are supported. To add headers,
-pass an \code{httr2_request} created with \code{\link[httr2:request]{httr2::request()}} instead of a
-string.
+\verb{https://example.com/components}. Only public URLs are supported. To add
+headers, pass an \code{httr2_request} created with \code{\link[httr2:request]{httr2::request()}} instead of
+a string.
 
 A component \code{name} is looked up by requesting, in order:
 \enumerate{

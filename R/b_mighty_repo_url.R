@@ -1,9 +1,9 @@
 #' URL component repo
 #' @description
 #' A component repo served as raw files under a base URL, e.g.
-#' `https://host/components`. Only public URLs are supported. To add headers,
-#' pass an `httr2_request` created with [httr2::request()] instead of a
-#' string.
+#' `https://example.com/components`. Only public URLs are supported. To add
+#' headers, pass an `httr2_request` created with [httr2::request()] instead of
+#' a string.
 #'
 #' A component `name` is looked up by requesting, in order:
 #' 1. `<url>/<name>.R`

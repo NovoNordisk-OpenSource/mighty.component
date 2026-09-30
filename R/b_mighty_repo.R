@@ -10,8 +10,8 @@
 #'   A spec without a prefix is treated as local.
 #' * `github`: A GitHub repository, e.g. `github::owner/repo/subdir@ref`.
 #'   See [mighty_repo_github()].
-#' * `url`: Raw files under a base URL, e.g. `url::https://host/components`.
-#'   See [mighty_repo_url()].
+#' * `url`: Raw files under a base URL, e.g.
+#'   `url::https://example.com/components`. See [mighty_repo_url()].
 #'
 #' @param spec `character(1)` repo spec. See description.
 #' @returns `mighty_repo()`: An object inheriting from `mighty_repo_class`.

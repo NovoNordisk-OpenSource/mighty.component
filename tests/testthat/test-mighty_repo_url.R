@@ -24,7 +24,7 @@ test_that("mighty_repo_url errors on invalid url", {
   mighty_repo_url(url = 1) |>
     expect_error("must be a single string or an <httr2_request>")
 
-  mighty_repo_url(url = c("https://a.org", "https://b.org")) |>
+  mighty_repo_url(url = c("https://example.com", "https://example.org")) |>
     expect_error("must be a single string")
 
   mighty_repo_url(url = "") |>

@@ -27,8 +27,8 @@ Specs have the form \code{type::path}. Supported types:
 A spec without a prefix is treated as local.
 \item \code{github}: A GitHub repository, e.g. \code{github::owner/repo/subdir@ref}.
 See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.
-\item \code{url}: Raw files under a base URL, e.g. \verb{url::https://host/components}.
-See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
+\item \code{url}: Raw files under a base URL, e.g.
+\verb{url::https://example.com/components}. See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
 }
 }
 \examples{
