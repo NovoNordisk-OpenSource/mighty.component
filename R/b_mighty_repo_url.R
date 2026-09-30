@@ -1,34 +1,17 @@
-#' @noRd
-validate_url <- function(value) {
-  msg <- validate_string(value)
-  if (!is.null(msg)) {
-    return(msg)
-  }
-
-  if (!grepl(pattern = "^https?://", x = value)) {
-    "must start with http:// or https://" # DevSkim: ignore DS137138
-  }
-}
-
 #' URL component repo
 #' @description
 #' A component repo served as raw files under a base URL, e.g.
 #' `https://example.com/components`. Authentication is only possible through
 #' the query string, e.g. a token or signed URL. The query string is kept on
-#' all requests, but left out when the repo is printed. Custom headers are not
-#' supported.
+#' all requests. The query string and fragment are left out when the repo is
+#' printed. Custom headers are not supported.
 #'
-#' Components follow the layout in [mighty_repo()]. A component `name` is
-#' looked up by requesting, in order:
-#' 1. `<url>/<name>.mustache`
-#' 1. `<url>/<name>.R`
-#' 1. `<url>/<name>/<name>.mustache`
-#' 1. `<url>/<name>/<name>.R`
-#'
-#' The first successful response is used. Responses with status 404 or 410
-#' are treated as not found; other errors are raised. `name` is
-#' percent-encoded in the requested URLs, and names containing `/` are not
-#' found. Responses are not cached.
+#' See [mighty_repo()] for the component layout. Files directly under `url`
+#' are tried before `<name>/`, and `.mustache` before `.R`. The first
+#' successful response is used. Responses with status 404 or 410 are treated
+#' as not found; other errors are raised. `name` is percent-encoded in the
+#' requested URLs, and names containing `/` are not found. Responses are not
+#' cached.
 #'
 #' Listing components (see [list_components()]) requires an HTML directory
 #' index at `<url>/`, and at `<url>/<dir>/` for nested components, e.g. Apache
@@ -39,6 +22,11 @@ validate_url <- function(value) {
 #' retried. The number of attempts is set by the `max_tries` option. See
 #' [mighty.component-options].
 #' @param url `character(1)` base URL starting with `http://` or `https://`.
+#' @examples
+#' \dontrun{
+#' repo <- mighty_repo_url(url = "https://example.com/components")
+#' find_component(component = "ady", repos = repo)
+#' }
 #' @seealso [mighty_repo()]
 #' @export
 mighty_repo_url <- S7::new_class(
@@ -47,7 +35,7 @@ mighty_repo_url <- S7::new_class(
   properties = list(
     url = S7::new_property(
       class = S7::class_character,
-      validator = validate_url
+      validator = \(value) validate_url(value)
     ),
     request = S7::new_property(
       class = S7::new_S3_class("httr2_request"),
@@ -63,6 +51,18 @@ mighty_repo_url <- S7::new_class(
 )
 
 #' @noRd
+validate_url <- function(value) {
+  msg <- validate_string(value)
+  if (!is.null(msg)) {
+    return(msg)
+  }
+
+  if (!grepl(pattern = "^https?://", x = value)) {
+    "must start with http:// or https://" # DevSkim: ignore DS137138
+  }
+}
+
+#' @noRd
 url_request <- function(url) {
   httr2::request(base_url = url) |>
     httr2::req_retry(
@@ -71,7 +71,6 @@ url_request <- function(url) {
     )
 }
 
-#' Query and fragment are dropped, as they may hold credentials
 #' @noRd
 S7::method(format, mighty_repo_url) <- function(x, ...) {
   url <- httr2::url_modify(url = x@url, query = NULL, fragment = NULL)
@@ -114,6 +113,60 @@ abort_url <- function(message, request, parent = NULL, call) {
 }
 
 #' @noRd
+S7::method(repo_find_component, mighty_repo_url) <- function(
+  repos,
+  component
+) {
+  if (grepl(pattern = "/", x = component, fixed = TRUE)) {
+    return(NULL)
+  }
+
+  # Already encoded input is encoded again, as names are decoded
+  files <- component_candidates(component = component) |>
+    utils::URLencode(reserved = TRUE, repeated = TRUE)
+  name <- tools::file_path_sans_ext(component) |>
+    utils::URLencode(reserved = TRUE, repeated = TRUE)
+
+  for (path in c(files, paste0(name, "/", files))) {
+    resp <- repos@request |>
+      httr2::req_url_path_append(path) |>
+      fetch_url()
+
+    if (!is.null(resp)) {
+      template <- strsplit(
+        x = httr2::resp_body_string(resp = resp),
+        split = "\r?\n"
+      )[[1]]
+
+      return(
+        new_component(template = template, file = utils::URLdecode(path))
+      )
+    }
+  }
+}
+
+#' @noRd
+S7::method(component_ids, mighty_repo_url) <- function(repos) {
+  request <- dir_request(request = repos@request)
+  links <- index_links(request = request)
+
+  nested <- lapply(
+    X = links[endsWith(x = links, suffix = "/")],
+    FUN = \(dir) {
+      files <- request |>
+        httr2::req_url_path_append(dir) |>
+        index_links()
+
+      paste0(dir, files)
+    }
+  )
+
+  c(links, unlist(nested)) |>
+    utils::URLdecode() |>
+    ids_from_files()
+}
+
+#' @noRd
 dir_request <- function(request) {
   path <- httr2::url_parse(url = request$url)$path |>
     sub(pattern = "/+$", replacement = "")
@@ -152,58 +205,4 @@ index_links <- function(request, call = rlang::caller_env()) {
     !links %in% c("./", "../")
 
   links[keep]
-}
-
-#' @noRd
-S7::method(component_ids, mighty_repo_url) <- function(repos) {
-  request <- dir_request(request = repos@request)
-  links <- index_links(request = request)
-
-  nested <- lapply(
-    X = links[endsWith(x = links, suffix = "/")],
-    FUN = \(dir) {
-      files <- request |>
-        httr2::req_url_path_append(dir) |>
-        index_links()
-
-      paste0(dir, files)
-    }
-  )
-
-  c(links, unlist(nested)) |>
-    utils::URLdecode() |>
-    ids_from_files()
-}
-
-#' @noRd
-S7::method(repo_find_component, mighty_repo_url) <- function(
-  repos,
-  component
-) {
-  if (grepl(pattern = "/", x = component, fixed = TRUE)) {
-    return(NULL)
-  }
-
-  # Already encoded input is encoded again, as names are decoded
-  files <- component_candidates(component = component) |>
-    utils::URLencode(reserved = TRUE, repeated = TRUE)
-  name <- tools::file_path_sans_ext(component) |>
-    utils::URLencode(reserved = TRUE, repeated = TRUE)
-
-  for (path in c(files, paste0(name, "/", files))) {
-    resp <- repos@request |>
-      httr2::req_url_path_append(path) |>
-      fetch_url()
-
-    if (!is.null(resp)) {
-      template <- strsplit(
-        x = httr2::resp_body_string(resp = resp),
-        split = "\r?\n"
-      )[[1]]
-
-      return(
-        new_component(template = template, file = utils::URLdecode(path))
-      )
-    }
-  }
 }
