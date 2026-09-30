@@ -12,6 +12,8 @@
 #'   See [mighty_repo_github()].
 #' * `url`: Raw files under a base URL, e.g. `url::https://host/components`.
 #'   See [mighty_repo_url()].
+#' * `api`: A JSON API under a base URL, e.g.
+#'   `api::https://host/api/components`. See [mighty_repo_api()].
 #'
 #' @param spec `character(1)` repo spec. See description.
 #' @returns `mighty_repo()`: An object inheriting from `mighty_repo_class`.
@@ -19,7 +21,8 @@
 #' path <- system.file("examples", package = "mighty.component")
 #' mighty_repo(path)
 #' mighty_repo(paste0("local::", path))
-#' @seealso [mighty_repo_local()], [mighty_repo_github()], [mighty_repo_url()]
+#' @seealso [mighty_repo_local()], [mighty_repo_github()], [mighty_repo_url()],
+#'   [mighty_repo_api()]
 #' @export
 mighty_repo <- function(spec) {
   check_string(spec)
@@ -37,6 +40,7 @@ mighty_repo <- function(spec) {
     local = mighty_repo_local(path = path),
     github = mighty_repo_github(spec = path),
     url = mighty_repo_url(url = path),
+    api = mighty_repo_api(url = path),
     cli::cli_abort("Unknown repo type {.val {type}} in {.val {spec}}.")
   )
 }
