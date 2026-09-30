@@ -12,7 +12,8 @@ mighty_repo_url(url)
 \description{
 A component repo served as raw files under a base URL, e.g.
 \verb{https://example.com/components}. Authentication is only possible through
-the query string, e.g. a token or signed URL. Custom headers are not
+the query string, e.g. a token or signed URL. The query string is kept on
+all requests, but left out when the repo is printed. Custom headers are not
 supported.
 
 A component \code{name} is looked up by requesting, in order:
@@ -28,24 +29,16 @@ Names containing \code{/} are not found.
 If \code{name} has a \code{.R} or \code{.mustache} extension, only that file is requested,
 flat and nested. The first successful response is used. Responses with
 status 404 or 410 are treated as not found; other errors are raised.
-\code{name} is percent-encoded in the requested URLs. Any query string in \code{url}
-is kept on all requests, but left out when the repo is printed. Responses are
-not cached.
+\code{name} is percent-encoded in the requested URLs. Responses are not cached.
 
-Listing components (see \code{\link[=list_components]{list_components()}}) requires the server to
-provide an HTML directory index, e.g. Apache or nginx autoindex, or
-\verb{python -m http.server}. The index at \verb{<url>/} is parsed for relative links
-to entries directly in the directory. Links to files (\verb{<file>}) are
-flat components. Links to directories (\verb{<dir>/}) are listed through their
-own index at \verb{<url>/<dir>/}, and hold nested components. Absolute links,
-links with a query or fragment, and \verb{../} are ignored. Listing aborts if
-an index is unavailable or not HTML.
+Listing components (see \code{\link[=list_components]{list_components()}}) requires an HTML directory
+index at \verb{<url>/}, and at \verb{<url>/<dir>/} for nested components, e.g. Apache
+or nginx autoindex, or \verb{python -m http.server}. Listing aborts if an index
+is unavailable or not HTML.
 
-Transient errors (HTTP 429 and 503, and network failures) are retried. The
-number of attempts is set by the \code{max_tries} option. See
-\link{mighty.component-options}. The option is read on every request.
-
-Requires httr2 >= 1.2.2.
+Transient errors (see \code{\link[httr2:req_retry]{httr2::req_retry()}}) and network failures are
+retried. The number of attempts is set by the \code{max_tries} option. See
+\link{mighty.component-options}.
 }
 \seealso{
 \code{\link[=mighty_repo]{mighty_repo()}}

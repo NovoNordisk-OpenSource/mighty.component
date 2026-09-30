@@ -16,7 +16,7 @@ Verbosity level for functions in mighty.component. See \link[zephyr:verbosity_le
 
 \subsection{max_tries}{
 
-Maximum number of attempts for GitHub and URL requests. Network failures, HTTP 5xx from GitHub and HTTP 429 and 503 from URLs are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. See \code{\link[=mighty_repo_github]{mighty_repo_github()}} and \code{\link[=mighty_repo_url]{mighty_repo_url()}} for which errors are retried.
 \itemize{
 \item Default: \code{3L}
 \item Option: \code{mighty.component.max_tries}

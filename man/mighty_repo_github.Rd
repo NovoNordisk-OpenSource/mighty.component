@@ -18,4 +18,8 @@ are local. Restart the session to pick up new commits on a branch.
 
 \code{spec} is a \code{remotes}-style repository reference: \code{owner/repo},
 \code{owner/repo/subdir}, \code{owner/repo@ref} or a combination.
+
+Transient API errors (HTTP 5xx and network failures) are retried. The
+number of attempts is set by the \code{max_tries} option. See
+\link{mighty.component-options}.
 }

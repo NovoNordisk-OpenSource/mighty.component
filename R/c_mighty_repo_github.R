@@ -8,6 +8,10 @@
 #'
 #' `spec` is a `remotes`-style repository reference: `owner/repo`,
 #' `owner/repo/subdir`, `owner/repo@ref` or a combination.
+#'
+#' Transient API errors (HTTP 5xx and network failures) are retried. The
+#' number of attempts is set by the `max_tries` option. See
+#' [mighty.component-options].
 #' @param spec `character(1)` GitHub repository reference. See description.
 #' @export
 mighty_repo_github <- S7::new_class(

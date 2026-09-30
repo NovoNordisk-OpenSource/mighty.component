@@ -14,8 +14,7 @@
 #' * A [mighty_repos()] collection.
 #'
 #' Character vectors and lists are converted once with [mighty_repos()], so
-#' GitHub refs are only resolved once. URL repos need an HTML directory index
-#' (see [mighty_repo_url()]).
+#' GitHub refs are only resolved once. See [mighty_repo_url()].
 #' @param as Format to list the components in:
 #' * `"character"`: component names (filenames without extension).
 #' * `"list"`: metadata for each component.
