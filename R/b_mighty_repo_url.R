@@ -232,11 +232,7 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
     return(NULL)
   }
 
-  files <- if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
-    component
-  } else {
-    paste0(component, c(".R", ".mustache"))
-  }
+  files <- component_candidates(component = component)
   name <- tools::file_path_sans_ext(component)
 
   for (file in c(files, file.path(name, files))) {
@@ -250,13 +246,7 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
         split = "\r?\n"
       )[[1]]
 
-      if (tools::file_ext(file) == "R") {
-        check_custom_r(code = template)
-      }
-
-      return(
-        mighty_component$new(template = template, id = basename(file))
-      )
+      return(new_component(template = template, file = file))
     }
   }
 }

@@ -46,10 +46,31 @@ component_files <- function(path) {
   files[!dir.exists(file.path(path, files))]
 }
 
+#' File names to look up for `component`
+#' @noRd
+component_candidates <- function(component) {
+  if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
+    return(component)
+  }
+  paste0(component, c(".R", ".mustache"))
+}
+
 #' @noRd
 match_files <- function(component, path) {
-  candidates <- c(component, paste0(component, c(".R", ".mustache")))
-  intersect(x = candidates, y = component_files(path = path))
+  intersect(
+    x = component_candidates(component = component),
+    y = component_files(path = path)
+  )
+}
+
+#' Component from `template` read from `file`
+#' @noRd
+new_component <- function(template, file) {
+  if (tools::file_ext(file) == "R") {
+    check_custom_r(code = template)
+  }
+
+  mighty_component$new(template = template, id = basename(file))
 }
 
 #' Component ids from relative file paths
@@ -58,17 +79,13 @@ match_files <- function(component, path) {
 #' `<name>/<name>.R|.mustache`. Files starting with `test-` are dropped.
 #' @noRd
 ids_from_files <- function(files) {
-  is_flat <- !grepl(pattern = "/", x = files, fixed = TRUE) &
-    grepl(pattern = "\\.(R|mustache)$", x = files)
-  flat <- tools::file_path_sans_ext(files[is_flat])
-
-  paths <- files[grepl(pattern = "^[^/]+/[^/]+$", x = files)]
-  dirs <- dirname(paths)
-  is_nested <- basename(paths) == paste0(dirs, ".R") |
-    basename(paths) == paste0(dirs, ".mustache")
-  nested <- dirs[is_nested]
-
-  ids <- c(flat, nested)
+  ids <- files[grepl(pattern = "\\.(R|mustache)$", x = files)] |>
+    tools::file_path_sans_ext()
+  is_nested <- grepl(pattern = "^([^/]+)/\\1$", x = ids, perl = TRUE)
+  ids <- c(
+    ids[!grepl(pattern = "/", x = ids, fixed = TRUE)],
+    dirname(ids[is_nested])
+  )
   unique(ids[!startsWith(x = ids, prefix = "test-")])
 }
 
@@ -107,12 +124,5 @@ S7::method(repo_find_component, mighty_repo_local) <- function(
 
   template <- readLines(con = file.path(repos@path, file))
 
-  if (tools::file_ext(file) == "R") {
-    check_custom_r(code = template)
-  }
-
-  mighty_component$new(
-    template = template,
-    id = basename(file)
-  )
+  new_component(template = template, file = file)
 }
