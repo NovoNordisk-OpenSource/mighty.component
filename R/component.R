@@ -13,16 +13,7 @@
 #' * `.R`: Extracts and renders custom functions.
 #' * `.mustache`: Creates components from the template files.
 #'
-#' The `repos` parameter accepts a character vector of repo specs, in
-#' priority order. See [mighty_repo()].
-#'
-#' When `repos` is `NULL`, `component` is a path to a component file.
-#' Otherwise `component` is a component name, with or without extension,
-#' looked up in `repos`.
-#'
-#' @param component `character` component name, or path to a component file
-#' (`.R` or `.mustache`) when `repos` is `NULL`.
-#' @param repos prioritized `character` vector of locations to look for component in. See details.
+#' @inheritParams find_component
 #' @param params named `list` of input parameters. Passed along to `mighty_component$render()`.
 #' @seealso [mighty_component], [mighty_component_rendered]
 #' @examples

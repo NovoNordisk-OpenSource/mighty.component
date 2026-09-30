@@ -14,11 +14,21 @@ get_test_component(
 }
 \arguments{
 \item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}.}
+(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
+exist.}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 
-\item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
+\item{repos}{Where to look. One of:
+\itemize{
+\item \code{NULL} (default): \code{component} is a file path.
+\item \code{character} vector of repo specs, in priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
+\item A \code{mighty_repo_class} object.
+\item A \code{list} of repo specs or \code{mighty_repo_class} objects, in priority order.
+\item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
+}
+
+Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
 \item{check_coverage}{\code{logical(1)} Whether to automatically check test
 coverage when the test completes. If \code{TRUE} (default), coverage is
