@@ -95,7 +95,10 @@ test_that("find_component finds flat .mustache component", {
   expect_s3_class(component, "mighty_component")
   expect_equal(component$id, "ady.mustache")
   expect_equal(component$template, url_fixture(ext = "mustache"))
-  expect_equal(calls$urls, paste0(url_base, "/ady.mustache"))
+  expect_equal(
+    calls$urls,
+    paste0(url_base, c("/ady/ady.mustache", "/ady.mustache"))
+  )
 })
 
 test_that("find_component finds flat .R component", {
@@ -108,7 +111,13 @@ test_that("find_component finds flat .R component", {
 
   expect_equal(component$id, "ady.R")
   expect_equal(component$template, url_fixture(ext = "R"))
-  expect_equal(calls$urls, paste0(url_base, c("/ady.mustache", "/ady.R")))
+  expect_equal(
+    calls$urls,
+    paste0(
+      url_base,
+      c("/ady/ady.mustache", "/ady.mustache", "/ady/ady.R", "/ady.R")
+    )
+  )
 })
 
 test_that("find_component finds nested component", {
@@ -124,9 +133,43 @@ test_that("find_component finds nested component", {
   expect_equal(component$id, "ady.R")
   expect_equal(
     calls$urls,
+    paste0(url_base, c("/ady/ady.mustache", "/ady.mustache", "/ady/ady.R"))
+  )
+})
+
+test_that("find_component prefers nested .mustache over top-level", {
+  calls <- local_mock_url(
+    routes = list(
+      `ady/ady.mustache` = url_component_response("mustache"),
+      ady.mustache = 500L
+    )
+  )
+
+  component <- find_component(
+    component = "ady",
+    repos = mighty_repo_url(url = url_base)
+  )
+
+  expect_equal(component$id, "ady.mustache")
+  expect_equal(calls$urls, paste0(url_base, "/ady/ady.mustache"))
+})
+
+test_that("find_component finds nested component with a dotted name", {
+  calls <- local_mock_url(
+    routes = list(`foo.bar/foo.bar.R` = url_component_response("R"))
+  )
+
+  component <- find_component(
+    component = "foo.bar",
+    repos = mighty_repo_url(url = url_base)
+  )
+
+  expect_equal(component$id, "foo.bar.R")
+  expect_equal(
+    calls$urls,
     paste0(
       url_base,
-      c("/ady.mustache", "/ady.R", "/ady/ady.mustache", "/ady/ady.R")
+      c("/foo.bar/foo.bar.mustache", "/foo.bar.mustache", "/foo.bar/foo.bar.R")
     )
   )
 })
@@ -142,18 +185,15 @@ test_that("find_component with extension only requests that file", {
   )
 
   expect_equal(component$id, "ady.mustache")
-  expect_equal(
-    calls$urls,
-    paste0(url_base, c("/ady.mustache", "/ady/ady.mustache"))
-  )
+  expect_equal(calls$urls, paste0(url_base, "/ady/ady.mustache"))
 })
 
 test_that("find_component falls through 404 and 410", {
   calls <- local_mock_url(
     routes = list(
-      ady.mustache = 410L,
-      ady.R = 404L,
-      `ady/ady.mustache` = url_component_response("mustache")
+      `ady/ady.mustache` = 410L,
+      ady.mustache = 404L,
+      `ady/ady.R` = url_component_response("R")
     )
   )
 
@@ -162,7 +202,7 @@ test_that("find_component falls through 404 and 410", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady.R")
   expect_length(calls$urls, 3)
 })
 
@@ -172,18 +212,24 @@ test_that("find_component returns NULL when all candidates are missing", {
   find_component(component = "ady", repos = mighty_repo_url(url = url_base)) |>
     expect_null()
 
-  expect_length(calls$urls, 4)
+  expect_equal(
+    calls$urls,
+    paste0(
+      url_base,
+      c("/ady/ady.mustache", "/ady.mustache", "/ady/ady.R", "/ady.R")
+    )
+  )
 })
 
 test_that("find_component errors on other HTTP errors", {
   for (status in c(403L, 500L)) {
-    calls <- local_mock_url(routes = list(ady.mustache = status))
+    calls <- local_mock_url(routes = list(`ady/ady.mustache` = status))
 
     err <- find_component(
       component = "ady",
       repos = mighty_repo_url(url = url_base)
     ) |>
-      expect_error("Failed to fetch.*/components/ady\\.mustache")
+      expect_error("Failed to fetch.*/components/ady/ady\\.mustache")
 
     expect_s3_class(err$parent, paste0("httr2_http_", status))
     expect_length(calls$urls, 1)
@@ -203,7 +249,7 @@ test_that("find_component keeps query string on candidate URLs", {
 
   expect_equal(
     calls$urls,
-    paste0(url_base, "/ady.mustache", "?token=abc")
+    paste0(url_base, c("/ady/ady.mustache", "/ady.mustache"), "?token=abc")
   )
 })
 
@@ -221,10 +267,10 @@ test_that("find_component percent-encodes component names", {
     paste0(
       url_base,
       c(
-        "/my%20comp.mustache",
-        "/my%20comp.R",
         "/my%20comp/my%20comp.mustache",
-        "/my%20comp/my%20comp.R"
+        "/my%20comp.mustache",
+        "/my%20comp/my%20comp.R",
+        "/my%20comp.R"
       )
     )
   )
@@ -239,7 +285,7 @@ test_that("find_component percent-encodes component names", {
 
   expect_equal(
     calls$urls,
-    paste0(url_base, c("/100%25.R", "/100%25/100%25.R"), "?t=1")
+    paste0(url_base, c("/100%25/100%25.R", "/100%25.R"), "?t=1")
   )
 })
 

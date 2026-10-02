@@ -12,8 +12,8 @@ mighty_repo_url(url)
 \description{
 A component repo served as raw files under a base URL.
 
-See \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. Files directly under \code{url}
-are tried before \verb{<name>/}, and \code{.mustache} before \code{.R}. The first found is
+See \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. \code{.mustache} is tried before
+\code{.R}, and \verb{<name>/} before files directly under \code{url}. The first found is
 used. Status 404 and 410 count as not found; other errors are raised.
 \code{name} is percent-encoded, and names containing \code{/} are not found.
 Responses are not cached.

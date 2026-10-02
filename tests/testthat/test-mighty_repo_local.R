@@ -24,6 +24,24 @@ test_that("mighty_repo_local requires path to be a single non-empty string", {
     expect_error("must be a single non-empty string")
 })
 
+test_that("component_candidates lists nested before top-level paths", {
+  component_candidates(component = "ady") |>
+    expect_equal(c("ady/ady.mustache", "ady.mustache", "ady/ady.R", "ady.R"))
+
+  component_candidates(component = "ady.R") |>
+    expect_equal(c("ady/ady.R", "ady.R"))
+
+  component_candidates(component = "foo.bar") |>
+    expect_equal(
+      c(
+        "foo.bar/foo.bar.mustache",
+        "foo.bar.mustache",
+        "foo.bar/foo.bar.R",
+        "foo.bar.R"
+      )
+    )
+})
+
 test_that("ids_from_files returns flat files without extension", {
   ids_from_files(files = c("ady.R", "adt.mustache", "notes.txt")) |>
     expect_equal(c("ady", "adt"))
@@ -168,6 +186,30 @@ test_that("find_component finds nested component", {
 
   find_component(component = "foo.R", repos = repo)$id |>
     expect_equal("foo.R")
+})
+
+test_that("find_component finds nested component with a dotted name", {
+  repo <- mighty_repo_local(
+    path = local_component_repo(files = "foo.bar/foo.bar.R")
+  )
+
+  find_component(component = "foo.bar", repos = repo)$id |>
+    expect_equal("foo.bar.R")
+
+  find_component(component = "foo.bar.R", repos = repo)$id |>
+    expect_equal("foo.bar.R")
+})
+
+test_that("find_component matches names case-sensitively", {
+  repo <- mighty_repo_local(
+    path = local_component_repo(files = c("ady.R", "foo/foo.R"))
+  )
+
+  find_component(component = "ADY", repos = repo) |>
+    expect_null()
+
+  find_component(component = "FOO", repos = repo) |>
+    expect_null()
 })
 
 test_that("find_component errors on same name with both extensions", {

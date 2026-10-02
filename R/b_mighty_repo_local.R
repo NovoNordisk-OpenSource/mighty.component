@@ -47,18 +47,18 @@ component_files <- function(path) {
 
 #' @noRd
 component_candidates <- function(component) {
-  if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
-    return(component)
-  }
-  paste0(component, c(".mustache", ".R"))
-}
+  name <- sub(pattern = "\\.(R|mustache)$", replacement = "", x = component)
+  candidates <- c(file.path(name, component), component)
 
-#' @noRd
-match_files <- function(component, path) {
-  intersect(
-    x = component_candidates(component = component),
-    y = component_files(path = path)
-  )
+  if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
+    return(candidates)
+  }
+
+  lapply(
+    X = c(".mustache", ".R"),
+    FUN = \(x) paste0(candidates, x)
+  ) |>
+    unlist()
 }
 
 #' @noRd
@@ -100,14 +100,11 @@ S7::method(repo_find_component, mighty_repo_local) <- function(
   repos,
   component
 ) {
-  name <- tools::file_path_sans_ext(component)
-
-  file <- c(
-    match_files(component = component, path = repos@path),
-    file.path(
-      name,
-      match_files(component = component, path = file.path(repos@path, name))
-    )
+  file <- Filter(
+    f = \(f) {
+      basename(f) %in% component_files(path = file.path(repos@path, dirname(f)))
+    },
+    x = component_candidates(component = component)
   ) |>
     assert_single_match()
 

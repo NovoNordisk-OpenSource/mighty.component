@@ -2,8 +2,8 @@
 #' @description
 #' A component repo served as raw files under a base URL.
 #'
-#' See [mighty_repo()] for the component layout. Files directly under `url`
-#' are tried before `<name>/`, and `.mustache` before `.R`. The first found is
+#' See [mighty_repo()] for the component layout. `.mustache` is tried before
+#' `.R`, and `<name>/` before files directly under `url`. The first found is
 #' used. Status 404 and 410 count as not found; other errors are raised.
 #' `name` is percent-encoded, and names containing `/` are not found.
 #' Responses are not cached.
@@ -117,12 +117,10 @@ S7::method(repo_find_component, mighty_repo_url) <- function(
   }
 
   # Already encoded input is encoded again, as names are decoded
-  files <- component_candidates(component = component) |>
-    utils::URLencode(reserved = TRUE, repeated = TRUE)
-  name <- tools::file_path_sans_ext(component) |>
-    utils::URLencode(reserved = TRUE, repeated = TRUE)
+  files <- utils::URLencode(component, reserved = TRUE, repeated = TRUE) |>
+    component_candidates()
 
-  for (path in c(files, paste0(name, "/", files))) {
+  for (path in files) {
     resp <- repos@request |>
       httr2::req_url_path_append(path) |>
       fetch_url()
