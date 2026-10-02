@@ -15,8 +15,7 @@ list_components(repos, as = c("character", "list", "tibble"))
 \item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
 }
 
-Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}, so
-GitHub refs are only resolved once.}
+Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
 \item{as}{Format to list the components in:
 \itemize{
@@ -40,12 +39,9 @@ Depending on \code{as}:
 }
 }
 \description{
-List all available mighty components (\code{.R} and \code{.mustache} files)
-in the given repos.
-
-A component is either a file directly in the repo, or a file named after
-its directory one level down (\verb{<name>/<name>.R}). Files starting with
-\verb{test-} are not listed.
+List all available mighty components in the given repos. See
+\code{\link[=mighty_repo]{mighty_repo()}} for the component layout. Files starting with \verb{test-} are
+not listed.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")
@@ -55,5 +51,5 @@ list_components(path, as = "list") |>
   str(max.level = 2)
 }
 \seealso{
-\code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}, \code{\link[=mighty_repo]{mighty_repo()}}
+\code{\link[=get_component]{get_component()}}, \code{\link[=find_component]{find_component()}}
 }

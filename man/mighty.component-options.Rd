@@ -14,13 +14,23 @@ Verbosity level for functions in mighty.component. See \link[zephyr:verbosity_le
 }
 }
 
-\subsection{github_max_tries}{
+\subsection{max_tries}{
 
-Maximum number of attempts for GitHub API calls. Transient errors (HTTP 5xx and network failures) are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. See \code{\link[=mighty_repo_github]{mighty_repo_github()}} and \code{\link[=mighty_repo_url]{mighty_repo_url()}} for which errors are retried.
 \itemize{
 \item Default: \code{3L}
-\item Option: \code{mighty.component.github_max_tries}
-\item Environment: \code{R_MIGHTY.COMPONENT_GITHUB_MAX_TRIES}
+\item Option: \code{mighty.component.max_tries}
+\item Environment: \code{R_MIGHTY.COMPONENT_MAX_TRIES}
+}
+}
+
+\subsection{timeout}{
+
+Maximum number of seconds per URL request attempt. See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
+\itemize{
+\item Default: \code{5}
+\item Option: \code{mighty.component.timeout}
+\item Environment: \code{R_MIGHTY.COMPONENT_TIMEOUT}
 }
 }
 }

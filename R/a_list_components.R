@@ -1,11 +1,8 @@
 #' List components in repos
 #' @description
-#' List all available mighty components (`.R` and `.mustache` files)
-#' in the given repos.
-#'
-#' A component is either a file directly in the repo, or a file named after
-#' its directory one level down (`<name>/<name>.R`). Files starting with
-#' `test-` are not listed.
+#' List all available mighty components in the given repos. See
+#' [mighty_repo()] for the component layout. Files starting with `test-` are
+#' not listed.
 #'
 #' @param repos Where to look. One of:
 #' * `character` vector of repo specs. See [mighty_repo()].
@@ -13,8 +10,7 @@
 #' * A `list` of repo specs or `mighty_repo_class` objects.
 #' * A [mighty_repos()] collection.
 #'
-#' Character vectors and lists are converted once with [mighty_repos()], so
-#' GitHub refs are only resolved once.
+#' Character vectors and lists are converted once with [mighty_repos()].
 #' @param as Format to list the components in:
 #' * `"character"`: component names (filenames without extension).
 #' * `"list"`: metadata for each component.
@@ -35,7 +31,7 @@
 #'
 #' list_components(path, as = "list") |>
 #'   str(max.level = 2)
-#' @seealso [get_component()], [find_component()], [mighty_repo()]
+#' @seealso [get_component()], [find_component()]
 #' @export
 list_components <- function(repos, as = c("character", "list", "tibble")) {
   as <- rlang::arg_match(as)
