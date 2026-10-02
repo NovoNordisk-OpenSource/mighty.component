@@ -14,7 +14,8 @@
 #' is unavailable or not HTML.
 #'
 #' Transient errors (see [httr2::req_retry()]) and network failures are
-#' retried. The number of attempts is set by the `max_tries` option (see
+#' retried. The number of attempts is set by the `max_tries` option, and
+#' each attempt is limited by the `timeout` option (see
 #' [mighty.component-options]).
 #' @param url `character(1)` base URL starting with `http://` or `https://`.
 #' @examples
@@ -62,7 +63,8 @@ url_request <- function(url) {
     httr2::req_retry(
       max_tries = get_max_tries(),
       retry_on_failure = TRUE
-    )
+    ) |>
+    httr2::req_timeout(seconds = get_timeout())
 }
 
 #' @noRd

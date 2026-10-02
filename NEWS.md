@@ -6,7 +6,7 @@
 * `find_component()` is exported, and `list_components()` works with all repo
   types (#103).
 * Components can be retrieved from URLs with `mighty_repo_url()` (`url::`
-  prefix) (#104).
+  prefix), with a time limit per request (`timeout` option) (#104).
 * GitHub repos are cached per commit, and transient API errors are retried
   (`max_tries` option) (#93, #95).
 * `@origin` is now a required tag on every component header, not optional.

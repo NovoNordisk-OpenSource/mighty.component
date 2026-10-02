@@ -24,6 +24,12 @@ zephyr::create_option(
   desc = "Maximum number of attempts for GitHub and URL requests. See [mighty_repo_github()] and [mighty_repo_url()] for which errors are retried." # nolint: line_length_linter
 )
 
+zephyr::create_option(
+  name = "timeout",
+  default = 5,
+  desc = "Maximum number of seconds per URL request attempt. See [mighty_repo_url()]." # nolint: line_length_linter
+)
+
 #' @noRd
 get_max_tries <- function() {
   max_tries <- zephyr::get_option(
@@ -38,4 +44,19 @@ get_max_tries <- function() {
   )
 
   max_tries
+}
+
+#' @noRd
+get_timeout <- function() {
+  timeout <- zephyr::get_option(
+    name = "timeout",
+    .envir = "mighty.component"
+  )
+
+  check_number_positive(
+    x = timeout,
+    arg = "mighty.component.timeout"
+  )
+
+  timeout
 }

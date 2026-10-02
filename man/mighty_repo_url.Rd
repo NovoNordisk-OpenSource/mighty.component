@@ -24,7 +24,8 @@ or nginx autoindex, or \verb{python -m http.server}. Listing aborts if an index
 is unavailable or not HTML.
 
 Transient errors (see \code{\link[httr2:req_retry]{httr2::req_retry()}}) and network failures are
-retried. The number of attempts is set by the \code{max_tries} option (see
+retried. The number of attempts is set by the \code{max_tries} option, and
+each attempt is limited by the \code{timeout} option (see
 \link{mighty.component-options}).
 }
 \examples{

@@ -47,6 +47,28 @@ test_that("mighty_repo_url errors on invalid max_tries option", {
     expect_error("max_tries")
 })
 
+test_that("mighty_repo_url adds timeout from timeout option", {
+  mighty_repo_url(url = url_base)@request$options$timeout_ms |>
+    expect_equal(5000)
+
+  withr::local_options(mighty.component.timeout = 10)
+
+  mighty_repo_url(url = url_base)@request$options$timeout_ms |>
+    expect_equal(10000)
+})
+
+test_that("mighty_repo_url errors on invalid timeout option", {
+  withr::local_options(mighty.component.timeout = 0)
+
+  mighty_repo_url(url = url_base)@request |>
+    expect_error("timeout")
+
+  withr::local_options(mighty.component.timeout = "a")
+
+  mighty_repo_url(url = url_base)@request |>
+    expect_error("timeout")
+})
+
 test_that("format returns url spec", {
   mighty_repo_url(url = url_base) |>
     format() |>

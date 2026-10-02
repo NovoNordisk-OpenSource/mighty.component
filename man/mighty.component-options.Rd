@@ -23,4 +23,14 @@ Maximum number of attempts for GitHub and URL requests. See \code{\link[=mighty_
 \item Environment: \code{R_MIGHTY.COMPONENT_MAX_TRIES}
 }
 }
+
+\subsection{timeout}{
+
+Maximum number of seconds per URL request attempt. See \code{\link[=mighty_repo_url]{mighty_repo_url()}}.
+\itemize{
+\item Default: \code{5}
+\item Option: \code{mighty.component.timeout}
+\item Environment: \code{R_MIGHTY.COMPONENT_TIMEOUT}
+}
+}
 }
