@@ -4,11 +4,11 @@ A component repo served as raw files under a base URL.
 
 See
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
-for the component layout. Files directly under `url` are tried before
-`<name>/`, and `.mustache` before `.R`. The first found is used. Status
-404 and 410 count as not found; other errors are raised. `name` is
-percent-encoded, and names containing `/` are not found. Responses are
-not cached.
+for the component layout. `.mustache` is tried before `.R`, and
+`<name>/` before files directly under `url`. The first found is used.
+Status 404 and 410 count as not found; other errors are raised. `name`
+is percent-encoded, and names containing `/` are not found. Responses
+are not cached.
 
 Listing components (see
 [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md))
