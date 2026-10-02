@@ -1,9 +1,6 @@
 #' URL component repo
 #' @description
-#' A component repo served as raw files under a base URL. Authentication is
-#' only possible through the query string, e.g. a token or signed URL. It is
-#' kept on all requests, but left out with the fragment when the repo is
-#' printed.
+#' A component repo served as raw files under a base URL.
 #'
 #' See [mighty_repo()] for the component layout. Files directly under `url`
 #' are tried before `<name>/`, and `.mustache` before `.R`. The first found is
@@ -70,8 +67,7 @@ url_request <- function(url) {
 
 #' @noRd
 S7::method(format, mighty_repo_url) <- function(x, ...) {
-  url <- httr2::url_modify(url = x@url, query = NULL, fragment = NULL)
-  paste0("url::", url)
+  paste0("url::", x@url)
 }
 
 #' Returns the response, or `NULL` for status 404 and 410 when

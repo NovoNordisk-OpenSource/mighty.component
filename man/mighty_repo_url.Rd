@@ -10,10 +10,7 @@ mighty_repo_url(url)
 \item{url}{\code{character(1)} base URL starting with \verb{http://} or \verb{https://}.}
 }
 \description{
-A component repo served as raw files under a base URL. Authentication is
-only possible through the query string, e.g. a token or signed URL. It is
-kept on all requests, but left out with the fragment when the repo is
-printed.
+A component repo served as raw files under a base URL.
 
 See \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. Files directly under \code{url}
 are tried before \verb{<name>/}, and \code{.mustache} before \code{.R}. The first found is

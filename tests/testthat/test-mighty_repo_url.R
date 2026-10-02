@@ -53,12 +53,6 @@ test_that("format returns url spec", {
     expect_equal(paste0("url::", url_base))
 })
 
-test_that("format drops query and fragment", {
-  mighty_repo_url(url = paste0(url_base, "?token=abc#top")) |>
-    format() |>
-    expect_equal(paste0("url::", url_base))
-})
-
 test_that("mighty_repo creates url repo from url:: prefix", {
   repo <- mighty_repo(spec = paste0("url::", url_base))
 
