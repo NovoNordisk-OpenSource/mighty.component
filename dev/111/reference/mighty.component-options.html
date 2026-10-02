@@ -23,6 +23,18 @@ Environment: R_MIGHTY.COMPONENT_MAX_TRIES
 
 
 
+
+
+timeout
+
+
+Maximum number of seconds per URL request attempt. See mighty_repo_url().
+Default: 5
+Option: mighty.component.timeout
+Environment: R_MIGHTY.COMPONENT_TIMEOUT
+
+
+
 "><meta property="og:description" content="
 
 verbosity_level
@@ -44,6 +56,18 @@ Maximum number of attempts for GitHub and URL requests. See mighty_repo_github()
 Default: 3L
 Option: mighty.component.max_tries
 Environment: R_MIGHTY.COMPONENT_MAX_TRIES
+
+
+
+
+
+timeout
+
+
+Maximum number of seconds per URL request attempt. See mighty_repo_url().
+Default: 5
+Option: mighty.component.timeout
+Environment: R_MIGHTY.COMPONENT_TIMEOUT
 
 
 
@@ -99,6 +123,15 @@ Environment: R_MIGHTY.COMPONENT_MAX_TRIES
 <p>Maximum number of attempts for GitHub and URL requests. See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code> and <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code> for which errors are retried.</p><ul><li><p>Default: <code>3L</code></p></li>
 <li><p>Option: <code>mighty.component.max_tries</code></p></li>
 <li><p>Environment: <code>R_MIGHTY.COMPONENT_MAX_TRIES</code></p></li>
+</ul></div>
+
+<div class="section">
+<h3 id="timeout">timeout<a class="anchor" aria-label="anchor" href="#timeout"></a></h3>
+
+
+<p>Maximum number of seconds per URL request attempt. See <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code>.</p><ul><li><p>Default: <code>5</code></p></li>
+<li><p>Option: <code>mighty.component.timeout</code></p></li>
+<li><p>Environment: <code>R_MIGHTY.COMPONENT_TIMEOUT</code></p></li>
 </ul></div>
 
     </div>

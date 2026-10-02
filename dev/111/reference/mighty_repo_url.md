@@ -1,9 +1,6 @@
 # URL component repo
 
-A component repo served as raw files under a base URL. Authentication is
-only possible through the query string, e.g. a token or signed URL. It
-is kept on all requests, but left out with the fragment when the repo is
-printed.
+A component repo served as raw files under a base URL.
 
 See
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
@@ -23,7 +20,8 @@ not HTML.
 Transient errors (see
 [`httr2::req_retry()`](https://httr2.r-lib.org/reference/req_retry.html))
 and network failures are retried. The number of attempts is set by the
-`max_tries` option (see
+`max_tries` option, and each attempt is limited by the `timeout` option
+(see
 [mighty.component-options](https://novonordisk-opensource.github.io/mighty.component/reference/mighty.component-options.md)).
 
 ## Usage

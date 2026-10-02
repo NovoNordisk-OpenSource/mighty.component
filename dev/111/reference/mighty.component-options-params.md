@@ -18,6 +18,12 @@ Internal parameters for reuse in functions
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
   for which errors are retried.. Default: `3L`.
 
+- timeout:
+
+  Maximum number of seconds per URL request attempt. See
+  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)..
+  Default: `5`.
+
 ## Details
 
 See

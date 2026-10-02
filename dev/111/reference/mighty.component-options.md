@@ -25,3 +25,14 @@ for which errors are retried.
 - Option: `mighty.component.max_tries`
 
 - Environment: `R_MIGHTY.COMPONENT_MAX_TRIES`
+
+### timeout
+
+Maximum number of seconds per URL request attempt. See
+[`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
+
+- Default: `5`
+
+- Option: `mighty.component.timeout`
+
+- Environment: `R_MIGHTY.COMPONENT_TIMEOUT`

@@ -17,7 +17,7 @@
   ([\#103](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103)).
 - Components can be retrieved from URLs with
   [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
-  (`url::` prefix)
+  (`url::` prefix), with a time limit per request (`timeout` option)
   ([\#104](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/104)).
 - GitHub repos are cached per commit, and transient API errors are
   retried (`max_tries` option)
