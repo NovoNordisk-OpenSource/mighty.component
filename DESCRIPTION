@@ -2,12 +2,16 @@ Package: mighty.component
 Title: Mighty Components for ADaM Generation
 Version: 0.1.0.9008
 Authors@R: c(
-    person("Aksel", "Thomsen", , "oath@enovonordisk.com", role = c("aut", "cre")),
-    person("Matthew", "Phelps", , "mewp@enovonordisk.com", role = "aut"),
+    person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
+    person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Components to be used inside the 'mighty' framework for
-    generation of ADaM programs.
+Description: Reusable code templates ('components') for the 'mighty'
+    framework, used to generate Analysis Data Model (ADaM) programs.
+    Components are 'Mustache' templates documented with roxygen-like
+    tags. They can be retrieved from local directories, 'GitHub' or
+    URLs, rendered with study-specific parameters, validated,
+    evaluated, and unit tested with code coverage.
 License: Apache License (>= 2)
 URL: https://novonordisk-opensource.github.io/mighty.component,
     https://github.com/NovoNordisk-OpenSource/mighty.component
@@ -44,3 +48,4 @@ Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Language: en-US
