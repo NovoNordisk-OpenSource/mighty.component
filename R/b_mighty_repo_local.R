@@ -3,7 +3,8 @@
 #' A component repo in a local directory. See [mighty_repo()] for the
 #' component layout. An error is raised if more than one file matches a
 #' component.
-#' @param path `character(1)` path to an existing directory.
+#' @param path `character(1)` Path to an existing directory.
+#' @returns A `mighty_repo_local` object.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
 #' mighty_repo_local(path = path)

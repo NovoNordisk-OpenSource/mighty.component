@@ -1,6 +1,7 @@
 #' URL component repo
 #' @description
-#' A component repo served as raw files under a base URL.
+#' A component repo served as raw files under a base URL. Requires httr2
+#' (>= 1.2.2).
 #'
 #' See [mighty_repo()] for the component layout. `.mustache` is tried before
 #' `.R`, and `<name>/` before files directly under `url`. The first found is
@@ -17,7 +18,8 @@
 #' retried. The number of attempts is set by the `max_tries` option, and
 #' each attempt is limited by the `timeout` option (see
 #' [mighty.component-options]).
-#' @param url `character(1)` base URL starting with `http://` or `https://`.
+#' @param url `character(1)` Base URL starting with `http://` or `https://`.
+#' @returns A `mighty_repo_url` object.
 #' @examples
 #' \dontrun{
 #' repo <- mighty_repo_url(url = "https://example.com/components")
