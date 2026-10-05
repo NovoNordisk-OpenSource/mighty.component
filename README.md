@@ -8,8 +8,11 @@
 [![R-CMD-check](https://github.com/NovoNordisk-OpenSource/mighty.component/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NovoNordisk-OpenSource/mighty.component/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
 
-mighty.component serves as a repository of generic compute component
-classes used to produce ADaM scripts in the {mighty} framework.
+mighty.component provides reusable code templates, called components,
+for the {mighty} framework, used to generate ADaM programs. Components
+are Mustache templates documented with roxygen-like tags. Retrieve them
+from local directories, GitHub or URLs, then render, validate, evaluate
+and test them.
 
 ## Installation
 
