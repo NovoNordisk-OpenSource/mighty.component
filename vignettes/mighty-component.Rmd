@@ -10,9 +10,12 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = rlang::is_installed(c(
+    "admiral", "callr", "covr", "dplyr", "pharmaverseadam", "tibble", "tidyr"
+  ))
 )
-options(mighty.component.verbosity_level = "quiet")
+old_options <- options(mighty.component.verbosity_level = "quiet")
 ```
 
 ```{r setup}
@@ -454,3 +457,15 @@ ady_test$line_coverage
 In a testthat file, create the test component inside `test_that()`, assign
 data, evaluate and test the results. Coverage is checked when the test ends.
 See `?mighty_component_test` for the workflow.
+
+```{r cleanup, include = FALSE}
+ady_test$close()
+unlink(
+  c(r2base_file, script_file, bad_file, good_file, team_repo),
+  recursive = TRUE
+)
+```
+
+```{r reset-options, eval = TRUE, include = FALSE}
+options(old_options)
+```
