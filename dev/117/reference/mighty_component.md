@@ -1,4 +1,4 @@
-# Component class
+# Component Class
 
 R6 class for a component.
 
@@ -261,7 +261,7 @@ Create documentation in markdown format. Requires the knitr package.
 
 #### Returns
 
-(`invisible`) `character(1)` markdown documentation, also printed to the
+(`invisible`) `character(1)` Markdown documentation. Also printed to the
 console.
 
 ------------------------------------------------------------------------
@@ -279,3 +279,96 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- mighty_component$new(template = readLines(path), id = "ady")
+x
+#> <mighty_component/R6>
+#> ady: Analysis relative day
+#> Type: column
+#> Parameters:
+#> • domain: `character` Name of new domain being created
+#> • variable: `character` Name of new variable to create
+#> • date: `character` Name of date variable to use
+#> Depends:
+#> • {{{domain}}}.{{{date}}}
+#> • {{{domain}}}.TRTSDT
+#> Outputs:
+#> • {{{variable}}}
+
+x$params
+#>       name                                  description
+#> 1   domain `character` Name of new domain being created
+#> 2 variable   `character` Name of new variable to create
+#> 3     date     `character` Name of date variable to use
+x$depends
+#>         domain     column
+#> 1 {{{domain}}} {{{date}}}
+#> 2 {{{domain}}}     TRTSDT
+
+x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+#> <mighty_component_rendered/mighty_component/R6>
+#> ady: Analysis relative day
+#> Type: column
+#> Depends:
+#> • ADAE.ASTDT
+#> • ADAE.TRTSDT
+#> Outputs:
+#> • ASTDY
+#> Code:
+#> ADAE <- ADAE |>
+#>   dplyr::mutate(
+#>     ASTDY = admiral::compute_duration(
+#>       start_date = TRTSDT,
+#>       end_date = ASTDT,
+#>       in_unit = 'days',
+#>       out_unit = 'days',
+#>       add_one = TRUE
+#>     )
+#>   )
+
+x$document()
+#> ## ady: Analysis relative day
+#> *type: column*
+#> *origin: Derived*
+#> *method: Relative day computed from treatment start date*
+#> 
+#> Derives the relative day compared to the treatment start date.
+#> 
+#> ### Parameters
+#> 
+#> |name     |description                                  |
+#> |:--------|:--------------------------------------------|
+#> |domain   |`character` Name of new domain being created |
+#> |variable |`character` Name of new variable to create   |
+#> |date     |`character` Name of date variable to use     |
+#> 
+#> ### Depends
+#> 
+#> |domain       |column     |
+#> |:------------|:----------|
+#> |{{{domain}}} |{{{date}}} |
+#> |{{{domain}}} |TRTSDT     |
+#> 
+#> ### Outputs
+#> 
+#> * {{{variable}}}
+#> 
+#> ### Code
+#> 
+#> ```r
+#> {{{domain}}} <- {{{domain}}} |>
+#>   dplyr::mutate(
+#>     {{{variable}}} = admiral::compute_duration(
+#>       start_date = TRTSDT,
+#>       end_date = {{{date}}},
+#>       in_unit = 'days',
+#>       out_unit = 'days',
+#>       add_one = TRUE
+#>     )
+#>   )
+#> ```
+```

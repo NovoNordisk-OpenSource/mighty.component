@@ -1,4 +1,4 @@
-# Component repos
+# Component Repos
 
 - `mighty_repo()`: Create a component repo from a spec.
 

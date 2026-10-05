@@ -28,6 +28,9 @@
   retried (`max_tries` option)
   ([\#93](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93),
   [\#95](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95)).
+- GitHub repos no longer leave extraction directories in the temporary
+  directory, also when extraction fails
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
 - `@origin` is now a required tag on component headers
   ([\#107](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107)).
 - New required `@method` tag on component headers, exposed as
@@ -36,7 +39,10 @@
 - `@type row` components accept `".mighty_subset(<domain>, '<subset>')"`
   as `domain` to process only matching rows; other rows are unchanged
   ([\#101](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/101)).
-- `component$document()` checks that knitr is installed
+- `component$document()` checks that knitr is installed, and prints with
+  cli so the output can be suppressed
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+- `mighty_component_test` gains `$close()` to close the test session
   ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
 - Documentation is revised, and
   [`?mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)

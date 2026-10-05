@@ -1,4 +1,4 @@
-# Test component class
+# Test Component Class
 
 R6 class for unit testing a component with code coverage tracking. The
 code runs in a separate R session, and the lines executed are counted.
@@ -20,9 +20,13 @@ to create a test component. The workflow is:
 
 5.  Test the results with testthat `expect_*()` functions.
 
+6.  Close the session with `$close()`.
+
 By default,
 [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-checks coverage with `$check_coverage()` when the test ends.
+checks coverage with `$check_coverage()` when the test ends. Coverage is
+kept in the current R session, so it can still be checked after
+`$close()`.
 
 The code runs inside a function, with `<-` replaced by `<<-`, so
 assignments are made in the session's global environment.
@@ -66,6 +70,8 @@ assignments are made in the session's global environment.
 - [`mighty_component_test$eval()`](#method-mighty_component_test-eval)
 
 - [`mighty_component_test$check_coverage()`](#method-mighty_component_test-check_coverage)
+
+- [`mighty_component_test$close()`](#method-mighty_component_test-close)
 
 - [`mighty_component_test$clone()`](#method-mighty_component_test-clone)
 
@@ -199,6 +205,21 @@ otherwise.
 
 ------------------------------------------------------------------------
 
+### `mighty_component_test$close()`
+
+Close the test session. Called automatically when the object is garbage
+collected.
+
+#### Usage
+
+    mighty_component_test$close()
+
+#### Returns
+
+(`invisible`) self
+
+------------------------------------------------------------------------
+
 ### `mighty_component_test$clone()`
 
 The objects of this class are cloneable with this method.
@@ -212,3 +233,31 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_test_component(
+  component = path,
+  params = list(domain = "adae", variable = "ADY", date = "ADT"),
+  check_coverage = FALSE
+)
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+x$percent_coverage
+#> [1] 0
+
+x$assign(
+  "adae",
+  data.frame(TRTSDT = as.Date("2024-01-01"), ADT = as.Date("2024-01-05"))
+)
+x$eval()
+x$ls()
+#> [1] "adae"
+x$get("adae")$ADY
+#> [1] 5
+x$percent_coverage
+#> [1] 100
+x$check_coverage()
+x$close()
+```

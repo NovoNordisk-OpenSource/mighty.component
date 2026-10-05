@@ -1,4 +1,4 @@
-# Local component repo
+# Local Component Repo
 
 A component repo in a local directory. See
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)

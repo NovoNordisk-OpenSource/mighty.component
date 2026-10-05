@@ -1,4 +1,4 @@
-# Find a component
+# Find a Component
 
 Find a component in one or more repos. Returns `NULL` if no repo
 contains it, while

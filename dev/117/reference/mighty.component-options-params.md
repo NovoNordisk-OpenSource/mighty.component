@@ -1,6 +1,6 @@
-# Internal parameters for reuse in functions
+# Internal Parameters for Reuse in Functions
 
-Internal parameters for reuse in functions
+Internal Parameters for Reuse in Functions
 
 ## Arguments
 

@@ -484,11 +484,14 @@ network access:
 ``` r
 
 repos <- mighty_repos(c(
-  "github::owner/repo/components@main",
-  "url::https://example.com/components",
+  "github::NovoNordisk-OpenSource/mighty.standards/components@main",
+  paste0(
+    "url::https://raw.githubusercontent.com/",
+    "NovoNordisk-OpenSource/mighty.standards/main/components"
+  ),
   examples
 ))
-get_component("ady", repos = repos)
+get_component("dummy", repos = repos)
 ```
 
 See

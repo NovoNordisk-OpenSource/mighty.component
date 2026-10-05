@@ -1,4 +1,4 @@
-# Create a test component
+# Create a Test Component
 
 Retrieve and render a component as a
 [mighty_component_test](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
@@ -97,4 +97,5 @@ x$get("adae")
 #> 2 2024-01-01 2024-01-10    10
 x$percent_coverage
 #> [1] 100
+x$close()
 ```

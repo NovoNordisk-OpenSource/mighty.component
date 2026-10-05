@@ -1,4 +1,4 @@
-# Rendered component class
+# Rendered Component Class
 
 R6 class for a rendered component, created by
 [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)`$render()`
@@ -132,3 +132,59 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_component(path)$render(
+  domain = "adae",
+  variable = "ASTDY",
+  date = "ASTDT"
+)
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+x$code
+#>  [1] "adae <- adae |>"                       
+#>  [2] "  dplyr::mutate("                      
+#>  [3] "    ASTDY = admiral::compute_duration("
+#>  [4] "      start_date = TRTSDT,"            
+#>  [5] "      end_date = ASTDT,"               
+#>  [6] "      in_unit = 'days',"               
+#>  [7] "      out_unit = 'days',"              
+#>  [8] "      add_one = TRUE"                  
+#>  [9] "    )"                                 
+#> [10] "  )"                                   
+
+# Write the code to an R script
+script <- tempfile(fileext = ".R")
+x$stream(script)
+readLines(script)
+#>  [1] "adae <- adae |>"                       
+#>  [2] "  dplyr::mutate("                      
+#>  [3] "    ASTDY = admiral::compute_duration("
+#>  [4] "      start_date = TRTSDT,"            
+#>  [5] "      end_date = ASTDT,"               
+#>  [6] "      in_unit = 'days',"               
+#>  [7] "      out_unit = 'days',"              
+#>  [8] "      add_one = TRUE"                  
+#>  [9] "    )"                                 
+#> [10] "  )"                                   
+unlink(script)
+
+# Evaluate the code in a new environment
+env <- new.env()
+env$adae <- data.frame(
+  TRTSDT = as.Date("2024-01-01"),
+  ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+)
+x$eval(envir = env)
+#> → Evaluating component Analysis relative day
+#> ℹ Code:
+#> `adae <- adae |>`, ` dplyr::mutate(`, ` ASTDY = admiral::compute_duration(`, `
+#> start_date = TRTSDT,`, ` end_date = ASTDT,`, ` in_unit = 'days',`, ` out_unit =
+#> 'days',`, ` add_one = TRUE`, ` )`, and ` )`
+env$adae
+#>       TRTSDT      ASTDT ASTDY
+#> 1 2024-01-01 2024-01-01     1
+#> 2 2024-01-01 2024-01-10    10
+```

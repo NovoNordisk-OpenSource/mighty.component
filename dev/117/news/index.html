@@ -40,13 +40,16 @@
 <code><a href="../reference/find_component.html">find_component()</a></code> is exported, and <code><a href="../reference/list_components.html">list_components()</a></code> works with all repo types (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103" class="external-link">#103</a>).</li>
 <li>Components can be retrieved from URLs with <code><a href="../reference/mighty_repo_url.html">mighty_repo_url()</a></code> (<code>url::</code> prefix), with a time limit per request (<code>timeout</code> option) (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/104" class="external-link">#104</a>).</li>
 <li>GitHub repos are cached per commit, and transient API errors are retried (<code>max_tries</code> option) (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93" class="external-link">#93</a>, <a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95" class="external-link">#95</a>).</li>
+<li>GitHub repos no longer leave extraction directories in the temporary directory, also when extraction fails (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 <li>
 <code>@origin</code> is now a required tag on component headers (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107" class="external-link">#107</a>).</li>
 <li>New required <code>@method</code> tag on component headers, exposed as <code>component$method</code> (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107" class="external-link">#107</a>).</li>
 <li>
 <code>@type row</code> components accept <code>".mighty_subset(&lt;domain&gt;, '&lt;subset&gt;')"</code> as <code>domain</code> to process only matching rows; other rows are unchanged (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/101" class="external-link">#101</a>).</li>
 <li>
-<code>component$document()</code> checks that knitr is installed (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
+<code>component$document()</code> checks that knitr is installed, and prints with cli so the output can be suppressed (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
+<li>
+<code>mighty_component_test</code> gains <code>$close()</code> to close the test session (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 <li>Documentation is revised, and <code><a href="../reference/mighty_component.html">?mighty_component</a></code> and the vignette share one template reference (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 </ul></div>
     <div class="section level2">

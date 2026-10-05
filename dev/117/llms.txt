@@ -84,38 +84,38 @@ on how to work with components and repos.
 
 - [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
   [`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
-  : Retrieve a component
+  : Retrieve a Component
 - [`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md)
-  : Find a component
+  : Find a Component
 - [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
-  : List components in repos
+  : List Components in Repos
 
 ## Component repos
 
 - [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
-  : Component repos
+  : Component Repos
 - [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md)
-  : Local component repo
+  : Local Component Repo
 - [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md)
-  : GitHub component repo
+  : GitHub Component Repo
 - [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
-  : URL component repo
+  : URL Component Repo
 - [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md)
-  : Collection of component repos
+  : Collection of Component Repos
 
 ## Test components
 
 - [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-  : Create a test component
+  : Create a Test Component
 - [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
-  : Test component class
+  : Test Component Class
 
 ## Mighty component classes
 
 - [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
-  : Component class
+  : Component Class
 - [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
-  : Rendered component class
+  : Rendered Component Class
 
 ## Utilities
 

@@ -551,11 +551,14 @@ each component. It requires the tibble and tidyr packages:</p>
 GitHub and URL repos need network access:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">repos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mighty_repos.html">mighty_repos</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"github::owner/repo/components@main"</span>,</span>
-<span>  <span class="st">"url::https://example.com/components"</span>,</span>
+<span>  <span class="st">"github::NovoNordisk-OpenSource/mighty.standards/components@main"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">"url::https://raw.githubusercontent.com/"</span>,</span>
+<span>    <span class="st">"NovoNordisk-OpenSource/mighty.standards/main/components"</span></span>
+<span>  <span class="op">)</span>,</span>
 <span>  <span class="va">examples</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/get_component.html">get_component</a></span><span class="op">(</span><span class="st">"ady"</span>, repos <span class="op">=</span> <span class="va">repos</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/get_component.html">get_component</a></span><span class="op">(</span><span class="st">"dummy"</span>, repos <span class="op">=</span> <span class="va">repos</span><span class="op">)</span></span></code></pre></div>
 <p>See <code><a href="../reference/mighty_repo_github.html">?mighty_repo_github</a></code> and
 <code><a href="../reference/mighty_repo_url.html">?mighty_repo_url</a></code> for authentication and retries.</p>
 </div>

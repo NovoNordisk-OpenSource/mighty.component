@@ -1,4 +1,4 @@
-# GitHub component repo
+# GitHub Component Repo
 
 A component repo hosted on GitHub. When the object is created, `ref` is
 resolved to a commit SHA and the repository tarball for that commit is
@@ -44,8 +44,10 @@ with `path` set to the downloaded repository or its `subdir`.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-repo <- mighty_repo_github(spec = "owner/repo/subdir@main")
-list_components(repos = repo)
-} # }
+if (FALSE) { # interactive() && rlang::is_installed(c("gh", "remotes"))
+repo <- mighty_repo_github(
+  spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
+)
+find_component(component = "dummy", repos = repo)
+}
 ```
