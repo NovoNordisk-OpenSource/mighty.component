@@ -6,7 +6,6 @@
 ^pkgdown$
 ^README\.Rmd$
 ^\.lintr$
-^cspell\.yaml$
 ^\.github$
 ^doc$
 ^Meta$

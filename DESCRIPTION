@@ -8,13 +8,14 @@ Authors@R: c(
   )
 Description: Reusable code templates ('components') for the 'mighty'
     framework, used to generate Analysis Data Model (ADaM) programs.
-    Components are 'Mustache' templates documented with roxygen-like
+    Components are 'Mustache' templates documented with 'roxygen2'-like
     tags. They can be retrieved from local directories, 'GitHub' or
     URLs, rendered with study-specific parameters, validated,
     evaluated, and unit tested with code coverage.
 License: Apache License (>= 2)
 URL: https://novonordisk-opensource.github.io/mighty.component,
     https://github.com/NovoNordisk-OpenSource/mighty.component
+BugReports: https://github.com/NovoNordisk-OpenSource/mighty.component/issues
 Depends: 
     R (>= 4.1)
 Imports: 
@@ -32,6 +33,7 @@ Suggests:
     admiral,
     callr,
     covr,
+    curl,
     dplyr,
     gh,
     httr2,
@@ -39,7 +41,7 @@ Suggests:
     pharmaverseadam,
     remotes,
     rmarkdown,
-    testthat (>= 3.0.0),
+    testthat (>= 3.2.0),
     tibble,
     tidyr
 VignetteBuilder: 
