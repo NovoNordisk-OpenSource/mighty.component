@@ -20,11 +20,16 @@
 #' [mighty.component-options]).
 #' @param url `character(1)` Base URL starting with `http://` or `https://`.
 #' @returns A `mighty_repo_url` object.
-#' @examples
-#' \dontrun{
-#' repo <- mighty_repo_url(url = "https://example.com/components")
-#' find_component(component = "ady", repos = repo)
-#' }
+#' @examplesIf rlang::is_installed("httr2", version = "1.2.2")
+#' repo <- mighty_repo_url(
+#'   url = paste0(
+#'     "https://raw.githubusercontent.com/",
+#'     "NovoNordisk-OpenSource/mighty.standards/main/components"
+#'   )
+#' )
+#' format(repo)
+#' @examplesIf interactive() && rlang::is_installed("httr2", version = "1.2.2")
+#' find_component(component = "dummy", repos = repo)
 #' @export
 mighty_repo_url <- S7::new_class(
   name = "mighty_repo_url",

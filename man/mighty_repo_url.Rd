@@ -33,8 +33,16 @@ each attempt is limited by the \code{timeout} option (see
 \link{mighty.component-options}).
 }
 \examples{
-\dontrun{
-repo <- mighty_repo_url(url = "https://example.com/components")
-find_component(component = "ady", repos = repo)
-}
+\dontshow{if (rlang::is_installed("httr2", version = "1.2.2")) withAutoprint(\{ # examplesIf}
+repo <- mighty_repo_url(
+  url = paste0(
+    "https://raw.githubusercontent.com/",
+    "NovoNordisk-OpenSource/mighty.standards/main/components"
+  )
+)
+format(repo)
+\dontshow{\}) # examplesIf}
+\dontshow{if (interactive() && rlang::is_installed("httr2", version = "1.2.2")) withAutoprint(\{ # examplesIf}
+find_component(component = "dummy", repos = repo)
+\dontshow{\}) # examplesIf}
 }
