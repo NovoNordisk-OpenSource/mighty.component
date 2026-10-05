@@ -23,7 +23,8 @@
   `@depends`/`@outputs`/`@type` parsing or silently dropping added rows.
   Parameter values that aren't an exact `.mighty_subset(...)` call are
   unaffected. A marker on any parameter other than `domain` raises an error.
-* `component$document()` checks that knitr is installed (#119).
+* `component$document()` checks that knitr is installed, and prints with cli
+  so the output can be suppressed (#119).
 * `mighty_component_test` gains `$close()` to close the test session. The
   session is also closed when the object is garbage collected (#119).
 

@@ -103,8 +103,8 @@ mighty_component <- R6::R6Class(
     #' @description
     #' Create standard documentation in markdown format.
     #' Requires the knitr package.
-    #' @return (`invisible`) `character(1)` markdown documentation,
-    #' also printed to the console.
+    #' @return (`invisible`) `character(1)` Markdown documentation.
+    #' Also printed to the console.
     document = function() {
       ms_document(self)
     }
@@ -440,7 +440,7 @@ ms_document <- function(self) {
     data = data
   )
 
-  cat(docs, "\n\n")
+  zephyr::msg(message = docs, msg_fun = cli::cli_verbatim)
 
   invisible(docs)
 }

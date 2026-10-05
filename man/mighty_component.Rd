@@ -188,8 +188,8 @@ Requires the knitr package.
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    (\code{invisible}) \code{character(1)} markdown documentation,
-also printed to the console.
+    (\code{invisible}) \code{character(1)} Markdown documentation.
+Also printed to the console.
   }
 }
 
