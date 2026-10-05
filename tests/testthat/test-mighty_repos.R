@@ -62,11 +62,11 @@ test_that("find_component searches mighty_repos in order", {
   repos <- mighty_repos(repos = c(path1, path2))
 
   find_component(component = "adt", repos = repos)$id |>
-    expect_equal("adt.R") |>
+    expect_equal("adt") |>
     expect_message(basename(path1), fixed = TRUE)
 
   find_component(component = "ady", repos = repos)$id |>
-    expect_equal("ady.mustache") |>
+    expect_equal("ady") |>
     expect_message(basename(path2), fixed = TRUE)
 })
 

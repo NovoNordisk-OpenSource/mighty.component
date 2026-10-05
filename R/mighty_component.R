@@ -107,7 +107,7 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field id Component ID.
+    #' @field id Component name (file name without extension).
     id = \() private$.id,
     #' @field title Title for the component.
     title = \() private$.title,

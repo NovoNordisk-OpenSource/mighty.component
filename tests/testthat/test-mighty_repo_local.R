@@ -162,7 +162,7 @@ test_that("find_component finds top-level component by name", {
   component <- find_component(component = "ady", repos = repo)
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
 })
 
 test_that("find_component finds top-level component by name with extension", {
@@ -173,7 +173,7 @@ test_that("find_component finds top-level component by name with extension", {
   component <- find_component(component = "ady.mustache", repos = repo)
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
 })
 
 test_that("find_component finds nested component", {
@@ -182,10 +182,10 @@ test_that("find_component finds nested component", {
   )
 
   find_component(component = "foo", repos = repo)$id |>
-    expect_equal("foo.R")
+    expect_equal("foo")
 
   find_component(component = "foo.R", repos = repo)$id |>
-    expect_equal("foo.R")
+    expect_equal("foo")
 })
 
 test_that("find_component finds nested component with a dotted name", {
@@ -194,10 +194,10 @@ test_that("find_component finds nested component with a dotted name", {
   )
 
   find_component(component = "foo.bar", repos = repo)$id |>
-    expect_equal("foo.bar.R")
+    expect_equal("foo.bar")
 
   find_component(component = "foo.bar.R", repos = repo)$id |>
-    expect_equal("foo.bar.R")
+    expect_equal("foo.bar")
 })
 
 test_that("find_component matches names case-sensitively", {
@@ -251,7 +251,7 @@ test_that("find_component ignores directories with component extension", {
     expect_null()
 
   find_component(component = "foo", repos = repo)$id |>
-    expect_equal("foo.R")
+    expect_equal("foo")
 })
 
 test_that("find_component matches names literally", {
@@ -267,7 +267,7 @@ test_that("find_component matches names literally", {
   )
 
   find_component(component = "a+b", repos = repo)$id |>
-    expect_equal("a+b.R")
+    expect_equal("a+b")
 })
 
 test_that("find_component finds test- files by explicit name", {
@@ -276,7 +276,7 @@ test_that("find_component finds test- files by explicit name", {
   )
 
   find_component(component = "test-ady", repos = repo)$id |>
-    expect_equal("test-ady.R")
+    expect_equal("test-ady")
 })
 
 test_that("find_component validates custom R components", {

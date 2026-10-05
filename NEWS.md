@@ -1,5 +1,8 @@
 # mighty.component (development version)
 
+* Breaking: `component$id` and the `id` from `list_components()` are now the
+  component name without file extension, e.g. `"ady"` instead of
+  `"ady.mustache"` (#118).
 * Component repos are S7 classes: `mighty_repo()`, `mighty_repo_local()`,
   `mighty_repo_github()` and `mighty_repos()`. GitHub repos use the
   `github::` prefix (#108).
