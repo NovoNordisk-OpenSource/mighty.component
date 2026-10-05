@@ -106,24 +106,20 @@ test_that("Error with no test code coverage", {
 })
 
 test_that("Session closed on finalize", {
-  skip_on_os(os = "windows")
-
   x <- get_test_component(
     component = test_path("_components", "test_component.mustache"),
     params = list(domain = "a", x1 = 1, x2 = 3),
     check_coverage = FALSE
   )
 
-  pid <- x[[".__enclos_env__"]][["private"]][[".session"]]$get_pid()
+  session <- x[[".__enclos_env__"]][["private"]][[".session"]]
 
-  pid |>
-    process_is_alive() |>
+  session$is_alive() |>
     expect_true()
 
   rm(x)
   gc() # Garbage collection enforced finalize on deleted objects
 
-  pid |>
-    process_is_alive() |>
+  session$is_alive() |>
     expect_false()
 })
