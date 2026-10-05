@@ -24,6 +24,8 @@
 * `mighty_component_test` gains `$close()` to close the test session. The
   session is also closed when the object is garbage collected (#119).
 * `component$stream()` closes the file connection when writing fails (#119).
+* Documentation is revised, and `?mighty_component` and the vignette share one
+  template reference (#117).
 
 # mighty.component 0.1.0
 
