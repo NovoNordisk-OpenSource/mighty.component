@@ -181,10 +181,15 @@ Must be named, and depends on the template.}
 \if{latex}{\out{\hypertarget{method-mighty_component-document}{}}}
 \subsection{\code{mighty_component$document()}}{
   Create standard documentation in markdown format.
+Requires the knitr package.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component$document()}
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (\code{invisible}) \code{character(1)} markdown documentation,
+also printed to the console.
   }
 }
 

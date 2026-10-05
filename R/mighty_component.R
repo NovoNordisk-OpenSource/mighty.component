@@ -102,6 +102,9 @@ mighty_component <- R6::R6Class(
     },
     #' @description
     #' Create standard documentation in markdown format.
+    #' Requires the knitr package.
+    #' @return (`invisible`) `character(1)` markdown documentation,
+    #' also printed to the console.
     document = function() {
       ms_document(self)
     }
@@ -421,6 +424,7 @@ wrap_subset_marker <- function(template, marker) {
 
 #' @noRd
 ms_document <- function(self) {
+  rlang::check_installed("knitr")
   template <- system.file(
     "ms_document.mustache",
     package = "mighty.component"

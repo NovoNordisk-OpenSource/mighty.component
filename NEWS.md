@@ -23,6 +23,7 @@
   `@depends`/`@outputs`/`@type` parsing or silently dropping added rows.
   Parameter values that aren't an exact `.mighty_subset(...)` call are
   unaffected. A marker on any parameter other than `domain` raises an error.
+* `component$document()` checks that knitr is installed (#119).
 
 # mighty.component 0.1.0
 
