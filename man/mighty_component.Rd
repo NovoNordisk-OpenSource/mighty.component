@@ -218,7 +218,7 @@ For \verb{@type row} components, \code{domain} can be a subset marker:
 expression in a string, e.g.
 \verb{domain = ".mighty_subset(ADLB, 'PARAMCD == \\"ALB\\"')"}. The code then
 only processes the rows where \verb{<subset>} is \code{TRUE}. Other rows are kept
-unchanged and placed first. The marker is not allowed for other
+unchanged. The marker is not allowed for other
 parameters or types.}
     }
     \if{html}{\out{</div>}}
