@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(mighty.component.verbosity_level = "quiet")
 ```
 
 ```{r setup}
@@ -263,7 +264,7 @@ copy of `ady`:
 
 ```{r repos-setup}
 examples <- system.file("examples", package = "mighty.component")
-team_repo <- file.path(tempdir(), "team")
+team_repo <- tempfile("team")
 dir.create(team_repo)
 invisible(file.copy(r2base_file, team_repo))
 
