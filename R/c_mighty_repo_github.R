@@ -20,11 +20,11 @@
 #' @returns A `mighty_repo_github` object. It inherits from
 #' [mighty_repo_local()], with `path` set to the downloaded repository or
 #' its `subdir`.
-#' @examples
-#' \dontrun{
-#' repo <- mighty_repo_github(spec = "owner/repo/subdir@main")
-#' list_components(repos = repo)
-#' }
+#' @examplesIf interactive() && rlang::is_installed(c("gh", "remotes"))
+#' repo <- mighty_repo_github(
+#'   spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
+#' )
+#' find_component(component = "dummy", repos = repo)
 #' @seealso [mighty_repo()]
 #' @export
 mighty_repo_github <- S7::new_class(

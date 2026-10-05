@@ -33,10 +33,12 @@ token. gh reads it from the \code{GITHUB_PAT} or \code{GITHUB_TOKEN} environment
 variable, or the Git credential store. See \code{\link[gh:gh_token]{gh::gh_token()}}.
 }
 \examples{
-\dontrun{
-repo <- mighty_repo_github(spec = "owner/repo/subdir@main")
-list_components(repos = repo)
-}
+\dontshow{if (interactive() && rlang::is_installed(c("gh", "remotes"))) withAutoprint(\{ # examplesIf}
+repo <- mighty_repo_github(
+  spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
+)
+find_component(component = "dummy", repos = repo)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=mighty_repo]{mighty_repo()}}
