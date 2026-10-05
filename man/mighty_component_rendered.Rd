@@ -13,6 +13,32 @@ A rendered component can be:
 \item Evaluated in an environment with \verb{$eval()}.
 }
 }
+\examples{
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_component(path)$render(
+  domain = "adae",
+  variable = "ASTDY",
+  date = "ASTDT"
+)
+x$code
+
+# Write the code to an R script
+script <- tempfile(fileext = ".R")
+x$stream(script)
+readLines(script)
+unlink(script)
+
+\dontshow{if (rlang::is_installed(c("admiral", "dplyr"))) withAutoprint(\{ # examplesIf}
+# Evaluate the code in a new environment
+env <- new.env()
+env$adae <- data.frame(
+  TRTSDT = as.Date("2024-01-01"),
+  ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+)
+x$eval(envir = env)
+env$adae
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \code{\link[=get_rendered_component]{get_rendered_component()}}, \link{mighty_component}
 }

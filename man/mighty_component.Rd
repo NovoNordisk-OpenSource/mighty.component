@@ -116,6 +116,20 @@ The tags are rendered too, e.g. \verb{$depends} has domain \code{ADSL} and
 column \code{B}.
 }
 }
+\examples{
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- mighty_component$new(template = readLines(path), id = "ady")
+x
+
+x$params
+x$depends
+
+x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+
+\dontshow{if (rlang::is_installed("knitr")) withAutoprint(\{ # examplesIf}
+x$document()
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered},
 \code{vignette("mighty-component")}
