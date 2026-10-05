@@ -8,6 +8,8 @@ sample_adlb <- function() {
 }
 
 test_that("marker in domain expands to bare identifier, wraps code, and affects subset rows only", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_add_rows.mustache") |>
     get_component()
 
@@ -53,6 +55,8 @@ test_that("marker in domain expands to bare identifier, wraps code, and affects 
 })
 
 test_that("subset marker: modifies matching rows in place, leaves others untouched", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_modify_rows.mustache") |>
     get_component()
 
@@ -74,6 +78,8 @@ test_that("subset marker: modifies matching rows in place, leaves others untouch
 })
 
 test_that("subset marker: drops matching rows, leaves others untouched", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_drop_rows.mustache") |>
     get_component()
 
@@ -93,6 +99,8 @@ test_that("subset marker: drops matching rows, leaves others untouched", {
 })
 
 test_that("subset marker: new column under subset raises the natural rbind error", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_new_column.mustache") |>
     get_component()
 
