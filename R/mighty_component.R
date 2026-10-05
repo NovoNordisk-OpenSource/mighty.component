@@ -137,7 +137,7 @@ mighty_component <- R6::R6Class(
     #' expression in a string, e.g.
     #' `domain = ".mighty_subset(ADLB, 'PARAMCD == \"ALB\"')"`. The code then
     #' only processes the rows where `<subset>` is `TRUE`. Other rows are kept
-    #' unchanged and placed first. The marker is not allowed for other
+    #' unchanged. The marker is not allowed for other
     #' parameters or types.
     #' @return Object of class [mighty_component_rendered]
     render = function(...) {
