@@ -3,8 +3,7 @@
 
 mighty_repo(): Create a component repo from a spec.
 mighty_repo_class: Abstract parent class of all component repos. It has
-one property, @path: the directory holding the components, as a single
-non-empty string. It cannot be created directly.
+no properties and cannot be created directly.
 
 
 Specs have the form type::path. Supported types:
@@ -12,13 +11,18 @@ local: A local directory, e.g. local::inst/examples.
 A spec without a prefix is treated as local.
 github: A GitHub repository, e.g. github::owner/repo/subdir@ref.
 See mighty_repo_github().
+url: Raw files under a base URL, e.g.
+url::https://example.com/components. See mighty_repo_url().
 
-"><meta property="og:description" content="
+
+All repo types share one layout. A component name is the file
+&amp;lt;name&amp;gt;.R or &amp;lt;name&amp;gt;.mustache, either directly in the repo or in a
+directory named after the component (&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.R). A name with an
+extension only matches that file."><meta property="og:description" content="
 
 mighty_repo(): Create a component repo from a spec.
 mighty_repo_class: Abstract parent class of all component repos. It has
-one property, @path: the directory holding the components, as a single
-non-empty string. It cannot be created directly.
+no properties and cannot be created directly.
 
 
 Specs have the form type::path. Supported types:
@@ -26,8 +30,14 @@ local: A local directory, e.g. local::inst/examples.
 A spec without a prefix is treated as local.
 github: A GitHub repository, e.g. github::owner/repo/subdir@ref.
 See mighty_repo_github().
+url: Raw files under a base URL, e.g.
+url::https://example.com/components. See mighty_repo_url().
 
-"><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
+
+All repo types share one layout. A component name is the file
+&amp;lt;name&amp;gt;.R or &amp;lt;name&amp;gt;.mustache, either directly in the repo or in a
+directory named after the component (&amp;lt;name&amp;gt;/&amp;lt;name&amp;gt;.R). A name with an
+extension only matches that file."><meta property="og:image" content="https://novonordisk-opensource.github.io/mighty.component/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -35,7 +45,7 @@ See mighty_repo_github().
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,13 +75,18 @@ See mighty_repo_github().
 
 <ul><li><p><code>mighty_repo()</code>: Create a component repo from a spec.</p></li>
 <li><p><code>mighty_repo_class</code>: Abstract parent class of all component repos. It has
-one property, <code>@path</code>: the directory holding the components, as a single
-non-empty string. It cannot be created directly.</p></li>
+no properties and cannot be created directly.</p></li>
 </ul><p>Specs have the form <code>type::path</code>. Supported types:</p><ul><li><p><code>local</code>: A local directory, e.g. <code>local::inst/examples</code>.
 A spec without a prefix is treated as local.</p></li>
 <li><p><code>github</code>: A GitHub repository, e.g. <code>github::owner/repo/subdir@ref</code>.
 See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code>.</p></li>
-</ul></div>
+<li><p><code>url</code>: Raw files under a base URL, e.g.
+<code>url::https://example.com/components</code>. See <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code>.</p></li>
+</ul><p>All repo types share one layout. A component <code>name</code> is the file
+<code>&lt;name&gt;.R</code> or <code>&lt;name&gt;.mustache</code>, either directly in the repo or in a
+directory named after the component (<code>&lt;name&gt;/&lt;name&gt;.R</code>). A name with an
+extension only matches that file.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
@@ -92,7 +107,8 @@ See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="mighty_repo_local.html">mighty_repo_local()</a></code>, <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="mighty_repo_local.html">mighty_repo_local()</a></code>, <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code>, <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code>,
+<code><a href="mighty_repos.html">mighty_repos()</a></code></p></div>
     </div>
 
     <div class="section level2">

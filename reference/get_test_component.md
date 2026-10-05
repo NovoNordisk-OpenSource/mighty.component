@@ -24,7 +24,8 @@ get_test_component(
 - component:
 
   `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL`.
+  `.mustache`) when `repos` is `NULL`. The directory of the path must
+  exist.
 
 - params:
 
@@ -33,8 +34,24 @@ get_test_component(
 
 - repos:
 
-  prioritized `character` vector of locations to look for component in.
-  See details.
+  Where to look. One of:
+
+  - `NULL` (default): `component` is a file path.
+
+  - `character` vector of repo specs, in priority order. See
+    [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md).
+
+  - A `mighty_repo_class` object.
+
+  - A `list` of repo specs or `mighty_repo_class` objects, in priority
+    order.
+
+  - A
+    [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md)
+    collection.
+
+  Character vectors and lists are converted once with
+  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
 
 - check_coverage:
 

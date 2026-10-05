@@ -19,7 +19,7 @@ Check the documentation of the local component for details."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,11 +65,17 @@ Check the documentation of the local component for details.</p>
 
 <dl><dt id="arg-component">component<a class="anchor" aria-label="anchor" href="#arg-component"></a></dt>
 <dd><p><code>character</code> component name, or path to a component file
-(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code>.</p></dd>
+(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code>. The directory of the path must
+exist.</p></dd>
 
 
 <dt id="arg-repos">repos<a class="anchor" aria-label="anchor" href="#arg-repos"></a></dt>
-<dd><p>prioritized <code>character</code> vector of locations to look for component in. See details.</p></dd>
+<dd><p>Where to look. One of:</p><ul><li><p><code>NULL</code> (default): <code>component</code> is a file path.</p></li>
+<li><p><code>character</code> vector of repo specs, in priority order. See <code><a href="mighty_repo.html">mighty_repo()</a></code>.</p></li>
+<li><p>A <code>mighty_repo_class</code> object.</p></li>
+<li><p>A <code>list</code> of repo specs or <code>mighty_repo_class</code> objects, in priority order.</p></li>
+<li><p>A <code><a href="mighty_repos.html">mighty_repos()</a></code> collection.</p></li>
+</ul><p>Character vectors and lists are converted once with <code><a href="mighty_repos.html">mighty_repos()</a></code>.</p></dd>
 
 
 <dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
@@ -80,15 +86,7 @@ Check the documentation of the local component for details.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Processes different component types based on file extension:</p><ul><li><p><code>.R</code>: Extracts and renders custom functions.</p></li>
 <li><p><code>.mustache</code>: Creates components from the template files.</p></li>
-</ul><p>The <code>repos</code> parameter accepts a character vector of locations to search,
-in priority order. Each element is a repo spec passed to <code><a href="mighty_repo.html">mighty_repo()</a></code>:
-a local directory path, or a GitHub source prefixed with <code>github::</code> in
-<code>owner/repo</code>, <code>owner/repo/subdir</code>, or <code>owner/repo@ref</code> format.
-The first match is returned.</p>
-<p>When <code>repos</code> is <code>NULL</code>, <code>component</code> is a path to a component file.
-Otherwise <code>component</code> is a component name, with or without extension,
-looked up in <code>repos</code>.</p>
-    </div>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="mighty_component.html">mighty_component</a>, <a href="mighty_component_rendered.html">mighty_component_rendered</a></p></div>

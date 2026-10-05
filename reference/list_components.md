@@ -1,11 +1,8 @@
 # List components in repos
 
-List all available mighty components (`.R` and `.mustache` files) in the
-given repos.
-
-A component is either a file directly in the repo, or a file named after
-its directory one level down (`<name>/<name>.R`). Files starting with
-`test-` are not listed.
+List all available mighty components in the given repos. See
+[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
+for the component layout. Files starting with `test-` are not listed.
 
 ## Usage
 
@@ -31,8 +28,7 @@ list_components(repos, as = c("character", "list", "tibble"))
     collection.
 
   Character vectors and lists are converted once with
-  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md),
-  so GitHub refs are only resolved once.
+  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
 
 - as:
 
@@ -64,8 +60,7 @@ Depending on `as`:
 ## See also
 
 [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-[`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md),
-[`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
+[`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md)
 
 ## Examples
 

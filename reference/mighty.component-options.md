@@ -12,13 +12,27 @@ for details.
 
 - Environment: `R_MIGHTY.COMPONENT_VERBOSITY_LEVEL`
 
-### github_max_tries
+### max_tries
 
-Maximum number of attempts for GitHub API calls. Transient errors (HTTP
-5xx and network failures) are retried; other errors are not.
+Maximum number of attempts for GitHub and URL requests. See
+[`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md)
+and
+[`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
+for which errors are retried.
 
 - Default: `3L`
 
-- Option: `mighty.component.github_max_tries`
+- Option: `mighty.component.max_tries`
 
-- Environment: `R_MIGHTY.COMPONENT_GITHUB_MAX_TRIES`
+- Environment: `R_MIGHTY.COMPONENT_MAX_TRIES`
+
+### timeout
+
+Maximum number of seconds per URL request attempt. See
+[`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md).
+
+- Default: `5`
+
+- Option: `mighty.component.timeout`
+
+- Environment: `R_MIGHTY.COMPONENT_TIMEOUT`

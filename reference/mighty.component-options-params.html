@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,12 @@
 <dd><p>Verbosity level for functions in mighty.component. See <a href="https://novonordisk-opensource.github.io/zephyr/reference/verbosity_level.html" class="external-link">zephyr::verbosity_level</a> for details.. Default: <code>NA_character_</code>.</p></dd>
 
 
-<dt id="arg-github-max-tries">github_max_tries<a class="anchor" aria-label="anchor" href="#arg-github-max-tries"></a></dt>
-<dd><p>Maximum number of attempts for GitHub API calls. Transient errors (HTTP 5xx and network failures) are retried; other errors are not.. Default: <code>3L</code>.</p></dd>
+<dt id="arg-max-tries">max_tries<a class="anchor" aria-label="anchor" href="#arg-max-tries"></a></dt>
+<dd><p>Maximum number of attempts for GitHub and URL requests. See <code><a href="mighty_repo_github.html">mighty_repo_github()</a></code> and <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code> for which errors are retried.. Default: <code>3L</code>.</p></dd>
+
+
+<dt id="arg-timeout">timeout<a class="anchor" aria-label="anchor" href="#arg-timeout"></a></dt>
+<dd><p>Maximum number of seconds per URL request attempt. See <code><a href="mighty_repo_url.html">mighty_repo_url()</a></code>.. Default: <code>5</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

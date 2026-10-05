@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,8 @@
 <ul><li>Component repos are S7 classes: <code><a href="../reference/mighty_repo.html">mighty_repo()</a></code>, <code><a href="../reference/mighty_repo_local.html">mighty_repo_local()</a></code>, <code><a href="../reference/mighty_repo_github.html">mighty_repo_github()</a></code> and <code><a href="../reference/mighty_repos.html">mighty_repos()</a></code>. GitHub repos use the <code>github::</code> prefix (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/108" class="external-link">#108</a>).</li>
 <li>
 <code><a href="../reference/find_component.html">find_component()</a></code> is exported, and <code><a href="../reference/list_components.html">list_components()</a></code> works with all repo types (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103" class="external-link">#103</a>).</li>
-<li>GitHub repos are cached per commit, and transient API errors are retried (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93" class="external-link">#93</a>, <a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95" class="external-link">#95</a>).</li>
+<li>Components can be retrieved from URLs with <code><a href="../reference/mighty_repo_url.html">mighty_repo_url()</a></code> (<code>url::</code> prefix), with a time limit per request (<code>timeout</code> option) (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/104" class="external-link">#104</a>).</li>
+<li>GitHub repos are cached per commit, and transient API errors are retried (<code>max_tries</code> option) (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93" class="external-link">#93</a>, <a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95" class="external-link">#95</a>).</li>
 <li>
 <code>@origin</code> is now a required tag on every component header, not optional.</li>
 <li>New required <code>@method</code> tag on component headers, exposed as <code>component$method</code>. Intended to let mighty.metadata populate a column’s define.xml method description directly from the component.</li>

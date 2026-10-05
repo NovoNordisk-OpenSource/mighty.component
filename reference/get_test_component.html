@@ -11,7 +11,7 @@ See mighty_component_test for a description of the testing workflow."><meta prop
 
     <a class="navbar-brand me-2" href="../index.html">mighty.component</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,8 @@ enabling structured unit testing with optional coverage checking.</p>
 
 <dl><dt id="arg-component">component<a class="anchor" aria-label="anchor" href="#arg-component"></a></dt>
 <dd><p><code>character</code> component name, or path to a component file
-(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code>.</p></dd>
+(<code>.R</code> or <code>.mustache</code>) when <code>repos</code> is <code>NULL</code>. The directory of the path must
+exist.</p></dd>
 
 
 <dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
@@ -68,7 +69,12 @@ enabling structured unit testing with optional coverage checking.</p>
 
 
 <dt id="arg-repos">repos<a class="anchor" aria-label="anchor" href="#arg-repos"></a></dt>
-<dd><p>prioritized <code>character</code> vector of locations to look for component in. See details.</p></dd>
+<dd><p>Where to look. One of:</p><ul><li><p><code>NULL</code> (default): <code>component</code> is a file path.</p></li>
+<li><p><code>character</code> vector of repo specs, in priority order. See <code><a href="mighty_repo.html">mighty_repo()</a></code>.</p></li>
+<li><p>A <code>mighty_repo_class</code> object.</p></li>
+<li><p>A <code>list</code> of repo specs or <code>mighty_repo_class</code> objects, in priority order.</p></li>
+<li><p>A <code><a href="mighty_repos.html">mighty_repos()</a></code> collection.</p></li>
+</ul><p>Character vectors and lists are converted once with <code><a href="mighty_repos.html">mighty_repos()</a></code>.</p></dd>
 
 
 <dt id="arg-check-coverage">check_coverage<a class="anchor" aria-label="anchor" href="#arg-check-coverage"></a></dt>
