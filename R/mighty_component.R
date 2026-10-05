@@ -56,7 +56,8 @@
 #' The tags are rendered too, e.g. `$depends` has domain `ADSL` and
 #' column `B`.
 #'
-#' @seealso [get_component()], [mighty_component_rendered]
+#' @seealso [get_component()], [mighty_component_rendered],
+#' `vignette("mighty-component")`
 #' @export
 mighty_component <- R6::R6Class(
   classname = "mighty_component",
