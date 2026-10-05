@@ -13,8 +13,11 @@
 #' 3. Execute and track coverage with `$eval()`
 #' 4. Retrieve results with `$get()`
 #' 5. Test results with `expect_*()` functions from `{testthat}`
+#' 6. Close the session with `$close()`
 #'
 #' Coverage is automatically checked at test teardown via `$check_coverage()`.
+#' Coverage is kept in the current R session, so it can still be checked
+#' after `$close()`.
 #'
 #' @export
 mighty_component_test <- R6::R6Class(
@@ -31,7 +34,7 @@ mighty_component_test <- R6::R6Class(
     #' @description
     #' Print method showing component and test coverage
     print = function() {
-      mst_print(self)
+      mst_print(self, private)
     },
     #' @description
     #' Assign a variable in the isolated test session.
@@ -67,6 +70,13 @@ mighty_component_test <- R6::R6Class(
     #' @return `self` invisibly if all lines are covered.
     check_coverage = function() {
       mst_check_coverage(self, private)
+    },
+    #' @description
+    #' Close the test session. Called automatically when the object is
+    #' garbage collected.
+    #' @return `self` invisibly.
+    close = function() {
+      mst_close(self, private)
     }
   ),
   private = list(
@@ -139,11 +149,24 @@ mst_initialize <- function(template, id, self, private, super) {
 
 #' @noRd
 mst_finalize <- function(self, private) {
-  private$.session$close()
+  mst_close(self, private)
 }
 
 #' @noRd
-mst_print <- function(self) {
+mst_close <- function(self, private) {
+  if (!mst_is_closed(private)) {
+    private$.session$close()
+  }
+  invisible(self)
+}
+
+#' @noRd
+mst_is_closed <- function(private) {
+  is.null(private$.session) || private$.session$get_state() == "finished"
+}
+
+#' @noRd
+mst_print <- function(self, private) {
   coverage <- self$line_coverage
   covered <- coverage$line[coverage$value > 0]
   uncovered <- coverage$line[coverage$value == 0]
@@ -164,6 +187,9 @@ mst_print <- function(self) {
       "{.emph Code: ({cli::col_green(cli::symbol$tick)} Covered, {cli::col_red(cli::symbol$cross)} Uncovered)}"
     )
     cli::cli_verbatim(code_msg)
+    if (mst_is_closed(private)) {
+      cli::cli_text("{.emph Session closed.}")
+    }
   })
 
   invisible(self)
@@ -171,6 +197,15 @@ mst_print <- function(self) {
 
 #' @noRd
 mst_run <- function(func, args = list(), self, private) {
+  if (mst_is_closed(private)) {
+    cli::cli_abort(
+      c(
+        "The test session is closed.",
+        "i" = "Create a new test component with {.fn get_test_component}."
+      ),
+      call = NULL
+    )
+  }
   # Drop the enclosing env so the session does not keep `self` alive
   environment(func) <- globalenv()
   private$.session$run(

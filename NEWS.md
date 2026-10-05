@@ -24,6 +24,8 @@
   Parameter values that aren't an exact `.mighty_subset(...)` call are
   unaffected. A marker on any parameter other than `domain` raises an error.
 * `component$document()` checks that knitr is installed (#119).
+* `mighty_component_test` gains `$close()` to close the test session. The
+  session is also closed when the object is garbage collected (#119).
 
 # mighty.component 0.1.0
 
