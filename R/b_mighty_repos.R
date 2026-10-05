@@ -10,6 +10,7 @@
 #' @param repos `character` vector of repo specs, a single
 #' `mighty_repo_class` object, or a `list` of repo specs and
 #' `mighty_repo_class` objects.
+#' @returns A `mighty_repos` object: a `list` of repos.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
 #' repos <- mighty_repos(repos = c(path, paste0("local::", path)))

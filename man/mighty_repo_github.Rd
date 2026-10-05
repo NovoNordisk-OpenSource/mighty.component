@@ -9,6 +9,11 @@ mighty_repo_github(spec)
 \arguments{
 \item{spec}{\code{character(1)} GitHub repository reference. See description.}
 }
+\value{
+A \code{mighty_repo_github} object. It inherits from
+\code{\link[=mighty_repo_local]{mighty_repo_local()}}, with \code{path} set to the downloaded repository or
+its \code{subdir}.
+}
 \description{
 A component repo hosted on GitHub. When the object is created, \code{ref} is
 resolved to a commit SHA and the repository tarball for that commit is
@@ -22,6 +27,16 @@ are local. Restart the session to pick up new commits on a branch.
 Transient API errors (HTTP 5xx and network failures) are retried. The
 number of attempts is set by the \code{max_tries} option. See
 \link{mighty.component-options}.
+
+Requires the gh and remotes packages. Private repositories need a GitHub
+token. gh reads it from the \code{GITHUB_PAT} or \code{GITHUB_TOKEN} environment
+variable, or the Git credential store. See \code{\link[gh:gh_token]{gh::gh_token()}}.
+}
+\examples{
+\dontrun{
+repo <- mighty_repo_github(spec = "owner/repo/subdir@main")
+list_components(repos = repo)
+}
 }
 \seealso{
 \code{\link[=mighty_repo]{mighty_repo()}}
