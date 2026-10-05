@@ -56,6 +56,19 @@
 #' The tags are rendered too, e.g. `$depends` has domain `ADSL` and
 #' column `B`.
 #'
+#' @examples
+#' path <- system.file("examples", "ady.mustache", package = "mighty.component")
+#' x <- mighty_component$new(template = readLines(path), id = "ady")
+#' x
+#'
+#' x$params
+#' x$depends
+#'
+#' x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+#'
+#' @examplesIf rlang::is_installed("knitr")
+#' x$document()
+#'
 #' @seealso [get_component()], [mighty_component_rendered],
 #' `vignette("mighty-component")`
 #' @export

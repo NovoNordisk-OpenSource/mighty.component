@@ -25,6 +25,28 @@ R session, so it can still be checked after \verb{$close()}.
 The code runs inside a function, with \verb{<-} replaced by \verb{<<-}, so
 assignments are made in the session's global environment.
 }
+\examples{
+\dontshow{if (rlang::is_installed(c("admiral", "callr", "covr", "dplyr"))) withAutoprint(\{ # examplesIf}
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_test_component(
+  component = path,
+  params = list(domain = "adae", variable = "ADY", date = "ADT"),
+  check_coverage = FALSE
+)
+x$percent_coverage
+
+x$assign(
+  "adae",
+  data.frame(TRTSDT = as.Date("2024-01-01"), ADT = as.Date("2024-01-05"))
+)
+x$eval()
+x$ls()
+x$get("adae")$ADY
+x$percent_coverage
+x$check_coverage()
+x$close()
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \code{\link[=get_test_component]{get_test_component()}}
 }
