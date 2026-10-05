@@ -15,12 +15,11 @@ Use \code{\link[=get_component]{get_component()}} to create a component from a f
 \details{
 \subsection{Templates}{
 
-A template is a \code{character} vector with one element per line. It starts
-with tags in roxygen comments (\verb{#'}). All lines below the \verb{@code} tag are
-the R code.
+A template starts with tags in roxygen comments (\verb{#'}). All lines below the
+\verb{@code} tag are the R code.
 
 Templates use \href{https://mustache.github.io/mustache.5.html}{Mustache}
-placeholders. \verb{$render()} fills them in with \code{\link[whisker:whisker.render]{whisker::whisker.render()}}.
+placeholders. \verb{$render()} fills them in with \code{whisker::whisker.render()}.
 \itemize{
 \item \code{{{{name}}}} inserts the value of parameter \code{name}. Always use triple
 braces. Double braces (\code{{{name}}}) HTML-escape the value, e.g. \code{a<b}
@@ -32,21 +31,19 @@ the vector \code{name}. Use \code{{{{.}}}} to insert the current element.
 
 \subsection{Tags}{
 
-A tag continues until the next tag. Required tags must appear exactly once.\tabular{lll}{
-   Tag \tab Required \tab Description \cr
-   \verb{@title} \tab Yes \tab Title of the component. \cr
-   \verb{@description} \tab Yes \tab Description of the component. \cr
-   \verb{@param} \tab No \tab Name, then description. One per placeholder. \cr
-   \verb{@type} \tab Yes \tab Component type. See \emph{Types} below. \cr
-   \verb{@origin} \tab Yes \tab CDISC origin. See allowed values below. \cr
-   \verb{@method} \tab Yes \tab Free-text method description for define.xml. \cr
-   \verb{@depends} \tab No \tab Input domain, then column. Repeat for each. \cr
-   \verb{@outputs} \tab No \tab Column created. Repeat for each. \cr
-   \verb{@code} \tab Yes \tab Last tag. All lines below are the code. \cr
+A tag continues until the next tag. Required tags must appear exactly once.\tabular{llll}{
+   Tag \tab Required \tab Description \tab Example \cr
+   \verb{@title} \tab Yes \tab Title of the component. \tab \verb{@title Double a column} \cr
+   \verb{@description} \tab Yes \tab Description of the component. \tab \verb{@description Creates a new column.} \cr
+   \verb{@param} \tab No \tab Name, then description. One per placeholder. \tab \verb{@param domain `character` Name of the domain} \cr
+   \verb{@type} \tab Yes \tab Component type. See \emph{Types} below. \tab \verb{@type column} \cr
+   \verb{@origin} \tab Yes \tab CDISC origin. See allowed values below. \tab \verb{@origin Derived} \cr
+   \verb{@method} \tab Yes \tab Free-text method description for define.xml. \tab \verb{@method Two times the input column} \cr
+   \verb{@depends} \tab No \tab Input domain, then column. Repeat for each. \tab \verb{@depends \{\{\{domain\}\}\} USUBJID} \cr
+   \verb{@outputs} \tab No \tab Column created. Repeat for each. \tab \verb{@outputs \{\{\{output\}\}\}} \cr
+   \verb{@code} \tab Yes \tab Last tag. All lines below are the code. \tab \verb{@code} \cr
 }
 
-
-The example below uses all tags.
 
 \verb{@origin} must be one of
 \code{Assigned}, \code{Collected}, \code{Derived}, \verb{Not Available}, \code{Other}, \code{Predecessor}, \code{Protocol}.
