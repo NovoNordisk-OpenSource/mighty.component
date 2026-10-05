@@ -243,6 +243,81 @@ ADLB |>
   head()
 ```
 
+## Component repos
+
+A component repo is a collection of components. `get_component()`,
+`find_component()` and `list_components()` take a `repos` argument with one or
+more repo specs:
+
+- A local directory, e.g. `"inst/components"` or `"local::inst/components"`.
+- A GitHub repository, e.g. `"github::owner/repo/subdir@ref"`. Requires the gh
+  and remotes packages.
+- Raw files under a URL, e.g. `"url::https://example.com/components"`.
+  Requires httr2 (>= 1.2.2).
+
+A component `name` is the file `<name>.mustache` or `<name>.R`, either directly
+in the repo or in a directory `<name>/`. See `?mighty_repo` for details.
+
+Put the `r2base` component from above in a team repo, together with a modified
+copy of `ady`:
+
+```{r repos-setup}
+examples <- system.file("examples", package = "mighty.component")
+team_repo <- file.path(tempdir(), "team")
+dir.create(team_repo)
+invisible(file.copy(r2base_file, team_repo))
+
+ady_template <- readLines(file.path(examples, "ady.mustache"))
+ady_template[[1]] <- "#' @title Analysis relative day (team version)"
+writeLines(ady_template, file.path(team_repo, "ady.mustache"))
+```
+
+Several repos are searched in order, and the first match wins. Here `ady` is
+found in the team repo:
+
+```{r repos-priority}
+repos <- c(team_repo, examples)
+list_components(repos)
+get_component("ady", repos = repos)$title
+```
+
+Reverse the order to use `ady` from the examples:
+
+```{r repos-reverse}
+get_component("ady", repos = rev(repos))$title
+```
+
+`find_component()` returns `NULL` if no repo contains the component.
+`get_component()` raises an error:
+
+```{r repos-not-found, error = TRUE}
+is.null(find_component("adt", repos = repos))
+get_component("adt", repos = repos)
+```
+
+`list_components(as = "tibble")` returns the metadata of each component.
+It requires the tibble and tidyr packages:
+
+```{r repos-tibble}
+list_components(repos, as = "tibble") |>
+  dplyr::select(id, title, type, origin)
+```
+
+A character vector is converted to repos on each call. Use `mighty_repos()` to
+create the repos once and reuse them. GitHub and URL repos need network access:
+
+```{r repos-github, eval = FALSE}
+repos <- mighty_repos(c(
+  "github::owner/repo/components@main",
+  "url::https://example.com/components",
+  examples
+))
+get_component("ady", repos = repos)
+```
+
+See `?mighty_repo_github` and `?mighty_repo_url` for authentication and
+retries.
+
 ## Automatic code validation
 
 Rendered code is validated. It must be valid R, and joins from dplyr, tidylog
@@ -357,10 +432,10 @@ ady_test
 Assign input data in the test session:
 
 ```{r test-assign}
-ADAE_input <- pharmaverseadam::adae |>
+adae_input <- pharmaverseadam::adae |>
   dplyr::select(USUBJID, ASTDT, TRTSDT)
 
-ady_test$assign("ADAE", ADAE_input)
+ady_test$assign("ADAE", adae_input)
 ady_test$ls()
 ```
 
