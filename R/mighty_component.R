@@ -9,60 +9,8 @@
 #' Use [get_component()] to create a component from a file or repo.
 #'
 #' @details
-#' ### Templates
-#'
-#' A template is a `character` vector with one element per line. It starts
-#' with tags in roxygen comments (`#'`). All lines below the `@code` tag are
-#' the R code.
-#'
-#' Templates use [Mustache](https://mustache.github.io/mustache.5.html)
-#' placeholders. `$render()` fills them in with [whisker::whisker.render()].
-#'
-#' * `{{{name}}}` inserts the value of parameter `name`. Always use triple
-#'   braces. Double braces (`{{name}}`) HTML-escape the value, e.g. `a<b`
-#'   becomes `a&lt;b`.
-#' * `{{#name}}...{{/name}}` repeats the enclosed text for each element of
-#'   the vector `name`. Use `{{{.}}}` to insert the current element.
-#'
-#' ### Tags
-#'
-#' A tag continues until the next tag. Required tags must appear exactly once.
-#'
-#' | Tag            | Required | Description                                  |
-#' |----------------|----------|----------------------------------------------|
-#' | `@title`       | Yes      | Title of the component.                      |
-#' | `@description` | Yes      | Description of the component.                |
-#' | `@param`       | No       | Name, then description. One per placeholder. |
-#' | `@type`        | Yes      | Component type. See *Types* below.           |
-#' | `@origin`      | Yes      | CDISC origin. See allowed values below.      |
-#' | `@method`      | Yes      | Free-text method description for define.xml. |
-#' | `@depends`     | No       | Input domain, then column. Repeat for each.  |
-#' | `@outputs`     | No       | Column created. Repeat for each.             |
-#' | `@code`        | Yes      | Last tag. All lines below are the code.      |
-#'
-#' The example below uses all tags.
-#'
-#' `@origin` must be one of
-#' `r paste0("\x60", valid_origins(), "\x60", collapse = ", ")`.
-#'
-#' `@depends` is split at the first space into domain and column. Do not use
-#' spaces inside its placeholders, e.g. use `{{{domain}}}`, not
-#' `{{{ domain }}}`.
-#'
-#' ### Types
-#'
-#' * `column`: Adds or modifies columns. The row count is unchanged.
-#' * `row`: Adds, removes or modifies rows.
-#' * `parameter`: Derives a new `PARAMCD` (BDS parameter).
-#' * `internal`: Helper step with no define.xml output.
-#'
-#' ### Conventions
-#'
-#' 1. The input data set is `{{{domain}}}`.
-#' 1. The code assigns the result back to `{{{domain}}}`.
-#' 1. Every placeholder is declared with `@param`.
-#' 1. Functions are called with explicit namespaces, e.g. `dplyr::mutate()`.
-#' 1. Joins specify `by`. This is enforced when rendering.
+#' ```{r child = "man/rmd/template-reference.Rmd"}
+#' ```
 #'
 #' ### Validation
 #'

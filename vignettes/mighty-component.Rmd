@@ -60,19 +60,12 @@ column:
   )
 ```
 
-The tags at the top describe the component. `@title`, `@description`,
-`@type`, `@origin`, `@method` and `@code` are required. `@param` declares
-a placeholder, `@depends` a column the code reads, and `@outputs` a column it
-creates. All lines below `@code` are the R code.
+The template syntax is described below.
 
-Templates use [Mustache](https://mustache.github.io/mustache.5.html)
-placeholders. `{{{name}}}` inserts the value of parameter `name`. Always use
-triple braces without inner spaces: double braces HTML-escape the value, and
-spaces break `@depends`. `{{#name}}...{{/name}}` repeats the enclosed text for
-each element of the vector `name`, and `{{{.}}}` inserts the current element.
+```{r child = "../man/rmd/template-reference.Rmd"}
+```
 
-See `?mighty_component` for the full tag reference, component types,
-conventions and validation rules.
+See `?mighty_component` for validation rules and a rendered example.
 
 ## Retrieve and inspect a component
 
