@@ -16,7 +16,7 @@
 #' repos
 #'
 #' find_component(component = "ady", repos = repos)
-#' @seealso [mighty_repo()], [find_component()], [list_components()]
+#' @seealso [find_component()], [list_components()]
 #' @export
 mighty_repos <- S7::new_class(
   name = "mighty_repos",

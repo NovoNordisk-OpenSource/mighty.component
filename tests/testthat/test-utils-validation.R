@@ -62,6 +62,32 @@ test_that("check_number_whole errors for anything else", {
     expect_error("must be a whole number")
 })
 
+test_that("check_number_positive passes for positive numbers", {
+  check_number_positive(0.5) |>
+    expect_no_error() |>
+    expect_invisible()
+
+  check_number_positive(5L) |>
+    expect_no_error()
+})
+
+test_that("check_number_positive errors for anything else", {
+  x <- 0
+  check_number_positive(x) |>
+    expect_error("`x` must be a positive number")
+
+  check_number_positive(-1) |>
+    expect_error("must be a positive number")
+  check_number_positive(Inf) |>
+    expect_error("must be a positive number")
+  check_number_positive(NA_real_) |>
+    expect_error("must be a positive number")
+  check_number_positive(c(1, 2)) |>
+    expect_error("must be a positive number")
+  check_number_positive("a") |>
+    expect_error("must be a positive number")
+})
+
 test_that("type checks", {
   assert_type("column") |>
     expect_no_condition() |>

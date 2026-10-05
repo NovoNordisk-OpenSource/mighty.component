@@ -8,7 +8,12 @@
 #'
 #' `spec` is a `remotes`-style repository reference: `owner/repo`,
 #' `owner/repo/subdir`, `owner/repo@ref` or a combination.
+#'
+#' Transient API errors (HTTP 5xx and network failures) are retried. The
+#' number of attempts is set by the `max_tries` option. See
+#' [mighty.component-options].
 #' @param spec `character(1)` GitHub repository reference. See description.
+#' @seealso [mighty_repo()]
 #' @export
 mighty_repo_github <- S7::new_class(
   name = "mighty_repo_github",
@@ -246,10 +251,10 @@ download_repo <- function(owner, repo, sha) {
 #' Call `gh::gh()` and retry transient errors
 #'
 #' Waits `2^(attempt - 1)` seconds between attempts. The number of attempts is
-#' set by the `github_max_tries` option.
+#' set by the `max_tries` option.
 #' @noRd
 gh_with_retry <- function(...) {
-  max_tries <- github_max_tries()
+  max_tries <- get_max_tries()
 
   for (attempt in seq_len(max_tries)) {
     res <- tryCatch(expr = gh::gh(...), error = identity)
@@ -266,22 +271,6 @@ gh_with_retry <- function(...) {
     report_retry(e = res, wait = wait, attempt = attempt, max_tries = max_tries)
     retry_wait(seconds = wait)
   }
-}
-
-#' @noRd
-github_max_tries <- function() {
-  max_tries <- zephyr::get_option(
-    name = "github_max_tries",
-    .envir = "mighty.component"
-  )
-
-  check_number_whole(
-    x = max_tries,
-    min = 1,
-    arg = "mighty.component.github_max_tries"
-  )
-
-  max_tries
 }
 
 #' Transient errors are HTTP 5xx responses and network failures

@@ -20,8 +20,7 @@ exist.}
 \item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
 }
 
-Character vectors and lists are converted with \code{\link[=mighty_repos]{mighty_repos()}}. GitHub
-refs are resolved once per session. See \code{\link[=mighty_repo_github]{mighty_repo_github()}}.}
+Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 }
 \value{
 A \link{mighty_component} object, or \code{NULL} if no repo contains the

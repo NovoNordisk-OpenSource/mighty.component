@@ -1,17 +1,24 @@
 #' Local component repo
 #' @description
-#' A component repo in a local directory. Components are `.R` or `.mustache`
-#' files directly in `path`, or in a directory named after the component
-#' (`<path>/<name>/<name>.R`).
+#' A component repo in a local directory. See [mighty_repo()] for the
+#' component layout. An error is raised if more than one file matches a
+#' component.
 #' @param path `character(1)` path to an existing directory.
 #' @examples
 #' path <- system.file("examples", package = "mighty.component")
 #' mighty_repo_local(path = path)
-#' @seealso [mighty_repo()]
 #' @export
 mighty_repo_local <- S7::new_class(
   name = "mighty_repo_local",
   parent = mighty_repo_class,
+  properties = list(
+    path = S7::new_property(
+      class = S7::class_character,
+      validator = \(value) {
+        validate_string(value)
+      }
+    )
+  ),
   constructor = function(path) {
     S7::new_object(S7::S7_object(), path = path)
   },
@@ -39,25 +46,53 @@ component_files <- function(path) {
 }
 
 #' @noRd
-match_files <- function(component, path) {
-  candidates <- c(component, paste0(component, c(".R", ".mustache")))
-  intersect(x = candidates, y = component_files(path = path))
+component_candidates <- function(component) {
+  name <- sub(pattern = "\\.(R|mustache)$", replacement = "", x = component)
+  candidates <- c(file.path(name, component), component)
+
+  if (grepl(pattern = "\\.(R|mustache)$", x = component)) {
+    return(candidates)
+  }
+
+  lapply(
+    X = c(".mustache", ".R"),
+    FUN = \(x) paste0(candidates, x)
+  ) |>
+    unlist()
+}
+
+#' @noRd
+new_component <- function(template, file) {
+  if (tools::file_ext(file) == "R") {
+    check_custom_r(code = template)
+  }
+
+  mighty_component$new(template = template, id = basename(file))
+}
+
+#' @noRd
+ids_from_files <- function(files) {
+  ids <- files[grepl(pattern = "\\.(R|mustache)$", x = files)] |>
+    tools::file_path_sans_ext()
+  is_nested <- grepl(pattern = "^([^/]+)/\\1$", x = ids, perl = TRUE)
+  ids <- c(
+    ids[!grepl(pattern = "/", x = ids, fixed = TRUE)],
+    dirname(ids[is_nested])
+  )
+  unique(ids[!startsWith(x = ids, prefix = "test-")])
 }
 
 #' @noRd
 S7::method(component_ids, mighty_repo_local) <- function(repos) {
-  flat <- component_files(path = repos@path) |>
-    tools::file_path_sans_ext()
-
   dirs <- list.dirs(path = repos@path, full.names = FALSE, recursive = FALSE)
-  nested <- dirs[vapply(
+  nested <- lapply(
     X = dirs,
-    FUN = \(dir) length(match_files(dir, file.path(repos@path, dir))) > 0,
-    FUN.VALUE = logical(1)
-  )]
+    FUN = \(dir) {
+      file.path(dir, component_files(path = file.path(repos@path, dir)))
+    }
+  )
 
-  ids <- c(flat, nested)
-  unique(ids[!startsWith(x = ids, prefix = "test-")])
+  ids_from_files(files = c(component_files(path = repos@path), unlist(nested)))
 }
 
 #' @noRd
@@ -65,14 +100,11 @@ S7::method(repo_find_component, mighty_repo_local) <- function(
   repos,
   component
 ) {
-  name <- tools::file_path_sans_ext(component)
-
-  file <- c(
-    match_files(component = component, path = repos@path),
-    file.path(
-      name,
-      match_files(component = component, path = file.path(repos@path, name))
-    )
+  file <- Filter(
+    f = \(f) {
+      basename(f) %in% component_files(path = file.path(repos@path, dirname(f)))
+    },
+    x = component_candidates(component = component)
   ) |>
     assert_single_match()
 
@@ -82,12 +114,5 @@ S7::method(repo_find_component, mighty_repo_local) <- function(
 
   template <- readLines(con = file.path(repos@path, file))
 
-  if (tools::file_ext(file) == "R") {
-    check_custom_r(code = template)
-  }
-
-  mighty_component$new(
-    template = template,
-    id = basename(file)
-  )
+  new_component(template = template, file = file)
 }

@@ -19,6 +19,7 @@ asis
 ASTDT
 ASTDTF
 ASTDY
+autoindex
 AVAL
 AVISIT
 callr
@@ -28,6 +29,7 @@ covr
 CRAN
 dbplyr
 destfile
+dontrun
 dplyr
 dtc
 emph
@@ -54,6 +56,7 @@ myvalue
 NEWCOL
 NEWVAR
 NEWWAR
+nginx
 nocov
 Nordisk
 notarepo
@@ -74,10 +77,14 @@ Roxygenize
 Rtemplate
 sdtm
 seealso
+SHA
+SHAs
 stringr
 STUDYID
 suppae
 Sweave
+teardown
+templating
 testthat
 Thomsen
 tibble
@@ -86,6 +93,7 @@ tidyr
 TRTEDT
 TRTEMFL
 TRTSDT
+unescaped
 useatmos
 USUBJID
 withr

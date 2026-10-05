@@ -284,9 +284,9 @@ test_that("gh_with_retry gives up after max tries", {
   expect_equal(calls$waits, c(1, 2))
 })
 
-test_that("gh_with_retry respects github_max_tries option", {
+test_that("gh_with_retry respects max_tries option", {
   calls <- local_mock_gh_errors(errors = list(\() gh_http_error(500)))
-  withr::local_options(mighty.component.github_max_tries = 1)
+  withr::local_options(mighty.component.max_tries = 1)
 
   gh_with_retry("GET /x") |>
     expect_error(class = "http_error_500")
@@ -295,20 +295,20 @@ test_that("gh_with_retry respects github_max_tries option", {
   expect_length(calls$waits, 0)
 })
 
-test_that("gh_with_retry errors on invalid github_max_tries option", {
+test_that("gh_with_retry errors on invalid max_tries option", {
   calls <- local_mock_gh_errors(errors = list())
 
   withr::with_options(
-    new = list(mighty.component.github_max_tries = 0),
+    new = list(mighty.component.max_tries = 0),
     code = gh_with_retry("GET /x")
   ) |>
-    expect_error("github_max_tries")
+    expect_error("max_tries")
 
   withr::with_options(
-    new = list(mighty.component.github_max_tries = "a"),
+    new = list(mighty.component.max_tries = "a"),
     code = gh_with_retry("GET /x")
   ) |>
-    expect_error("github_max_tries")
+    expect_error("max_tries")
 
   expect_equal(calls$n, 0L)
 })

@@ -38,6 +38,22 @@ check_number_whole <- function(
 }
 
 #' @noRd
+check_number_positive <- function(
+  x,
+  arg = rlang::caller_arg(x),
+  call = rlang::caller_env()
+) {
+  if (is.numeric(x) && length(x) == 1 && is.finite(x) && x > 0) {
+    return(invisible(NULL))
+  }
+
+  cli::cli_abort(
+    "{.arg {arg}} must be a positive number, not {.obj_type_friendly {x}}.",
+    call = call
+  )
+}
+
+#' @noRd
 assert_single_match <- function(x) {
   if (length(x) > 1) {
     cli::cli_abort("Multiple matches found: {x}")

@@ -11,9 +11,19 @@ get_rendered_component(component, params = list(), repos = NULL)
 }
 \arguments{
 \item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}.}
+(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
+exist.}
 
-\item{repos}{prioritized \code{character} vector of locations to look for component in. See details.}
+\item{repos}{Where to look. One of:
+\itemize{
+\item \code{NULL} (default): \code{component} is a file path.
+\item \code{character} vector of repo specs, in priority order. See \code{\link[=mighty_repo]{mighty_repo()}}.
+\item A \code{mighty_repo_class} object.
+\item A \code{list} of repo specs or \code{mighty_repo_class} objects, in priority order.
+\item A \code{\link[=mighty_repos]{mighty_repos()}} collection.
+}
+
+Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
 \item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
 }
@@ -33,16 +43,6 @@ Processes different component types based on file extension:
 \item \code{.R}: Extracts and renders custom functions.
 \item \code{.mustache}: Creates components from the template files.
 }
-
-The \code{repos} parameter accepts a character vector of locations to search,
-in priority order. Each element is a repo spec passed to \code{\link[=mighty_repo]{mighty_repo()}}:
-a local directory path, or a GitHub source prefixed with \verb{github::} in
-\code{owner/repo}, \code{owner/repo/subdir}, or \code{owner/repo@ref} format.
-The first match is returned.
-
-When \code{repos} is \code{NULL}, \code{component} is a path to a component file.
-Otherwise \code{component} is a component name, with or without extension,
-looked up in \code{repos}.
 }
 \examples{
 path <- system.file("examples", "ady.mustache", package = "mighty.component")
