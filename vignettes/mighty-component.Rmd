@@ -18,48 +18,38 @@ knitr::opts_chunk$set(
 library(mighty.component)
 ```
 
-## What is a mighty component?
+## What is a component?
 
-Components let you write a data transformation once and reuse it across studies
-by swapping variable names at render time. Instead of copying and modifying code
-for each new study, you maintain a single template.
+A component is a reusable code template for one data transformation step. Its
+code takes an input data set and returns it with new or changed columns or
+rows. Mustache placeholders, such as `{{{domain}}}`, are filled in when the
+component is rendered, so the same template works across studies. Roxygen-like
+tags, such as `@title`, `@param` and `@depends`, document what the component
+does, needs and creates.
 
-A mighty component is a reusable code template for a single, well-defined data
-transformation step. Components are commonly used to generate ADaM (Analysis
-Dataset Model) programs, but the concept is general: any parameterized R code
-snippet that reads a data set, modifies it, and writes it back can be expressed
-as a component.
-
-Components combine two ideas:
-
-- **Mustache templating** — placeholders like `{{{ domain }}}` are filled in at
-  render time, so the same logic works across different data sets and variables.
-- **Roxygen-like documentation** — tags like `@title`, `@param`, and `@depends`
-  describe what the component does, what it needs, and what it produces.
-
-Think of components as reusable building blocks: each one handles a single
-derivation or transformation, and you compose several of them to build a
-complete program.
-
-In the broader mighty ecosystem, `mighty.metadata` provides study-level
-configuration (via [`mighty_study()`](https://novonordisk-opensource.github.io/mighty.metadata/reference/mighty_study.html) and `_study.yml`) that can drive which
-components are rendered and with what parameters.
+Components are commonly used to build ADaM (Analysis Data Model) programs. Each
+component handles one derivation, and several components make up a program. In
+the mighty ecosystem, mighty.metadata provides study configuration (via
+[`mighty_study()`](https://novonordisk-opensource.github.io/mighty.metadata/reference/mighty_study.html)
+and `_study.yml`) that controls which components are rendered and with which
+parameters.
 
 ## Anatomy of a component template
 
-Below is a minimal component that doubles a column. Every tag is visible at a
-glance:
+Below is a minimal component that creates a column as two times an existing
+column:
+
 ```r
-#' @title Double a variable
+#' @title Double a column
 #' @description
-#' Creates a new column that is twice the value of an existing column.
+#' Creates a new column as two times an existing column.
 #'
-#' @param domain `character` Name of the domain (data frame)
-#' @param input `character` Name of the existing column to double
-#' @param output `character` Name of the new column to create
+#' @param domain `character` Name of the domain
+#' @param output `character` Name of the new column
+#' @param input `character` Name of the existing column
 #' @type column
 #' @origin Derived
-#' @method Doubles input
+#' @method Two times the input column
 #' @depends {{{domain}}} {{{input}}}
 #' @outputs {{{output}}}
 #' @code
@@ -69,46 +59,19 @@ glance:
   )
 ```
 
-### Tags reference
+The tags at the top describe the component. `@title`, `@description`,
+`@type`, `@origin`, `@method` and `@code` are required. `@param` declares
+a placeholder, `@depends` a column the code reads, and `@outputs` a column it
+creates. All lines below `@code` are the R code.
 
-| Tag | Purpose |
-|-----|---------|
-| `@title` | One-line title (required) |
-| `@description` | Multi-line description (required) |
-| `@param name description` | Declares a Mustache placeholder the user must provide in metadata specifications |
-| `@type` | Component type (required): `column`, `row`, `parameter`, or `internal` |
-| `@origin` | CDISC origin (required): `Assigned`, `Collected`, `Derived`, `Not Available`, `Other`, `Predecessor`, or `Protocol` |
-| `@method` | Free-text method description for define.xml (required) |
-| `@depends domain column` | Declares that the code reads `column` from `domain` (repeat for each) |
-| `@outputs variable` | Declares a column the code creates (repeat for each) |
-| `@code` | Everything below this tag is executable R code |
+Templates use [Mustache](https://mustache.github.io/mustache.5.html)
+placeholders. `{{{name}}}` inserts the value of parameter `name`. Always use
+triple braces without inner spaces: double braces HTML-escape the value, and
+spaces break `@depends`. `{{#name}}...{{/name}}` repeats the enclosed text for
+each element of the vector `name`, and `{{{.}}}` inserts the current element.
 
-### Mustache syntax
-
-Components use [Mustache](https://mustache.github.io) — a simple, logic-less
-templating language. Inside `@code`, `{{{ }}}` are Mustache placeholders, not R
-syntax. They are text-replaced with concrete values before the code is parsed
-as R. Rendering is done by the
-[whisker](https://github.com/edwindj/whisker) R package.
-
-The three patterns used in components are:
-
-- **`{{ variable }}`** — replaced with the value supplied at render time.
-- **`{{{ variable }}}`** — unescaped replacement. Used when the value is literal
-  R code (e.g., `{{{ value }}}` to insert `1`, `"text"`, or an expression).
-- **`{{#list}}...{{/list}}`** — repeats its body once for each element of a
-  vector parameter.
-Mustache template variables in double braces `{{}}` are HTML escaped by default. Since mighty renders R code, we recommend using triple braces `{{{}}}`.
-See the [Mustache manual](https://mustache.github.io/mustache.5.html) for the
-full syntax reference.
-
-### Conventions
-
-1. The input data set is always called `{{{ domain }}}`.
-2. The code must assign the result back to `{{{ domain }}}`.
-3. Use explicit package namespaces (`dplyr::mutate()`, not `mutate()`).
-4. Joins must always specify an explicit `by` argument — this is enforced by
-   automatic validation (see [Automatic code validation]).
+See `?mighty_component` for the full tag reference, component types,
+conventions and validation rules.
 
 ## Retrieve and inspect a component
 
@@ -128,9 +91,10 @@ ady <- get_component(
 ady
 ```
 
-Access individual fields through the active bindings:
+Access individual fields:
 
 ```{r inspect-fields}
+ady$id
 ady$title
 ady$type
 ady$params
@@ -142,25 +106,22 @@ ady$method
 
 ## Render a component
 
-Rendering fills in the Mustache placeholders with concrete values. The
-`$render()` method takes parameters as named arguments and returns a
-`mighty_component_rendered` object. Notice every `{{{ }}}` placeholder is now a
-concrete name:
-
-Note that rendering is purely textual — mighty.component replaces placeholders
-with the values you supply but does not check whether the resulting code is
-valid R or whether the referenced columns exist. Runtime correctness is your
-responsibility; use `get_test_component()` (see [Testing components]) to verify
-components against real data.
+Rendering fills in the placeholders with values. `$render()` takes one named
+argument per `@param` tag and returns a `mighty_component_rendered` object.
+Every placeholder is now a name:
 
 ```{r render-ady}
 ady_rendered <- ady$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
 ady_rendered
 ```
 
-A convenience function combines retrieval and rendering in one step. It returns
-the same rendered component as above. Note that `get_rendered_component()`
-takes parameters as a named `list`, unlike `$render()` which takes `...`:
+The rendered code is validated: it must be valid R, and joins must specify
+`by` (see [Automatic code validation]). Columns are not checked. Use
+`get_test_component()` (see [Testing components]) to run a component on real
+data.
+
+`get_rendered_component()` retrieves and renders in one step. It takes the
+parameters as a named `list`:
 
 ```{r shortcut}
 get_rendered_component(
@@ -169,7 +130,7 @@ get_rendered_component(
 )
 ```
 
-If you omit a required parameter, you get an informative error:
+A missing parameter raises an error:
 
 ```{r render-error, error=TRUE}
 ady$render(domain = "ADAE")
@@ -177,11 +138,10 @@ ady$render(domain = "ADAE")
 
 ## Evaluate rendered code
 
-Once rendered, call `$eval()` to execute the code in your current environment.
-The component code contains an assignment (e.g., `ADAE <- ADAE |> ...`), and
-`$eval()` evaluates that code in the calling environment via
-`eval(envir = parent.frame())`. This means `$eval()` modifies the domain
-variable in place — no assignment of the return value is needed.
+`$eval()` runs the code. By default it runs in the calling environment. Use the
+`envir` argument to choose another environment. The code assigns the result
+back to the domain (e.g., `ADAE <- ADAE |> ...`), so `ADAE` is updated without
+assigning the return value.
 
 ```{r eval-setup}
 ADAE <- pharmaverseadam::adae |>
@@ -190,7 +150,7 @@ ADAE <- pharmaverseadam::adae |>
 names(ADAE)
 ```
 
-The `ASTDY` column does not exist yet. Run the rendered component:
+`ASTDY` does not exist yet. Run the rendered component:
 
 ```{r eval-run}
 ady_rendered$eval()
@@ -198,11 +158,7 @@ names(ADAE)
 head(ADAE)
 ```
 
-`$eval()` executes the rendered code in the calling environment by default. You
-can pass a different environment via the `envir` argument if needed.
-
-If you want to save the rendered code to a script file instead of evaluating it
-interactively, use `$stream(path)` to append the code to an R file:
+`$stream()` appends the code to an R script instead:
 
 ```{r stream-example}
 script_file <- tempfile(fileext = ".R")
@@ -212,9 +168,8 @@ readLines(script_file)
 
 ## Writing a custom component
 
-You can author your own components as `.mustache` files. Here is a realistic
-example that derives a ratio of the current value to baseline (`R2BASE`) for a
-lab parameter. Save the following template to a `.mustache` file:
+Write your own components as `.mustache` files. This component derives the
+ratio of the analysis value to baseline:
 
 ```r
 #' @title Ratio to baseline
@@ -237,7 +192,7 @@ lab parameter. Save the following template to a `.mustache` file:
 ```
 
 ```{r custom-write, include = FALSE}
-r2base_file <- tempfile(fileext = ".mustache")
+r2base_file <- file.path(tempdir(), "r2base.mustache")
 writeLines(c(
   "#' @title Ratio to baseline",
   "#' @description",
@@ -259,7 +214,7 @@ writeLines(c(
 ), r2base_file)
 ```
 
-After saving this template to a `.mustache` file, load, render, and run it:
+Save the template as `r2base.mustache`. Then load, render and run it:
 
 ```{r custom-load}
 r2base <- get_component(r2base_file)
@@ -290,19 +245,17 @@ ADLB |>
 
 ## Automatic code validation
 
-When a component is rendered, the generated code is automatically validated.
-The package currently checks for **implicit joins** — any `dplyr::left_join()`,
-`dplyr::inner_join()`, or similar call without an explicit `by` argument triggers
-an error. This prevents a common source of bugs in clinical programming where
-join columns change between studies.
+Rendered code is validated. It must be valid R, and joins from dplyr, tidylog
+and dbplyr must specify `by`. Implicit joins are a common source of bugs when
+key columns differ between studies.
 
-Here is a component that fails validation:
+This component fails validation:
 
 ```r
 #' @title Bad join example
 #' @description Implicit join that will fail validation.
 #'
-#' @param domain `character` domain name
+#' @param domain `character` Name of the domain
 #' @type row
 #' @origin Derived
 #' @method Implicit join on other_data
@@ -318,7 +271,7 @@ bad_template <- c(
   "#' @title Bad join example",
   "#' @description Implicit join that will fail validation.",
   "#'",
-  "#' @param domain `character` domain name",
+  "#' @param domain `character` Name of the domain",
   "#' @type row",
   "#' @origin Derived",
   "#' @method Implicit join on other_data",
@@ -329,7 +282,7 @@ bad_template <- c(
   "  dplyr::left_join(other_data)"
 )
 
-bad_file <- tempfile(fileext = ".mustache")
+bad_file <- file.path(tempdir(), "bad_join.mustache")
 writeLines(bad_template, bad_file)
 ```
 
@@ -337,13 +290,13 @@ writeLines(bad_template, bad_file)
 get_rendered_component(bad_file, list(domain = "ADAE"))
 ```
 
-The fix is to specify the join key explicitly:
+Specify the join key with `by` to fix it:
 
 ```r
 #' @title Good join example
 #' @description Explicit join that passes validation.
 #'
-#' @param domain `character` domain name
+#' @param domain `character` Name of the domain
 #' @type row
 #' @origin Derived
 #' @method Explicit join on other_data by USUBJID
@@ -359,7 +312,7 @@ good_template <- c(
   "#' @title Good join example",
   "#' @description Explicit join that passes validation.",
   "#'",
-  "#' @param domain `character` domain name",
+  "#' @param domain `character` Name of the domain",
   "#' @type row",
   "#' @origin Derived",
   "#' @method Explicit join on other_data by USUBJID",
@@ -370,7 +323,7 @@ good_template <- c(
   "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 )
 
-good_file <- tempfile(fileext = ".mustache")
+good_file <- file.path(tempdir(), "good_join.mustache")
 writeLines(good_template, good_file)
 ```
 
@@ -380,14 +333,13 @@ get_rendered_component(good_file, list(domain = "ADAE"))$code
 
 ## Testing components
 
-`get_test_component()` creates a component that runs in an **isolated R session**
-with automatic code coverage tracking. This is useful both for interactive
-exploration and for formal unit tests with `testthat`.
+`get_test_component()` creates a component that runs in a separate R session
+and tracks code coverage. Use it for interactive checks and for unit tests with
+testthat.
 
-We set `check_coverage = FALSE` here because this code runs inside a vignette,
-not inside a `test_that()` block. The default (`TRUE`) uses `withr::defer()` to
-automatically verify coverage when a test finishes — use that default in your
-actual tests.
+By default (`check_coverage = TRUE`), coverage is checked when the calling
+environment ends, e.g. the `test_that()` block. An error is raised if any line
+has not run. This vignette is not a test, so it sets `check_coverage = FALSE`.
 
 ```{r test-create}
 ady_path <- system.file(
@@ -397,12 +349,12 @@ ady_path <- system.file(
 ady_test <- get_test_component(
   component = ady_path,
   params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT"),
-  check_coverage = FALSE # set TRUE in real tests
+  check_coverage = FALSE # keep the default TRUE in tests
 )
 ady_test
 ```
 
-Assign input data into the isolated session:
+Assign input data in the test session:
 
 ```{r test-assign}
 ADAE_input <- pharmaverseadam::adae |>
@@ -412,27 +364,24 @@ ady_test$assign("ADAE", ADAE_input)
 ady_test$ls()
 ```
 
-Execute the component and retrieve the result:
+Run the component and get the result:
 
 ```{r test-eval}
 ady_test$eval()
 ady_test$get("ADAE") |> head()
 ```
 
-Check coverage — every line of the component code should have been executed:
+Every line of the code has now run:
 
 ```{r test-coverage}
-# Normal print method
+# Print method
 ady_test
 # Percent coverage
 ady_test$percent_coverage
-# Line coverage in a data.frame
+# Line coverage as a data.frame
 ady_test$line_coverage
 ```
 
-When `check_coverage = TRUE` (the default), coverage is verified automatically
-when the test object goes out of scope using `withr::defer()`. If any line was
-not executed, an error is raised. This integrates naturally with `testthat` test
-files: create the test component inside a `test_that()` block, assign data,
-evaluate, and assert on the results — coverage checking happens automatically
-when the test finishes.
+In a testthat file, create the test component inside `test_that()`, assign
+data, evaluate and test the results. Coverage is checked when the test ends.
+See `?mighty_component_test` for the workflow.
