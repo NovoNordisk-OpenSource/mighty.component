@@ -3,16 +3,15 @@
 \name{get_component}
 \alias{get_component}
 \alias{get_rendered_component}
-\title{Retrieve mighty code component}
+\title{Retrieve a component}
 \usage{
 get_component(component, repos = NULL)
 
 get_rendered_component(component, params = list(), repos = NULL)
 }
 \arguments{
-\item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
-exist.}
+\item{component}{\code{character(1)} Component name. If \code{repos} is \code{NULL}, path
+to a component file.}
 
 \item{repos}{Where to look. One of:
 \itemize{
@@ -25,30 +24,46 @@ exist.}
 
 Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
-\item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
+\item{params}{named \code{list} of parameters passed to \verb{$render()}. See the
+component's \verb{@param} tags (\code{component$params}).}
+}
+\value{
+\itemize{
+\item \code{get_component()}: A \link{mighty_component} object.
+\item \code{get_rendered_component()}: A \link{mighty_component_rendered} object.
+}
 }
 \description{
-Retrieve a mighty code component.
 \itemize{
-\item \code{get_component()}: Returns an object of class \code{mighty_component}.
-\item \code{get_rendered_component()}: Returns an object of class \code{mighty_component_rendered}.
+\item \code{get_component()}: Find a component. Raises an error if it is not found.
+\item \code{get_rendered_component()}: Find a component and render it with
+\code{params}.
 }
-
-When rendering a component the required list of parameters depends on the individual component.
-Check the documentation of the local component for details.
 }
 \details{
-Processes different component types based on file extension:
+Components are \code{.mustache} or \code{.R} files. Both use the tags described in
+\link{mighty_component}.
 \itemize{
-\item \code{.R}: Extracts and renders custom functions.
-\item \code{.mustache}: Creates components from the template files.
+\item \code{.mustache} files are Mustache templates.
+\item \code{.R} files are plain R components. They cannot have \verb{@param} tags or
+Mustache placeholders.
 }
 }
 \examples{
 path <- system.file("examples", "ady.mustache", package = "mighty.component")
 get_component(path)
 
+get_rendered_component(
+  component = path,
+  params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+)
+
+# Find by name in a repo
+repo <- system.file("examples", package = "mighty.component")
+get_component("ady", repos = repo)
+
 }
 \seealso{
-\link{mighty_component}, \link{mighty_component_rendered}
+\code{\link[=find_component]{find_component()}}, \link{mighty_component},
+\link{mighty_component_rendered}
 }
