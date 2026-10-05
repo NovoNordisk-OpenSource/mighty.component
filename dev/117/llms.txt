@@ -1,7 +1,10 @@
 # mighty.component
 
-mighty.component serves as a repository of generic compute component
-classes used to produce ADaM scripts in the {mighty} framework.
+mighty.component provides reusable code templates, called components,
+for the {mighty} framework, used to generate ADaM programs. Components
+are Mustache templates documented with roxygen-like tags. Retrieve them
+from local directories, GitHub or URLs, then render, validate, evaluate
+and test them.
 
 ## Installation
 
@@ -14,9 +17,6 @@ pak::pak("NovoNordisk-OpenSource/mighty.component")
 ```
 
 ## Usage
-
-`mighty.component` provides generic classes to work with mighty
-components, and helper functions to retrieve them.
 
 Retrieve a component from a template file and render it with its
 parameters:

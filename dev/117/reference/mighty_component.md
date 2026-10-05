@@ -119,7 +119,8 @@ The tags are rendered too, e.g. `$depends` has domain `ADSL` and column
 ## See also
 
 [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md),
+[`vignette("mighty-component")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-component.md)
 
 ## Active bindings
 
