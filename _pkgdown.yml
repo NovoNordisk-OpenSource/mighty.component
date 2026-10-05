@@ -14,13 +14,13 @@ reference:
       - mighty_repo_github
       - mighty_repo_url
       - mighty_repos
-  - title: Test components
-    contents:
-      - get_test_component
   - title: Mighty component classes
     contents:
       - mighty_component
       - mighty_component_rendered
+  - title: Test components
+    contents:
+      - get_test_component
       - mighty_component_test
   - title: Utilities
     contents:
