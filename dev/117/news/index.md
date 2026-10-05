@@ -5,7 +5,8 @@
 - Breaking: `component$id` and the `id` from
   [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
   are now the component name without file extension, e.g. `"ady"`
-  instead of `"ady.mustache"`.
+  instead of `"ady.mustache"`
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
 - Component repos are S7 classes:
   [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
   [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md),
@@ -35,6 +36,12 @@
 - `@type row` components accept `".mighty_subset(<domain>, '<subset>')"`
   as `domain` to process only matching rows; other rows are unchanged
   ([\#101](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/101)).
+- `component$document()` checks that knitr is installed
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+- Documentation is revised, and
+  [`?mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+  and the vignette share one template reference
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
 
 ## mighty.component 0.1.0
 
