@@ -39,7 +39,7 @@ Depending on \code{as}:
 }
 }
 \description{
-List all available mighty components in the given repos. See
+List the components in one or more repos. See
 \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. Files starting with \verb{test-} are
 not listed.
 }
