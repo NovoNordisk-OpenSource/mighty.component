@@ -117,7 +117,8 @@ column \code{B}.
 }
 }
 \seealso{
-\code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
+\code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered},
+\code{vignette("mighty-component")}
 }
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
