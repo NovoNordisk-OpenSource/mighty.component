@@ -42,7 +42,10 @@
 - `component$document()` checks that knitr is installed, and prints with
   cli so the output can be suppressed
   ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
-- `mighty_component_test` gains `$close()` to close the test session
+- `mighty_component_test` gains `$close()` to close the test session.
+  The session is also closed when the object is garbage collected
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+- `component$stream()` closes the file connection when writing fails
   ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
 - Documentation is revised, and
   [`?mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)

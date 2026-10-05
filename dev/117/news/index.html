@@ -49,7 +49,9 @@
 <li>
 <code>component$document()</code> checks that knitr is installed, and prints with cli so the output can be suppressed (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 <li>
-<code>mighty_component_test</code> gains <code>$close()</code> to close the test session (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
+<code>mighty_component_test</code> gains <code>$close()</code> to close the test session. The session is also closed when the object is garbage collected (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
+<li>
+<code>component$stream()</code> closes the file connection when writing fails (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 <li>Documentation is revised, and <code><a href="../reference/mighty_component.html">?mighty_component</a></code> and the vignette share one template reference (<a href="https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117" class="external-link">#117</a>).</li>
 </ul></div>
     <div class="section level2">
