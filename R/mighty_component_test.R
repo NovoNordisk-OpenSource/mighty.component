@@ -171,6 +171,8 @@ mst_print <- function(self) {
 
 #' @noRd
 mst_run <- function(func, args = list(), self, private) {
+  # Drop the enclosing env so the session does not keep `self` alive
+  environment(func) <- globalenv()
   private$.session$run(
     func = func,
     args = args
