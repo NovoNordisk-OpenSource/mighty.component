@@ -6,7 +6,7 @@
   [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
   are now the component name without file extension, e.g. `"ady"`
   instead of `"ady.mustache"`
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#118](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/118)).
 - Component repos are S7 classes:
   [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
   [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md),
