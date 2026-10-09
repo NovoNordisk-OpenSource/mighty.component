@@ -6,7 +6,7 @@
   [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
   are now the component name without file extension, e.g. `"ady"`
   instead of `"ady.mustache"`
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#118](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/118)).
 - Component repos are S7 classes:
   [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
   [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md),
@@ -30,7 +30,7 @@
   [\#95](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95)).
 - GitHub repos no longer leave extraction directories in the temporary
   directory, also when extraction fails
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
 - `@origin` is now a required tag on component headers
   ([\#107](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107)).
 - New required `@method` tag on component headers, exposed as
@@ -41,12 +41,12 @@
   ([\#101](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/101)).
 - `component$document()` checks that knitr is installed, and prints with
   cli so the output can be suppressed
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
 - `mighty_component_test` gains `$close()` to close the test session.
   The session is also closed when the object is garbage collected
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
 - `component$stream()` closes the file connection when writing fails
-  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
 - Documentation is revised, and
   [`?mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
   and the vignette share one template reference
