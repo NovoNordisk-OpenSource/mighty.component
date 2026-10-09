@@ -1,6 +1,6 @@
 Package: mighty.component
 Title: Mighty Components for ADaM Generation
-Version: 0.1.0.9008
+Version: 0.1.0.9009
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
