@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-options(mighty.component.verbosity_level = "quiet")
+withr::local_options(mighty.component.verbosity_level = "quiet")
 ```
 
 # mighty.component <a href="https://novonordisk-opensource.github.io/mighty.component"><img src="man/figures/logo.png" align="right" height="139" alt="mighty.component website" /></a>
