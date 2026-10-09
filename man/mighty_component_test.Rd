@@ -17,9 +17,12 @@ workflow is:
 \item Execute and track coverage with \verb{$eval()}
 \item Retrieve results with \verb{$get()}
 \item Test results with \verb{expect_*()} functions from \code{{testthat}}
+\item Close the session with \verb{$close()}
 }
 
 Coverage is automatically checked at test teardown via \verb{$check_coverage()}.
+Coverage is kept in the current R session, so it can still be checked
+after \verb{$close()}.
 }
 \section{Super classes}{
 \code{\link[mighty.component:mighty_component]{mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty_component_rendered}} -> \code{mighty_component_test}
@@ -44,6 +47,7 @@ showing execution count per line.}
     \item \href{#method-mighty_component_test-ls}{\code{mighty_component_test$ls()}}
     \item \href{#method-mighty_component_test-eval}{\code{mighty_component_test$eval()}}
     \item \href{#method-mighty_component_test-check_coverage}{\code{mighty_component_test$check_coverage()}}
+    \item \href{#method-mighty_component_test-close}{\code{mighty_component_test$close()}}
     \item \href{#method-mighty_component_test-clone}{\code{mighty_component_test$clone()}}
   }
 }
@@ -174,6 +178,22 @@ Throws an error if any lines have zero coverage.
   }
   \subsection{Returns}{
     \code{self} invisibly if all lines are covered.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-mighty_component_test-close"></a>}}
+\if{latex}{\out{\hypertarget{method-mighty_component_test-close}{}}}
+\subsection{\code{mighty_component_test$close()}}{
+  Close the test session. Called automatically when the object is
+garbage collected.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{mighty_component_test$close()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} invisibly.
   }
 }
 

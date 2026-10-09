@@ -46,3 +46,29 @@
       v     x <- limit
         }
 
+# close() closes the session
+
+    Code
+      print(x)
+    Message
+      <mighty_component_test/mighty_component_rendered/mighty_component/R6>
+      test_coverage: This is a test component used for unit testing the workflow and
+      coverage.
+      Test Coverage: 0.00%
+      Code: (v Covered, x Uncovered)
+      x x <- 5
+        
+      x if (x > limit) {
+      x     x <- limit
+        }
+      Session closed.
+
+---
+
+    Code
+      x$ls()
+    Condition
+      Error:
+      ! The test session is closed.
+      i Create a new test component with `get_test_component()`.
+
