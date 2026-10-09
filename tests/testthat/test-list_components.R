@@ -35,6 +35,9 @@ test_that("list_components as list returns component metadata", {
 })
 
 test_that("list_components as tibble returns tibble", {
+  skip_if_not_installed("tibble")
+  skip_if_not_installed("tidyr")
+
   path <- system.file("examples", package = "mighty.component")
 
   result <- list_components(path, as = "tibble")
@@ -80,6 +83,9 @@ test_that("list_components as list accepts mighty_repos", {
 })
 
 test_that("list_components returns empty list and tibble for empty repo", {
+  skip_if_not_installed("tibble")
+  skip_if_not_installed("tidyr")
+
   empty_dir <- withr::local_tempdir()
 
   list_components(repos = empty_dir, as = "list") |>

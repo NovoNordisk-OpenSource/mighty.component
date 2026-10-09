@@ -12,7 +12,19 @@
 #' Transient API errors (HTTP 5xx and network failures) are retried. The
 #' number of attempts is set by the `max_tries` option. See
 #' [mighty.component-options].
+#'
+#' Requires the gh and remotes packages. Private repositories need a GitHub
+#' token. gh reads it from the `GITHUB_PAT` or `GITHUB_TOKEN` environment
+#' variable, or the Git credential store. See [gh::gh_token()].
 #' @param spec `character(1)` GitHub repository reference. See description.
+#' @returns A `mighty_repo_github` object. It inherits from
+#' [mighty_repo_local()], with `path` set to the downloaded repository or
+#' its `subdir`.
+#' @examplesIf interactive() && rlang::is_installed(c("gh", "remotes"))
+#' repo <- mighty_repo_github(
+#'   spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
+#' )
+#' find_component(component = "dummy", repos = repo)
 #' @seealso [mighty_repo()]
 #' @export
 mighty_repo_github <- S7::new_class(

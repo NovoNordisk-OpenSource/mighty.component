@@ -11,6 +11,9 @@ mighty_repos(repos = character(0))
 \code{mighty_repo_class} object, or a \code{list} of repo specs and
 \code{mighty_repo_class} objects.}
 }
+\value{
+A \code{mighty_repos} object: a \code{list} of repos.
+}
 \description{
 An ordered collection of component repos. Lookups search the repos in
 order, and the first match wins.

@@ -7,10 +7,14 @@
 mighty_repo_url(url)
 }
 \arguments{
-\item{url}{\code{character(1)} base URL starting with \verb{http://} or \verb{https://}.}
+\item{url}{\code{character(1)} Base URL starting with \verb{http://} or \verb{https://}.}
+}
+\value{
+A \code{mighty_repo_url} object.
 }
 \description{
-A component repo served as raw files under a base URL.
+A component repo served as raw files under a base URL. Requires httr2
+(>= 1.2.2).
 
 See \code{\link[=mighty_repo]{mighty_repo()}} for the component layout. \code{.mustache} is tried before
 \code{.R}, and \verb{<name>/} before files directly under \code{url}. The first found is
@@ -29,8 +33,16 @@ each attempt is limited by the \code{timeout} option (see
 \link{mighty.component-options}).
 }
 \examples{
-\dontrun{
-repo <- mighty_repo_url(url = "https://example.com/components")
-find_component(component = "ady", repos = repo)
-}
+\dontshow{if (rlang::is_installed("httr2", version = "1.2.2")) withAutoprint(\{ # examplesIf}
+repo <- mighty_repo_url(
+  url = paste0(
+    "https://raw.githubusercontent.com/",
+    "NovoNordisk-OpenSource/mighty.standards/main/components"
+  )
+)
+format(repo)
+\dontshow{\}) # examplesIf}
+\dontshow{if (interactive() && rlang::is_installed("httr2", version = "1.2.2")) withAutoprint(\{ # examplesIf}
+find_component(component = "dummy", repos = repo)
+\dontshow{\}) # examplesIf}
 }

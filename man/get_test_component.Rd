@@ -2,7 +2,7 @@
 % Please edit documentation in R/component.R
 \name{get_test_component}
 \alias{get_test_component}
-\title{Create a testable component for unit testing}
+\title{Create a test component}
 \usage{
 get_test_component(
   component,
@@ -13,11 +13,11 @@ get_test_component(
 )
 }
 \arguments{
-\item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
-exist.}
+\item{component}{\code{character(1)} Component name. If \code{repos} is \code{NULL}, path
+to a component file.}
 
-\item{params}{named \code{list} of input parameters. Passed along to \code{mighty_component$render()}.}
+\item{params}{named \code{list} of parameters passed to \verb{$render()}. See the
+component's \verb{@param} tags (\code{component$params}).}
 
 \item{repos}{Where to look. One of:
 \itemize{
@@ -30,22 +30,41 @@ exist.}
 
 Character vectors and lists are converted once with \code{\link[=mighty_repos]{mighty_repos()}}.}
 
-\item{check_coverage}{\code{logical(1)} Whether to automatically check test
-coverage when the test completes. If \code{TRUE} (default), coverage is
-verified via \code{test_component$check_coverage()} in a deferred call.}
+\item{check_coverage}{\code{logical(1)} If \code{TRUE} (default), \verb{$check_coverage()}
+runs when \code{teardown_env} ends. It raises an error if any line has not run.}
 
-\item{teardown_env}{The environment in which to register the deferred
-coverage check. Defaults to the caller's environment (\code{parent.frame()}).
-This controls when \code{check_coverage()} executes during test teardown.}
+\item{teardown_env}{Environment that controls when the coverage check
+runs. Defaults to the calling environment, e.g. the \code{test_that()} block.}
 }
 \value{
-A \code{mighty_component_test} object.
+A \link{mighty_component_test} object.
 }
 \description{
-Creates a \code{mighty_component_test} object from a rendered component,
-enabling structured unit testing with optional coverage checking.
+Retrieve and render a component as a \link{mighty_component_test} object, for
+unit tests with code coverage. See \link{mighty_component_test} for the
+workflow.
 
-See \link{mighty_component_test} for a description of the testing workflow.
+Requires the callr and covr packages.
+}
+\examples{
+\dontshow{if (rlang::is_installed(c("admiral", "callr", "covr", "dplyr"))) withAutoprint(\{ # examplesIf}
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_test_component(
+  component = path,
+  params = list(domain = "adae", variable = "ASTDY", date = "ASTDT"),
+  check_coverage = FALSE
+)
+
+adae <- data.frame(
+  TRTSDT = as.Date("2024-01-01"),
+  ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+)
+
+x$assign("adae", adae)$eval()
+x$get("adae")
+x$percent_coverage
+x$close()
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_rendered_component]{get_rendered_component()}}, \link{mighty_component_test}

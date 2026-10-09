@@ -1,41 +1,71 @@
-#' Rendered mighty component
+#' Rendered mighty component class
 #' @description
-#' Class for a rendered mighty component.
+#' R6 class for a rendered component, created by
+#' [mighty_component]`$render()` or [get_rendered_component()].
 #'
-#' Once rendered a component can be used to:
+#' A rendered component can be:
 #'
-#' * Stream into an R script
-#' * Evaluate the generated code in an environment
+#' * Streamed into an R script with `$stream()`.
+#' * Evaluated in an environment with `$eval()`.
 #'
-#' @seealso [get_rendered_component()]
+#' @examples
+#' path <- system.file("examples", "ady.mustache", package = "mighty.component")
+#' x <- get_component(path)$render(
+#'   domain = "adae",
+#'   variable = "ASTDY",
+#'   date = "ASTDT"
+#' )
+#' x$code
+#'
+#' # Write the code to an R script
+#' script <- tempfile(fileext = ".R")
+#' x$stream(script)
+#' readLines(script)
+#' unlink(script)
+#'
+#' @examplesIf rlang::is_installed(c("admiral", "dplyr"))
+#' # Evaluate the code in a new environment
+#' env <- new.env()
+#' env$adae <- data.frame(
+#'   TRTSDT = as.Date("2024-01-01"),
+#'   ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+#' )
+#' x$eval(envir = env)
+#' env$adae
+#'
+#' @seealso [get_rendered_component()], [mighty_component]
 #' @export
 mighty_component_rendered <- R6::R6Class(
   classname = "mighty_component_rendered",
   inherit = mighty_component,
   public = list(
     #' @description
-    #' Create component from rendered template.
-    #' @param template `character` Rendered template such as output from `mighty_component$render()`.
-    #' @param id `character` ID of the component.
+    #' Create a rendered component from a rendered template. The code is
+    #' validated. See the Validation section in [mighty_component].
+    #' @param template `character` Rendered template, one element per line.
+    #' @param id `character(1)` Component ID.
     initialize = function(template, id) {
       msr_initialize(template, id, self, private, super)
     },
     #' @description
-    #' Print rendered component
+    #' Print the rendered component, including its code.
     #' @return (`invisible`) self
     print = function() {
       msr_print(self, super)
     },
     #' @description
-    #' Stream rendered code into a script (appended)
-    #' @param path `character(1)` path to the R script to stream code into.
+    #' Write the code to an R script. The code is appended if the file
+    #' exists.
+    #' @param path `character(1)` Path to the R script.
+    #' @return (`invisible`) self
     stream = function(path) {
       msr_stream(path, self)
     },
     #' @description
-    #' Evaluate code in a specified environment.
-    #' @param envir Environment to evaluate in. Parsed to `eval()`.
-    #' Defaults to using the current environment with `parent.frame()`.
+    #' Evaluate the code.
+    #' @param envir Environment to evaluate the code in. Defaults to the
+    #' calling environment.
+    #' @return Value of the last evaluated expression of the code.
     eval = function(envir = parent.frame()) {
       msr_eval(envir, self)
     }
