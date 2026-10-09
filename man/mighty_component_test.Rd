@@ -2,7 +2,7 @@
 % Please edit documentation in R/mighty_component_test.R
 \name{mighty_component_test}
 \alias{mighty_component_test}
-\title{Test component class}
+\title{Test mighty component class}
 \description{
 R6 class for unit testing a component with code coverage tracking.
 The code runs in a separate R session, and the lines executed are counted.

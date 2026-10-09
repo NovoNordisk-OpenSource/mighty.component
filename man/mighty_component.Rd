@@ -2,7 +2,7 @@
 % Please edit documentation in R/mighty_component.R
 \name{mighty_component}
 \alias{mighty_component}
-\title{Component class}
+\title{Mighty component class}
 \description{
 R6 class for a component.
 

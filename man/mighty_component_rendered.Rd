@@ -2,7 +2,7 @@
 % Please edit documentation in R/mighty_component_rendered.R
 \name{mighty_component_rendered}
 \alias{mighty_component_rendered}
-\title{Rendered component class}
+\title{Rendered mighty component class}
 \description{
 R6 class for a rendered component, created by
 \link{mighty_component}\verb{$render()} or \code{\link[=get_rendered_component]{get_rendered_component()}}.

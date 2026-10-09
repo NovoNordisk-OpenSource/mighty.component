@@ -1,4 +1,4 @@
-#' Rendered component class
+#' Rendered mighty component class
 #' @description
 #' R6 class for a rendered component, created by
 #' [mighty_component]`$render()` or [get_rendered_component()].
