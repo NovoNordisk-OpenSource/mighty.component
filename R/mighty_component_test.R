@@ -1,4 +1,4 @@
-#' Test component class
+#' Test mighty component class
 #' @description
 #' R6 class for unit testing a component with code coverage tracking.
 #' The code runs in a separate R session, and the lines executed are counted.

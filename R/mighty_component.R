@@ -1,4 +1,4 @@
-#' Component class
+#' Mighty component class
 #' @description
 #' R6 class for a component.
 #'
