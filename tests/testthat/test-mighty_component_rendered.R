@@ -23,6 +23,16 @@ test_that("stream", {
     expect_equal(component$code)
 })
 
+test_that("stream closes the connection on error", {
+  script <- withr::local_tempfile(fileext = ".R")
+  connections <- getAllConnections()
+
+  msr_stream(path = script, self = list(code = 1)) |>
+    expect_error()
+
+  expect_equal(getAllConnections(), connections)
+})
+
 test_that("eval", {
   component <- test_path("_components", "test_eval.mustache") |>
     get_rendered_component(params = list(x1 = 5, x2 = 3))

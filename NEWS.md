@@ -27,6 +27,7 @@
   so the output can be suppressed (#119).
 * `mighty_component_test` gains `$close()` to close the test session. The
   session is also closed when the object is garbage collected (#119).
+* `component$stream()` closes the file connection when writing fails (#119).
 
 # mighty.component 0.1.0
 

@@ -68,8 +68,8 @@ msr_print <- function(self, super) {
 #' @noRd
 msr_stream <- function(path, self) {
   f <- file(description = path, open = "a")
+  withr::defer(close(f))
   writeLines(text = self$code, con = f)
-  close(f)
   invisible(self)
 }
 
