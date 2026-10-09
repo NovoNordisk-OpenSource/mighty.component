@@ -83,7 +83,7 @@ the rendered code used in mighty becomes:
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{id}}{Component ID.}
+    \item{\code{id}}{Component name (file name without extension).}
 
     \item{\code{title}}{Title for the component.}
 
