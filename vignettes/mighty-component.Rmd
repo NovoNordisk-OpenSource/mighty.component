@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
     "admiral", "callr", "covr", "dplyr", "pharmaverseadam", "tibble", "tidyr"
   ))
 )
-old_options <- options(mighty.component.verbosity_level = "quiet")
+withr::local_options(mighty.component.verbosity_level = "quiet")
 ```
 
 ```{r setup}
@@ -189,7 +189,7 @@ ratio of the analysis value to baseline:
 ```
 
 ```{r custom-write, include = FALSE}
-r2base_file <- file.path(tempdir(), "r2base.mustache")
+r2base_file <- file.path(withr::local_tempdir(), "r2base.mustache")
 writeLines(c(
   "#' @title Ratio to baseline",
   "#' @description",
@@ -357,8 +357,7 @@ bad_template <- c(
   "  dplyr::left_join(other_data)"
 )
 
-bad_file <- file.path(tempdir(), "bad_join.mustache")
-writeLines(bad_template, bad_file)
+bad_file <- withr::local_tempfile(fileext = ".mustache", lines = bad_template)
 ```
 
 ```{r validation-fail, error=TRUE}
@@ -398,8 +397,7 @@ good_template <- c(
   "  dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))"
 )
 
-good_file <- file.path(tempdir(), "good_join.mustache")
-writeLines(good_template, good_file)
+good_file <- withr::local_tempfile(fileext = ".mustache", lines = good_template)
 ```
 
 ```{r validation-pass}
@@ -463,12 +461,5 @@ See `?mighty_component_test` for the workflow.
 
 ```{r cleanup, include = FALSE}
 ady_test$close()
-unlink(
-  c(r2base_file, script_file, bad_file, good_file, team_repo),
-  recursive = TRUE
-)
-```
-
-```{r reset-options, eval = TRUE, include = FALSE}
-options(old_options)
+unlink(c(script_file, team_repo), recursive = TRUE)
 ```
