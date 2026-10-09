@@ -1,4 +1,4 @@
-# Rendered Component Class
+# Rendered mighty component class
 
 R6 class for a rendered component, created by
 [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)`$render()`

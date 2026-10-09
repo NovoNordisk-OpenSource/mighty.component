@@ -1,4 +1,4 @@
-# Retrieve a Component
+# Retrieve a component
 
 - `get_component()`: Find a component. Raises an error if it is not
   found.

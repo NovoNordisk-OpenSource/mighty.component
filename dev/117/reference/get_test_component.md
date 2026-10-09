@@ -1,4 +1,4 @@
-# Create a Test Component
+# Create a test component
 
 Retrieve and render a component as a
 [mighty_component_test](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)

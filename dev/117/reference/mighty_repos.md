@@ -1,4 +1,4 @@
-# Collection of Component Repos
+# Collection of component repos
 
 An ordered collection of component repos. Lookups search the repos in
 order, and the first match wins.

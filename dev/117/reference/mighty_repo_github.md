@@ -1,4 +1,4 @@
-# GitHub Component Repo
+# GitHub component repo
 
 A component repo hosted on GitHub. When the object is created, `ref` is
 resolved to a commit SHA and the repository tarball for that commit is

@@ -1,4 +1,4 @@
-# Component Class
+# Mighty component class
 
 R6 class for a component.
 

@@ -1,4 +1,4 @@
-# URL Component Repo
+# URL component repo
 
 A component repo served as raw files under a base URL. Requires httr2
 (\>= 1.2.2).

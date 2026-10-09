@@ -1,4 +1,4 @@
-# List Components in Repos
+# List components in repos
 
 List the components in one or more repos. See
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
