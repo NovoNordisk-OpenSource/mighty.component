@@ -12,6 +12,8 @@
   prefix), with a time limit per request (`timeout` option) (#104).
 * GitHub repos are cached per commit, and transient API errors are retried
   (`max_tries` option) (#93, #95).
+* GitHub repos no longer leave extraction directories in the temporary
+  directory, also when extraction fails (#119).
 * `@origin` is now a required tag on every component header, not optional.
 * New required `@method` tag on component headers, exposed as
   `component$method`. Intended to let mighty.metadata populate a column's

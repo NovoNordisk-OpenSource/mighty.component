@@ -195,8 +195,7 @@ download_repo <- function(owner, repo, sha) {
     message = c(">" = "Downloading repo {.val {owner}/{repo}@{sha}}")
   )
 
-  tarfile <- tempfile(fileext = ".tar.gz")
-  on.exit(unlink(tarfile), add = TRUE)
+  tarfile <- withr::local_tempfile(fileext = ".tar.gz")
 
   tryCatch(
     expr = gh_with_retry(
@@ -215,7 +214,8 @@ download_repo <- function(owner, repo, sha) {
     }
   )
 
-  exdir <- tempfile("mighty_repo_")
+  exdir <- withr::local_tempdir(pattern = "mighty_extract_")
+
   tar_result <- if (isTRUE(file.size(tarfile) > 0)) {
     tryCatch(
       expr = withCallingHandlers(
@@ -245,7 +245,10 @@ download_repo <- function(owner, repo, sha) {
     )
   }
 
-  top_dir[[1]]
+  cache_dir <- tempfile("mighty_repo_")
+  file.rename(from = top_dir[[1]], to = cache_dir)
+
+  cache_dir
 }
 
 #' Call `gh::gh()` and retry transient errors

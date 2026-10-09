@@ -20,7 +20,7 @@ Imports:
     rlang,
     S7,
     whisker,
-    withr,
+    withr (>= 2.5.0),
     xml2,
     xmlparsedata,
     zephyr
