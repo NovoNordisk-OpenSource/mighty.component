@@ -19,7 +19,7 @@ get_rendered_component(component, params = list(), repos = NULL)
 - component:
 
   `character(1)` Component name. If `repos` is `NULL`, path to a
-  component file, with or without extension.
+  component file.
 
 - repos:
 

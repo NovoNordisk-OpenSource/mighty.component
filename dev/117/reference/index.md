@@ -23,19 +23,19 @@
 - [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md)
   : Collection of component repos
 
-## Test components
-
-- [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-  : Create a test component
-- [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
-  : Test mighty component class
-
 ## Mighty component classes
 
 - [`mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
   : Mighty component class
 - [`mighty_component_rendered`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
   : Rendered mighty component class
+
+## Test components
+
+- [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+  : Create a test component
+- [`mighty_component_test`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_test.md)
+  : Test mighty component class
 
 ## Utilities
 

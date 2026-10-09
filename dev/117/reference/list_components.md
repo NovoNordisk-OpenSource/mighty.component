@@ -52,8 +52,8 @@ Depending on `as`:
 - `"character"`: `character` vector of unique component names.
 
 - `"list"`: `list` with one element per component, each a named `list`
-  with `id` (component name), `title`, `description`, `type`, `origin`,
-  `method`, `params`, `depends`, `outputs` and `code`.
+  with `id`, `title`, `description`, `type`, `origin`, `method`,
+  `params`, `depends`, `outputs` and `code`.
 
 - `"tibble"`: tibble with one row per component and the same columns.
 
