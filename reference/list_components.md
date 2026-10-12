@@ -1,6 +1,6 @@
 # List components in repos
 
-List all available mighty components in the given repos. See
+List the components in one or more repos. See
 [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md)
 for the component layout. Files starting with `test-` are not listed.
 
@@ -73,7 +73,7 @@ list_components(path, as = "list") |>
   str(max.level = 2)
 #> List of 1
 #>  $ :List of 10
-#>   ..$ id         : chr "ady.mustache"
+#>   ..$ id         : chr "ady"
 #>   ..$ title      : chr "Analysis relative day"
 #>   ..$ description: chr "Derives the relative day compared to the treatment start date."
 #>   ..$ type       : chr "column"

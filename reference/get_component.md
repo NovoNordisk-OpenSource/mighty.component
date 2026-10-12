@@ -1,15 +1,10 @@
-# Retrieve mighty code component
+# Retrieve a component
 
-Retrieve a mighty code component.
+- `get_component()`: Find a component. Raises an error if it is not
+  found.
 
-- `get_component()`: Returns an object of class `mighty_component`.
-
-- `get_rendered_component()`: Returns an object of class
-  `mighty_component_rendered`.
-
-When rendering a component the required list of parameters depends on
-the individual component. Check the documentation of the local component
-for details.
+- `get_rendered_component()`: Find a component and render it with
+  `params`.
 
 ## Usage
 
@@ -23,9 +18,8 @@ get_rendered_component(component, params = list(), repos = NULL)
 
 - component:
 
-  `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL`. The directory of the path must
-  exist.
+  `character(1)` Component name. If `repos` is `NULL`, path to a
+  component file.
 
 - repos:
 
@@ -50,19 +44,32 @@ get_rendered_component(component, params = list(), repos = NULL)
 
 - params:
 
-  named `list` of input parameters. Passed along to
-  `mighty_component$render()`.
+  named `list` of parameters passed to `$render()`. See the component's
+  `@param` tags (`component$params`).
+
+## Value
+
+- `get_component()`: A
+  [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+  object.
+
+- `get_rendered_component()`: A
+  [mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+  object.
 
 ## Details
 
-Processes different component types based on file extension:
+Components are `.mustache` or `.R` files. Both use the tags described in
+[mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md).
 
-- `.R`: Extracts and renders custom functions.
+- `.mustache` files are Mustache templates.
 
-- `.mustache`: Creates components from the template files.
+- `.R` files are plain R components. They cannot have `@param` tags or
+  Mustache placeholders.
 
 ## See also
 
+[`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md),
 [mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md),
 [mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
 
@@ -73,7 +80,49 @@ path <- system.file("examples", "ady.mustache", package = "mighty.component")
 get_component(path)
 #> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 #> <mighty_component/R6>
-#> ady.mustache: Analysis relative day
+#> ady: Analysis relative day
+#> Type: column
+#> Parameters:
+#> • domain: `character` Name of new domain being created
+#> • variable: `character` Name of new variable to create
+#> • date: `character` Name of date variable to use
+#> Depends:
+#> • {{{domain}}}.{{{date}}}
+#> • {{{domain}}}.TRTSDT
+#> Outputs:
+#> • {{{variable}}}
+
+get_rendered_component(
+  component = path,
+  params = list(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+)
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+#> <mighty_component_rendered/mighty_component/R6>
+#> ady: Analysis relative day
+#> Type: column
+#> Depends:
+#> • ADAE.ASTDT
+#> • ADAE.TRTSDT
+#> Outputs:
+#> • ASTDY
+#> Code:
+#> ADAE <- ADAE |>
+#>   dplyr::mutate(
+#>     ASTDY = admiral::compute_duration(
+#>       start_date = TRTSDT,
+#>       end_date = ASTDT,
+#>       in_unit = 'days',
+#>       out_unit = 'days',
+#>       add_one = TRUE
+#>     )
+#>   )
+
+# Find by name in a repo
+repo <- system.file("examples", package = "mighty.component")
+get_component("ady", repos = repo)
+#> → Found "ady" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+#> <mighty_component/R6>
+#> ady: Analysis relative day
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created

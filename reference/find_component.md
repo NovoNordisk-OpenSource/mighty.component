@@ -1,9 +1,10 @@
-# Find mighty code component
+# Find a component
 
-Look up a component in one or more repos. Unlike
-[`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-returns `NULL` instead of raising an error when no repo contains the
-component. Each repo directory must exist, otherwise an error is raised.
+Find a component in one or more repos. Returns `NULL` if no repo
+contains it, while
+[`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
+raises an error. Local repo directories must exist, otherwise an error
+is raised.
 
 ## Usage
 
@@ -15,9 +16,8 @@ find_component(component, repos = NULL)
 
 - component:
 
-  `character` component name, or path to a component file (`.R` or
-  `.mustache`) when `repos` is `NULL`. The directory of the path must
-  exist.
+  `character(1)` Component name. If `repos` is `NULL`, path to a
+  component file.
 
 - repos:
 
@@ -58,7 +58,7 @@ path <- system.file("examples", package = "mighty.component")
 find_component("ady", repos = path)
 #> → Found "ady" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 #> <mighty_component/R6>
-#> ady.mustache: Analysis relative day
+#> ady: Analysis relative day
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created

@@ -21,6 +21,10 @@ mighty_repos(repos = character(0))
   `character` vector of repo specs, a single `mighty_repo_class` object,
   or a `list` of repo specs and `mighty_repo_class` objects.
 
+## Value
+
+A `mighty_repos` object: a `list` of repos.
+
 ## See also
 
 [`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md),
@@ -39,7 +43,7 @@ repos
 find_component(component = "ady", repos = repos)
 #> → Found "ady" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
 #> <mighty_component/R6>
-#> ady.mustache: Analysis relative day
+#> ady: Analysis relative day
 #> Type: column
 #> Parameters:
 #> • domain: `character` Name of new domain being created

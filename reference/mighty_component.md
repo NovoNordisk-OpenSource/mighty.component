@@ -1,134 +1,174 @@
-# Mighty component
+# Mighty component class
 
-Class for a generic mighty component.
+R6 class for a component.
 
-In the mighty framework, a "component" is a code template that processes
-input data and returns a modified version with new columns or rows.
-Mighty components share a common structure and roxygen-like
-documentation pattern, facilitating their use inside mighty.
+A component is a code template. Its code takes an input data set and
+returns a modified version with new or changed columns or rows.
+Components are documented with roxygen-like tags.
+
+Use
+[`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
+to create a component from a file or repo.
 
 ## Details
 
-Templates are `character` vectors of R code that are interpreted.
-Dynamic use of variables etc. are supported using the
-[mustache](https://mustache.github.io) framework. Dynamic parameters are
-specified using `{{ variable_name }}`.
+### Templates
 
-### Documentation
+A template starts with tags in roxygen comments (`#'`). All lines below
+the `@code` tag are the R code.
 
-A template is required to be documented with the following tags similar
-to when documenting functions using roxygen2:
+Templates use [Mustache](https://mustache.github.io/mustache.5.html)
+placeholders. `$render()` fills them in with
+[`whisker::whisker.render()`](https://rdrr.io/pkg/whisker/man/whisker.render.html).
 
-|  |  |  |
-|----|----|----|
-| Tag | Description | Example |
-| `@title` | Title of the component | `@title My component` |
-| `@description` | Description of the component | `@description text text` |
-| `@param` | Specifies input used to render the component | `@param variable new var` |
-| `@type` | Specifies type: column, row, parameter, internal | `@type column` |
-| `@origin` | CDISC origin | `@origin Derived` |
-| `@method` | Free-text method description for define.xml | `@method LOCF applied` |
-| `@depends` | Required input variable (repeat if several) | `@depends {{ domain }} USUBJID` |
-| `@outputs` | Variables created (repeat if several) | `@outputs NEWVAR` |
-| `@code` | Everything under this tag defines the component code | `@code` |
+- `{{{name}}}` inserts the value of parameter `name`. Always use triple
+  braces. Double braces (`{{name}}`) HTML-escape the value, e.g. `a<b`
+  becomes `a&lt;b`.
+
+- `{{#name}}...{{/name}}` repeats the enclosed text for each element of
+  the vector `name`. Use `{{{.}}}` to insert the current element.
+
+### Tags
+
+A tag continues until the next tag. Required tags must appear exactly
+once.
+
+|  |  |  |  |
+|----|----|----|----|
+| Tag | Required | Description | Example |
+| `@title` | Yes | Title of the component. | `@title Double a column` |
+| `@description` | Yes | Description of the component. | `@description Creates a new column.` |
+| `@param` | No | Name, then description. One per placeholder. | `` @param domain `character` Name of the domain `` |
+| `@type` | Yes | Component type. See *Types* below. | `@type column` |
+| `@origin` | Yes | CDISC origin. See allowed values below. | `@origin Derived` |
+| `@method` | Yes | Free-text method description for define.xml. | `@method Two times the input column` |
+| `@depends` | No | Input domain, then column. Repeat for each. | `@depends {{{domain}}} USUBJID` |
+| `@outputs` | No | Column created. Repeat for each. | `@outputs {{{output}}}` |
+| `@code` | Yes | Last tag. All lines below are the code. | `@code` |
+
+`@origin` must be one of `Assigned`, `Collected`, `Derived`,
+`Not Available`, `Other`, `Predecessor`, `Protocol`.
+
+`@depends` is split at the first space into domain and column. Do not
+use spaces inside its placeholders, e.g. use `{{{domain}}}`, not
+`{{{ domain }}}`.
+
+### Types
+
+- `column`: Adds or modifies columns. The row count is unchanged.
+
+- `row`: Adds, removes or modifies rows.
+
+- `parameter`: Derives a new `PARAMCD` (BDS parameter).
+
+- `internal`: Helper step with no define.xml output.
 
 ### Conventions
 
-A component template follows these conventions:
+1.  The input data set is `{{{domain}}}`.
 
-1.  The input data set is always called `{{ domain }}`.
+2.  The code assigns the result back to `{{{domain}}}`.
 
-2.  Additional parameters used to render the template into R code are
-    documented with the `@param` tag.
+3.  Every placeholder is declared with `@param`.
 
-3.  The template ends with creating a modified version of
-    `{{ domain }}`.
+4.  Functions are called with explicit namespaces, e.g.
+    [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
 
-4.  Template documented with the roxygen-like tags above
+5.  Joins specify `by`. This is enforced when rendering.
+
+### Validation
+
+When a component is rendered, the code is parsed and must be valid R.
+Joins from dplyr, tidylog and dbplyr without a `by` argument raise an
+error. Column existence is not checked.
 
 ### Example
 
-Below is an example of a mighty component template that creates a new
-dynamic variable `variable` as twice the value of the dynamic input `x`,
-that should already by in the input data set `{{ domain }}`.
+This template creates a new column `output` as two times the existing
+column `input`:
 
-    #' @title Title for my component
+    #' @title Double a column
     #' @description
-    #' A more in depth description of what is being done
+    #' Creates a new column as two times an existing column.
     #'
-    #' @param variable dynamic output if applicable
-    #' @param x some other input to the component
+    #' @param domain `character` Name of the domain
+    #' @param output `character` Name of the new column
+    #' @param input `character` Name of the existing column
     #' @type column
     #' @origin Derived
-    #' @depends {{ domain }} {{ x }}
-    #' @outputs {{ variable }}
+    #' @method Two times the input column
+    #' @depends {{{domain}}} {{{input}}}
+    #' @outputs {{{output}}}
     #' @code
-    {{ domain }} <- {{ domain }} |>
+    {{{domain}}} <- {{{domain}}} |>
       dplyr::mutate(
-        {{ variable }} = 2 * {{ x }}
+        {{{output}}} = 2 * {{{input}}}
       )
 
-When rendered with parameters `variable = "A"` and `x = "B"` the
-rendered code used in mighty becomes:
+Rendered with `domain = "ADSL"`, `output = "A"` and `input = "B"`, the
+code (`$code`) is:
 
-    {{ domain }} <- {{ domain }} |>
+    ADSL <- ADSL |>
       dplyr::mutate(
         A = 2 * B
       )
 
+The tags are rendered too, e.g. `$depends` has domain `ADSL` and column
+`B`.
+
 ## See also
 
 [`get_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
-[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md)
+[mighty_component_rendered](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component_rendered.md),
+[`vignette("mighty-component")`](https://novonordisk-opensource.github.io/mighty.component/articles/mighty-component.md)
 
 ## Active bindings
 
 - `id`:
 
-  Component ID.
+  `character(1)` Component name without file extension.
 
 - `title`:
 
-  Title for the component.
+  `character(1)` Title of the component.
 
 - `description`:
 
-  Description of the component.
+  `character(1)` Description of the component.
 
 - `code`:
 
-  The code block of the component.
+  `character` Lines below `@code`.
 
 - `template`:
 
-  The complete template.
+  `character` Full template.
 
 - `type`:
 
-  The type of the component. Can be one of column, row, parameter,
-  internal.
+  `character(1)` Component type. One of `column`, `row`, `parameter`,
+  `internal`.
 
 - `origin`:
 
-  CDISC origin. One of Assigned, Collected, Derived, Not Available,
-  Other, Predecessor, Protocol.
+  `character(1)` CDISC origin. One of `Assigned`, `Collected`,
+  `Derived`, `Not Available`, `Other`, `Predecessor`, `Protocol`.
 
 - `method`:
 
-  Free-text method description for define.xml.
+  `character(1)` Method description for define.xml.
 
 - `depends`:
 
-  Data.frame listing all the components dependencies.
+  `data.frame` with columns `domain` and `column`.
 
 - `outputs`:
 
-  List of the new columns created by the component.
+  `character` Columns created by the component.
 
 - `params`:
 
-  Data.frame listing parameters that need to be supplied when rendering
-  the component.
+  `data.frame` with columns `name` and `description`.
 
 ## Methods
 
@@ -148,7 +188,7 @@ rendered code used in mighty becomes:
 
 ### `mighty_component$new()`
 
-Create component from template.
+Create a component from a template.
 
 #### Usage
 
@@ -158,17 +198,17 @@ Create component from template.
 
 - `template`:
 
-  `character` template code. See details for how to format.
+  `character` Template, one element per line. See Details.
 
 - `id`:
 
-  `character` ID of the component.
+  `character(1)` Component ID.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component$print()`
 
-Print method displaying the component information.
+Print the component.
 
 #### Usage
 
@@ -182,8 +222,7 @@ Print method displaying the component information.
 
 ### `mighty_component$render()`
 
-Render component with supplied values. Supports mustache templates and
-uses
+Render the component with
 [`whisker::whisker.render()`](https://rdrr.io/pkg/whisker/man/whisker.render.html).
 
 #### Usage
@@ -194,8 +233,16 @@ uses
 
 - `...`:
 
-  Parameters used to render the template. Must be named, and depends on
-  the template.
+  Named parameters used to render the template. Supply one for each
+  `@param` tag and no others.
+
+  For `@type row` components, `domain` can be a subset marker:
+  `".mighty_subset(<domain>, '<subset>')"`, where `<subset>` is an R
+  expression in a string, e.g.
+  `domain = ".mighty_subset(ADLB, 'PARAMCD == \"ALB\"')"`. The code then
+  only processes the rows where `<subset>` is `TRUE`. Other rows are
+  kept unchanged. The marker is not allowed for other parameters or
+  types.
 
 #### Returns
 
@@ -206,11 +253,16 @@ Object of class
 
 ### `mighty_component$document()`
 
-Create standard documentation in markdown format.
+Create documentation in markdown format. Requires the knitr package.
 
 #### Usage
 
     mighty_component$document()
+
+#### Returns
+
+(`invisible`) `character(1)` Markdown documentation. Also printed to the
+console.
 
 ------------------------------------------------------------------------
 
@@ -227,3 +279,96 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- mighty_component$new(template = readLines(path), id = "ady")
+x
+#> <mighty_component/R6>
+#> ady: Analysis relative day
+#> Type: column
+#> Parameters:
+#> • domain: `character` Name of new domain being created
+#> • variable: `character` Name of new variable to create
+#> • date: `character` Name of date variable to use
+#> Depends:
+#> • {{{domain}}}.{{{date}}}
+#> • {{{domain}}}.TRTSDT
+#> Outputs:
+#> • {{{variable}}}
+
+x$params
+#>       name                                  description
+#> 1   domain `character` Name of new domain being created
+#> 2 variable   `character` Name of new variable to create
+#> 3     date     `character` Name of date variable to use
+x$depends
+#>         domain     column
+#> 1 {{{domain}}} {{{date}}}
+#> 2 {{{domain}}}     TRTSDT
+
+x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+#> <mighty_component_rendered/mighty_component/R6>
+#> ady: Analysis relative day
+#> Type: column
+#> Depends:
+#> • ADAE.ASTDT
+#> • ADAE.TRTSDT
+#> Outputs:
+#> • ASTDY
+#> Code:
+#> ADAE <- ADAE |>
+#>   dplyr::mutate(
+#>     ASTDY = admiral::compute_duration(
+#>       start_date = TRTSDT,
+#>       end_date = ASTDT,
+#>       in_unit = 'days',
+#>       out_unit = 'days',
+#>       add_one = TRUE
+#>     )
+#>   )
+
+x$document()
+#> ## ady: Analysis relative day
+#> *type: column*
+#> *origin: Derived*
+#> *method: Relative day computed from treatment start date*
+#> 
+#> Derives the relative day compared to the treatment start date.
+#> 
+#> ### Parameters
+#> 
+#> |name     |description                                  |
+#> |:--------|:--------------------------------------------|
+#> |domain   |`character` Name of new domain being created |
+#> |variable |`character` Name of new variable to create   |
+#> |date     |`character` Name of date variable to use     |
+#> 
+#> ### Depends
+#> 
+#> |domain       |column     |
+#> |:------------|:----------|
+#> |{{{domain}}} |{{{date}}} |
+#> |{{{domain}}} |TRTSDT     |
+#> 
+#> ### Outputs
+#> 
+#> * {{{variable}}}
+#> 
+#> ### Code
+#> 
+#> ```r
+#> {{{domain}}} <- {{{domain}}} |>
+#>   dplyr::mutate(
+#>     {{{variable}}} = admiral::compute_duration(
+#>       start_date = TRTSDT,
+#>       end_date = {{{date}}},
+#>       in_unit = 'days',
+#>       out_unit = 'days',
+#>       add_one = TRUE
+#>     )
+#>   )
+#> ```
+```

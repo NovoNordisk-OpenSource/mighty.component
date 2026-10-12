@@ -1,16 +1,20 @@
-# Rendered mighty component
+# Rendered mighty component class
 
-Class for a rendered mighty component.
+R6 class for a rendered component, created by
+[mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)`$render()`
+or
+[`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md).
 
-Once rendered a component can be used to:
+A rendered component can be:
 
-- Stream into an R script
+- Streamed into an R script with `$stream()`.
 
-- Evaluate the generated code in an environment
+- Evaluated in an environment with `$eval()`.
 
 ## See also
 
-[`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md)
+[`get_rendered_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_component.md),
+[mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
 
 ## Super class
 
@@ -40,7 +44,9 @@ Inherited methods
 
 ### `mighty_component_rendered$new()`
 
-Create component from rendered template.
+Create a rendered component from a rendered template. The code is
+validated. See the Validation section in
+[mighty_component](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md).
 
 #### Usage
 
@@ -50,18 +56,17 @@ Create component from rendered template.
 
 - `template`:
 
-  `character` Rendered template such as output from
-  `mighty_component$render()`.
+  `character` Rendered template, one element per line.
 
 - `id`:
 
-  `character` ID of the component.
+  `character(1)` Component ID.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_rendered$print()`
 
-Print rendered component
+Print the rendered component, including its code.
 
 #### Usage
 
@@ -75,7 +80,7 @@ Print rendered component
 
 ### `mighty_component_rendered$stream()`
 
-Stream rendered code into a script (appended)
+Write the code to an R script. The code is appended if the file exists.
 
 #### Usage
 
@@ -85,13 +90,17 @@ Stream rendered code into a script (appended)
 
 - `path`:
 
-  `character(1)` path to the R script to stream code into.
+  `character(1)` Path to the R script.
+
+#### Returns
+
+(`invisible`) self
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_rendered$eval()`
 
-Evaluate code in a specified environment.
+Evaluate the code.
 
 #### Usage
 
@@ -101,10 +110,12 @@ Evaluate code in a specified environment.
 
 - `envir`:
 
-  Environment to evaluate in. Parsed to
-  [`eval()`](https://rdrr.io/r/base/eval.html). Defaults to using the
-  current environment with
-  [`parent.frame()`](https://rdrr.io/r/base/sys.parent.html).
+  Environment to evaluate the code in. Defaults to the calling
+  environment.
+
+#### Returns
+
+Value of the last evaluated expression of the code.
 
 ------------------------------------------------------------------------
 
@@ -121,3 +132,59 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_component(path)$render(
+  domain = "adae",
+  variable = "ASTDY",
+  date = "ASTDT"
+)
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+x$code
+#>  [1] "adae <- adae |>"                       
+#>  [2] "  dplyr::mutate("                      
+#>  [3] "    ASTDY = admiral::compute_duration("
+#>  [4] "      start_date = TRTSDT,"            
+#>  [5] "      end_date = ASTDT,"               
+#>  [6] "      in_unit = 'days',"               
+#>  [7] "      out_unit = 'days',"              
+#>  [8] "      add_one = TRUE"                  
+#>  [9] "    )"                                 
+#> [10] "  )"                                   
+
+# Write the code to an R script
+script <- tempfile(fileext = ".R")
+x$stream(script)
+readLines(script)
+#>  [1] "adae <- adae |>"                       
+#>  [2] "  dplyr::mutate("                      
+#>  [3] "    ASTDY = admiral::compute_duration("
+#>  [4] "      start_date = TRTSDT,"            
+#>  [5] "      end_date = ASTDT,"               
+#>  [6] "      in_unit = 'days',"               
+#>  [7] "      out_unit = 'days',"              
+#>  [8] "      add_one = TRUE"                  
+#>  [9] "    )"                                 
+#> [10] "  )"                                   
+unlink(script)
+
+# Evaluate the code in a new environment
+env <- new.env()
+env$adae <- data.frame(
+  TRTSDT = as.Date("2024-01-01"),
+  ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+)
+x$eval(envir = env)
+#> → Evaluating component Analysis relative day
+#> ℹ Code:
+#> `adae <- adae |>`, ` dplyr::mutate(`, ` ASTDY = admiral::compute_duration(`, `
+#> start_date = TRTSDT,`, ` end_date = ASTDT,`, ` in_unit = 'days',`, ` out_unit =
+#> 'days',`, ` add_one = TRUE`, ` )`, and ` )`
+env$adae
+#>       TRTSDT      ASTDT ASTDY
+#> 1 2024-01-01 2024-01-01     1
+#> 2 2024-01-01 2024-01-10    10
+```

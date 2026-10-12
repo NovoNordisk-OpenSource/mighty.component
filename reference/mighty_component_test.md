@@ -1,28 +1,39 @@
-# Test mighty component
+# Test mighty component class
 
-Class for unit testing a mighty component with code coverage tracking.
-Runs component code in an isolated R session and tracks which lines are
-executed during testing.
+R6 class for unit testing a component with code coverage tracking. The
+code runs in a separate R session, and the lines executed are counted.
 
 ## Details
 
-Always use
+Use
 [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-to create instances for testing. The test workflow is:
+to create a test component. The workflow is:
 
-1.  Create test component with
-    [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+1.  Create the test component with
+    [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md).
 
-2.  Assign input data with `$assign()`
+2.  Assign input data with `$assign()`.
 
-3.  Execute and track coverage with `$eval()`
+3.  Run the code and update coverage with `$eval()`.
 
-4.  Retrieve results with `$get()`
+4.  Retrieve results with `$get()`.
 
-5.  Test results with `expect_*()` functions from `{testthat}`
+5.  Test the results with testthat `expect_*()` functions.
 
-Coverage is automatically checked at test teardown via
-`$check_coverage()`.
+6.  Close the session with `$close()`.
+
+By default,
+[`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
+checks coverage with `$check_coverage()` when the test ends. Coverage is
+kept in the current R session, so it can still be checked after
+`$close()`.
+
+The code runs inside a function, with `<-` replaced by `<<-`, so
+assignments are made in the session's global environment.
+
+## See also
+
+[`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
 
 ## Super classes
 
@@ -35,12 +46,12 @@ Coverage is automatically checked at test teardown via
 
 - `percent_coverage`:
 
-  `numeric` Percentage of lines covered (0-100).
+  `numeric(1)` Percentage of lines covered (0-100).
 
 - `line_coverage`:
 
-  `data.frame` with columns `line` and `value` showing execution count
-  per line.
+  `data.frame` with columns `line` and `value` (number of times the line
+  has run).
 
 ## Methods
 
@@ -60,6 +71,8 @@ Coverage is automatically checked at test teardown via
 
 - [`mighty_component_test$check_coverage()`](#method-mighty_component_test-check_coverage)
 
+- [`mighty_component_test$close()`](#method-mighty_component_test-close)
+
 - [`mighty_component_test$clone()`](#method-mighty_component_test-clone)
 
 Inherited methods
@@ -72,7 +85,8 @@ Inherited methods
 
 ### `mighty_component_test$new()`
 
-Create test component from rendered template.
+Create a test component from a rendered template. Starts a new R
+session. Requires the callr and covr packages.
 
 #### Usage
 
@@ -82,28 +96,31 @@ Create test component from rendered template.
 
 - `template`:
 
-  `character` Rendered template such as output from
-  `mighty_component$render()`.
+  `character` Rendered template, one element per line.
 
 - `id`:
 
-  `character` ID of the component.
+  `character(1)` Component ID.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$print()`
 
-Print method showing component and test coverage
+Print the test component with its code coverage.
 
 #### Usage
 
     mighty_component_test$print()
 
+#### Returns
+
+(`invisible`) self
+
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$assign()`
 
-Assign a variable in the isolated test session.
+Assign a variable in the test session.
 
 #### Usage
 
@@ -113,21 +130,21 @@ Assign a variable in the isolated test session.
 
 - `x`:
 
-  `character` Name of the variable to assign.
+  `character(1)` Variable name.
 
 - `value`:
 
-  Value to assign to the variable.
+  Value to assign.
 
 #### Returns
 
-`self` invisibly, for method chaining.
+(`invisible`) self
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$get()`
 
-Retrieve a variable from the isolated test session.
+Get a variable from the test session.
 
 #### Usage
 
@@ -137,17 +154,17 @@ Retrieve a variable from the isolated test session.
 
 - `x`:
 
-  `character` Name of the variable to retrieve.
+  `character(1)` Variable name.
 
 #### Returns
 
-The value of the variable.
+Value of the variable.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$ls()`
 
-List all objects in the isolated test session.
+List the variables in the test session.
 
 #### Usage
 
@@ -155,13 +172,13 @@ List all objects in the isolated test session.
 
 #### Returns
 
-`character` vector of variable names.
+`character` Variable names.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$eval()`
 
-Execute the component code and update coverage tracking.
+Run the code in the test session and update the coverage.
 
 #### Usage
 
@@ -169,14 +186,14 @@ Execute the component code and update coverage tracking.
 
 #### Returns
 
-`self` invisibly, for method chaining.
+(`invisible`) self
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$check_coverage()`
 
-Check that all lines in the component were executed at least once.
-Throws an error if any lines have zero coverage.
+Check that every line of the code has run at least once. Raises an error
+otherwise.
 
 #### Usage
 
@@ -184,7 +201,22 @@ Throws an error if any lines have zero coverage.
 
 #### Returns
 
-`self` invisibly if all lines are covered.
+(`invisible`) self
+
+------------------------------------------------------------------------
+
+### `mighty_component_test$close()`
+
+Close the test session. Called automatically when the object is garbage
+collected.
+
+#### Usage
+
+    mighty_component_test$close()
+
+#### Returns
+
+(`invisible`) self
 
 ------------------------------------------------------------------------
 
@@ -201,3 +233,31 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_test_component(
+  component = path,
+  params = list(domain = "adae", variable = "ADY", date = "ADT"),
+  check_coverage = FALSE
+)
+#> → Found "ady.mustache" in "local::/home/runner/work/_temp/Library/mighty.component/examples"
+x$percent_coverage
+#> [1] 0
+
+x$assign(
+  "adae",
+  data.frame(TRTSDT = as.Date("2024-01-01"), ADT = as.Date("2024-01-05"))
+)
+x$eval()
+x$ls()
+#> [1] "adae"
+x$get("adae")$ADY
+#> [1] 5
+x$percent_coverage
+#> [1] 100
+x$check_coverage()
+x$close()
+```

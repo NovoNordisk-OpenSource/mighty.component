@@ -15,7 +15,11 @@ mighty_repo_local(path)
 
 - path:
 
-  `character(1)` path to an existing directory.
+  `character(1)` Path to an existing directory.
+
+## Value
+
+A `mighty_repo_local` object.
 
 ## Examples
 
