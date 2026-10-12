@@ -1,107 +1,113 @@
-#' Mighty component
+#' Mighty component class
 #' @description
-#' Class for a generic mighty component.
+#' R6 class for a component.
 #'
-#' In the mighty framework, a "component" is a code template that processes
-#' input data and returns a modified version with new columns or rows.
-#' Mighty components share a common structure and roxygen-like documentation pattern,
-#' facilitating their use inside mighty.
+#' A component is a code template. Its code takes an input data set and
+#' returns a modified version with new or changed columns or rows. Components
+#' are documented with roxygen-like tags.
+#'
+#' Use [get_component()] to create a component from a file or repo.
 #'
 #' @details
-#' Templates are `character` vectors of R code that are interpreted.
-#' Dynamic use of variables etc. are supported using the [mustache](https://mustache.github.io)
-#' framework. Dynamic parameters are specified using `{{ variable_name }}`.
+#' ```{r child = "man/rmd/template-reference.Rmd"}
+#' ```
 #'
-#' ### Documentation
+#' ### Validation
 #'
-#' A template is required to be documented with the following tags similar to when
-#' documenting functions using roxygen2:
-#'
-#' | Tag            | Description                                          | Example                  |
-#' |----------------|------------------------------------------------------|--------------------------|
-#' | `@title`       | Title of the component                               | `@title My component`    |
-#' | `@description` | Description of the component                         | `@description text text` |
-#' | `@param`       | Specifies input used to render the component         | `@param variable new var`|
-#' | `@type`        | Specifies type: `r mighty.component:::valid_types()` | `@type column`           |
-#' | `@origin`      | CDISC origin                                         | `@origin Derived`        |
-#' | `@method`      | Free-text method description for define.xml         | `@method LOCF applied`  |
-#' | `@depends`     | Required input variable (repeat if several)          | `@depends {{ domain }} USUBJID` |
-#' | `@outputs`     | Variables created (repeat if several)                | `@outputs NEWVAR`        |
-#' | `@code`        | Everything under this tag defines the component code | `@code`                  |
-#'
-#' ### Conventions
-#'
-#' A component template follows these conventions:
-#'
-#' 1. The input data set is always called `{{ domain }}`.
-#' 1. Additional parameters used to render the template into R code are documented with the `@param` tag.
-#' 1. The template ends with creating a modified version of `{{ domain }}`.
-#' 1. Template documented with the roxygen-like tags above
+#' When a component is rendered, the code is parsed and must be valid R.
+#' Joins from dplyr, tidylog and dbplyr without a `by` argument raise an
+#' error. Column existence is not checked.
 #'
 #' ### Example
 #'
-#' Below is an example of a mighty component template that
-#' creates a new dynamic variable `variable` as twice the value
-#' of the dynamic input `x`, that should already by in the input data set `{{ domain }}`.
+#' This template creates a new column `output` as two times the existing
+#' column `input`:
 #'
 #' ```r
-#' #' @title Title for my component
+#' #' @title Double a column
 #' #' @description
-#' #' A more in depth description of what is being done
+#' #' Creates a new column as two times an existing column.
 #' #'
-#' #' @param variable dynamic output if applicable
-#' #' @param x some other input to the component
+#' #' @param domain `character` Name of the domain
+#' #' @param output `character` Name of the new column
+#' #' @param input `character` Name of the existing column
 #' #' @type column
 #' #' @origin Derived
-#' #' @depends {{ domain }} {{ x }}
-#' #' @outputs {{ variable }}
+#' #' @method Two times the input column
+#' #' @depends {{{domain}}} {{{input}}}
+#' #' @outputs {{{output}}}
 #' #' @code
-#' {{ domain }} <- {{ domain }} |>
+#' {{{domain}}} <- {{{domain}}} |>
 #'   dplyr::mutate(
-#'     {{ variable }} = 2 * {{ x }}
+#'     {{{output}}} = 2 * {{{input}}}
 #'   )
 #' ```
 #'
-#' When rendered with parameters `variable = "A"` and `x = "B"`
-#' the rendered code used in mighty becomes:
+#' Rendered with `domain = "ADSL"`, `output = "A"` and `input = "B"`, the
+#' code (`$code`) is:
 #'
 #' ```r
-#' {{ domain }} <- {{ domain }} |>
+#' ADSL <- ADSL |>
 #'   dplyr::mutate(
 #'     A = 2 * B
 #'   )
 #' ```
 #'
-#' @seealso [get_component()], [mighty_component_rendered]
+#' The tags are rendered too, e.g. `$depends` has domain `ADSL` and
+#' column `B`.
+#'
+#' @examples
+#' path <- system.file("examples", "ady.mustache", package = "mighty.component")
+#' x <- mighty_component$new(template = readLines(path), id = "ady")
+#' x
+#'
+#' x$params
+#' x$depends
+#'
+#' x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+#'
+#' @examplesIf rlang::is_installed("knitr")
+#' x$document()
+#'
+#' @seealso [get_component()], [mighty_component_rendered],
+#' `vignette("mighty-component")`
 #' @export
 mighty_component <- R6::R6Class(
   classname = "mighty_component",
   public = list(
     #' @description
-    #' Create component from template.
-    #' @param template `character` template code. See details for how to format.
-    #' @param id `character` ID of the component.
+    #' Create a component from a template.
+    #' @param template `character` Template, one element per line. See
+    #' Details.
+    #' @param id `character(1)` Component ID.
     initialize = function(template, id) {
       ms_initialize(template, id, self, private)
     },
     #' @description
-    #' Print method displaying the component information.
+    #' Print the component.
     #' @return (`invisible`) self
     print = function() {
       ms_print(self)
     },
     #' @description
-    #' Render component with supplied values.
-    #' Supports mustache templates and uses `whisker::whisker.render()`.
-    #' @param ... Parameters used to render the template.
-    #' Must be named, and depends on the template.
+    #' Render the component with [whisker::whisker.render()].
+    #' @param ... Named parameters used to render the template. Supply one
+    #' for each `@param` tag and no others.
+    #'
+    #' For `@type row` components, `domain` can be a subset marker:
+    #' `".mighty_subset(<domain>, '<subset>')"`, where `<subset>` is an R
+    #' expression in a string, e.g.
+    #' `domain = ".mighty_subset(ADLB, 'PARAMCD == \"ALB\"')"`. The code then
+    #' only processes the rows where `<subset>` is `TRUE`. Other rows are kept
+    #' unchanged. The marker is not allowed for other
+    #' parameters or types.
     #' @return Object of class [mighty_component_rendered]
     render = function(...) {
       params <- rlang::list2(...)
       ms_render(params, self)
     },
     #' @description
-    #' Create standard documentation in markdown format.
+    #' Create documentation in markdown format.
     #' Requires the knitr package.
     #' @return (`invisible`) `character(1)` Markdown documentation.
     #' Also printed to the console.
@@ -110,27 +116,29 @@ mighty_component <- R6::R6Class(
     }
   ),
   active = list(
-    #' @field id Component name (file name without extension).
+    #' @field id `character(1)` Component name without file extension.
     id = \() private$.id,
-    #' @field title Title for the component.
+    #' @field title `character(1)` Title of the component.
     title = \() private$.title,
-    #' @field description Description of the component.
+    #' @field description `character(1)` Description of the component.
     description = \() private$.description,
-    #' @field code The code block of the component.
+    #' @field code `character` Lines below `@code`.
     code = \() private$.code,
-    #' @field template The complete template.
+    #' @field template `character` Full template.
     template = \() private$.template,
-    #' @field type The type of the component. Can be one of `r paste0(valid_types(), collapse = ", ")`.
+    #' @field type `character(1)` Component type. One of
+    #' `r paste0("\x60", valid_types(), "\x60", collapse = ", ")`.
     type = \() private$.type,
-    #' @field origin CDISC origin. One of `r paste0(valid_origins(), collapse = ", ")`.
+    #' @field origin `character(1)` CDISC origin. One of
+    #' `r paste0("\x60", valid_origins(), "\x60", collapse = ", ")`.
     origin = \() private$.origin,
-    #' @field method Free-text method description for define.xml.
+    #' @field method `character(1)` Method description for define.xml.
     method = \() private$.method,
-    #' @field depends Data.frame listing all the components dependencies.
+    #' @field depends `data.frame` with columns `domain` and `column`.
     depends = \() private$.depends,
-    #' @field outputs List of the new columns created by the component.
+    #' @field outputs `character` Columns created by the component.
     outputs = \() private$.outputs,
-    #' @field params Data.frame listing parameters that need to be supplied when rendering the component.
+    #' @field params `data.frame` with columns `name` and `description`.
     params = \() private$.params
   ),
   private = list(

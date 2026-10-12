@@ -7,7 +7,10 @@
 mighty_repo_local(path)
 }
 \arguments{
-\item{path}{\code{character(1)} path to an existing directory.}
+\item{path}{\code{character(1)} Path to an existing directory.}
+}
+\value{
+A \code{mighty_repo_local} object.
 }
 \description{
 A component repo in a local directory. See \code{\link[=mighty_repo]{mighty_repo()}} for the

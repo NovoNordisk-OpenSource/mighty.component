@@ -2,27 +2,53 @@
 % Please edit documentation in R/mighty_component_test.R
 \name{mighty_component_test}
 \alias{mighty_component_test}
-\title{Test mighty component}
+\title{Test mighty component class}
 \description{
-Class for unit testing a mighty component with code coverage tracking.
-Runs component code in an isolated R session and tracks which lines are
-executed during testing.
+R6 class for unit testing a component with code coverage tracking.
+The code runs in a separate R session, and the lines executed are counted.
 }
 \details{
-Always use \code{\link[=get_test_component]{get_test_component()}} to create instances for testing. The test
-workflow is:
+Use \code{\link[=get_test_component]{get_test_component()}} to create a test component. The workflow is:
 \enumerate{
-\item Create test component with \code{get_test_component()}
-\item Assign input data with \verb{$assign()}
-\item Execute and track coverage with \verb{$eval()}
-\item Retrieve results with \verb{$get()}
-\item Test results with \verb{expect_*()} functions from \code{{testthat}}
-\item Close the session with \verb{$close()}
+\item Create the test component with \code{get_test_component()}.
+\item Assign input data with \verb{$assign()}.
+\item Run the code and update coverage with \verb{$eval()}.
+\item Retrieve results with \verb{$get()}.
+\item Test the results with testthat \verb{expect_*()} functions.
+\item Close the session with \verb{$close()}.
 }
 
-Coverage is automatically checked at test teardown via \verb{$check_coverage()}.
-Coverage is kept in the current R session, so it can still be checked
-after \verb{$close()}.
+By default, \code{get_test_component()} checks coverage with
+\verb{$check_coverage()} when the test ends. Coverage is kept in the current
+R session, so it can still be checked after \verb{$close()}.
+
+The code runs inside a function, with \verb{<-} replaced by \verb{<<-}, so
+assignments are made in the session's global environment.
+}
+\examples{
+\dontshow{if (rlang::is_installed(c("admiral", "callr", "covr", "dplyr"))) withAutoprint(\{ # examplesIf}
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_test_component(
+  component = path,
+  params = list(domain = "adae", variable = "ADY", date = "ADT"),
+  check_coverage = FALSE
+)
+x$percent_coverage
+
+x$assign(
+  "adae",
+  data.frame(TRTSDT = as.Date("2024-01-01"), ADT = as.Date("2024-01-05"))
+)
+x$eval()
+x$ls()
+x$get("adae")$ADY
+x$percent_coverage
+x$check_coverage()
+x$close()
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=get_test_component]{get_test_component()}}
 }
 \section{Super classes}{
 \code{\link[mighty.component:mighty_component]{mighty_component}} -> \code{\link[mighty.component:mighty_component_rendered]{mighty_component_rendered}} -> \code{mighty_component_test}
@@ -30,10 +56,11 @@ after \verb{$close()}.
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{percent_coverage}}{\code{numeric} Percentage of lines covered (0-100).}
+    \item{\code{percent_coverage}}{\code{numeric(1)} Percentage of lines covered
+(0-100).}
 
     \item{\code{line_coverage}}{\code{data.frame} with columns \code{line} and \code{value}
-showing execution count per line.}
+(number of times the line has run).}
   }
   \if{html}{\out{</div>}}
 }
@@ -62,7 +89,8 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-initialize}{}}}
 \subsection{\code{mighty_component_test$new()}}{
-  Create test component from rendered template.
+  Create a test component from a rendered template. Starts a new R
+session. Requires the callr and covr packages.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$new(template, id)}
@@ -71,8 +99,8 @@ showing execution count per line.}
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
-      \item{\code{id}}{\code{character} ID of the component.}
+      \item{\code{template}}{\code{character} Rendered template, one element per line.}
+      \item{\code{id}}{\code{character(1)} Component ID.}
     }
     \if{html}{\out{</div>}}
   }
@@ -82,11 +110,14 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-print}{}}}
 \subsection{\code{mighty_component_test$print()}}{
-  Print method showing component and test coverage
+  Print the test component with its code coverage.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$print()}
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (\code{invisible}) self
   }
 }
 
@@ -94,7 +125,7 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-assign"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-assign}{}}}
 \subsection{\code{mighty_component_test$assign()}}{
-  Assign a variable in the isolated test session.
+  Assign a variable in the test session.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$assign(x, value)}
@@ -103,13 +134,13 @@ showing execution count per line.}
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{x}}{\code{character} Name of the variable to assign.}
-      \item{\code{value}}{Value to assign to the variable.}
+      \item{\code{x}}{\code{character(1)} Variable name.}
+      \item{\code{value}}{Value to assign.}
     }
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{self} invisibly, for method chaining.
+    (\code{invisible}) self
   }
 }
 
@@ -117,7 +148,7 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-get"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-get}{}}}
 \subsection{\code{mighty_component_test$get()}}{
-  Retrieve a variable from the isolated test session.
+  Get a variable from the test session.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$get(x)}
@@ -126,12 +157,12 @@ showing execution count per line.}
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{x}}{\code{character} Name of the variable to retrieve.}
+      \item{\code{x}}{\code{character(1)} Variable name.}
     }
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    The value of the variable.
+    Value of the variable.
   }
 }
 
@@ -139,14 +170,14 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
 \subsection{\code{mighty_component_test$ls()}}{
-  List all objects in the isolated test session.
+  List the variables in the test session.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$ls()}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{character} vector of variable names.
+    \code{character} Variable names.
   }
 }
 
@@ -154,14 +185,14 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-eval}{}}}
 \subsection{\code{mighty_component_test$eval()}}{
-  Execute the component code and update coverage tracking.
+  Run the code in the test session and update the coverage.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$eval()}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{self} invisibly, for method chaining.
+    (\code{invisible}) self
   }
 }
 
@@ -169,15 +200,15 @@ showing execution count per line.}
 \if{html}{\out{<a id="method-mighty_component_test-check_coverage"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-check_coverage}{}}}
 \subsection{\code{mighty_component_test$check_coverage()}}{
-  Check that all lines in the component were executed at least once.
-Throws an error if any lines have zero coverage.
+  Check that every line of the code has run at least once. Raises an
+error otherwise.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$check_coverage()}
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{self} invisibly if all lines are covered.
+    (\code{invisible}) self
   }
 }
 
@@ -193,7 +224,7 @@ garbage collected.
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    \code{self} invisibly.
+    (\code{invisible}) self
   }
 }
 

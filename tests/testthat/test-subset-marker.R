@@ -8,6 +8,8 @@ sample_adlb <- function() {
 }
 
 test_that("marker in domain expands to bare identifier, wraps code, and affects subset rows only", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_add_rows.mustache") |>
     get_component()
 
@@ -39,7 +41,7 @@ test_that("marker in domain expands to bare identifier, wraps code, and affects 
       )
     )
 
-  ADLB <- sample_adlb()
+  ADLB <- sample_adlb() # nolint: object_name_linter.
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -53,6 +55,8 @@ test_that("marker in domain expands to bare identifier, wraps code, and affects 
 })
 
 test_that("subset marker: modifies matching rows in place, leaves others untouched", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_modify_rows.mustache") |>
     get_component()
 
@@ -60,7 +64,7 @@ test_that("subset marker: modifies matching rows in place, leaves others untouch
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- sample_adlb()
+  ADLB <- sample_adlb() # nolint: object_name_linter.
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -74,6 +78,8 @@ test_that("subset marker: modifies matching rows in place, leaves others untouch
 })
 
 test_that("subset marker: drops matching rows, leaves others untouched", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_drop_rows.mustache") |>
     get_component()
 
@@ -81,8 +87,8 @@ test_that("subset marker: drops matching rows, leaves others untouched", {
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- sample_adlb()
-  ADLB$LBTEST[2] <- "Macrocytes"
+  ADLB <- sample_adlb() # nolint: object_name_linter.
+  ADLB$LBTEST[2] <- "Macrocytes" # nolint: object_name_linter.
   rendered$eval(envir = environment())
 
   nrow(ADLB) |>
@@ -93,6 +99,8 @@ test_that("subset marker: drops matching rows, leaves others untouched", {
 })
 
 test_that("subset marker: new column under subset raises the natural rbind error", {
+  skip_if_not_installed("dplyr")
+
   component <- test_path("_components", "subset_new_column.mustache") |>
     get_component()
 
@@ -100,7 +108,7 @@ test_that("subset marker: new column under subset raises the natural rbind error
     domain = ".mighty_subset(ADLB, \"STUDYID == 'S1'\")"
   )
 
-  ADLB <- sample_adlb()[c("USUBJID", "STUDYID")]
+  ADLB <- sample_adlb()[c("USUBJID", "STUDYID")] # nolint: object_name_linter.
 
   rendered$eval(envir = environment()) |>
     expect_error(regexp = "numbers of columns")

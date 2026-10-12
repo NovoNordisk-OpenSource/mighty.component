@@ -2,18 +2,45 @@
 % Please edit documentation in R/mighty_component_rendered.R
 \name{mighty_component_rendered}
 \alias{mighty_component_rendered}
-\title{Rendered mighty component}
+\title{Rendered mighty component class}
 \description{
-Class for a rendered mighty component.
+R6 class for a rendered component, created by
+\link{mighty_component}\verb{$render()} or \code{\link[=get_rendered_component]{get_rendered_component()}}.
 
-Once rendered a component can be used to:
+A rendered component can be:
 \itemize{
-\item Stream into an R script
-\item Evaluate the generated code in an environment
+\item Streamed into an R script with \verb{$stream()}.
+\item Evaluated in an environment with \verb{$eval()}.
 }
+}
+\examples{
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- get_component(path)$render(
+  domain = "adae",
+  variable = "ASTDY",
+  date = "ASTDT"
+)
+x$code
+
+# Write the code to an R script
+script <- tempfile(fileext = ".R")
+x$stream(script)
+readLines(script)
+unlink(script)
+
+\dontshow{if (rlang::is_installed(c("admiral", "dplyr"))) withAutoprint(\{ # examplesIf}
+# Evaluate the code in a new environment
+env <- new.env()
+env$adae <- data.frame(
+  TRTSDT = as.Date("2024-01-01"),
+  ASTDT = as.Date(c("2024-01-01", "2024-01-10"))
+)
+x$eval(envir = env)
+env$adae
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=get_rendered_component]{get_rendered_component()}}
+\code{\link[=get_rendered_component]{get_rendered_component()}}, \link{mighty_component}
 }
 \section{Super class}{
 \code{\link[mighty.component:mighty_component]{mighty_component}} -> \code{mighty_component_rendered}
@@ -38,7 +65,8 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-initialize}{}}}
 \subsection{\code{mighty_component_rendered$new()}}{
-  Create component from rendered template.
+  Create a rendered component from a rendered template. The code is
+validated. See the Validation section in \link{mighty_component}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_rendered$new(template, id)}
@@ -47,8 +75,8 @@ Once rendered a component can be used to:
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{template}}{\code{character} Rendered template such as output from \code{mighty_component$render()}.}
-      \item{\code{id}}{\code{character} ID of the component.}
+      \item{\code{template}}{\code{character} Rendered template, one element per line.}
+      \item{\code{id}}{\code{character(1)} Component ID.}
     }
     \if{html}{\out{</div>}}
   }
@@ -58,7 +86,7 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-print}{}}}
 \subsection{\code{mighty_component_rendered$print()}}{
-  Print rendered component
+  Print the rendered component, including its code.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_rendered$print()}
@@ -73,7 +101,8 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-stream"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-stream}{}}}
 \subsection{\code{mighty_component_rendered$stream()}}{
-  Stream rendered code into a script (appended)
+  Write the code to an R script. The code is appended if the file
+exists.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_rendered$stream(path)}
@@ -82,9 +111,12 @@ Once rendered a component can be used to:
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{path}}{\code{character(1)} path to the R script to stream code into.}
+      \item{\code{path}}{\code{character(1)} Path to the R script.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (\code{invisible}) self
   }
 }
 
@@ -92,7 +124,7 @@ Once rendered a component can be used to:
 \if{html}{\out{<a id="method-mighty_component_rendered-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_rendered-eval}{}}}
 \subsection{\code{mighty_component_rendered$eval()}}{
-  Evaluate code in a specified environment.
+  Evaluate the code.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_rendered$eval(envir = parent.frame())}
@@ -101,10 +133,13 @@ Once rendered a component can be used to:
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{envir}}{Environment to evaluate in. Parsed to \code{eval()}.
-Defaults to using the current environment with \code{parent.frame()}.}
+      \item{\code{envir}}{Environment to evaluate the code in. Defaults to the
+calling environment.}
     }
     \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Value of the last evaluated expression of the code.
   }
 }
 

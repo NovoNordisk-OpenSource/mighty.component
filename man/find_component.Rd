@@ -2,14 +2,13 @@
 % Please edit documentation in R/a_find_component.R
 \name{find_component}
 \alias{find_component}
-\title{Find mighty code component}
+\title{Find a component}
 \usage{
 find_component(component, repos = NULL)
 }
 \arguments{
-\item{component}{\code{character} component name, or path to a component file
-(\code{.R} or \code{.mustache}) when \code{repos} is \code{NULL}. The directory of the path must
-exist.}
+\item{component}{\code{character(1)} Component name. If \code{repos} is \code{NULL}, path
+to a component file.}
 
 \item{repos}{Where to look. One of:
 \itemize{
@@ -27,9 +26,9 @@ A \link{mighty_component} object, or \code{NULL} if no repo contains the
 component.
 }
 \description{
-Look up a component in one or more repos. Unlike \code{\link[=get_component]{get_component()}},
-returns \code{NULL} instead of raising an error when no repo contains the
-component. Each repo directory must exist, otherwise an error is raised.
+Find a component in one or more repos. Returns \code{NULL} if no repo contains
+it, while \code{\link[=get_component]{get_component()}} raises an error. Local repo directories must
+exist, otherwise an error is raised.
 }
 \examples{
 path <- system.file("examples", package = "mighty.component")

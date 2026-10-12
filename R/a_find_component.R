@@ -1,12 +1,11 @@
-#' Find mighty code component
+#' Find a component
 #' @description
-#' Look up a component in one or more repos. Unlike [get_component()],
-#' returns `NULL` instead of raising an error when no repo contains the
-#' component. Each repo directory must exist, otherwise an error is raised.
+#' Find a component in one or more repos. Returns `NULL` if no repo contains
+#' it, while [get_component()] raises an error. Local repo directories must
+#' exist, otherwise an error is raised.
 #'
-#' @param component `character` component name, or path to a component file
-#' (`.R` or `.mustache`) when `repos` is `NULL`. The directory of the path must
-#' exist.
+#' @param component `character(1)` Component name. If `repos` is `NULL`, path
+#' to a component file.
 #' @param repos Where to look. One of:
 #' * `NULL` (default): `component` is a file path.
 #' * `character` vector of repo specs, in priority order. See [mighty_repo()].

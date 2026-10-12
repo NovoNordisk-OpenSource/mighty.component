@@ -1,6 +1,6 @@
 #' List components in repos
 #' @description
-#' List all available mighty components in the given repos. See
+#' List the components in one or more repos. See
 #' [mighty_repo()] for the component layout. Files starting with `test-` are
 #' not listed.
 #'

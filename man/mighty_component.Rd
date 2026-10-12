@@ -2,108 +2,164 @@
 % Please edit documentation in R/mighty_component.R
 \name{mighty_component}
 \alias{mighty_component}
-\title{Mighty component}
+\title{Mighty component class}
 \description{
-Class for a generic mighty component.
+R6 class for a component.
 
-In the mighty framework, a "component" is a code template that processes
-input data and returns a modified version with new columns or rows.
-Mighty components share a common structure and roxygen-like documentation pattern,
-facilitating their use inside mighty.
+A component is a code template. Its code takes an input data set and
+returns a modified version with new or changed columns or rows. Components
+are documented with roxygen-like tags.
+
+Use \code{\link[=get_component]{get_component()}} to create a component from a file or repo.
 }
 \details{
-Templates are \code{character} vectors of R code that are interpreted.
-Dynamic use of variables etc. are supported using the \href{https://mustache.github.io}{mustache}
-framework. Dynamic parameters are specified using \code{{{ variable_name }}}.
-\subsection{Documentation}{
+\subsection{Templates}{
 
-A template is required to be documented with the following tags similar to when
-documenting functions using roxygen2:\tabular{lll}{
-   Tag \tab Description \tab Example \cr
-   \verb{@title} \tab Title of the component \tab \verb{@title My component} \cr
-   \verb{@description} \tab Description of the component \tab \verb{@description text text} \cr
-   \verb{@param} \tab Specifies input used to render the component \tab \verb{@param variable new var} \cr
-   \verb{@type} \tab Specifies type: column, row, parameter, internal \tab \verb{@type column} \cr
-   \verb{@origin} \tab CDISC origin \tab \verb{@origin Derived} \cr
-   \verb{@method} \tab Free-text method description for define.xml \tab \verb{@method LOCF applied} \cr
-   \verb{@depends} \tab Required input variable (repeat if several) \tab \verb{@depends \{\{ domain \}\} USUBJID} \cr
-   \verb{@outputs} \tab Variables created (repeat if several) \tab \verb{@outputs NEWVAR} \cr
-   \verb{@code} \tab Everything under this tag defines the component code \tab \verb{@code} \cr
+A template starts with tags in roxygen comments (\verb{#'}). All lines below the
+\verb{@code} tag are the R code.
+
+Templates use \href{https://mustache.github.io/mustache.5.html}{Mustache}
+placeholders. \verb{$render()} fills them in with \code{whisker::whisker.render()}.
+\itemize{
+\item \code{{{{name}}}} inserts the value of parameter \code{name}. Always use triple
+braces. Double braces (\code{{{name}}}) HTML-escape the value, e.g. \code{a<b}
+becomes \verb{a&lt;b}.
+\item \verb{\{\{#name\}\}...\{\{/name\}\}} repeats the enclosed text for each element of
+the vector \code{name}. Use \code{{{{.}}}} to insert the current element.
+}
 }
 
+\subsection{Tags}{
+
+A tag continues until the next tag. Required tags must appear exactly once.\tabular{llll}{
+   Tag \tab Required \tab Description \tab Example \cr
+   \verb{@title} \tab Yes \tab Title of the component. \tab \verb{@title Double a column} \cr
+   \verb{@description} \tab Yes \tab Description of the component. \tab \verb{@description Creates a new column.} \cr
+   \verb{@param} \tab No \tab Name, then description. One per placeholder. \tab \verb{@param domain `character` Name of the domain} \cr
+   \verb{@type} \tab Yes \tab Component type. See \emph{Types} below. \tab \verb{@type column} \cr
+   \verb{@origin} \tab Yes \tab CDISC origin. See allowed values below. \tab \verb{@origin Derived} \cr
+   \verb{@method} \tab Yes \tab Free-text method description for define.xml. \tab \verb{@method Two times the input column} \cr
+   \verb{@depends} \tab No \tab Input domain, then column. Repeat for each. \tab \verb{@depends \{\{\{domain\}\}\} USUBJID} \cr
+   \verb{@outputs} \tab No \tab Column created. Repeat for each. \tab \verb{@outputs \{\{\{output\}\}\}} \cr
+   \verb{@code} \tab Yes \tab Last tag. All lines below are the code. \tab \verb{@code} \cr
+}
+
+
+\verb{@origin} must be one of
+\code{Assigned}, \code{Collected}, \code{Derived}, \verb{Not Available}, \code{Other}, \code{Predecessor}, \code{Protocol}.
+
+\verb{@depends} is split at the first space into domain and column. Do not use
+spaces inside its placeholders, e.g. use \code{{{{domain}}}}, not
+\code{{{{ domain }}}}.
+}
+
+\subsection{Types}{
+\itemize{
+\item \code{column}: Adds or modifies columns. The row count is unchanged.
+\item \code{row}: Adds, removes or modifies rows.
+\item \code{parameter}: Derives a new \code{PARAMCD} (BDS parameter).
+\item \code{internal}: Helper step with no define.xml output.
+}
 }
 
 \subsection{Conventions}{
-
-A component template follows these conventions:
 \enumerate{
-\item The input data set is always called \code{{{ domain }}}.
-\item Additional parameters used to render the template into R code are documented with the \verb{@param} tag.
-\item The template ends with creating a modified version of \code{{{ domain }}}.
-\item Template documented with the roxygen-like tags above
+\item The input data set is \code{{{{domain}}}}.
+\item The code assigns the result back to \code{{{{domain}}}}.
+\item Every placeholder is declared with \verb{@param}.
+\item Functions are called with explicit namespaces, e.g. \code{dplyr::mutate()}.
+\item Joins specify \code{by}. This is enforced when rendering.
 }
+}
+
+\subsection{Validation}{
+
+When a component is rendered, the code is parsed and must be valid R.
+Joins from dplyr, tidylog and dbplyr without a \code{by} argument raise an
+error. Column existence is not checked.
 }
 
 \subsection{Example}{
 
-Below is an example of a mighty component template that
-creates a new dynamic variable \code{variable} as twice the value
-of the dynamic input \code{x}, that should already by in the input data set \code{{{ domain }}}.
+This template creates a new column \code{output} as two times the existing
+column \code{input}:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @title Title for my component
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{#' @title Double a column
 #' @description
-#' A more in depth description of what is being done
+#' Creates a new column as two times an existing column.
 #'
-#' @param variable dynamic output if applicable
-#' @param x some other input to the component
+#' @param domain `character` Name of the domain
+#' @param output `character` Name of the new column
+#' @param input `character` Name of the existing column
 #' @type column
 #' @origin Derived
-#' @depends \{\{ domain \}\} \{\{ x \}\}
-#' @outputs \{\{ variable \}\}
+#' @method Two times the input column
+#' @depends \{\{\{domain\}\}\} \{\{\{input\}\}\}
+#' @outputs \{\{\{output\}\}\}
 #' @code
-\{\{ domain \}\} <- \{\{ domain \}\} |>
+\{\{\{domain\}\}\} <- \{\{\{domain\}\}\} |>
   dplyr::mutate(
-    \{\{ variable \}\} = 2 * \{\{ x \}\}
+    \{\{\{output\}\}\} = 2 * \{\{\{input\}\}\}
   )
 }\if{html}{\out{</div>}}
 
-When rendered with parameters \code{variable = "A"} and \code{x = "B"}
-the rendered code used in mighty becomes:
+Rendered with \code{domain = "ADSL"}, \code{output = "A"} and \code{input = "B"}, the
+code (\verb{$code}) is:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{\{\{ domain \}\} <- \{\{ domain \}\} |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ADSL <- ADSL |>
   dplyr::mutate(
     A = 2 * B
   )
 }\if{html}{\out{</div>}}
+
+The tags are rendered too, e.g. \verb{$depends} has domain \code{ADSL} and
+column \code{B}.
 }
+}
+\examples{
+path <- system.file("examples", "ady.mustache", package = "mighty.component")
+x <- mighty_component$new(template = readLines(path), id = "ady")
+x
+
+x$params
+x$depends
+
+x$render(domain = "ADAE", variable = "ASTDY", date = "ASTDT")
+
+\dontshow{if (rlang::is_installed("knitr")) withAutoprint(\{ # examplesIf}
+x$document()
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered}
+\code{\link[=get_component]{get_component()}}, \link{mighty_component_rendered},
+\code{vignette("mighty-component")}
 }
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{id}}{Component name (file name without extension).}
+    \item{\code{id}}{\code{character(1)} Component name without file extension.}
 
-    \item{\code{title}}{Title for the component.}
+    \item{\code{title}}{\code{character(1)} Title of the component.}
 
-    \item{\code{description}}{Description of the component.}
+    \item{\code{description}}{\code{character(1)} Description of the component.}
 
-    \item{\code{code}}{The code block of the component.}
+    \item{\code{code}}{\code{character} Lines below \verb{@code}.}
 
-    \item{\code{template}}{The complete template.}
+    \item{\code{template}}{\code{character} Full template.}
 
-    \item{\code{type}}{The type of the component. Can be one of column, row, parameter, internal.}
+    \item{\code{type}}{\code{character(1)} Component type. One of
+\code{column}, \code{row}, \code{parameter}, \code{internal}.}
 
-    \item{\code{origin}}{CDISC origin. One of Assigned, Collected, Derived, Not Available, Other, Predecessor, Protocol.}
+    \item{\code{origin}}{\code{character(1)} CDISC origin. One of
+\code{Assigned}, \code{Collected}, \code{Derived}, \verb{Not Available}, \code{Other}, \code{Predecessor}, \code{Protocol}.}
 
-    \item{\code{method}}{Free-text method description for define.xml.}
+    \item{\code{method}}{\code{character(1)} Method description for define.xml.}
 
-    \item{\code{depends}}{Data.frame listing all the components dependencies.}
+    \item{\code{depends}}{\code{data.frame} with columns \code{domain} and \code{column}.}
 
-    \item{\code{outputs}}{List of the new columns created by the component.}
+    \item{\code{outputs}}{\code{character} Columns created by the component.}
 
-    \item{\code{params}}{Data.frame listing parameters that need to be supplied when rendering the component.}
+    \item{\code{params}}{\code{data.frame} with columns \code{name} and \code{description}.}
   }
   \if{html}{\out{</div>}}
 }
@@ -121,7 +177,7 @@ the rendered code used in mighty becomes:
 \if{html}{\out{<a id="method-mighty_component-initialize"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-initialize}{}}}
 \subsection{\code{mighty_component$new()}}{
-  Create component from template.
+  Create a component from a template.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component$new(template, id)}
@@ -130,8 +186,9 @@ the rendered code used in mighty becomes:
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{template}}{\code{character} template code. See details for how to format.}
-      \item{\code{id}}{\code{character} ID of the component.}
+      \item{\code{template}}{\code{character} Template, one element per line. See
+Details.}
+      \item{\code{id}}{\code{character(1)} Component ID.}
     }
     \if{html}{\out{</div>}}
   }
@@ -141,7 +198,7 @@ the rendered code used in mighty becomes:
 \if{html}{\out{<a id="method-mighty_component-print"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-print}{}}}
 \subsection{\code{mighty_component$print()}}{
-  Print method displaying the component information.
+  Print the component.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component$print()}
@@ -156,8 +213,7 @@ the rendered code used in mighty becomes:
 \if{html}{\out{<a id="method-mighty_component-render"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-render}{}}}
 \subsection{\code{mighty_component$render()}}{
-  Render component with supplied values.
-Supports mustache templates and uses \code{whisker::whisker.render()}.
+  Render the component with \code{\link[whisker:whisker.render]{whisker::whisker.render()}}.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component$render(...)}
@@ -166,8 +222,16 @@ Supports mustache templates and uses \code{whisker::whisker.render()}.
   \subsection{Arguments}{
     \if{html}{\out{<div class="arguments">}}
     \describe{
-      \item{\code{...}}{Parameters used to render the template.
-Must be named, and depends on the template.}
+      \item{\code{...}}{Named parameters used to render the template. Supply one
+for each \verb{@param} tag and no others.
+
+For \verb{@type row} components, \code{domain} can be a subset marker:
+\code{".mighty_subset(<domain>, '<subset>')"}, where \verb{<subset>} is an R
+expression in a string, e.g.
+\verb{domain = ".mighty_subset(ADLB, 'PARAMCD == \\"ALB\\"')"}. The code then
+only processes the rows where \verb{<subset>} is \code{TRUE}. Other rows are kept
+unchanged. The marker is not allowed for other
+parameters or types.}
     }
     \if{html}{\out{</div>}}
   }
@@ -180,7 +244,7 @@ Must be named, and depends on the template.}
 \if{html}{\out{<a id="method-mighty_component-document"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component-document}{}}}
 \subsection{\code{mighty_component$document()}}{
-  Create standard documentation in markdown format.
+  Create documentation in markdown format.
 Requires the knitr package.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}

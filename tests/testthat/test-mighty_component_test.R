@@ -1,4 +1,11 @@
+skip_if_not_installed("callr")
+skip_if_not_installed("covr")
+
 test_that("general testing workflow", {
+  skip_if_not_installed("admiral")
+  skip_if_not_installed("dplyr")
+  skip_if_not_installed("pharmaverseadam")
+
   x <- get_test_component(
     component = test_path("_components", "ady_local.mustache"),
     params = list(domain = "adlb", variable = "ADY2", date = "ADT")
