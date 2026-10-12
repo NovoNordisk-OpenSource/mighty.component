@@ -13,7 +13,7 @@ Description: Reusable code templates ('components') for the 'mighty'
     URLs, rendered with study-specific parameters, validated,
     evaluated, and unit tested with code coverage.
 License: Apache License (>= 2)
-URL: https://novonordisk-opensource.github.io/mighty.component,
+URL: https://novonordisk-opensource.github.io/mighty.component/,
     https://github.com/NovoNordisk-OpenSource/mighty.component
 BugReports: https://github.com/NovoNordisk-OpenSource/mighty.component/issues
 Depends: 
