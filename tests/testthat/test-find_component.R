@@ -7,7 +7,7 @@ test_that("find_component with NULL repos finds component from file path", {
   )
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
 })
 
 test_that("find_component with NULL repos returns NULL for missing file", {
@@ -21,20 +21,20 @@ test_that("find_component with missing repos uses component as path", {
   withr::local_dir(new = local_component_repo(files = "ady.R"))
 
   find_component("ady")$id |>
-    expect_equal("ady.R")
+    expect_equal("ady")
 
   find_component(component = "ady")$id |>
-    expect_equal("ady.R")
+    expect_equal("ady")
 })
 
 test_that("find_component accepts single repo spec", {
   path <- local_component_repo(files = "ady.R")
 
   find_component(component = "ady", repos = path)$id |>
-    expect_equal("ady.R")
+    expect_equal("ady")
 
   find_component(component = "ady", repos = paste0("local::", path))$id |>
-    expect_equal("ady.R")
+    expect_equal("ady")
 })
 
 test_that("find_component returns NULL when not found in any repo", {
@@ -53,7 +53,7 @@ test_that("find_component accepts list of repo objects and specs", {
     component = "ady",
     repos = list(mighty_repo_local(path = path1), path2)
   )$id |>
-    expect_equal("ady.mustache")
+    expect_equal("ady")
 })
 
 test_that("find_component finds component in github spec in list", {
@@ -66,7 +66,7 @@ test_that("find_component finds component in github spec in list", {
     component = "ady",
     repos = list(path, "github::owner/repo")
   )$id |>
-    expect_equal("ady.mustache")
+    expect_equal("ady")
 })
 
 test_that("find_component resolves github spec once across calls", {

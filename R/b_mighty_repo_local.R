@@ -67,7 +67,10 @@ new_component <- function(template, file) {
     check_custom_r(code = template)
   }
 
-  mighty_component$new(template = template, id = basename(file))
+  mighty_component$new(
+    template = template,
+    id = tools::file_path_sans_ext(basename(file))
+  )
 }
 
 #' @noRd

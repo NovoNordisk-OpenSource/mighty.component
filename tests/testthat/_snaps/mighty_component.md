@@ -77,7 +77,7 @@
         "test_component.mustache")))), "mighty_component")
     Message
       <mighty_component/R6>
-      test_component.mustache: My test component
+      test_component: My test component
       Type: column
       Parameters:
       * domain: `character` Name of new domain being created
@@ -104,7 +104,7 @@
       eval_method(get_component(test_path("_components", "test_component.mustache")),
       "document")
     Output
-      ## test_component.mustache: My test component
+      ## test_component: My test component
       *type: column*
       *origin: Derived*
       *method: Some method text*

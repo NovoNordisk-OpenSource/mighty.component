@@ -93,7 +93,7 @@ test_that("find_component finds flat .mustache component", {
   )
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
   expect_equal(component$template, url_fixture(ext = "mustache"))
   expect_equal(
     calls$urls,
@@ -109,7 +109,7 @@ test_that("find_component finds flat .R component", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.R")
+  expect_equal(component$id, "ady")
   expect_equal(component$template, url_fixture(ext = "R"))
   expect_equal(
     calls$urls,
@@ -130,7 +130,7 @@ test_that("find_component finds nested component", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.R")
+  expect_equal(component$id, "ady")
   expect_equal(
     calls$urls,
     paste0(url_base, c("/ady/ady.mustache", "/ady.mustache", "/ady/ady.R"))
@@ -150,7 +150,7 @@ test_that("find_component prefers nested .mustache over top-level", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
   expect_equal(calls$urls, paste0(url_base, "/ady/ady.mustache"))
 })
 
@@ -164,7 +164,7 @@ test_that("find_component finds nested component with a dotted name", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "foo.bar.R")
+  expect_equal(component$id, "foo.bar")
   expect_equal(
     calls$urls,
     paste0(
@@ -184,7 +184,7 @@ test_that("find_component with extension only requests that file", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.mustache")
+  expect_equal(component$id, "ady")
   expect_equal(calls$urls, paste0(url_base, "/ady/ady.mustache"))
 })
 
@@ -202,7 +202,7 @@ test_that("find_component falls through 404 and 410", {
     repos = mighty_repo_url(url = url_base)
   )
 
-  expect_equal(component$id, "ady.R")
+  expect_equal(component$id, "ady")
   expect_length(calls$urls, 3)
 })
 
@@ -330,7 +330,7 @@ test_that("mighty_repos falls through url repo to local repo", {
     repos = list(mighty_repo_url(url = url_base), path)
   )
 
-  expect_equal(component$id, "ady.R")
+  expect_equal(component$id, "ady")
   expect_length(calls$urls, 4)
 })
 
@@ -450,8 +450,8 @@ test_that("list_components lists url repo components", {
   components <- list_components(repos = repo, as = "list")
 
   expect_length(components, 2)
-  expect_equal(components[[1]]$id, "ady.mustache")
-  expect_equal(components[[2]]$id, "nested.mustache")
+  expect_equal(components[[1]]$id, "ady")
+  expect_equal(components[[2]]$id, "nested")
 })
 
 test_that("list_components round-trips percent-encoded names", {
@@ -477,7 +477,7 @@ test_that("list_components round-trips percent-encoded names", {
 
   expect_equal(
     vapply(X = components, FUN = \(x) x$id, FUN.VALUE = character(1)),
-    c("my comp.R", "100%.mustache", "my dir.mustache")
+    c("my comp", "100%", "my dir")
   )
   expect_true(
     all(
@@ -516,5 +516,5 @@ test_that("find_component finds a live URL component", {
   )
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "dummy.mustache")
+  expect_equal(component$id, "dummy")
 })

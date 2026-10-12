@@ -28,7 +28,7 @@ test_that("list_components as list returns component metadata", {
 
   expect_type(result, "list")
   expect_length(result, 1)
-  expect_equal(result[[1]]$id, "ady.mustache")
+  expect_equal(result[[1]]$id, "ady")
   expect_true(all(
     c("title", "type", "origin", "method") %in% names(result[[1]])
   ))
@@ -62,7 +62,7 @@ test_that("list_components as list takes first match across repos", {
   result <- list_components(repos = c(p1, p2), as = "list")
 
   expect_length(result, 1)
-  expect_equal(result[[1]]$id, "ady.R")
+  expect_equal(result[[1]]$id, "ady")
 })
 
 test_that("list_components as list accepts mighty_repos", {
@@ -76,7 +76,7 @@ test_that("list_components as list accepts mighty_repos", {
   result <- list_components(repos = repos, as = "list")
 
   vapply(X = result, FUN = \(x) x$id, FUN.VALUE = character(1)) |>
-    expect_equal(c("ady.R", "adt.mustache"))
+    expect_equal(c("ady", "adt"))
 })
 
 test_that("list_components returns empty list and tibble for empty repo", {
