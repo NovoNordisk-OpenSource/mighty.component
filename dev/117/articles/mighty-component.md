@@ -518,7 +518,7 @@ This component fails validation:
 #' @origin Derived
 #' @method Implicit join on other_data
 #' @depends {{{domain}}} USUBJID
-#' @outputs NEWCOL
+#' @outputs MYCOL
 #' @code
 {{{domain}}} <- {{{domain}}} |>
   dplyr::left_join(other_data)
@@ -547,7 +547,7 @@ Specify the join key with `by` to fix it:
 #' @origin Derived
 #' @method Explicit join on other_data by USUBJID
 #' @depends {{{domain}}} USUBJID
-#' @outputs NEWCOL
+#' @outputs MYCOL
 #' @code
 {{{domain}}} <- {{{domain}}} |>
   dplyr::left_join(other_data, by = dplyr::join_by(USUBJID))
