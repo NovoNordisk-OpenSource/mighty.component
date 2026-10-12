@@ -1,0 +1,58 @@
+# Changelog
+
+## mighty.component 0.2.0
+
+- Initial CRAN release.
+- Breaking: `component$id` and the `id` from
+  [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
+  are now the component name without file extension, e.g. `"ady"`
+  instead of `"ady.mustache"`
+  ([\#118](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/118)).
+- Component repos are S7 classes:
+  [`mighty_repo()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo.md),
+  [`mighty_repo_local()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_local.md),
+  [`mighty_repo_github()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_github.md)
+  and
+  [`mighty_repos()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repos.md).
+  GitHub repos use the `github::` prefix
+  ([\#108](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/108)).
+- [`find_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/find_component.md)
+  is exported, and
+  [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
+  works with all repo types
+  ([\#103](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/103)).
+- Components can be retrieved from URLs with
+  [`mighty_repo_url()`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_repo_url.md)
+  (`url::` prefix), with a time limit per request (`timeout` option)
+  ([\#104](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/104)).
+- GitHub repos are cached per commit, and transient API errors are
+  retried (`max_tries` option)
+  ([\#93](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/93),
+  [\#95](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/95)).
+- GitHub repos no longer leave extraction directories in the temporary
+  directory, also when extraction fails
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
+- `@origin` is now a required tag on component headers
+  ([\#107](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107)).
+- New required `@method` tag on component headers, exposed as
+  `component$method`
+  ([\#107](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/107)).
+- `@type row` components accept `".mighty_subset(<domain>, '<subset>')"`
+  as `domain` to process only matching rows; other rows are unchanged
+  ([\#101](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/101)).
+- `component$document()` checks that knitr is installed, and prints with
+  cli so the output can be suppressed
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
+- `mighty_component_test` gains `$close()` to close the test session.
+  The session is also closed when the object is garbage collected
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
+- `component$stream()` closes the file connection when writing fails
+  ([\#119](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/119)).
+- Documentation is revised, and
+  [`?mighty_component`](https://novonordisk-opensource.github.io/mighty.component/reference/mighty_component.md)
+  and the vignette share one template reference
+  ([\#117](https://github.com/NovoNordisk-OpenSource/mighty.component/issues/117)).
+
+## mighty.component 0.1.0
+
+- Initial GitHub release.
