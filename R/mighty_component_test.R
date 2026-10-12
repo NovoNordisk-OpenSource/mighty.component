@@ -162,7 +162,7 @@ mst_close <- function(self, private) {
 
 #' @noRd
 mst_is_closed <- function(private) {
-  is.null(private$.session) || private$.session$get_state() == "finished"
+  private$.session$get_state() == "finished"
 }
 
 #' @noRd
