@@ -3,6 +3,7 @@ test_that("general testing workflow", {
     component = test_path("_components", "ady_local.mustache"),
     params = list(domain = "adlb", variable = "ADY2", date = "ADT")
   )
+  withr::defer(x$close())
 
   x$assign("adlb", head(pharmaverseadam::adlb, 5)) |>
     expect_invisible()
@@ -49,6 +50,7 @@ test_that("printing and test percentage updates", {
     params = list(value = 5),
     check_coverage = FALSE
   )
+  withr::defer(x$close())
 
   x$percent_coverage |>
     expect_equal(0)
@@ -90,6 +92,7 @@ test_that(".test_fn is protected", {
     params = list(domain = "adlb", variable = "ADY2", date = "ADT"),
     check_coverage = FALSE
   )
+  withr::defer(x$close())
 
   x$assign(".test_fn", 2) |>
     expect_error("locked binding")
@@ -97,33 +100,99 @@ test_that(".test_fn is protected", {
 
 test_that("Error with no test code coverage", {
   local({
-    get_test_component(
+    x <- get_test_component(
       component = test_path("_components", "test_component.mustache"),
       params = list(domain = "a", x1 = 1, x2 = 3)
     )
+    withr::defer(x$close())
   }) |>
     expect_error("All lines in component must be covered by unit tests")
 })
 
 test_that("Session closed on finalize", {
-  skip_on_os(os = "windows")
-
   x <- get_test_component(
     component = test_path("_components", "test_component.mustache"),
     params = list(domain = "a", x1 = 1, x2 = 3),
     check_coverage = FALSE
   )
 
-  pid <- x[[".__enclos_env__"]][["private"]][[".session"]]$get_pid()
+  session <- x[[".__enclos_env__"]][["private"]][[".session"]]
 
-  pid |>
-    process_is_alive() |>
+  session$is_alive() |>
     expect_true()
 
   rm(x)
   gc() # Garbage collection enforced finalize on deleted objects
 
-  pid |>
-    process_is_alive() |>
+  session$is_alive() |>
     expect_false()
+})
+
+test_that("close() closes the session", {
+  x <- get_test_component(
+    component = test_path("_components", "test_coverage.mustache"),
+    params = list(value = 5),
+    check_coverage = FALSE
+  )
+
+  session <- x[[".__enclos_env__"]][["private"]][[".session"]]
+
+  session$is_alive() |>
+    expect_true()
+
+  x$close() |>
+    expect_invisible() |>
+    expect_identical(x)
+
+  session$is_alive() |>
+    expect_false()
+
+  x$close() |>
+    expect_no_error()
+
+  print(x) |>
+    expect_snapshot()
+
+  x$eval() |>
+    expect_error("The test session is closed")
+  x$assign("limit", 10) |>
+    expect_error("The test session is closed")
+  x$get("x") |>
+    expect_error("The test session is closed")
+  x$ls() |>
+    expect_error("The test session is closed")
+  expect_snapshot(x$ls(), error = TRUE)
+})
+
+test_that("coverage can be checked after close()", {
+  x <- get_test_component(
+    component = test_path("_components", "test_coverage.mustache"),
+    params = list(value = 5),
+    check_coverage = FALSE
+  )
+
+  x$assign("limit", 10)$eval()$assign("limit", 3)$eval()$close()
+
+  x$percent_coverage |>
+    expect_equal(100)
+
+  x$check_coverage() |>
+    expect_no_error()
+})
+
+test_that("finalize after close() does not error", {
+  x <- get_test_component(
+    component = test_path("_components", "test_component.mustache"),
+    params = list(domain = "a", x1 = 1, x2 = 3),
+    check_coverage = FALSE
+  )
+
+  x$close()
+
+  x[[".__enclos_env__"]][["private"]]$finalize() |>
+    expect_no_error()
+
+  rm(x)
+  gc() |>
+    expect_no_error()
 })

@@ -209,6 +209,25 @@ test_that("mighty_repo_github errors when tarball has no top-level dir", {
     expect_error("empty directory")
 })
 
+temp_repo_files <- function() {
+  list.files(path = tempdir(), pattern = "^mighty_(repo|extract)_|\\.tar\\.gz$")
+}
+
+test_that("mighty_repo_github leaves only the cached repo on disk", {
+  tarball <- local_github_tarball(files = repo_files)
+  local_mock_gh_tarball(tarball = tarball)
+  before <- temp_repo_files()
+
+  repo <- mighty_repo_github(spec = "owner/repo")
+
+  expect_equal(setdiff(temp_repo_files(), before), basename(repo@path))
+  expect_equal(normalizePath(dirname(repo@path)), normalizePath(tempdir()))
+  expect_true(file.exists(file.path(repo@path, "flat_comp.R")))
+
+  clear_repo_cache()
+  expect_setequal(temp_repo_files(), before)
+})
+
 gh_http_error <- function(status) {
   rlang::abort(
     message = paste0("GitHub API error (", status, ")"),

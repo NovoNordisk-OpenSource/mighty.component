@@ -55,9 +55,6 @@ test_that("mighty_component", {
       )
     )
 
-  test_component$document() |>
-    expect_snapshot()
-
   test_component_rendered <- test_component$render(
     domain = "domain",
     x1 = 1,
@@ -289,8 +286,30 @@ test_that("render", {
 })
 
 test_that("document", {
-  test_path("_components", "test_component.mustache") |>
-    get_component() |>
-    eval_method("document") |>
-    expect_snapshot()
+  skip_if_not_installed("knitr")
+  withr::local_options(mighty.component.verbosity_level = "verbose")
+
+  test_component <- test_path("_components", "test_component.mustache") |>
+    get_component()
+
+  expect_snapshot(test_component$document())
+
+  docs <- test_component$document() |>
+    suppressMessages() |>
+    expect_invisible()
+
+  docs |>
+    expect_type("character") |>
+    expect_length(1)
+
+  test_component$document() |>
+    suppressMessages() |>
+    expect_silent()
+
+  withr::with_options(
+    new = list(mighty.component.verbosity_level = "quiet"),
+    code = test_component$document()
+  ) |>
+    expect_silent() |>
+    expect_equal(docs)
 })

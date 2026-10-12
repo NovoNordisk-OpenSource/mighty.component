@@ -19,44 +19,6 @@
 ---
 
     Code
-      test_component$document()
-    Output
-      ## test: My test component
-      *type: column*
-      *origin: Derived*
-      *method: Some method text*
-      
-      This is a test component used for unit testing
-      
-      ### Parameters
-      
-      |name   |description                                  |
-      |:------|:--------------------------------------------|
-      |domain |`character` Name of new domain being created |
-      |x1     |First input                                  |
-      |x2     |Second input                                 |
-      
-      ### Depends
-      
-      |domain       |column |
-      |:------------|:------|
-      |{{{domain}}} |A      |
-      |Y            |B      |
-      
-      ### Outputs
-      
-      * NEWVAR
-      
-      ### Code
-      
-      ```r
-      {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
-      ``` 
-      
-
----
-
-    Code
       test_component_rendered
     Message
       <mighty_component_rendered/mighty_component/R6>
@@ -101,9 +63,8 @@
 # document
 
     Code
-      eval_method(get_component(test_path("_components", "test_component.mustache")),
-      "document")
-    Output
+      test_component$document()
+    Message
       ## test_component: My test component
       *type: column*
       *origin: Derived*
@@ -134,6 +95,5 @@
       
       ```r
       {{{domain}}}$NEWVAR <- {{{x1}}} * Y$B + {{{domain}}}$A - {{{x2}}}
-      ``` 
-      
+      ```
 
