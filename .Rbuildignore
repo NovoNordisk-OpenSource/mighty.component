@@ -12,3 +12,4 @@
 ^\.claude$
 ^\.superpowers$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
