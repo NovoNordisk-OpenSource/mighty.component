@@ -1,35 +1,42 @@
 # Test mighty component class
 
 R6 class for unit testing a component with code coverage tracking. The
-code runs in a separate R session, and the lines executed are counted.
+code runs in a separate R process (the test session), and the lines
+executed are counted.
 
 ## Details
 
-Use
+### Test session
+
 [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
-to create a test component. The workflow is:
+starts a new R process with 'callr', the test session. Input data, the
+component code and its results all live in the global environment of the
+test session. Your own R session and its global environment are never
+modified.
+
+The test session is closed with `$close()`, or when the object is
+garbage collected. After that, `$assign()`, `$get()`, `$ls()` and
+`$eval()` raise an error.
+
+### Workflow
 
 1.  Create the test component with
     [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md).
 
-2.  Assign input data with `$assign()`.
+2.  Assign input data in the test session with `$assign()`.
 
-3.  Run the code and update coverage with `$eval()`.
+3.  Run the code in the test session and update coverage with `$eval()`.
 
-4.  Retrieve results with `$get()`.
+4.  Retrieve results from the test session with `$get()`.
 
 5.  Test the results with testthat `expect_*()` functions.
 
-6.  Close the session with `$close()`.
+6.  Close the test session with `$close()`.
 
 By default,
 [`get_test_component()`](https://novonordisk-opensource.github.io/mighty.component/reference/get_test_component.md)
 checks coverage with `$check_coverage()` when the test ends. Coverage is
-kept in the current R session, so it can still be checked after
-`$close()`.
-
-The code runs inside a function, with `<-` replaced by `<<-`, so
-assignments are made in the session's global environment.
+kept in your R session, so it can still be checked after `$close()`.
 
 ## See also
 
@@ -120,7 +127,8 @@ Print the test component with its code coverage.
 
 ### `mighty_component_test$assign()`
 
-Assign a variable in the test session.
+Assign a variable in the global environment of the test session. Your R
+session is not modified.
 
 #### Usage
 
@@ -134,7 +142,7 @@ Assign a variable in the test session.
 
 - `value`:
 
-  Value to assign.
+  Value to assign. It is copied to the test session.
 
 #### Returns
 
@@ -144,7 +152,7 @@ Assign a variable in the test session.
 
 ### `mighty_component_test$get()`
 
-Get a variable from the test session.
+Get a variable from the global environment of the test session.
 
 #### Usage
 
@@ -158,13 +166,13 @@ Get a variable from the test session.
 
 #### Returns
 
-Value of the variable.
+A copy of the variable's value.
 
 ------------------------------------------------------------------------
 
 ### `mighty_component_test$ls()`
 
-List the variables in the test session.
+List the variables in the global environment of the test session.
 
 #### Usage
 
@@ -178,7 +186,8 @@ List the variables in the test session.
 
 ### `mighty_component_test$eval()`
 
-Run the code in the test session and update the coverage.
+Run the code in the global environment of the test session and update
+the coverage.
 
 #### Usage
 
