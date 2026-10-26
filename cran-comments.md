@@ -1,3 +1,16 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Removed the single quotes around 'components' in the Description field.
+  Only package, software and API names are now quoted.
+* Writing to the user's filespace: no function writes by default. The only
+  function that writes files, `mighty_component_rendered$stream(path)`, has
+  no default `path`, so the user must always supply the file. Examples, the
+  vignette and tests only write to `tempdir()`. R CMD check with
+  `_R_CHECK_THINGS_IN_CHECK_DIR_` and `_R_CHECK_THINGS_IN_TEMP_DIR_` set
+  reports no leftover files.
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
