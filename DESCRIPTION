@@ -6,7 +6,7 @@ Authors@R: c(
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Reusable code templates ('components') for the 'mighty'
+Description: Reusable code templates (components) for the 'mighty'
     framework, used to generate Analysis Data Model (ADaM) programs.
     Components are 'Mustache' templates documented with 'roxygen2'-like
     tags. They can be retrieved from local directories, 'GitHub' or
