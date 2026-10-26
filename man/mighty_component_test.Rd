@@ -5,25 +5,36 @@
 \title{Test mighty component class}
 \description{
 R6 class for unit testing a component with code coverage tracking.
-The code runs in a separate R session, and the lines executed are counted.
+The code runs in a separate R process (the test session), and the lines
+executed are counted.
 }
 \details{
-Use \code{\link[=get_test_component]{get_test_component()}} to create a test component. The workflow is:
-\enumerate{
-\item Create the test component with \code{get_test_component()}.
-\item Assign input data with \verb{$assign()}.
-\item Run the code and update coverage with \verb{$eval()}.
-\item Retrieve results with \verb{$get()}.
-\item Test the results with testthat \verb{expect_*()} functions.
-\item Close the session with \verb{$close()}.
+\subsection{Test session}{
+
+\code{\link[=get_test_component]{get_test_component()}} starts a new R process with 'callr', the test
+session. Input data, the component code and its results all live in the
+global environment of the test session. Your own R session and its global
+environment are never modified.
+
+The test session is closed with \verb{$close()}, or when the object is garbage
+collected. After that, \verb{$assign()}, \verb{$get()}, \verb{$ls()} and \verb{$eval()} raise
+an error.
 }
 
-By default, \code{get_test_component()} checks coverage with
-\verb{$check_coverage()} when the test ends. Coverage is kept in the current
-R session, so it can still be checked after \verb{$close()}.
+\subsection{Workflow}{
+\enumerate{
+\item Create the test component with \code{\link[=get_test_component]{get_test_component()}}.
+\item Assign input data in the test session with \verb{$assign()}.
+\item Run the code in the test session and update coverage with \verb{$eval()}.
+\item Retrieve results from the test session with \verb{$get()}.
+\item Test the results with testthat \verb{expect_*()} functions.
+\item Close the test session with \verb{$close()}.
+}
 
-The code runs inside a function, with \verb{<-} replaced by \verb{<<-}, so
-assignments are made in the session's global environment.
+By default, \code{\link[=get_test_component]{get_test_component()}} checks coverage with
+\verb{$check_coverage()} when the test ends. Coverage is kept in your R
+session, so it can still be checked after \verb{$close()}.
+}
 }
 \examples{
 \dontshow{if (rlang::is_installed(c("admiral", "callr", "covr", "dplyr"))) withAutoprint(\{ # examplesIf}
@@ -125,7 +136,8 @@ session. Requires the callr and covr packages.
 \if{html}{\out{<a id="method-mighty_component_test-assign"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-assign}{}}}
 \subsection{\code{mighty_component_test$assign()}}{
-  Assign a variable in the test session.
+  Assign a variable in the global environment of the test session.
+Your R session is not modified.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$assign(x, value)}
@@ -135,7 +147,7 @@ session. Requires the callr and covr packages.
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{x}}{\code{character(1)} Variable name.}
-      \item{\code{value}}{Value to assign.}
+      \item{\code{value}}{Value to assign. It is copied to the test session.}
     }
     \if{html}{\out{</div>}}
   }
@@ -148,7 +160,7 @@ session. Requires the callr and covr packages.
 \if{html}{\out{<a id="method-mighty_component_test-get"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-get}{}}}
 \subsection{\code{mighty_component_test$get()}}{
-  Get a variable from the test session.
+  Get a variable from the global environment of the test session.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$get(x)}
@@ -162,7 +174,7 @@ session. Requires the callr and covr packages.
     \if{html}{\out{</div>}}
   }
   \subsection{Returns}{
-    Value of the variable.
+    A copy of the variable's value.
   }
 }
 
@@ -170,7 +182,7 @@ session. Requires the callr and covr packages.
 \if{html}{\out{<a id="method-mighty_component_test-ls"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-ls}{}}}
 \subsection{\code{mighty_component_test$ls()}}{
-  List the variables in the test session.
+  List the variables in the global environment of the test session.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$ls()}
@@ -185,7 +197,8 @@ session. Requires the callr and covr packages.
 \if{html}{\out{<a id="method-mighty_component_test-eval"></a>}}
 \if{latex}{\out{\hypertarget{method-mighty_component_test-eval}{}}}
 \subsection{\code{mighty_component_test$eval()}}{
-  Run the code in the test session and update the coverage.
+  Run the code in the global environment of the test session and update
+the coverage.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{mighty_component_test$eval()}
