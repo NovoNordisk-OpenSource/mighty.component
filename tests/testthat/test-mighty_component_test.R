@@ -93,16 +93,16 @@ test_that("printing and test percentage updates", {
     )
 })
 
-test_that(".test_fn is protected", {
+test_that("assigning .test_fn does not affect evaluation", {
   x <- get_test_component(
-    component = test_path("_components", "ady_local.mustache"),
-    params = list(domain = "adlb", variable = "ADY2", date = "ADT"),
+    component = test_path("_components", "test_coverage.mustache"),
+    params = list(value = 5),
     check_coverage = FALSE
   )
   withr::defer(x$close())
 
-  x$assign(".test_fn", 2) |>
-    expect_error("locked binding")
+  x$assign(".test_fn", 2)$assign("limit", 3)$eval()$get("x") |>
+    expect_equal(3)
 })
 
 test_that("Error with no test code coverage", {

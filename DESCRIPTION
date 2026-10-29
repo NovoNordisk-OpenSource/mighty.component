@@ -1,19 +1,19 @@
 Package: mighty.component
 Title: Mighty Components for ADaM Generation
-Version: 0.1.0.9009
+Version: 0.1.0.9010
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Reusable code templates ('components') for the 'mighty'
+Description: Reusable code templates (components) for the 'mighty'
     framework, used to generate Analysis Data Model (ADaM) programs.
     Components are 'Mustache' templates documented with 'roxygen2'-like
     tags. They can be retrieved from local directories, 'GitHub' or
     URLs, rendered with study-specific parameters, validated,
     evaluated, and unit tested with code coverage.
 License: Apache License (>= 2)
-URL: https://novonordisk-opensource.github.io/mighty.component,
+URL: https://novonordisk-opensource.github.io/mighty.component/,
     https://github.com/NovoNordisk-OpenSource/mighty.component
 BugReports: https://github.com/NovoNordisk-OpenSource/mighty.component/issues
 Depends: 
