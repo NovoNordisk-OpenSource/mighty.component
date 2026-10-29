@@ -16,10 +16,10 @@ and test them.
 
 ## Installation
 
-You can install the development version of `mighty.component` from
-GitHub with:
-
 ``` r
+# Install the released version from CRAN:
+install.packages("mighty.component")
+# Install the development version from GitHub:
 pak::pak("NovoNordisk-OpenSource/mighty.component")
 ```
 
