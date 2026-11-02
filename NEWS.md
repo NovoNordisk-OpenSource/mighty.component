@@ -1,5 +1,6 @@
-# mighty.component (development version)
+# mighty.component 0.2.0
 
+* Initial CRAN release.
 * Breaking: `component$id` and the `id` from `list_components()` are now the
   component name without file extension, e.g. `"ady"` instead of
   `"ady.mustache"` (#118).
