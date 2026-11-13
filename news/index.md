@@ -1,7 +1,10 @@
 # Changelog
 
-## mighty.component (development version)
+## mighty.component 0.2.0
 
+CRAN release: 2026-11-12
+
+- Initial CRAN release.
 - Breaking: `component$id` and the `id` from
   [`list_components()`](https://novonordisk-opensource.github.io/mighty.component/reference/list_components.md)
   are now the component name without file extension, e.g. `"ady"`
