@@ -1,24 +1,33 @@
 #' Test mighty component class
 #' @description
 #' R6 class for unit testing a component with code coverage tracking.
-#' The code runs in a separate R session, and the lines executed are counted.
+#' The code runs in a separate R process (the test session), and the lines
+#' executed are counted.
 #'
 #' @details
-#' Use [get_test_component()] to create a test component. The workflow is:
+#' ## Test session
 #'
-#' 1. Create the test component with `get_test_component()`.
-#' 1. Assign input data with `$assign()`.
-#' 1. Run the code and update coverage with `$eval()`.
-#' 1. Retrieve results with `$get()`.
+#' [get_test_component()] starts a new R process with 'callr', the test
+#' session. Input data, the component code and its results all live in the
+#' global environment of the test session. Your own R session and its global
+#' environment are never modified.
+#'
+#' The test session is closed with `$close()`, or when the object is garbage
+#' collected. After that, `$assign()`, `$get()`, `$ls()` and `$eval()` raise
+#' an error.
+#'
+#' ## Workflow
+#'
+#' 1. Create the test component with [get_test_component()].
+#' 1. Assign input data in the test session with `$assign()`.
+#' 1. Run the code in the test session and update coverage with `$eval()`.
+#' 1. Retrieve results from the test session with `$get()`.
 #' 1. Test the results with testthat `expect_*()` functions.
-#' 1. Close the session with `$close()`.
+#' 1. Close the test session with `$close()`.
 #'
-#' By default, `get_test_component()` checks coverage with
-#' `$check_coverage()` when the test ends. Coverage is kept in the current
-#' R session, so it can still be checked after `$close()`.
-#'
-#' The code runs inside a function, with `<-` replaced by `<<-`, so
-#' assignments are made in the session's global environment.
+#' By default, [get_test_component()] checks coverage with
+#' `$check_coverage()` when the test ends. Coverage is kept in your R
+#' session, so it can still be checked after `$close()`.
 #'
 #' @examplesIf rlang::is_installed(c("admiral", "callr", "covr", "dplyr"))
 #' path <- system.file("examples", "ady.mustache", package = "mighty.component")
@@ -61,29 +70,31 @@ mighty_component_test <- R6::R6Class(
       mst_print(self, private)
     },
     #' @description
-    #' Assign a variable in the test session.
+    #' Assign a variable in the global environment of the test session.
+    #' Your R session is not modified.
     #' @param x `character(1)` Variable name.
-    #' @param value Value to assign.
+    #' @param value Value to assign. It is copied to the test session.
     #' @return (`invisible`) self
     assign = function(x, value) {
       mst_run(assign, list(x, value), self, private)
       invisible(self)
     },
     #' @description
-    #' Get a variable from the test session.
+    #' Get a variable from the global environment of the test session.
     #' @param x `character(1)` Variable name.
-    #' @return Value of the variable.
+    #' @return A copy of the variable's value.
     get = function(x) {
       mst_run(get, list(x), self, private)
     },
     #' @description
-    #' List the variables in the test session.
+    #' List the variables in the global environment of the test session.
     #' @return `character` Variable names.
     ls = function() {
       mst_run(ls, list(), self, private)
     },
     #' @description
-    #' Run the code in the test session and update the coverage.
+    #' Run the code in the global environment of the test session and update
+    #' the coverage.
     #' @return (`invisible`) self
     eval = function() {
       mst_eval(self, private)
@@ -127,41 +138,19 @@ mst_initialize <- function(template, id, self, private, super) {
 
   super$initialize(template, id)
 
-  test_fn <- paste(
-    c(
-      ".test_fn <- function() {",
-      gsub(
-        pattern = "<-",
-        replacement = "<<-",
-        x = self$code,
-        fixed = TRUE
-      ),
-      "}"
-    ),
-    collapse = "\n"
-  )
-
   private$.session <- callr::r_session$new()
 
-  self$assign(x = ".test_fn", value = test_fn)
-
-  mst_run(
-    # Locks .test_fn to make sure it is not accidentally overwritten
-    func = \() lockBinding(sym = ".test_fn", env = globalenv()),
-    args = list(),
-    self = self,
-    private = private
-  )
-
   init_coverage <- mst_run(
-    func = \() {
+    func = \(source_code) {
       # nocov start
       covr::code_coverage(
-        source_code = get(".test_fn"),
-        test_code = ""
+        source_code = source_code,
+        test_code = "",
+        parent_env = new.env()
       )
       # nocov end
     },
+    args = list(source_code = mst_source_code(self)),
     self = self,
     private = private
   ) |>
@@ -170,6 +159,11 @@ mst_initialize <- function(template, id, self, private, super) {
   init_coverage$line <- init_coverage$line - 1
 
   private$.coverage <- init_coverage[, c("line", "value")]
+}
+
+#' @noRd
+mst_source_code <- function(self) {
+  paste(c(".test_fn <- function() {", self$code, "}"), collapse = "\n")
 }
 
 #' @noRd
@@ -242,14 +236,16 @@ mst_run <- function(func, args = list(), self, private) {
 #' @noRd
 mst_eval <- function(self, private) {
   coverage <- mst_run(
-    func = \() {
+    func = \(source_code) {
       # nocov start
       covr::code_coverage(
-        source_code = get(x = ".test_fn"),
-        test_code = ".test_fn()"
+        source_code = source_code,
+        test_code = "eval(body(.test_fn), envir = parent.env(environment()))",
+        parent_env = globalenv()
       )
       # nocov end
     },
+    args = list(source_code = mst_source_code(self)),
     self = self,
     private = private
   ) |>
