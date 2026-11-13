@@ -403,11 +403,14 @@ test_that("mighty_repo_github downloads a live GitHub repo", {
   withr::defer(clear_repo_cache())
 
   repo <- mighty_repo(
-    spec = "github::NovoNordisk-OpenSource/mighty.standards/components@main"
+    spec = paste0(
+      "github::NovoNordisk-OpenSource/mighty.standards/components",
+      "@b3eb6a3833736f015c2fd919ca9f51f22b5cc323"
+    )
   )
 
   expect_true(S7::S7_inherits(repo, mighty_repo_github))
-  expect_match(repo@sha, "^[0-9a-f]{40}$")
+  expect_equal(repo@sha, "b3eb6a3833736f015c2fd919ca9f51f22b5cc323")
   expect_true(dir.exists(repo@path))
 
   components <- list_components(repos = repo)
