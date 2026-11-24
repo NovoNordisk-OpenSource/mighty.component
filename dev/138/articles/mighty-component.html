@@ -641,8 +641,8 @@ a test, so it sets <code>check_coverage = FALSE</code>.</p>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span>       in_unit = <span style="color: #00AFAF;">'days'</span>,</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span>       out_unit = <span style="color: #00AFAF;">'days'</span>,</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span>       add_one = <span style="color: #D75FAF;">TRUE</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span>     <span style="color: #BBBB00;">)</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span>   <span style="color: #D7AF00;">)</span></span></span></code></pre></div>
+<span><span class="co">#&gt;       <span style="color: #BBBB00;">)</span></span></span>
+<span><span class="co">#&gt;     <span style="color: #D7AF00;">)</span></span></span></code></pre></div>
 <p>Assign input data in the test session:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adae_input</span> <span class="op">&lt;-</span> <span class="fu">pharmaverseadam</span><span class="fu">::</span><span class="va"><a href="https://pharmaverse.github.io/pharmaverseadam/reference/adae.html" class="external-link">adae</a></span> <span class="op">|&gt;</span></span>
@@ -680,24 +680,22 @@ a test, so it sets <code>check_coverage = FALSE</code>.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span>       in_unit = <span style="color: #00AFAF;">'days'</span>,</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span>       out_unit = <span style="color: #00AFAF;">'days'</span>,</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span>       add_one = <span style="color: #D75FAF;">TRUE</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span>     <span style="color: #BBBB00;">)</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span>   <span style="color: #D7AF00;">)</span></span></span>
+<span><span class="co">#&gt;       <span style="color: #BBBB00;">)</span></span></span>
+<span><span class="co">#&gt;     <span style="color: #D7AF00;">)</span></span></span>
 <span><span class="co"># Percent coverage</span></span>
 <span><span class="va">ady_test</span><span class="op">$</span><span class="va">percent_coverage</span></span>
 <span><span class="co">#&gt; [1] 100</span></span>
 <span><span class="co"># Line coverage as a data.frame</span></span>
 <span><span class="va">ady_test</span><span class="op">$</span><span class="va">line_coverage</span></span>
-<span><span class="co">#&gt;    line value</span></span>
-<span><span class="co">#&gt; 1     1     1</span></span>
-<span><span class="co">#&gt; 2     2     1</span></span>
-<span><span class="co">#&gt; 3     3     1</span></span>
-<span><span class="co">#&gt; 4     4     1</span></span>
-<span><span class="co">#&gt; 5     5     1</span></span>
-<span><span class="co">#&gt; 6     6     1</span></span>
-<span><span class="co">#&gt; 7     7     1</span></span>
-<span><span class="co">#&gt; 8     8     1</span></span>
-<span><span class="co">#&gt; 9     9     1</span></span>
-<span><span class="co">#&gt; 10   10     1</span></span></code></pre></div>
+<span><span class="co">#&gt;   line value</span></span>
+<span><span class="co">#&gt; 1    1     1</span></span>
+<span><span class="co">#&gt; 2    2     1</span></span>
+<span><span class="co">#&gt; 3    3     1</span></span>
+<span><span class="co">#&gt; 4    4     1</span></span>
+<span><span class="co">#&gt; 5    5     1</span></span>
+<span><span class="co">#&gt; 6    6     1</span></span>
+<span><span class="co">#&gt; 7    7     1</span></span>
+<span><span class="co">#&gt; 8    8     1</span></span></code></pre></div>
 <p>In a testthat file, create the test component inside
 <code>test_that()</code>, assign data, evaluate and test the results.
 Coverage is checked when the test ends. See
