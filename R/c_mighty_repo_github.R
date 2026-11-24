@@ -24,7 +24,7 @@
 #' repo <- mighty_repo_github(
 #'   spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
 #' )
-#' find_component(component = "dummy", repos = repo)
+#' get_component(component = "mighty_read_data", repos = repo)
 #' @seealso [mighty_repo()]
 #' @export
 mighty_repo_github <- S7::new_class(
