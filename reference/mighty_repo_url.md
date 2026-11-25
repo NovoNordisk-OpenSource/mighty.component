@@ -53,6 +53,6 @@ repo <- mighty_repo_url(
 format(repo)
 #> [1] "url::https://raw.githubusercontent.com/NovoNordisk-OpenSource/mighty.standards/main/components"
 if (FALSE) { # interactive() && rlang::is_installed("httr2", version = "1.2.2")
-find_component(component = "dummy", repos = repo)
+get_component(component = "mighty_read_data", repos = repo)
 }
 ```

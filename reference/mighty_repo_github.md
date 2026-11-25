@@ -48,6 +48,6 @@ if (FALSE) { # interactive() && rlang::is_installed(c("gh", "remotes"))
 repo <- mighty_repo_github(
   spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
 )
-find_component(component = "dummy", repos = repo)
+get_component(component = "mighty_read_data", repos = repo)
 }
 ```

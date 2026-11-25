@@ -491,7 +491,7 @@ repos <- mighty_repos(c(
   ),
   examples
 ))
-get_component("dummy", repos = repos)
+get_component("mighty_read_data", repos = repos)
 ```
 
 See
@@ -596,8 +596,8 @@ ady_test
 #> ✖       in_unit = 'days',
 #> ✖       out_unit = 'days',
 #> ✖       add_one = TRUE
-#> ✖     )
-#> ✖   )
+#>       )
+#>     )
 ```
 
 Assign input data in the test session:
@@ -647,24 +647,22 @@ ady_test
 #> ✔       in_unit = 'days',
 #> ✔       out_unit = 'days',
 #> ✔       add_one = TRUE
-#> ✔     )
-#> ✔   )
+#>       )
+#>     )
 # Percent coverage
 ady_test$percent_coverage
 #> [1] 100
 # Line coverage as a data.frame
 ady_test$line_coverage
-#>    line value
-#> 1     1     1
-#> 2     2     1
-#> 3     3     1
-#> 4     4     1
-#> 5     5     1
-#> 6     6     1
-#> 7     7     1
-#> 8     8     1
-#> 9     9     1
-#> 10   10     1
+#>   line value
+#> 1    1     1
+#> 2    2     1
+#> 3    3     1
+#> 4    4     1
+#> 5    5     1
+#> 6    6     1
+#> 7    7     1
+#> 8    8     1
 ```
 
 In a testthat file, create the test component inside `test_that()`,

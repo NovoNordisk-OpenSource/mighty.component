@@ -1,5 +1,7 @@
 # Changelog
 
+## mighty.component (development version)
+
 ## mighty.component 0.2.0
 
 CRAN release: 2026-11-12
