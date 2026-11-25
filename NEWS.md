@@ -1,3 +1,5 @@
+# mighty.component (development version)
+
 # mighty.component 0.2.0
 
 * Initial CRAN release.

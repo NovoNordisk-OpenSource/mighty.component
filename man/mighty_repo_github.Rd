@@ -37,7 +37,7 @@ variable, or the Git credential store. See \code{\link[gh:gh_token]{gh::gh_token
 repo <- mighty_repo_github(
   spec = "NovoNordisk-OpenSource/mighty.standards/components@main"
 )
-find_component(component = "dummy", repos = repo)
+get_component(component = "mighty_read_data", repos = repo)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

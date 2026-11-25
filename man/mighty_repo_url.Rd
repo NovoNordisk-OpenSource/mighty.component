@@ -43,6 +43,6 @@ repo <- mighty_repo_url(
 format(repo)
 \dontshow{\}) # examplesIf}
 \dontshow{if (interactive() && rlang::is_installed("httr2", version = "1.2.2")) withAutoprint(\{ # examplesIf}
-find_component(component = "dummy", repos = repo)
+get_component(component = "mighty_read_data", repos = repo)
 \dontshow{\}) # examplesIf}
 }

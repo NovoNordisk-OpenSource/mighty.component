@@ -312,7 +312,7 @@ repos <- mighty_repos(c(
   ),
   examples
 ))
-get_component("dummy", repos = repos)
+get_component("mighty_read_data", repos = repos)
 ```
 
 See `?mighty_repo_github` and `?mighty_repo_url` for authentication and

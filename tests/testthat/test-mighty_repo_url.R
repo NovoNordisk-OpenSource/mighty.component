@@ -508,13 +508,14 @@ test_that("find_component finds a live URL component", {
   skip_if_offline(host = "raw.githubusercontent.com")
 
   component <- find_component(
-    component = "dummy",
+    component = "mighty_read_data",
     repos = paste0(
       "url::https://raw.githubusercontent.com/",
-      "NovoNordisk-OpenSource/mighty.standards/main/components"
+      "NovoNordisk-OpenSource/mighty.standards/",
+      "b3eb6a3833736f015c2fd919ca9f51f22b5cc323/components"
     )
   )
 
   expect_s3_class(component, "mighty_component")
-  expect_equal(component$id, "dummy")
+  expect_equal(component$id, "mighty_read_data")
 })

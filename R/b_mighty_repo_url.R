@@ -29,7 +29,7 @@
 #' )
 #' format(repo)
 #' @examplesIf interactive() && rlang::is_installed("httr2", version = "1.2.2")
-#' find_component(component = "dummy", repos = repo)
+#' get_component(component = "mighty_read_data", repos = repo)
 #' @export
 mighty_repo_url <- S7::new_class(
   name = "mighty_repo_url",
